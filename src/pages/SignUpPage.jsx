@@ -3,6 +3,7 @@ import GoogleLogo from "../components/Icons/GoogleLogo";
 import FacebookLogo from "../components/Icons/FacebookLogo";
 import SignUpFormAttendeeUser from "../components/Layout/signUpFormAttendeeUser";
 import SignUpFormOrganizerUser from "../components/Layout/SignUpFormOrganizerUser";
+import { Meta, Title } from "react-head";
 
 function SignUpPage() {
   const [userRole, setUserRole] = useState("attendee");
@@ -21,6 +22,11 @@ function SignUpPage() {
 
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">
+      <Title>Fa3liat | Sign Up </Title>
+      <Meta
+        name="description"
+        content="Login page in Fa3liat Event Agency site"
+      />
       {/* LEFT SIDE */}
       <div
         className="w-full lg:w-[40%]  text-white flex flex-col justify-start gap-2.5 items-center lg:items-start lg:p-10 p-3 "

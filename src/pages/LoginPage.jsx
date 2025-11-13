@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import GoogleLogo from "../components/Icons/GoogleLogo";
 import FacebookLogo from "../components/Icons/FacebookLogo";
+import { Meta, Title } from "react-head";
 
 function LoginPage() {
   const [showPassword, setshowPassword] = useState(false);
@@ -59,11 +60,13 @@ function LoginPage() {
 
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">
+      <Title>Fa3liat | Log in </Title>
+       <Meta name="description" content="Login page in Fa3liat Event Agency site" />
       {/* LEFT SIDE */}
       <div
         className="w-full lg:w-[40%]  text-white flex flex-col justify-start gap-2.5 items-center lg:items-start lg:p-10 p-3 "
         style={{
-          background: ` linear-gradient(to bottom, #BB52E0 20%, rgba(0,0,0,0.36)) , url('/public/images/login.jpg')`,
+          background: ` linear-gradient(to bottom, #BB52E0 20%, rgba(0,0,0,0.36)) , url('/images/login.jpg')`,
           backgroundSize: `cover`,
         }}
       >
