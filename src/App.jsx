@@ -16,9 +16,7 @@ import OTPVerificationPage from "./pages/OTPVerificationPage.jsx";
 function App() {
   return (
     <>
-      <HeadProvider>
-        <LoginPage />
-      </HeadProvider>
+      <LoginPage />
     </>
   );
 }

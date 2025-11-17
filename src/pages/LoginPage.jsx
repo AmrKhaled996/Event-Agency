@@ -1,67 +1,113 @@
-import React, { useState } from "react";
 import GoogleLogo from "../components/Icons/GoogleLogo";
 import FacebookLogo from "../components/Icons/FacebookLogo";
 import { Meta, Title } from "react-head";
 
+import { validateLogin } from "../utils/FormVaildators";
+import { login } from "../services/authService";
+
+import { useFormHandler } from "../Hooks/useFormHandler";
+import { Link } from "react-router-dom";
+
 function LoginPage() {
-  const [showPassword, setshowPassword] = useState(false);
-
-  const [errors, setErrors] = useState({
-    email: null,
-    password: null,
+  const {
+    showPassword,
+    handleShowPassword,
+    errors,
+    closeDialog,
+    showDialog,
+    dialogMessage,
+    submit,
+  } = useFormHandler({
+    validator: validateLogin,
+    onSubmit: login,
+    redirectTo: "/otp-verification",
+    origin: "login",
   });
-  const handleShowpassword = () => {
-    setshowPassword(!showPassword);
-  };
 
-  const validateForm = (formData) => {
-    const newErrors = {};
+  // const [showPassword, setshowPassword] = useState(false);
+  // const navigate = useNavigate();
 
-    if (!formData.Email.includes("@")) {
-      newErrors.email = "Invalid email format";
-    }
-    if (!formData.Email.trim()) {
-      newErrors.email = "email is requierd";
-    }
+  // const [errors, setErrors] = useState({
+  //   email: null,
+  //   password: null,
+  // });
+  // const handleShowpassword = () => {
+  //   setshowPassword(!showPassword);
+  // };
 
-    if (!formData.Password.trim()) {
-      newErrors.password = "password is requierd";
-    } else if (formData.Password.trim().length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    }
-    console.log(newErrors);
+  // const validateForm = (formData) => {
+  //   const newErrors = {};
 
-    setErrors(newErrors);
+  //   if (!formData.Email.includes("@")) {
+  //     newErrors.email = "Invalid email format";
+  //   }
+  //   if (!formData.Email.trim()) {
+  //     newErrors.email = "email is requierd";
+  //   }
 
-    console.log(errors);
-    return Object.keys(newErrors).length === 0; // true if no errors
-  };
+  //   if (!formData.Password.trim()) {
+  //     newErrors.password = "password is requierd";
+  //   } else if (formData.Password.trim().length < 6) {
+  //     newErrors.password = "Password must be at least 6 characters";
+  //   }
+  //   console.log(newErrors);
 
-  const submitSignUpForm = (e) => {
-    e.preventDefault();
-    const Email = document.getElementById("Email");
-    const Password = document.getElementById("Password");
+  //   setErrors(newErrors);
 
-    const formData = {
-      Email: Email.value,
-      Password: Password.value,
-    };
-    if (validateForm(formData)) {
-      submitedData(formData);
-    }
-    console.log(Email.value, Password.value);
-  };
+  //   console.log(errors);
+  //   return Object.keys(newErrors).length === 0; // true if no errors
+  // };
 
-  // add navigation back to the home on click "x" button
+  // const submitLoginForm = (e) => {
+  //   e.preventDefault();
+  //   const Email = document.getElementById("Email");
+  //   const Password = document.getElementById("Password");
 
-  // add the authintication for user by fetch (or axios) the backend route and POST the form to it
+  //   const formData = {
+  //     Email: Email.value,
+  //     Password: Password.value,
+  //   };
+  //   if (validateForm(formData)) {
+  //     checkAuth(formData);
+  //   }
 
+  //   console.log(Email.value, Password.value);
+  // };
+
+  // // add navigation back to the home on click "x" button
+
+  // // add the authintication for user by fetch (or axios) the backend route and POST the form to it
+  // async function checkAuth(formData) {
+  //   try {
+  //     await axios
+  //       .post("https://your-backend-api.com/login", formData)
+  //       .then((response) => {
+  //         console.log("Login successful:", response.data);
+  //         // Handle successful login (e.g., redirect, store token, etc.)
+  //         navigate("/otp-verification");
+  //       })
+  //       .catch((error) => {
+  //         console.error("Login failed:", error.response.data);
+  //         alert(
+  //           "Login failed: " +
+  //             error.response.data.message +
+  //             "\nPlease try again and check your email and password"
+  //         );
+  //         // Handle login failure (e.g., show error message)
+  //       });
+  //   } catch (error) {
+  //     console.error("An error occurred:", error);
+  //   }
+  // }
   //NOTE: can't leave the page until the backend send accept
 
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">
       <Title>Fa3liat | Log in </Title>
-       <Meta name="description" content="Login page in Fa3liat Event Agency site" />
+      <Meta
+        name="description"
+        content="Login page in Fa3liat Event Agency site"
+      />
       {/* LEFT SIDE */}
       <div
         className="w-full lg:w-[40%]  text-white flex flex-col justify-start gap-2.5 items-center lg:items-start lg:p-10 p-3 "
@@ -113,7 +159,7 @@ function LoginPage() {
         </div>
 
         {/* Form */}
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={submit}>
           <div>
             <label className="block text-gray-700 font-semibold mb-1">
               E-mail Address
@@ -156,7 +202,7 @@ function LoginPage() {
               )}
               <span
                 className="absolute right-6 top-5 text-gray-400 cursor-pointer"
-                onClick={handleShowpassword}
+                onClick={handleShowPassword}
               >
                 <svg
                   width="22"
@@ -182,7 +228,6 @@ function LoginPage() {
 
           <button
             type="submit"
-            onClick={submitSignUpForm}
             className="w-full py-3 mt-2 rounded-md text-white font-semibold bg-linear-to-r from-secandry to-[#FF8370] hover:opacity-90 transition"
           >
             Login
@@ -191,11 +236,31 @@ function LoginPage() {
 
         <p className="mt-6 text-gray-600 text-center">
           Don’t have an account? &nbsp;
-          <a href="#" className="text-secandry font-semibold hover:underline">
-            Sign up
-          </a>
+          <Link
+            to="/signup"
+            className="text-secandry font-semibold hover:underline"
+          >
+          Sign up
+
+          </Link>
         </p>
       </div>
+      {showDialog && (
+        <div className="fixed inset-0 bg-white/40 flex items-center justify-center z-50">
+          <div className="bg-white  rounded-lg shadow-lg p-6 w-120 h-50 max-w-sm flex flex-col justify-center items-center ">
+            <p className="text-gray-800 text-xl">
+              {dialogMessage}
+            </p>
+
+            <button
+              onClick={closeDialog}
+              className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded-md transition mt-10"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

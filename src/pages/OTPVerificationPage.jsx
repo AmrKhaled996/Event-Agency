@@ -1,12 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 import { Title } from "react-head";
+import { useNavigate } from "react-router-dom";
+import { useFormHandler } from "../Hooks/useFormHandler";
+import { validateOTP } from "../utils/FormVaildators";
 
 function OTPVerificationPage() {
-
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [timeLeft, setTimeLeft] = useState(300); 
+  const [timeLeft, setTimeLeft] = useState(300);
   const inputsRef = useRef([]);
 
+  const { submitOTP, errors, showDialog, dialogMessage, closeDialog } =
+    useFormHandler({
+      initialValues: { otp: "" },
+      validator: validateOTP,
+      onSubmit: (otp) => verify(otp), // axios call
+      redirectTo: "/personality-info",
+      redirectFrom: "/otp-verification",
+    });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -15,9 +25,10 @@ function OTPVerificationPage() {
     return () => clearInterval(timer);
   }, []);
 
-  const minutes = Math.floor(timeLeft / 60).toString().padStart(2,0);
-  const seconds = (timeLeft % 60).toString().padStart(2,0);
-
+  const minutes = Math.floor(timeLeft / 60)
+    .toString()
+    .padStart(2, 0);
+  const seconds = (timeLeft % 60).toString().padStart(2, 0);
 
   const handleChange = (element, index) => {
     const value = element.value.replace(/[^0-9|A-Z]/g, ""); // for both numbers and capital only
@@ -26,7 +37,6 @@ function OTPVerificationPage() {
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-
 
     if (index < 5 && value) {
       inputsRef.current[index + 1].focus();
@@ -43,27 +53,19 @@ function OTPVerificationPage() {
   };
 
   const handleSubmit = (e) => {
-
     e.preventDefault();
-
-   // use axios with backend to verify the OTP code 
-
-
+    const otpCode = otp.join("");
+    submitOTP({ otp: otpCode });
   };
   const resendHandler = (e) => {
-
     e.preventDefault();
 
-   // use axios with backend to resend the OTP code 
-
-
+    // use axios with backend to resend the OTP code
   };
-
-  
 
   return (
     <div className=" font-display min-h-screen flex flex-col items-center justify-center  sm:px-8 md:px-20 lg:px-20">
-        <Title>Verify Account </Title>
+      <Title>Verify Account </Title>
       <div className="w-full max-w-4xl bg-white/10  backdrop-blur-lg rounded-xl shadow-lg p-8 flex flex-col items-center">
         {/* Title */}
         <h1 className="text-3xl font-extrabold mb-3">Verify Your Account</h1>
@@ -96,9 +98,10 @@ function OTPVerificationPage() {
         {/* Resend */}
         <p className=" mb-8">
           Didn’t receive the code?{" "}
-          <button 
-          onclick={resendHandler}
-          className="text-pink-500 hover:underline font-semibold">
+          <button
+            onClick={resendHandler}
+            className="text-pink-500 hover:underline font-semibold cursor-pointer"
+          >
             Resend OTP
           </button>
         </p>
@@ -106,11 +109,19 @@ function OTPVerificationPage() {
         {/* Verify Button */}
         <button
           onClick={handleSubmit}
-          className="w-full max-w-120 py-3 text-lg font-bold text-white rounded-lg bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 transition"
+          className={`w-full max-w-120 py-3 text-lg font-bold text-white rounded-lg
+            ${
+              otp.join("").length < 6
+                ? "bg-gray-300"
+                : "bg-linear-to-r from-primary to-secandry hover:opacity-90"
+            } transition cursor-pointer`}
           disabled={otp.join("").length < 6}
         >
           Verify
         </button>
+        {showDialog && (
+          <div className="mt-4 text-red-600 font-bold">{dialogMessage}</div>
+        )}
       </div>
     </div>
   );

@@ -1,24 +1,22 @@
 import { useState } from "react";
 import GoogleLogo from "../components/Icons/GoogleLogo";
 import FacebookLogo from "../components/Icons/FacebookLogo";
-import SignUpFormAttendeeUser from "../components/Layout/signUpFormAttendeeUser";
+
 import SignUpFormOrganizerUser from "../components/Layout/SignUpFormOrganizerUser";
 import { Meta, Title } from "react-head";
+import { Link, useNavigate } from "react-router-dom";
+import SignUpFormAttendeeUser from "../components/Layout/SignUpFormAttendeeUser";
 
 function SignUpPage() {
   const [userRole, setUserRole] = useState("attendee");
   const [submitedData, setSubmitedData] = useState(null);
+  const navigator = useNavigate();
 
   const handleSubmitedData = (data) => {
     const { userName, Email, Password } = data;
     console.log(userName, Email, Password + "  data:  " + data);
+    navigator("/otp-verification");
   };
-
-  // add navigation back to the home on click "x" button
-
-  // add the authintication for user by fetch (or axios) the backend route and POST the form to it
-
-  //NOTE: can't leave the page until the backend send accept
 
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">
@@ -87,11 +85,16 @@ function SignUpPage() {
             </p>
           </button>
           <button
-            className={`h-28 flex-1 border-2 border-gray-300 rounded-2xl py-2 flex flex-col justify-center items-center gap-0.5 md:gap-2 hover:bg-gray-50  hover:cursor-pointer transition-all duration-300 opacity-100
+          disabled={true}
+            className={`h-28 flex-1 border-2 border-gray-300 rounded-2xl py-2 flex flex-col justify-center items-center gap-0.5 md:gap-2
+                
                 ${
                   userRole === "organizer"
-                    ? "bg-linear-to-b from-secandry  to-[#FF8370]  shadow-[0_0px_24px_-6px] shadow-secandry"
-                    : "bg-white"
+                    ? 
+                    /* soon*/
+                    // "bg-linear-to-b from-secandry  to-[#FF8370]  shadow-[0_0px_24px_-6px] shadow-secandry hover:bg-gray-50  hover:cursor-pointer transition-all duration-300 opacity-100"
+                    "bg-gray-300 shadow-[0_0px_24px_-6px] shadow-gray-300 cursor-not-allowed"
+                    : "bg-white cursor-not-allowed"
                 } `}
             onClick={() => setUserRole("organizer")}
           >
@@ -99,7 +102,10 @@ function SignUpPage() {
               className={`text-xl md:text-2xl font-bold  ${
                 userRole === "organizer"
                   ? "text-white"
-                  : "text-transparent bg-linear-to-b from-secandry  to-[#FF8370] bg-clip-text"
+                  : 
+                  /* soon*/
+                  // "text-transparent bg-linear-to-b from-secandry  to-[#FF8370] bg-clip-text"
+                  "text-gray-400 cursor-not-allowed"
               }`}
             >
               Organizer
@@ -123,11 +129,12 @@ function SignUpPage() {
         )}
         <p className="mt-2 mb-6 text-gray-600 text-center">
           Already have an account? &nbsp;
-          <a href="#" className="text-secandry font-semibold hover:underline">
+          <Link to={"/login"} className="text-secandry font-semibold hover:underline">
             Login
-          </a>
+          </Link>
         </p>
       </div>
+      
     </div>
   );
 }
