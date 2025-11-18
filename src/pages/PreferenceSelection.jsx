@@ -4,6 +4,7 @@ import AuthHeaderSection from "../components/UI/AuthHeaderSection";
 import ProgressBar from "../components/UI/progressBar";
 import { Title } from "react-head";
 import { useNavigate } from "react-router-dom";
+import ButtonOnBoarding from "../components/UI/ButtonOnBoarding";
 
 const categories = [
   { label: "Entertainment", image: "images/Entertainment.jpg" },
@@ -70,18 +71,10 @@ function PreferenceSelection() {
       </div>
 
       {/* BUTTONS */}
-      <div className="flex flex-row sm:flex-row gap-3 max-w-120 mx-auto">
-        <button
-          onClick={submitPreference}
-          className={`flex-1 h-12 bg-linear-to-r ${
-            selected.length === 0
-              ? `bg-gray-300 `
-              : `from-primary to-secandry hover:bg-primary/90 cursor-pointer `
-          }hover:opacity-90  text-white text-2xl rounded-lg font-bold tracking-wide transition`}
-        >
-          Continue
-        </button>
-      </div>
+      <ButtonOnBoarding
+        submit={submitPreference}
+        data={selected.length === 0 ? null : selected}
+      />
     </>
   );
 }
