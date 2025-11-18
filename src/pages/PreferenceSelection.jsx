@@ -29,67 +29,60 @@ function PreferenceSelection() {
   };
 
   return (
-    <div className=" font-display min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-20 lg:px-20">
-      <div className="w-full max-w-4xl bg-white/10 rounded-xl shadow-2xl p-8">
-        {/* Title */}
-        <ProgressBar step={3} />
-        {/* Page Title */}
-        <Title>Step 3 of 3</Title>
+    <>
+      {/* Header Section */}
 
-        {/* Header Section */}
-
-        <AuthHeaderSection
-          title="What are you interested in?"
-          content="Select a few of your favorite topics to help us recommend the best
+      <AuthHeaderSection
+        title="What are you interested in?"
+        content="Select a few of your favorite topics to help us recommend the best
         events and spaces for you."
-        />
-        {/* GRID */}
-        <div className="grid grid-cols-1 mb-10 sm:grid-cols-1 md:grid-cols-1 gap-6 p-5">
-          {categories.map((item, index) => (
-            <label
-              key={index}
-              onClick={() => toggle(item.label)}
-              className="relative cursor-pointer  rounded-xl   hover:outline-primary hover:outline-4 transition-all duration-200"
-            >
-              {/* Image */}
-              <img
-                src={item.image}
-                alt={item.label}
-                className="w-full h-60 lg:h-80 object-cover rounded-xl hover:scale-105  transition-transform duration-300"
-              />
-
-              {/* Label */}
-              <div className="absolute bottom-2 left-2 text-primary  drop-shadow-lg sm:text-3xl text-xl font-bold z-10">
-                {item.label}
-              </div>
-
-              {/* SELECTED OVERLAY */}
-              {selected.includes(item.label) && (
-                <div className="absolute inset-0 bg-black/40 flex items-center rounded-xl justify-center ">
-                  <div className="bg-primary text-white w-15 h-15  rounded-full flex items-center justify-center shadow-lg">
-                    <Check size={30} />
-                  </div>
-                </div>
-              )}
-            </label>
-          ))}
-        </div>
-
-        {/* BUTTONS */}
-        <div className="flex flex-row sm:flex-row gap-3 max-w-120 mx-auto">
-          <button
-            onClick={submitPreference}
-            className={`flex-1 h-12 bg-linear-to-r ${
-              selected.length === 0
-                ? `bg-gray-300 `
-                : `from-primary to-secandry hover:bg-primary/90 cursor-pointer `
-            }hover:opacity-90  text-white text-2xl rounded-lg font-bold tracking-wide transition`}
+      />
+      {/* GRID */}
+      <div className="grid grid-cols-1 mb-10 sm:grid-cols-1 md:grid-cols-1 gap-6 p-5">
+        {categories.map((item, index) => (
+          <label
+            key={index}
+            onClick={() => toggle(item.label)}
+            className="relative cursor-pointer  rounded-xl   hover:outline-primary hover:outline-4 transition-all duration-200"
           >
-            Continue
-          </button>
-        </div>
+            {/* Image */}
+            <img
+              src={import.meta.env.BASE_URL + item.image}
+              alt={item.label}
+              className="w-full h-60 lg:h-80 object-cover rounded-xl hover:scale-105  transition-transform duration-300"
+            />
+
+            {/* Label */}
+            <div className="absolute bottom-2 left-2 text-primary  drop-shadow-lg sm:text-3xl text-xl font-bold z-10">
+              {item.label}
+            </div>
+
+            {/* SELECTED OVERLAY */}
+            {selected.includes(item.label) && (
+              <div className="absolute inset-0 bg-black/40 flex items-center rounded-xl justify-center ">
+                <div className="bg-primary text-white w-15 h-15  rounded-full flex items-center justify-center shadow-lg">
+                  <Check size={30} />
+                </div>
+              </div>
+            )}
+          </label>
+        ))}
       </div>
-    </div>
+
+      {/* BUTTONS */}
+      <div className="flex flex-row sm:flex-row gap-3 max-w-120 mx-auto">
+        <button
+          onClick={submitPreference}
+          className={`flex-1 h-12 bg-linear-to-r ${
+            selected.length === 0
+              ? `bg-gray-300 `
+              : `from-primary to-secandry hover:bg-primary/90 cursor-pointer `
+          }hover:opacity-90  text-white text-2xl rounded-lg font-bold tracking-wide transition`}
+        >
+          Continue
+        </button>
+      </div>
+    </>
   );
 }
 export default PreferenceSelection;

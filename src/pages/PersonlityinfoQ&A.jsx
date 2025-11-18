@@ -18,85 +18,78 @@ function PersonlityinfoQ() {
       date instanceof Date ? date.toISOString().split("T")[0] : date;
 
     console.log(Gender, formattedDate);
-    navigator("/location-selection");
+    navigator("/onboarding/location-selection");
 
     //sending data to Backend
   };
 
   return (
-    <div className=" font-display min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-20 lg:px-20">
-      <div className="w-full max-w-4xl bg-white/10  backdrop-blur-lg rounded-xl shadow-lg p-8">
-        {/* Progress Section */}
-        <ProgressBar step={1} />
-        {/* Page title */}
-        <Title>Step 1 of 3</Title>
+    <>
+      {/* Header Section */}
+      <AuthHeaderSection
+        title="Tell us a bit about yourself"
+        content="This helps us personalize your experience and show you relevant content."
+      />
+      {/* Gender Selection */}
+      <div className="mb-8 h-fit">
+        <h3 className="text-lg font-bold mb-4 ">What's your gender?</h3>
 
-        {/* Header Section */}
-        <AuthHeaderSection
-          title="Tell us a bit about yourself"
-          content="This helps us personalize your experience and show you relevant content."
-        />
-        {/* Gender Selection */}
-        <div className="mb-8 h-fit">
-          <h3 className="text-lg font-bold mb-4 ">What's your gender?</h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {genderRadio.map((option) => (
-              <label
-                key={option.value}
-                className={`group relative flex flex-col items-center justify-center p-6 rounded-lg border-2 cursor-pointer transition-all duration-400 hover:border-primary
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {genderRadio.map((option) => (
+            <label
+              key={option.value}
+              className={`group relative flex flex-col items-center justify-center p-6 rounded-lg border-2 cursor-pointer transition-all duration-400 hover:border-primary
                     ${
                       Gender === option.value
                         ? "border-primary bg-primary/20 scale-103"
                         : "border-gray-300 "
                     } `}
-              >
-                <input
-                  type="radio"
-                  name="gender"
-                  value={option.value}
-                  checked={Gender === option.value}
-                  onChange={(e) => setGender(e.target.value)}
-                  className="absolute h-full w-full opacity-0 cursor-pointer"
-                />
+            >
+              <input
+                type="radio"
+                name="gender"
+                value={option.value}
+                checked={Gender === option.value}
+                onChange={(e) => setGender(e.target.value)}
+                className="absolute h-full w-full opacity-0 cursor-pointer"
+              />
 
-                <span className="material-symbols-outlined text-4xl mb-2 text-primary">
-                  {option.icon}
-                </span>
-                <span className="font-semibold">{option.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* date Input */}
-        <CustomDateInput
-          id="date"
-          name="date"
-          type="date"
-          selected={date}
-          value={date}
-          onChange={(value) => setDate(value)}
-          placeholder="Enter your date"
-          className="lg:w-100 w-70  max-w-sm rounded-lg border px-4 py-3 focus:outline-none focus:border-primary  focus:ring-2 focus:ring-primary transition-all duration-200"
-        />
-
-        {/* Buttons */}
-        <div className="flex flex-row sm:flex-row gap-3 max-w-120 mx-auto">
-          <button
-            onClick={submitInfo}
-            disabled={!Gender || !date}
-            className={`flex-1 h-12 bg-linear-to-r ${
-              !Gender || !date
-                ? `bg-gray-300 `
-                : `from-primary to-secandry hover:bg-primary/90 cursor-pointer `
-            }hover:opacity-90  text-white text-2xl rounded-lg font-bold tracking-wide transition`}
-          >
-            Continue
-          </button>
+              <span className="material-symbols-outlined text-4xl mb-2 text-primary">
+                {option.icon}
+              </span>
+              <span className="font-semibold">{option.label}</span>
+            </label>
+          ))}
         </div>
       </div>
-    </div>
+
+      {/* date Input */}
+      <CustomDateInput
+        id="date"
+        name="date"
+        type="date"
+        selected={date}
+        value={date}
+        onChange={(value) => setDate(value)}
+        placeholder="Enter your date"
+        className="lg:w-100 w-70  max-w-sm rounded-lg border px-4 py-3 focus:outline-none focus:border-primary  focus:ring-2 focus:ring-primary transition-all duration-200"
+      />
+
+      {/* Buttons */}
+      <div className="flex flex-row sm:flex-row gap-3 max-w-120 mx-auto">
+        <button
+          onClick={submitInfo}
+          disabled={!Gender || !date}
+          className={`flex-1 h-12 bg-linear-to-r ${
+            !Gender || !date
+              ? `bg-gray-300 `
+              : `from-primary to-secandry hover:bg-primary/90 cursor-pointer `
+          }hover:opacity-90  text-white text-2xl rounded-lg font-bold tracking-wide transition`}
+        >
+          Continue
+        </button>
+      </div>
+    </>
   );
 }
 

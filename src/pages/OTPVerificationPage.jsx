@@ -14,7 +14,7 @@ function OTPVerificationPage() {
       initialValues: { otp: "" },
       validator: validateOTP,
       onSubmit: (otp) => verify(otp), // axios call
-      redirectTo: "/personality-info",
+      redirectTo: "/onboarding/personality-info",
       redirectFrom: "/otp-verification",
     });
 
