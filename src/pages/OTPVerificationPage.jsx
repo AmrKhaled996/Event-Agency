@@ -1,25 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 import { Title } from "react-head";
 import { useNavigate } from "react-router-dom";
-import { useFormHandler } from "../Hooks/useFormHandler";
+import { verify, resendOtp } from "../services/authService";
+
+import { useAuth } from "../Hooks/useAuth";
 import { validateOTP } from "../utils/FormVaildators";
+import OTPInput from "../components/UI/OTPInput";
 
 function OTPVerificationPage() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [timeLeft, setTimeLeft] = useState(300);
+  const [timeLeft, setTimeLeft] = useState(600);
   const inputsRef = useRef([]);
 
-  const { submitOTP, errors, showDialog, dialogMessage, closeDialog } =
-    useFormHandler({
-      initialValues: { otp: "" },
-      validator: validateOTP,
-      onSubmit: (otp) => verify(otp), // axios call
-      redirectTo: "/onboarding/personality-info",
-      redirectFrom: "/otp-verification",
-    });
-
+  const {submitOTP, showDialog, dialogMessage, closeDialog, resendOtp,  } = useAuth({ initialValues: { otp: "" }, validator: validateOTP, onSubmit: verify, redirectTo: "/onboarding/personality-info", redirectFrom: "/otp-verification",  });
+  
+  
   useEffect(() => {
-    const timer = setInterval(() => {
+ const timer = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(timer);
@@ -30,17 +27,15 @@ function OTPVerificationPage() {
     .padStart(2, 0);
   const seconds = (timeLeft % 60).toString().padStart(2, 0);
 
-  const handleChange = (element, index) => {
-    const value = element.value.replace(/[^0-9|A-Z]/g, ""); // for both numbers and capital only
-    if (!value) return;
+  const handleChange = (value, index) => {
+    const newValue = value.replace(/[^0-9A-Z]/g, "");
+    if (!newValue) return;
 
     const newOtp = [...otp];
-    newOtp[index] = value;
+    newOtp[index] = newValue;
     setOtp(newOtp);
 
-    if (index < 5 && value) {
-      inputsRef.current[index + 1].focus();
-    }
+    if (index < 5) inputsRef.current[index + 1]?.focus();
   };
 
   const handleKeyDown = (e, index) => {
@@ -60,6 +55,8 @@ function OTPVerificationPage() {
   const resendHandler = (e) => {
     e.preventDefault();
 
+    resendOtp();
+
     // use axios with backend to resend the OTP code
   };
 
@@ -75,20 +72,12 @@ function OTPVerificationPage() {
         </p>
 
         {/* OTP inouts */}
-        <div className="flex justify-center gap-3 mb-10 transition duration-500">
-          {otp.map((data, i) => (
-            <input
-              key={i}
-              type="text"
-              maxLength={1}
-              value={data}
-              ref={(box) => (inputsRef.current[i] = box)}
-              onChange={(e) => handleChange(e.target, i)}
-              onKeyDown={(e) => handleKeyDown(e, i)}
-              className="w-10 h-10 sm:w-16 sm:h-16 lg:text-2xl text-center  rounded-md border border-primary bg-purple-100 focus:outline-none focus:ring-2 focus:ring-primary transition duration-500"
-            />
-          ))}
-        </div>
+        <OTPInput
+          otp={otp}
+          inputsRef={inputsRef}
+          handleChange={handleChange}
+          handleKeyDown={handleKeyDown}
+        />
 
         {/* Timer */}
         <div className="text-3xl font-bold mb-6">

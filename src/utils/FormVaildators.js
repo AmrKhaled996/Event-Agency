@@ -1,7 +1,8 @@
 export const validateLogin = (formData) => {
   const errors = {};
+  console.log("validateLogin", formData);
 
-  const email = formData.Email?.trim();
+  const email = formData.email?.trim();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   if (!email) {
@@ -10,7 +11,7 @@ export const validateLogin = (formData) => {
     errors.email = "Invalid email format";
   }
 
-  const password = formData.Password?.trim();
+  const password = formData.password?.trim();
   const passwordMinLength = 6;
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
 
@@ -29,29 +30,29 @@ export const validateLogin = (formData) => {
 export const validateSignup = (values) => {
   const errors = {};
 
-  const Name = values.Name?.trim();
-  if (!Name) {
-    errors.Name = "Username is required";
+  const name = values.name?.trim();
+  if (!name) {
+    errors.name = "Username is required";
   }
 
-  const email = values.Email?.trim();
+  const email = values.email?.trim();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   if (!email) {
-    errors.Email = "Email is required";
+    errors.email = "email is required";
   } else if (!emailRegex.test(email)) {
-    errors.Email = "Invalid email format";
+    errors.email = "Invalid email format";
   }
 
-  const password = values.Password?.trim();
+  const password = values.password?.trim();
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
 
   if (!password) {
-    errors.Password = "Password is required";
+    errors.password = "password is required";
   } else if (password.length < 6) {
-    errors.Password = "Password must be at least 6 characters";
+    errors.password = "password must be at least 6 characters";
   } else if (!passwordRegex.test(password)) {
-    errors.Password = "Password must contain letters and numbers";
+    errors.password = "Password must contain letters and numbers";
   }
 
   // const confirm = values.ConfirmPassword?.trim();
@@ -69,5 +70,38 @@ export const validateOTP = ({ otp }) => {
     errors.otp = "OTP must be 6 characters.";
   }
 
+  return errors;
+};
+
+export const validateForgetPassword = (email) => {
+  const errors = {};
+
+  if (!email || !email.trim()) {
+    errors.email = "Email is required";
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.email = "Please enter a valid email";
+  }
+
+  return errors;
+};
+
+export const validateResetPassword = (values) => {
+  const errors = {};
+
+  const password = values.password?.trim();
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
+
+  if (!password) {
+    errors.password = "password is required";
+  } else if (password.length < 6) {
+    errors.password = "password must be at least 6 characters";
+  } else if (!passwordRegex.test(password)) {
+    errors.password = "Password must contain letters and numbers";
+  }
+
+  const confirm = values.confirmPassword?.trim();
+  if (confirm !== password) {
+    errors.confirmPassword = "Passwords do not match";
+  }
   return errors;
 };

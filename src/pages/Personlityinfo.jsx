@@ -6,19 +6,22 @@ import CustomDateInput from "../components/UI/CustemDateInput";
 import AuthHeaderSection from "../components/UI/AuthHeaderSection";
 import ProgressBar from "../components/UI/progressBar";
 import genderRadio from "../utils/genderRadio";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ButtonOnBoarding from "../components/UI/ButtonOnBoarding";
 
 function PersonlityinfoQ() {
   const [Gender, setGender] = useState();
   const [date, setDate] = useState();
   const navigator = useNavigate();
+  const location = useLocation();
+
   const submitInfo = (e) => {
     e.preventDefault();
     const formattedDate =
       date instanceof Date ? date.toISOString().split("T")[0] : date;
+    console.log(location.state?.origin);
 
-    console.log(Gender, formattedDate);
+    console.log(Gender, formattedDate, location.state?.origin);
     navigator("/onboarding/location-selection");
 
     //sending data to Backend
@@ -77,10 +80,7 @@ function PersonlityinfoQ() {
       />
 
       {/* Buttons */}
-      <ButtonOnBoarding
-        submit={submitInfo}
-        data={Gender && date}
-      />
+      <ButtonOnBoarding submit={submitInfo} data={Gender && date} />
     </>
   );
 }

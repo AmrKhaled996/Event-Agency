@@ -9,14 +9,15 @@ import NavigationBar from "./components/Layout/NavigationBar.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
 import { HeadProvider } from "react-head";
-import PersonlityinfoQ from "./pages/PersonlityinfoQ&A.jsx";
+
 import OTPVerificationPage from "./pages/OTPVerificationPage.jsx";
+import ForgetPassword from "./pages/ForgetPassword.jsx";
 // import './App.css'
 
 function App() {
   return (
     <>
-      <LoginPage />
+      <ForgetPassword />
     </>
   );
 }

@@ -2,9 +2,10 @@ import { useState } from "react";
 import FacebookLogo from "../Icons/FacebookLogo";
 import GoogleLogo from "../Icons/GoogleLogo";
 import { redirect } from "react-router-dom";
-import { useFormHandler } from "../../Hooks/useFormHandler";
+import { useAuth} from "../../Hooks/useAuth";
 import { validateSignup } from "../../utils/FormVaildators";
 import { signup } from "../../services/authService";
+import EyeTrager from "../UI/eyetrager";
 
 function SignUpFormAttendeeUser({ submitedData }) {
   const {
@@ -13,11 +14,11 @@ function SignUpFormAttendeeUser({ submitedData }) {
     showPassword,
     showDialog,
     closeDialog,
-      dialogMessage,
+    dialogMessage,
     handleShowPassword,
     errors,
     submit,
-  } = useFormHandler({
+  } = useAuth({
     initialValues: { Name: "", Email: "", Password: "" },
     validator: validateSignup,
     onSubmit: signup,
@@ -107,18 +108,18 @@ function SignUpFormAttendeeUser({ submitedData }) {
           <input
             type="text"
             placeholder="Enter your Name"
-            name="Name"
-            id="Name"
-            value={values.Name || ""}
+            name="name"
+            id="name"
+            value={values.name || ""}
             onChange={handleChange}
             autoComplete="name"
             className={`w-full h-15 border  ${
-              errors.Name ? "border-red-600" : "border-gray-300"
+              errors.name ? "border-red-600" : "border-gray-300"
             }  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary`}
           />
-          {errors.Name && (
+          {errors.name && (
             <small className={`text-red-600 ml-5 `}>
-              {errors.Name} <b>*</b>
+              {errors.name} <b>*</b>
             </small>
           )}
         </div>
@@ -129,18 +130,18 @@ function SignUpFormAttendeeUser({ submitedData }) {
           <input
             type="email"
             placeholder="Enter your e-mail"
-            name="Email"
-            id="Email"
-            value={values.Email || ""}
+            name="email"
+            id="email"
+            value={values.email || ""}
             onChange={handleChange}
             autoComplete="email"
             className={`w-full h-15 border  ${
-              errors.Email ? "border-red-600" : "border-gray-300"
+              errors.email ? "border-red-600" : "border-gray-300"
             }  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary mb-2`}
           />
-          {errors.Email && (
+          {errors.email && (
             <small className={`text-red-600 ml-5 `}>
-              {errors.Email} <b>*</b>
+              {errors.email} <b>*</b>
             </small>
           )}
         </div>
@@ -153,49 +154,31 @@ function SignUpFormAttendeeUser({ submitedData }) {
             <input
               type={showPassword ? `text` : `password`}
               placeholder="Enter password"
-              name="Password"
-              id="Password"
-              value={values.Password || ""}
+              name="password"
+              id="password"
+              value={values.password || ""}
               onChange={handleChange}
               autoComplete="new-password"
               className={`w-full h-15 border ${
-                errors.Password ? "border-red-600" : "border-gray-300"
+                errors.password ? "border-red-600" : "border-gray-300"
               } rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-primary`}
             />
-            {errors.Password && (
+            {errors.password && (
               <small className={`text-red-600 ml-5 `}>
-                {errors.Password} <b>*</b>
+                {errors.password} <b>*</b>
               </small>
             )}
             <span
               className="absolute right-6 top-5 text-gray-400 cursor-pointer"
               onClick={handleShowPassword}
             >
-              <svg
-                width="22"
-                height="22"
-                viewBox="0 0 32 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M16 22C22.0751 22 28 19 32 11C28 3 22.0751 0 16 0C9.92487 0 4 3 0 11C4 19 9.92487 22 16 22ZM16 18C19.866 18 23 14.866 23 11C23 7.13401 19.866 4 16 4C12.134 4 9 7.13401 9 11C9 14.866 12.134 18 16 18Z"
-                  fill="#A4A4A4"
-                />
-                <path
-                  d="M19 11C19 12.6569 17.6569 14 16 14C14.3431 14 13 12.6569 13 11C13 9.34315 14.3431 8 16 8C17.6569 8 19 9.34315 19 11Z"
-                  fill="#A4A4A4"
-                />
-              </svg>
+              <EyeTrager />
             </span>
           </div>
         </div>
 
         <button
           type="submit"
-
           className="w-full py-3 mt-2 rounded-md text-white text-2xl font-semibold bg-linear-to-r from-secandry to-[#FF8370] hover:opacity-90 transition"
         >
           Create account
@@ -204,9 +187,7 @@ function SignUpFormAttendeeUser({ submitedData }) {
       {showDialog && (
         <div className="fixed inset-0 bg-white/40 flex items-center justify-center z-50">
           <div className="bg-white  rounded-lg shadow-lg p-6 w-120 h-50 max-w-sm flex flex-col justify-center items-center ">
-            <p className="text-gray-800 text-xl">
-              {dialogMessage}
-            </p>
+            <p className="text-gray-800 text-xl">{dialogMessage}</p>
 
             <button
               onClick={closeDialog}
