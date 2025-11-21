@@ -1,10 +1,9 @@
 import { Mail, XCircle } from "lucide-react";
 import { useState } from "react";
 import { validateResetPassword } from "../utils/FormVaildators";
-import EyeTrager from "../components/UI/eyetrager";
 import PasswordInput from "../components/UI/PasswordInput";
 import { useNavigate } from "react-router-dom";
-import { resetPassword } from "../services/authService";
+import { resetPassword } from "../APIs/authAPIs";
 
 function ResetPassword() {
   const [errors, setErrors] = useState({});

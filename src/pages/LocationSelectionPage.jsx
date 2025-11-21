@@ -5,15 +5,37 @@ import locationOptions from "../utils/LocationOptions";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonOnBoarding from "../components/UI/ButtonOnBoarding";
+import { location } from "../APIs/onboardingAPIs";
+import Loading from "../components/Layout/LoadingLayout";
 
 function LocationSelection() {
   const [Location, setLocation] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigator = useNavigate();
-  const submitLocation = (e) => {
+  const submitLocation = async (e) => {
     e.preventDefault();
     console.log(Location);
     //sending data to Backend
-    navigator("/onboarding/preference-selection");
+    try {
+      setLoading(true);
+      console.log(Location);
+      const response = await location({ governorate: Location });
+
+      console.log(
+        "Success:",
+        response.data,
+        response?.data?.accessToken?.token
+      );
+
+      navigator("/onboarding/preference-selection");
+    } catch (error) {
+      console.log("error", error);
+
+      const message =
+        error.response?.data?.data?.error || "Something went wrong";
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -45,6 +67,7 @@ function LocationSelection() {
       </div>
       {/* Buttons */}
       <ButtonOnBoarding submit={submitLocation} data={Location} />
+      {loading && <Loading />}
     </>
   );
 }

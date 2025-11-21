@@ -8,21 +8,52 @@ import ProgressBar from "../components/UI/progressBar";
 import genderRadio from "../utils/genderRadio";
 import { useLocation, useNavigate } from "react-router-dom";
 import ButtonOnBoarding from "../components/UI/ButtonOnBoarding";
+import { basic } from "../APIs/onboardingAPIs";
+import Loading from "../components/Layout/LoadingLayout";
 
 function PersonlityinfoQ() {
-  const [Gender, setGender] = useState();
+  const [gender, setGender] = useState();
   const [date, setDate] = useState();
-  const navigator = useNavigate();
-  const location = useLocation();
+  const [showDialog, setShowDialog] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const submitInfo = (e) => {
+  const navigator = useNavigate();
+  // const location = useLocation();
+
+  const submitInfo = async (e) => {
     e.preventDefault();
     const formattedDate =
       date instanceof Date ? date.toISOString().split("T")[0] : date;
-    console.log(location.state?.origin);
 
-    console.log(Gender, formattedDate, location.state?.origin);
-    navigator("/onboarding/location-selection");
+    //    const validationErr = validator();
+
+    // setErrors(validationErr);
+
+    // if (Object.keys(validationErr).length > 0) return;
+
+    try {
+      setLoading(true);
+      const response = await basic({
+        birthDate: formattedDate,
+        gender: gender,
+      });
+
+      console.log(
+        "Success:",
+        response.data,
+        response?.data?.accessToken?.token
+      );
+
+      navigator("/onboarding/location-selection");
+    } catch (error) {
+      console.log("error", error);
+
+      const message =
+        error.response?.data?.data?.error || "Something went wrong";
+    } finally {
+      setLoading(false);
+    }
 
     //sending data to Backend
   };
@@ -34,7 +65,7 @@ function PersonlityinfoQ() {
         title="Tell us a bit about yourself"
         content="This helps us personalize your experience and show you relevant content."
       />
-      {/* Gender Selection */}
+      {/* gender Selection */}
       <div className="mb-8 h-fit">
         <h3 className="text-lg font-bold mb-4 ">What's your gender?</h3>
 
@@ -44,7 +75,7 @@ function PersonlityinfoQ() {
               key={option.value}
               className={`group relative flex flex-col items-center justify-center p-6 rounded-lg border-2 cursor-pointer transition-all duration-400 hover:border-primary
                     ${
-                      Gender === option.value
+                      gender === option.value
                         ? "border-primary bg-primary/20 scale-103"
                         : "border-gray-300 "
                     } `}
@@ -53,7 +84,7 @@ function PersonlityinfoQ() {
                 type="radio"
                 name="gender"
                 value={option.value}
-                checked={Gender === option.value}
+                checked={gender === option.value}
                 onChange={(e) => setGender(e.target.value)}
                 className="absolute h-full w-full opacity-0 cursor-pointer"
               />
@@ -80,7 +111,8 @@ function PersonlityinfoQ() {
       />
 
       {/* Buttons */}
-      <ButtonOnBoarding submit={submitInfo} data={Gender && date} />
+      <ButtonOnBoarding submit={submitInfo} data={gender && date} />
+      {loading && <Loading />}
     </>
   );
 }

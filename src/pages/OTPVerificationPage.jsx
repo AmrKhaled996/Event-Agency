@@ -1,34 +1,38 @@
 import { useState, useEffect, useRef } from "react";
 import { Title } from "react-head";
-import { useNavigate } from "react-router-dom";
-import { verify, resendOtp } from "../services/authService";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../Hooks/useAuth";
 import { validateOTP } from "../utils/FormVaildators";
 import OTPInput from "../components/UI/OTPInput";
+import { verify, resendOtp } from "../APIs/authAPIs";
+import Loading from "../components/Layout/LoadingLayout";
 
 function OTPVerificationPage() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timeLeft, setTimeLeft] = useState(600);
   const inputsRef = useRef([]);
+  const location = useLocation();
 
-  const {submitOTP, showDialog, dialogMessage, closeDialog, resendOtp,  } = useAuth({ initialValues: { otp: "" }, validator: validateOTP, onSubmit: verify, redirectTo: "/onboarding/personality-info", redirectFrom: "/otp-verification",  });
+  const {submitOTP, showDialog, dialogMessage, closeDialog, resendOtp,loading  } = useAuth({ initialValues: { otp: "" }, validator: validateOTP, onSubmit: verify, redirectTo: "/onboarding/personality-info", redirectFrom: "/otp-verification",  });
   
   
   useEffect(() => {
  const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+   
+   setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+  }, 1000);
+  return () => clearInterval(timer);
+}, []);
 
-  const minutes = Math.floor(timeLeft / 60)
-    .toString()
-    .padStart(2, 0);
-  const seconds = (timeLeft % 60).toString().padStart(2, 0);
+const minutes = Math.floor(timeLeft / 60)
+.toString()
+.padStart(2, 0);
+const seconds = (timeLeft % 60).toString().padStart(2, 0);
 
-  const handleChange = (value, index) => {
-    const newValue = value.replace(/[^0-9A-Z]/g, "");
+const handleChange = (value, index) => {
+  console.log(location);
+  const newValue = value.replace(/[^0-9A-Z]/g, "");
     if (!newValue) return;
 
     const newOtp = [...otp];
@@ -50,6 +54,7 @@ function OTPVerificationPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const otpCode = otp.join("");
+    // console.log(otpCode.length)
     submitOTP({ otp: otpCode });
   };
   const resendHandler = (e) => {
@@ -112,6 +117,7 @@ function OTPVerificationPage() {
           <div className="mt-4 text-red-600 font-bold">{dialogMessage}</div>
         )}
       </div>
+      {loading && <Loading />}
     </div>
   );
 }

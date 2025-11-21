@@ -2,7 +2,7 @@ import { Mail, X, XCircle } from "lucide-react";
 import { useState } from "react";
 import { validateForgetPassword } from "../utils/FormVaildators";
 import { useNavigate } from "react-router-dom";
-import { frogetPassword } from "../services/authService";
+import { frogetPassword } from "../APIs/authAPIs";
 
 function ForgetPassword() {
   const [email, setemail] = useState("");

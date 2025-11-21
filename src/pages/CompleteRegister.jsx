@@ -1,11 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import ProgressBar from "../components/UI/progressBar";
 import { Title } from "react-head";
+import { getStatus } from "../APIs/onboardingAPIs";
+import Loading from "../components/Layout/LoadingLayout";
 
 function CompleteResister() {
+   const [loading, setLoading] = useState(false);
   const navigator = useNavigate();
-  const goToHome = () => {
-    navigator("/");
+
+  const goToHome = async () => {
+    try {
+      setLoading(true)
+      const response = await getStatus();
+
+      console.log(
+        "Success:",
+        response.data,
+        response?.data?.accessToken?.token
+      );
+      navigator("/");
+    } catch (error) {
+      console.log("error", error);
+
+      const message =
+        error.response?.data?.data?.error || "Something went wrong";
+    }
+    finally{
+      setLoading(false)
+    }
   };
 
   return (
@@ -45,6 +67,7 @@ function CompleteResister() {
           </div>
         </div>
       </div>
+      {loading && <Loading />}
     </>
   );
 }

@@ -1,8 +1,9 @@
 import { Title } from "react-head";
 import ProgressBar from "../UI/progressBar";
 import { Outlet } from "react-router-dom";
+import Loading from "./LoadingLayout";
 
-function Onboarding({children ,stepNo , pageTitle}) {
+function Onboarding({children ,stepNo , pageTitle,}) {
   return (
     <>
       <div className=" font-display min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 md:px-20 lg:px-20">
@@ -19,6 +20,7 @@ function Onboarding({children ,stepNo , pageTitle}) {
             {children}
 
         </div>
+
       </div>
     </>
   );

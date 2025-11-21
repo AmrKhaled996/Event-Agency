@@ -4,8 +4,9 @@ import GoogleLogo from "../Icons/GoogleLogo";
 import { redirect } from "react-router-dom";
 import { useAuth} from "../../Hooks/useAuth";
 import { validateSignup } from "../../utils/FormVaildators";
-import { signup } from "../../services/authService";
 import EyeTrager from "../UI/eyetrager";
+import { signup } from "../../APIs/authAPIs";
+import Loading from "./LoadingLayout";
 
 function SignUpFormAttendeeUser({ submitedData }) {
   const {
@@ -18,12 +19,13 @@ function SignUpFormAttendeeUser({ submitedData }) {
     handleShowPassword,
     errors,
     submit,
+    loading
   } = useAuth({
-    initialValues: { Name: "", Email: "", Password: "" },
+    initialValues: { name: "", email: "", password: "" },
     validator: validateSignup,
     onSubmit: signup,
+    redirectFrom: "signup",
     redirectTo: "/otp-verification",
-    redirectStatus: "signup",
   });
   // const [showPassword, setshowPassword] = useState(false);
   // const [errors, setErrors] = useState({
@@ -196,6 +198,7 @@ function SignUpFormAttendeeUser({ submitedData }) {
               Close
             </button>
           </div>
+          {loading && <Loading />}
         </div>
       )}
     </>

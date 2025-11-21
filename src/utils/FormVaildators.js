@@ -63,11 +63,12 @@ export const validateSignup = (values) => {
   return errors;
 };
 
-export const validateOTP = ({ otp }) => {
+export const validateOTP = (otp ) => {
   const errors = {};
 
   if (!otp || otp.length !== 6) {
     errors.otp = "OTP must be 6 characters.";
+    console.log(otp+"is error")
   }
 
   return errors;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken } from "./cookieTokenService";
+import { getAccessToken } from "../services/cookieTokenService";
 
 export async function login(formData) {
   console.log(formData);
@@ -8,16 +8,21 @@ export async function login(formData) {
 }
 
 export async function signup(formData) {
+  console.log(formData);
   return axios.post("http://localhost:8000/api/v1/auth/register", formData);
 }
 export async function verify(otp) {
-  console.log(otp);
 
-  return axios.post("http://localhost:8000/api/v1/auth/verify-otp", otp, {
+  console.log(otp ,typeof otp , otp.length)
+
+  const token = getAccessToken();
+  console.log(token);
+  return axios.post("http://localhost:8000/api/v1/auth/verify-otp", {otp}, {
     headers: {
-      Authorization: `Bearer accessToken`,
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
-    withCredentials: true, // 🔥 required to receive cookies!
+    // withCredentials: true, // 🔥 required to receive cookies!
   });
 }
 

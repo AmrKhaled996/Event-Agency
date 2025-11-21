@@ -4,14 +4,14 @@ import MaleIcon from "../components/Icons/male";
 const genderRadio = [
   {
     icon: <MaleIcon />,
-    label: "Male",
-    value: "Male",
+    label: "MALE",
+    value: "MALE",
   },
   {
     icon: <FemaleIcon />,
 
-    label: "Female",
-    value: "Female",
+    label: "FEMALE",
+    value: "FEMALE",
   },
 ];
 export default genderRadio;

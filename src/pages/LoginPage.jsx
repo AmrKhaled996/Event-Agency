@@ -3,11 +3,12 @@ import FacebookLogo from "../components/Icons/FacebookLogo";
 import { Meta, Title } from "react-head";
 
 import { validateLogin } from "../utils/FormVaildators";
-import { login } from "../services/authService";
 
 import { useAuth } from "../Hooks/useAuth";
 import { Link } from "react-router-dom";
 import EyeTrager from "../components/UI/eyetrager";
+import { login } from "../APIs/authAPIs";
+import Loading from "../components/Layout/LoadingLayout";
 
 function LoginPage() {
   const {
@@ -18,6 +19,7 @@ function LoginPage() {
     showDialog,
     dialogMessage,
     submit,
+    loading
   } = useAuth({
     validator: validateLogin,
     onSubmit: login,
@@ -242,6 +244,7 @@ function LoginPage() {
           </div>
         </div>
       )}
+      {loading && <Loading />}
     </div>
   );
 }

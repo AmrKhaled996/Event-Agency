@@ -5,15 +5,18 @@ import ProgressBar from "../components/UI/progressBar";
 import { Title } from "react-head";
 import { useNavigate } from "react-router-dom";
 import ButtonOnBoarding from "../components/UI/ButtonOnBoarding";
+import { preferences } from "../APIs/onboardingAPIs";
+import Loading from "../components/Layout/LoadingLayout";
 
 const categories = [
   { label: "Entertainment", image: "images/Entertainment.jpg" },
   { label: "Educational", image: "images/Educational.png" },
-  { label: "Community & charity  ", image: "images/Charity.jpg" },
+  { label: "Community & charity", image: "images/Charity.jpg" },
 ];
 
 function PreferenceSelection() {
   const [selected, setSelected] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigator = useNavigate();
 
   const toggle = (label) => {
@@ -22,11 +25,29 @@ function PreferenceSelection() {
     );
   };
 
-  const submitPreference = (e) => {
+  const submitPreference = async (e) => {
     e.preventDefault();
-    console.log(selected);
-    navigator("/Completed");
-    //sending data to Backend
+    try {
+      setLoading(true);
+      console.log(Location);
+      const response = await preferences({ preferences: selected });
+
+      console.log(
+        "Success:",
+        response.data,
+        response?.data?.accessToken?.token
+      );
+
+      navigator("/Completed");
+    } catch (error) {
+      console.log("error", error);
+
+      const message =
+        error.response?.data?.data?.error || "Something went wrong";
+    } finally {
+      setLoading(false);
+    }
+
   };
 
   return (
@@ -75,6 +96,7 @@ function PreferenceSelection() {
         submit={submitPreference}
         data={selected.length === 0 ? null : selected}
       />
+      {loading && <Loading />}
     </>
   );
 }
