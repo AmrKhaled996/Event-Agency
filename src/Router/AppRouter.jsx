@@ -11,10 +11,6 @@ import Onboarding from "../components/Layout/Onbording";
 import ForgetPassword from "../pages/ForgetPassword";
 import BackToLogin from "../pages/backToLogin";
 import ResetPassword from "../pages/ResetPassword";
-import CreateEventBasics from "../pages/CreateEventBasics";
-import CreateEventBanner from "../pages/CreateEventBanner";
-import CreateEventTickets from "../pages/CreateEventTickets";
-import GoogleCallback from "../pages/GoogleAuthCallback";
 
 function AppRouter() {
   return (
@@ -49,16 +45,12 @@ function AppRouter() {
               </Onboarding>
             }
           />
+           
 
           <Route path="/completed" element={<CompleteResister />} />
           <Route path="/forget-password/1" element={<ForgetPassword />} />
           <Route path="/forget-password/2" element={<BackToLogin />} />
-          <Route  path="/forget-password/reset-password"  element={<ResetPassword />}   />
-          <Route path="/create-event/basics" element={<CreateEventBasics />} />
-          <Route path="/create-event/banner" element={<CreateEventBanner />} />
-          <Route path="/create-event/ticket" element={<CreateEventTickets />} />
-          <Route path="/api/v1/auth//google/callback" element={<GoogleCallback />} />
-
+          <Route path="/forget-password/reset-password" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -3,10 +3,9 @@ import ProgressBar from "../components/UI/progressBar";
 import { Title } from "react-head";
 import { getStatus } from "../APIs/onboardingAPIs";
 import Loading from "../components/Layout/LoadingLayout";
-import { useState } from "react";
 
 function CompleteResister() {
-  const [loading, setLoading] = useState(false);
+   const [loading, setLoading] = useState(false);
   const navigator = useNavigate();
 
   const goToHome = async () => {
