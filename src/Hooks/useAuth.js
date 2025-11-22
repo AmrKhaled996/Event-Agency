@@ -2,11 +2,15 @@ import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { setTokens } from "../services/cookieTokenService";
+import { resendOtps } from "../APIs/authAPIs";
 
-export function useAuth({initialValues = {},validator,onSubmit,redirectTo = null,redirectFrom = null,}) 
-
-  {
-  
+export function useAuth({
+  initialValues = {},
+  validator,
+  onSubmit,
+  redirectTo = null,
+  redirectFrom = null,
+}) {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -39,42 +43,41 @@ export function useAuth({initialValues = {},validator,onSubmit,redirectTo = null
 
     try {
       console.log("submit");
-      setLoading(true)
+      setLoading(true);
 
       const response = await onSubmit(formData);
-      console.log("Success:", response.data, response?.data?.accessToken?.token);
-      
+      console.log(
+        "Success:",
+        response.data,
+        response?.data?.accessToken?.token
+      );
+
       setTokens(response.data.data);
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
-      console.log("error",error);
-
+      console.log("error", error);
 
       const message =
-        error.response?.data?.data?.error  ||
-        "Something went wrong";
+        error.response?.data?.data?.error || "Something went wrong";
       setDialogMessage(message);
       setShowDialog(true);
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
   const submitOTP = async (otp) => {
-    const validationErr = validator(otp.otp);
-    console.log(otp ,typeof otp ,otp.otp , typeof otp.otp)
-    otp=otp.otp.toString();
+    const validationErr = validator(otp);
 
     setErrors(validationErr);
 
     // console.log(otp)
     // if (Object.keys(validationErr).length > 0) return;
-    console.log(":"+otp)
+    console.log(":" + otp);
     try {
-      console.log(":"+otp)
-      const response = await onSubmit({otp});  
-      
+      console.log(":" + otp);
+      const response = await onSubmit(otp);
+
       console.log("Success:", response.data);
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
@@ -88,11 +91,14 @@ export function useAuth({initialValues = {},validator,onSubmit,redirectTo = null
 
   const resendOtp = async () => {
     try {
-      const response = await onSubmit();
+      const response = await resendOtps();
+
       console.log("OTP Resent:", response.data);
     } catch (error) {
       console.log("OTP Resent:", error.response.data);
-      const message = error.response?.data?.data?.error || "Something went wrong resending OTP";
+      const message =
+        error.response?.data?.data?.error ||
+        "Something went wrong resending OTP";
       setDialogMessage(message);
       setShowDialog(true);
     }

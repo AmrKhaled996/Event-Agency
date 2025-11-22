@@ -7,8 +7,22 @@ import { validateLogin } from "../utils/FormVaildators";
 import { useAuth } from "../Hooks/useAuth";
 import { Link } from "react-router-dom";
 import EyeTrager from "../components/UI/eyetrager";
-import { login } from "../APIs/authAPIs";
+import { getGoogleAuth, login } from "../APIs/authAPIs";
 import Loading from "../components/Layout/LoadingLayout";
+import GoogleCallback from "./GoogleAuthCallback";
+
+export const handleGoogleAuth = async (e) => {
+  try {
+    const response = await getGoogleAuth();
+
+    const googleAuthUrl = response.data.data.url;
+    console.log(googleAuthUrl);
+
+    window.location.href = googleAuthUrl;
+  } catch (error) {
+    console.log(error.response.data.data.message || "something go wrong");
+  }
+};
 
 function LoginPage() {
   const {
@@ -19,7 +33,7 @@ function LoginPage() {
     showDialog,
     dialogMessage,
     submit,
-    loading
+    loading,
   } = useAuth({
     validator: validateLogin,
     onSubmit: login,
@@ -146,7 +160,10 @@ function LoginPage() {
 
         {/* Social Login Buttons */}
         <div className="flex space-x-4 mb-6">
-          <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer">
+          <button
+            onClick={handleGoogleAuth}
+            className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer"
+          >
             <GoogleLogo /> Login with Google
           </button>
           <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer text-[#1877F2]">
@@ -207,7 +224,7 @@ function LoginPage() {
                 className="absolute right-6 top-5 text-gray-400 cursor-pointer"
                 onClick={handleShowPassword}
               >
-                <EyeTrager/>
+                <EyeTrager />
               </span>
             </div>
           </div>

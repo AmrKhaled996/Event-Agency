@@ -6,7 +6,7 @@ export async function getStatus() {
     const token = getAccessToken();
     console.log("accessToken:"+token)
 
-  return axios.get("http://localhost:8000/api/v1/onboarding/status",{
+  return axios.get("http://localhost:3000/api/v1/onboarding/status",{
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export async function basic({ birthDate, gender }) {
 });
     const token = getAccessToken();
     console.log("accessToken:"+token)
-  return axios.patch("http://localhost:8000/api/v1/onboarding/basic",{birthDate,gender} ,{
+  return axios.patch("http://localhost:3000/api/v1/onboarding/basic",{birthDate,gender} ,{
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export async function preferences({preferences}) {
 });
     const token = getAccessToken();
     console.log("accessToken:"+token)
-  return axios.patch("http://localhost:8000/api/v1/onboarding/preferences", {preferences}, {
+  return axios.patch("http://localhost:3000/api/v1/onboarding/preferences", {preferences}, {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export async function location({governorate}) {
 });
     const token = getAccessToken();
     console.log("accessToken:"+token)
-  return axios.patch("http://localhost:8000/api/v1/onboarding/location",{governorate}, {
+  return axios.patch("http://localhost:3000/api/v1/onboarding/location",{governorate}, {
     headers: {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
