@@ -54,7 +54,7 @@ function AppRouter() {
             element={
               <>
                 <NavigationBar />
-                <UnauthorizedPage />
+                  <UnauthorizedPage />
                 <Footer />
               </>
             }
