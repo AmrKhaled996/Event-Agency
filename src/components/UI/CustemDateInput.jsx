@@ -19,7 +19,7 @@ export default function CustomDateInput({ selected, onChange, ...props }) {
         showYearDropdown
         dropdownMode="scroll"
         minDate={new Date(1900, 0, 1)}
-        maxDate={new Date(2018 , 0 , 1)}
+        maxDate={new Date()}
         {...props}
       />
     </div>

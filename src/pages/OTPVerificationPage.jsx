@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../Hooks/useAuth";
 import { validateOTP } from "../utils/FormVaildators";
 import OTPInput from "../components/UI/OTPInput";
-import { verify, resendOtps } from "../APIs/authAPIs";
+import { verify, resendOtp } from "../APIs/authAPIs";
 import Loading from "../components/Layout/LoadingLayout";
 
 function OTPVerificationPage() {
@@ -54,13 +54,13 @@ const handleChange = (value, index) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const otpCode = otp.join("");
-    console.log(otpCode, typeof otpCode)
-    submitOTP( otpCode );
+    // console.log(otpCode.length)
+    submitOTP({ otp: otpCode });
   };
   const resendHandler = (e) => {
     e.preventDefault();
 
-    resendOtps();
+    resendOtp();
 
     // use axios with backend to resend the OTP code
   };
