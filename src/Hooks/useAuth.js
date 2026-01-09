@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { setTokens } from "../services/cookieTokenService";
-import { resendOtps ,logout } from "../APIs/authAPIs";
+import { resendOtps, logout } from "../APIs/authAPIs";
 import { useUser } from "../Context/AuthProvider";
 
 export function useAuth({
@@ -16,7 +16,7 @@ export function useAuth({
   setDialogMessage,
   setopenDialog,
 }) {
-  const {user,setUser}= useUser();
+  const { user, setUser } = useUser();
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -49,17 +49,15 @@ export function useAuth({
       setLoading(true);
 
       const response = await onSubmit(formData);
-   
+
       console.log("token:  ", response.data.data);
       setTokens(response.data.data);
-      
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
-
       const message =
         error.response?.data?.data?.error || "Something went wrong";
-        console.log("message", message);
+      console.log("message", message);
       setDialogMessage(message);
       setopenDialog(true);
     } finally {
@@ -75,7 +73,6 @@ export function useAuth({
     try {
       const response = await onSubmit(otp);
 
-
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
       const message = error.response?.data?.data?.otp || "Something went wrong";
@@ -88,7 +85,6 @@ export function useAuth({
   const resendOtp = async () => {
     try {
       const response = await resendOtps();
-
     } catch (error) {
       const message =
         error.response?.data?.data?.error ||
@@ -96,7 +92,6 @@ export function useAuth({
       setDialogMessage(message);
       setopenDialog(true);
     }
-
   };
 
   return {
@@ -112,6 +107,6 @@ export function useAuth({
     dialogMessage,
     closeDialog,
     loading,
-    setLoading
+    setLoading,
   };
 }
