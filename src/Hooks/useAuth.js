@@ -2,16 +2,26 @@ import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { setTokens } from "../services/cookieTokenService";
+import { resendOtps ,logout } from "../APIs/authAPIs";
+import { useUser } from "../Context/AuthProvider";
 
-export function useAuth({initialValues = {},validator,onSubmit,redirectTo = null,redirectFrom = null,}) 
-
-  {
-  
+export function useAuth({
+  initialValues = {},
+  validator,
+  onSubmit,
+  redirectTo = null,
+  redirectFrom = null,
+  openDialog = false,
+  dialogMessage,
+  setDialogMessage,
+  setopenDialog,
+}) {
+  const {user,setUser}= useUser();
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [showDialog, setShowDialog] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState("");
+  // const [openDialog, setopenDialog] = useState(false);
+  // const [dialogMessage, setDialogMessage] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -22,14 +32,12 @@ export function useAuth({initialValues = {},validator,onSubmit,redirectTo = null
 
   const handleShowPassword = () => setShowPassword((prev) => !prev);
 
-  const closeDialog = () => setShowDialog(false);
+  const closeDialog = () => setopenDialog(false);
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log("submit");
 
     const formData = Object.fromEntries(new FormData(e.target).entries());
-    console.log("form");
 
     const validationErr = validator(formData);
 
@@ -38,64 +46,57 @@ export function useAuth({initialValues = {},validator,onSubmit,redirectTo = null
     if (Object.keys(validationErr).length > 0) return;
 
     try {
-      console.log("submit");
-      setLoading(true)
+      setLoading(true);
 
       const response = await onSubmit(formData);
-      console.log("Success:", response.data, response?.data?.accessToken?.token);
-      
+   
+      console.log("token:  ", response.data.data);
       setTokens(response.data.data);
+      
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
-      console.log("error",error);
-
 
       const message =
-        error.response?.data?.data?.error  ||
-        "Something went wrong";
+        error.response?.data?.data?.error || "Something went wrong";
+        console.log("message", message);
       setDialogMessage(message);
-      setShowDialog(true);
-    }
-    finally{
+      setopenDialog(true);
+    } finally {
       setLoading(false);
     }
   };
   const submitOTP = async (otp) => {
-    const validationErr = validator(otp.otp);
-    console.log(otp ,typeof otp ,otp.otp , typeof otp.otp)
-    otp=otp.otp.toString();
+    const validationErr = validator(otp);
 
     setErrors(validationErr);
 
-    // console.log(otp)
     // if (Object.keys(validationErr).length > 0) return;
-    console.log(":"+otp)
     try {
-      console.log(":"+otp)
-      const response = await onSubmit({otp});  
-      
-      console.log("Success:", response.data);
+      const response = await onSubmit(otp);
+
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
-      // console.log(error.response.data.data.otp)
       const message = error.response?.data?.data?.otp || "Something went wrong";
+      console.log("message", message);
       setDialogMessage(message);
-      setShowDialog(true);
+      setopenDialog(true);
     }
   };
 
   const resendOtp = async () => {
     try {
-      const response = await onSubmit();
-      console.log("OTP Resent:", response.data);
+      const response = await resendOtps();
+
     } catch (error) {
-      console.log("OTP Resent:", error.response.data);
-      const message = error.response?.data?.data?.error || "Something went wrong resending OTP";
+      const message =
+        error.response?.data?.data?.error ||
+        "Something went wrong resending OTP";
       setDialogMessage(message);
-      setShowDialog(true);
+      setopenDialog(true);
     }
+
   };
 
   return {
@@ -107,9 +108,10 @@ export function useAuth({initialValues = {},validator,onSubmit,redirectTo = null
     submit,
     submitOTP,
     resendOtp,
-    showDialog,
+    openDialog,
     dialogMessage,
     closeDialog,
     loading,
+    setLoading
   };
 }
