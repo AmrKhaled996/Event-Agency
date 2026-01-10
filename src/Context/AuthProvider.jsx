@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
 
       const decoded = jwtDecode(accessToken);
       setUser(decoded);
-      console.log("user:", decoded);
+      // console.log("user:", decoded);
     } catch (error) {
       console.log("invalid token:", error);
       setUser(null);
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
       
       const interval = setInterval(async () => {
-          console.log("Token refreshing...");
+          // console.log("Token refreshing...");
           
       try {
         const response = await refreshToken();
@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
           error.response?.data?.status === 401 ||
           error.response?.data?.status === 403
         ) {
-          console.log("Refresh token expired, logging out...");
+          // console.log("Refresh token expired, logging out...");
           window.location.href = "/login";
         }
       }

@@ -9,6 +9,7 @@ import CreateEventProgressBar from "../../../components/UI/CreateEventProgressBa
 import SessionForm from "../../../components/Layout/CreateEventSessionForm";
 import LocationPicker from "../../../components/Layout/LocationPicker";
 import { updateEvent } from "../../../APIs/organizerApis";
+import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 
 export default function UpdateEvent() {
   const navigate = useNavigate();
@@ -17,39 +18,39 @@ export default function UpdateEvent() {
   const [position, setPosition] = useState();
   const [details, setDetails] = useState(null);
   const [errors, setErrors] = useState({});
-  const { categories, findCategoryById } = useCategories();
+  const [openDialog,setopenDialog] = useState(false);
+  const [dialogMessage,setDialogMessage] = useState("");
+
+  const { categories, findCategoryById ,loading: catLoading } = useCategories();
 
   const { state } = useLocation();
   const eventData = state?.event || {};
 
-  // const [event, setEvent] = useState(eventData || {
-  //   title: event.title || "",
-  //   category: event.category || "",
-  //   description: event.description || "",
-  //   location: event.location || null,
-  //   mode: event.mode || "single",
-  //   sessions: event.sessions ||[{ date: "", startTime: "", endTime: "" }],
-  // });
 
-  // const [event, setEvent] = useState(formData.banner || { file: null, preview: null });
   const onFile = (e) => {
-    const f = e.target.files[0];
-    if (!f) return;
-    const preview = URL.createObjectURL(f);
-    setEvent({ bannerUrl: f, preview });
+    const file = e.target.files[0];
+    // console.log(file)
+    if (!file) return;
+    const preview = URL.createObjectURL(file);
+
+    setEvent(prev=>({ ...prev, bannerUrl: file, preview }));
   };
 
   const validate = () => {
     const newErrors = {};
 
-    if (!event.title.trim()) newErrors.title = "Event title is required.";
+    if (!event?.title?.trim())  newErrors.title = "Event title is required.";
     // if (!event.category) newErrors.category = "Please select a category.";
-    if (!event.description.trim())
+    if (!event?.description?.trim())
       newErrors.description = "Event description is required.";
 
     // Location
     if (!position) newErrors.location = "Location is required.";
 
+    if (!details) {
+      setErrors(s => ({ ...s, location: "Location details are missing" }));
+    return;
+}
     // // Sessions validation
     // event.sessions.forEach((session, i) => {
     //   if (!session.date) newErrors[`session_date_${i}`] = "Date is required.";
@@ -66,7 +67,7 @@ export default function UpdateEvent() {
     //     newErrors[`session_time_${i}`] = "End time must be after start time.";
     //   }
     // });
-    console.log(newErrors);
+    // console.log(newErrors);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -88,12 +89,19 @@ export default function UpdateEvent() {
         window.scrollTo({ top: 0, behavior: "smooth" });
         return;
       }
+      const locationKey = possibleNames.find(
+  (key) => details?.[key]
+);
 
-      console.log("details111", details);
-      console.log("event111", event);
+    const locationName = locationKey
+      ? details[locationKey]
+      : "name";
+
+
+      // console.log("details111", details);
+      // console.log("event111", event);
       const newLocation = {
-        name:
-          details[possibleNames.filter((item) => details[item])?.[0]] || "name",
+        name: locationName || "name",
         address: details.address || "address",
         latitude: position[0],
         longitude: position[1],
@@ -102,64 +110,76 @@ export default function UpdateEvent() {
         country: details.country || "",
       };
 
-      const newevent = { ...event, location: newLocation };
+      const newevent = { ...event, venue: newLocation };
 
-      console.log("newevent", newevent);
+      // console.log("newevent", newevent);
 
       setEvent(newevent);
 
       const fd = new FormData();
 
       // === BASIC INFO ===
-      fd.append("title", event.title);
-      fd.append("description", event.description);
-      fd.append("type", event.type);
-      fd.append("mode", event.mode);
+      fd.append("title", event?.title);
+      fd.append("description", event?.description);
+      fd.append("type", event?.type);
+      fd.append("mode", event?.mode);
       fd.append("categoryName", event.category);
 
-      for (let i = 0; i < event.eventSessions.length; i++) {
+      for (let i = 0; i < event?.eventSessions?.length; i++) {
         fd.append(
           `sessions[${i}][startDate]`,
-          event.eventSessions[i].startDate
+          event?.eventSessions[i]?.startDate
         );
         fd.append(`sessions[${i}][endDate]`, event.eventSessions[i].endDate);
       }
 
       // === BANNER FILE ===
-      if (event.bannerUrl) {
-        console.log(event.bannerUrl);
-        fd.append("banner", event.bannerUrl);
+      if (event?.bannerUrl) {
+        // console.log(event?.bannerUrl);
+        fd.append("banner", event?.bannerUrl);
       }
 
       // === LOCATION ===
-      fd.append("location[name]", event.location.name || "name");
-      fd.append("location[address]", event.location.address);
-      fd.append("location[city]", event.location.city || "city");
-      fd.append("location[state]", event.location.state);
-      fd.append("location[country]", event.location.country);
-      fd.append("location[latitude]", parseFloat(event.location.latitude));
-      fd.append("location[longitude]", parseFloat(event.location.longitude));
+      fd.append("location[name]", event?.venue?.name || "name");
+      fd.append("location[address]", event?.venue?.address);
+      fd.append("location[city]", event?.venue?.city || "city");
+      fd.append("location[state]", event?.venue?.state);
+      fd.append("location[country]", event?.venue?.country);
+      fd.append("location[latitude]", parseFloat(event?.venue?.latitude));
+      fd.append("location[longitude]", parseFloat(event?.venue?.longitude));
 
       // === TICKETS ARRAY ===
-      for (let i = 0; i < event.ticketTypes.length; i++) {
-        fd.append(`tickets[${i}][name]`, event.ticketTypes[i].name);
-        fd.append(`tickets[${i}][price]`, event.ticketTypes[i].price);
-        fd.append(`tickets[${i}][quantity]`, event.ticketTypes[i].quantity);
+      for (let i = 0; i < event?.ticketTypes?.length; i++) {
+        fd.append(`tickets[${i}][name]`, event?.ticketTypes[i].name);
+        fd.append(`tickets[${i}][price]`, event?.ticketTypes[i].price);
+        fd.append(`tickets[${i}][quantity]`, event?.ticketTypes[i].quantity);
       }
 
       // Debug: Show form data
       for (let pair of fd.entries()) {
-        console.log(pair[0], pair[1]);
+        // console.log(pair[0], pair[1]);
       }
-
-      const response = await updateEvent(newevent, eventData.id);
-      console.log("update response", response);
+      // console.log(event)
+      const response = await updateEvent(fd, eventData.id);
+      // console.log("update response", response);
 
       navigate("/organizer/dashboard/overview");
     } catch (error) {
-      console.log(error);
+      const message = error.response?.data?.message || "Error loading events";
+      setDialogMessage(message);
+      setopenDialog(true);
+      console.error(error);
+    }
+    finally {
+      setloading(false);
     }
   };
+  async function urlToFile(url, filename) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+
+  return new File([blob], filename, { type: blob.type });
+}
 
   const handleLoadEvents = async () => {
     try {
@@ -167,31 +187,47 @@ export default function UpdateEvent() {
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get("id");
       const response = await getEvents({ id: id });
+      // console.log("cat ID:",response.data.data.event.categoryId );
+      
       const cat = findCategoryById(response.data.data.event.categoryId);
-      console.log("category", cat);
+      const oldFile = await urlToFile(response.data.data.event.bannerUrl, "no-updatedImage.png");
+      const preview = URL.createObjectURL(oldFile);
+      // console.log(oldFile)
+      // console.log("category", cat);
       const eventPos = [
         response.data.data.event.venue?.latitude || 0,
         response.data.data.event.venue?.longitude || 0,
       ];
       setPosition(eventPos);
-      console.log(response);
+      setDetails(response.data.data.event.venue);
+      // console.log(response.data.data);
       setEvent(response.data.data.event);
-      setEvent((s) => ({ ...s, category: cat?.name || "" }));
+      setEvent((s) => ({ ...s, category: cat?.name || "" , bannerUrl: oldFile, preview: preview}));
+      // console.log(event)
       setloading(false);
     } catch (error) {
-      console.log(error);
+      const message = error.response?.data?.message || "Error loading events";
+      setDialogMessage(message);
+      setopenDialog(true);
+      // console.log(error);
+    }
+    finally {
+      setloading(false);
     }
   };
 
   useEffect(() => {
-    handleLoadEvents();
-  }, []);
+    if(!catLoading) {
+      
+      handleLoadEvents();
+    }
+  }, [ catLoading]);
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <Title>Update Event - Basics</Title>
       {/* Header & Progress Bar */}
-      <div className="flex  items-center-safe gap-6 mb-6">
+      <div className="flex  items-center-safe gap-6 mb-16">
         <button
           onClick={() => navigate("/organizer/dashboard/overview")}
           className="text-5xl bg-gray-50 border relative top-1 border-primary rounded-full  p-2 w-fit h-fit hover:bg-gray-100"
@@ -201,7 +237,7 @@ export default function UpdateEvent() {
         <h1 className="text-5xl font-semibold ">Update New Event</h1>
       </div>
 
-      <CreateEventProgressBar step={1} />
+
 
       {/* Event Title & Category */}
       <label className="mb-3 flex gap-3 items-center">
@@ -218,7 +254,7 @@ export default function UpdateEvent() {
       {errors.title && (
         <div className="text-red-600 text-sm">{errors.title}</div>
       )}
-      {/* <label className="my-3 flex gap-3 items-center">
+      <label className="my-3 flex gap-3 items-center">
         <div className="text-md font-medium w-30">
           Event Category <strong className="text-red-600 text-lg">*</strong>
         </div>
@@ -240,7 +276,7 @@ export default function UpdateEvent() {
       </label>
       {errors.category && (
         <div className="text-red-600 text-sm">{errors.category}</div>
-      )} */}
+      )}
       {/* Sessions
       <h2 className="text-3xl font-semibold mb-4 mt-6 flex items-center justify-between">
         Date & Time
@@ -374,9 +410,9 @@ export default function UpdateEvent() {
         <div className="mb-4">
           <div className="border rounded overflow-hidden">
             <img
-              src={event.bannerUrl}
+              src={event?.preview || event?.bannerUrl}
               alt="bannerUrl"
-              crossOrigin=""
+              crossOrigin="anonymous"
               className="w-full h-60 object-cover"
             />
           </div>
@@ -393,6 +429,7 @@ export default function UpdateEvent() {
           Update Event
         </button>
       </div>
+      {openDialog &&<ErrorDialog open={openDialog} onClose={()=>setopenDialog(false)} message={dialogMessage}/>}
     </div>
   );
 }

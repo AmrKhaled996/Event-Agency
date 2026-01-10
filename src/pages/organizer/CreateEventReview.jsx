@@ -74,13 +74,13 @@ function CreateEventReview() {
       }
 
       // Debug: Show form data
-      for (let pair of fd.entries()) {
-        console.log(pair[0], pair[1]);
-      }
+      // for (let pair of fd.entries()) {
+      //   console.log(pair[0], pair[1]);
+      // }
       setLoading(true);
       const response = await createEvent(fd, true); // send formData
 
-      console.log("EVENT CREATED", response);
+      // console.log("EVENT CREATED", response);
 
       alert("Event created successfully!");
       navigate(`/organizer/dashboard/overview`);

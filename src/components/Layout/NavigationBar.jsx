@@ -29,7 +29,7 @@ function NavigationBar({ backGround = "primary" }) {
       const response = await logout();
       // console.log("Success:", response.data);
       updateUser({});
-      console.log(user)
+      // console.log(user)
       removeTokens();
       window.location.reload();
     } catch (error) {
@@ -39,14 +39,14 @@ function NavigationBar({ backGround = "primary" }) {
   useEffect(() => {
     try {
       // console.log(user);
-      console.log(user)
+      // console.log(user)
       const accessToken = getAccessToken();
       if (!accessToken) return;
 
       const decoded = jwtDecode(accessToken);
       updateUser(decoded);
     } catch (error) {
-      console.log("invalid token:", error);
+      // console.log("invalid token:", error);
       updateUser({});
     }
   }, []);
@@ -56,11 +56,11 @@ function NavigationBar({ backGround = "primary" }) {
       const response = await becomeOrganizer();
       const newUser = { ...user, role: "organizer" };
       updateUser(newUser);
-        console.log(user);
+        // console.log(user);
       // const newtoken = await refreshToken();
       // refreshAccessToken(newtoken.data);
       // window.location.reload();
-      console.log("response", response);
+      // console.log("response", response);
     } catch (error) {
       console.log("error", error);
     }

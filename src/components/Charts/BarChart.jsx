@@ -39,9 +39,9 @@ const options = {
   },
 }
 
-export default function BarChart({data}) {
+export default function BarChart({data ,labels}) {
 const setdata = {
-  labels: ['Total Tickets', 'Sold Tickets', 'Remaining Tickets'],
+  labels: labels,
   datasets: [
     
     {

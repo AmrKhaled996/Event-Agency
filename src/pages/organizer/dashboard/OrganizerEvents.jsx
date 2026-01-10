@@ -90,16 +90,16 @@ export default function OrganizerEventsPage() {
     try {
       // Call API to delete event
       const eventId = selectedEvent.id;
-      console.log(eventId);
+      // console.log(eventId);
 
       const response = await deleteEvent(eventId);
-      console.log(response.data);
+      // console.log(response.data);
 
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.id !== eventId)
       );
       setDeleteDialogOpen(false);
-      console.log(`Deleting event with ID: ${eventId}`);
+      // console.log(`Deleting event with ID: ${eventId}`);
     } catch (error) {
       console.error("Error deleting event:", error);
     }
@@ -125,7 +125,7 @@ export default function OrganizerEventsPage() {
  try {
         setloading(true);
         const response= await getAllEvents();
-        console.log(response.data.data.result);
+        // console.log(response.data.data.result);
         setEvents(response.data.data.result);
     } catch (error) {
            const message =
@@ -197,7 +197,7 @@ export default function OrganizerEventsPage() {
                       setDeleteDialogOpen(true);
                       setSelectedEvent(event);
                     }}
-                    className=" rounded-full hover:bg-gray-200 p-2 h-13 flex-1 hover:cursor-pointer"
+                    className=" rounded-full hover:bg-gray-200 p-2 h-12 flex-1 hover:cursor-pointer"
                   />{" "}
                   <RefreshCcw
                     color="green"
@@ -205,7 +205,7 @@ export default function OrganizerEventsPage() {
                       setUpdateDialogOpen(true);
                       setSelectedEvent(event);
                     }}
-                    className=" rounded-full hover:bg-gray-200 p-2  h-13 flex-1 hover:cursor-pointer "
+                    className=" rounded-full hover:bg-gray-200 p-2  h-12 flex-1 hover:cursor-pointer "
                   />{" "}
                   <Info
                     color="gray"
@@ -213,7 +213,7 @@ export default function OrganizerEventsPage() {
                       setInfoDialogOpen(true);
                       setSelectedEvent(event);
                     }}
-                    className=" rounded-full hover:bg-gray-200 p-2  h-13 flex-1 hover:cursor-pointer "
+                    className=" rounded-full hover:bg-gray-200 p-2  h-12 flex-1 hover:cursor-pointer "
                   />{" "}
                 </p>
               </div>

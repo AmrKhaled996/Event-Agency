@@ -15,7 +15,7 @@ export default function OrganizerOverviewPage() {
     try {
       setloading(true);
       const response = await getStatsOrgainzerDashboard();
-      console.log(response.data.data.data);
+      // console.log(response.data.data.data);
       setOverviewData(response.data.data.data);
     } catch (error) {
             const message =
@@ -54,7 +54,7 @@ export default function OrganizerOverviewPage() {
         <div className="bg-white border-primary border p-6 3/3 rounded-xl shadow h-50 flex flex-col justify-center items-center text-2xl">
           <p className="text-gray-400 mb-4">Total Revenue</p>
           <h3 className="text-3xl font-bold flex items-center gap-2">
-            <User size={30} /> {overviewData?.revenue?.totalRevenue}
+             {overviewData?.revenue?.totalRevenue} EGY
           </h3>
         </div>
         <div className="bg-white border-primary border p-6 3/3 rounded-xl shadow h-50 flex flex-col justify-center items-center text-2xl">

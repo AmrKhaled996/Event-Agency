@@ -38,14 +38,14 @@ function PreferenceSelection() {
     e.preventDefault();
     try {
       setLoading(true);
-      console.log(selected);
+      // console.log(selected);
       const response = await preferences({ preferences: selected });
 
-      console.log(
-        "Success:",
-        response.data,
-        response?.data?.accessToken?.token
-      );
+      // console.log(
+      //   "Success:",
+      //   response.data,
+      //   response?.data?.accessToken?.token
+      // );
 
       navigator("/Completed");
     } catch (error) {

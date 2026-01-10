@@ -55,8 +55,8 @@ function EventsPagination() {
       );
           break;
       }
-      console.log("first")
-      console.log(response.data);
+      // console.log("first")
+      // console.log(response.data);
 
       setCards(response.data.data.events || []);
     } catch (error) {
@@ -98,7 +98,7 @@ function EventsPagination() {
         <div className="w-full flex justify-center my-10 gap-20">
           <button
             onClick={() => {
-              console.log("page ", eventsPage);
+              // console.log("page ", eventsPage);
               if (eventsPage <= 1) return;
               const nextPage = eventsPage - 1;
               const newUrlParams = new URLSearchParams(window.location.search);
@@ -122,7 +122,7 @@ function EventsPagination() {
           <button
             onClick={() => {
 
-              console.log("page ", eventsPage);
+              // console.log("page ", eventsPage);
               const nextPage = eventsPage + 1;
               const newUrlParams = new URLSearchParams(window.location.search);
               newUrlParams.set("page", nextPage);

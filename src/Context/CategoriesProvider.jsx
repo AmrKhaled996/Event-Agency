@@ -7,7 +7,11 @@ export const CategoriesProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const findCategoryById = (id) => {
-    return Categories.find((category) => category.id === id);
+    // console.log("the id:",id ,"and Cats",Categories)
+   return Categories.findLast(category => {
+  return category.id === id;
+});
+
   };
 
   useEffect(() => {
@@ -17,7 +21,7 @@ export const CategoriesProvider = ({ children }) => {
         const response = await categories()
         const data = response.data?.data?.categories
 
-        console.log("cats : ",data)
+        // console.log("cats : ",data)
         
 
         setCategories(data);

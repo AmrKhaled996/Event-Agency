@@ -14,11 +14,11 @@ function CompleteResister() {
       setLoading(true);
       const response = await getStatus();
 
-      console.log(
-        "Success:",
-        response.data,
-        response?.data?.accessToken?.token
-      );
+      // console.log(
+      //   "Success:",
+      //   response.data,
+      //   response?.data?.accessToken?.token
+      // );
       navigator("/");
     } catch (error) {
       console.log("error", error);

@@ -43,7 +43,7 @@ export async function updateEvent(formData, id) {
   console.log("token", token);
   return axios.put(
     `http://localhost:3000/api/v1/organizer/events/${id}`,
-    { formData },
+     formData ,
     {
       headers: {
         Authorization: `Bearer ${token}`,

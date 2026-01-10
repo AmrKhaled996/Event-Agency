@@ -29,17 +29,17 @@ function PersonlityinfoQ() {
 
     try {
       setLoading(true);
-      console.log(gender)
+      // console.log(gender)
       const response = await basic({
         birthDate: formattedDate,
         gender: gender,
       });
 
-      console.log(
-        "Success:",
-        response.data,
-        response?.data?.accessToken?.token
-      );
+      // console.log(
+      //   "Success:",
+      //   response.data,
+      //   response?.data?.accessToken?.token
+      // );
 
       navigator("/onboarding/location-selection");
     } catch (error) {

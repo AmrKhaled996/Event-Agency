@@ -30,7 +30,7 @@ export function EventFormProvider({ children }) {
   });
 
   const updateForm = (section, data) => {
-    console.log(formData);
+    // console.log(formData);
     setFormData((prev) => ({
       ...prev,
       [section]: { ...prev[section], ...data },

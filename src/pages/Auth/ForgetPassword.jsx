@@ -31,7 +31,7 @@ function ForgetPassword() {
     try {
       setloading(true);
       const response = await frogetPassword(email);
-      console.log("Success:", response.data);
+      // console.log("Success:", response.data);
 
       navigator("/forget-password/back");
     } catch (err) {

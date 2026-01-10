@@ -30,7 +30,7 @@ function CreateEventTickets() {
   };
 
   const handleNext = () => {
-    console.log(tickets);
+    // console.log(tickets);
     updateForm("tickets", { type, tickets: tickets });
     navigate("/organizer/create-event/review");
   };
@@ -44,7 +44,7 @@ function CreateEventTickets() {
         <div className="flex gap-3 ">
           <button
             onClick={() => {
-              console.log(tickets)
+              // console.log(tickets)
               setTickets([]);
               setType("ticketed")}}
             className={`p-4 border rounded flex flex-col justify-center items-center flex-1 ${
@@ -75,7 +75,7 @@ function CreateEventTickets() {
           </button>
           <button
             onClick={() => { setTickets([{name: "Free Event", price: 0 , quantity: 10000}]);
-            console.log(tickets)
+            // console.log(tickets)
               setType("free")}}
             className={`p-4 border rounded flex flex-col justify-center items-center flex-1 ${
               type === "free" ? "border-purple-700 bg-purple-50" : "bg-white"

@@ -23,7 +23,7 @@ function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,se
     }
   const handleInterested = (e) => {
     e.preventDefault();
-    console.log(sessionssInfo)
+    // console.log(sessionssInfo)
     // 2. CRITICAL: Stop the event from propagating to the parent <div>
     e.stopPropagation();
 

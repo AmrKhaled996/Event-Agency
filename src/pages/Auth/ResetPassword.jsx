@@ -21,7 +21,7 @@ function ResetPassword() {
   const token = urlPrams.get("token");
   const submitResetForm = async (e) => {
     e.preventDefault();
-    console.log("email ", email, "token ", token);
+    // console.log("email ", email, "token ", token);
     const values = { password, confirmPassword };
     const validationErrors = validateResetPassword(values);
     if (Object.keys(validationErrors).length > 0) {

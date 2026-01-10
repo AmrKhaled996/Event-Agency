@@ -59,7 +59,7 @@ export default function LocationPicker({ event, setEvent, position, setPosition,
         address: display_name, 
       },
     }));
-    console.log("first:", details ,"position:", position);
+    // console.log("first:", details ,"position:", position);
     // console.log("second:", detailsData.address);
     // console.log("Third:",event)
     // console.log("forth:",markerPosition)

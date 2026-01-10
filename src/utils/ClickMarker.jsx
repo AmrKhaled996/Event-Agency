@@ -12,7 +12,7 @@ export default function ClickMarker({ setPosition, setDetails }) {
       );
       const data = await res.json();
       setDetails({...data.address,address:data.display_name});
-      console.log("first222",data)
+      // console.log("first222",data)
     },
   });
 

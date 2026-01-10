@@ -18,18 +18,18 @@ function LocationSelection() {
   const navigator = useNavigate();
   const submitLocation = async (e) => {
     e.preventDefault();
-    console.log(Location);
+    // console.log(Location);
     //sending data to Backend
     try {
       setLoading(true);
-      console.log(Location);
+      // console.log(Location);
       const response = await location({ governorate: Location });
 
-      console.log(
-        "Success:",
-        response.data,
-        response?.data?.accessToken?.token
-      );
+      // console.log(
+      //   "Success:",
+      //   response.data,
+      //   response?.data?.accessToken?.token
+      // );
 
       navigator("/onboarding/preference-selection");
     } catch (error) {

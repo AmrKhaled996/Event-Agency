@@ -50,7 +50,7 @@ export function useAuth({
 
       const response = await onSubmit(formData);
    
-      console.log("token:  ", response.data.data);
+      // console.log("token:  ", response.data.data);
       setTokens(response.data.data);
       
 

@@ -46,7 +46,7 @@ export default function Footer() {
     try {
       setloading(true);
       const response = await subscribeToNewsletter(newsletterEmail, newsLetterLanguage);
-      console.log("Success:", response.data);
+      // console.log("Success:", response.data);
       setNewsletterError(null);
       setValidSubscribe(true);
     } catch (err) {

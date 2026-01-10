@@ -28,10 +28,10 @@ function ConfirmTicketsPage() {
           quantity: ticket.count,
         })),
       };
-      console.log("first ", id);
+      // console.log("first ", id);
       const response = await checkoutEvent(payload, parseInt(id));
 
-      console.log(response);
+      // console.log(response);
       window.location.href = response.data.data.stripeUrl;
     } catch (error) {
       console.log(error)
