@@ -2,44 +2,44 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { useCategories } from "../../Context/CategoriesProvider";
-const mockCategories = [
-  {
-    name: "Student & University",
-    imageUrl: "/images/login.jpg",
-  },
-  {
-    name: "Workshops & Training Programs",
-    imageUrl: "/images/login.jpg",
-  },
-  {
-    name: "Exhibitions & Trade Shows",
-    imageUrl: "/images/login.jpg",
-  },
-  {
-    name: "Religious & Cultural Gatherings",
-    imageUrl: "/images/login.jpg",
-  },
-  {
-    name: "Fitness & Lifestyle",
-    imageUrl: "/images/login.jpg",
-  },
-  {
-    name: "Community & Charity Events",
-    imageUrl: "/images/login.jpg",
-  },
-  {
-    name: "Community & Charity Events",
-    imageUrl: "/images/login.jpg",
-  },
-  {
-    name: "Community & Charity Events",
-    imageUrl: "/images/login.jpg",
-  },
-  {
-    name: "Community & Charity Events",
-    imageUrl: "/images/login.jpg",
-  },
-];
+// const mockCategories = [
+//   {
+//     name: "Student & University",
+//     imageUrl: "/images/login.jpg",
+//   },
+//   {
+//     name: "Workshops & Training Programs",
+//     imageUrl: "/images/login.jpg",
+//   },
+//   {
+//     name: "Exhibitions & Trade Shows",
+//     imageUrl: "/images/login.jpg",
+//   },
+//   {
+//     name: "Religious & Cultural Gatherings",
+//     imageUrl: "/images/login.jpg",
+//   },
+//   {
+//     name: "Fitness & Lifestyle",
+//     imageUrl: "/images/login.jpg",
+//   },
+//   {
+//     name: "Community & Charity Events",
+//     imageUrl: "/images/login.jpg",
+//   },
+//   {
+//     name: "Community & Charity Events",
+//     imageUrl: "/images/login.jpg",
+//   },
+//   {
+//     name: "Community & Charity Events",
+//     imageUrl: "/images/login.jpg",
+//   },
+//   {
+//     name: "Community & Charity Events",
+//     imageUrl: "/images/login.jpg",
+//   },
+// ];
 
 function ExploreCategories() {
   const { categories, loading} = useCategories();

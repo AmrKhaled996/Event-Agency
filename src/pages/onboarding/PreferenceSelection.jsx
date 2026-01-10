@@ -11,11 +11,11 @@ import { categories } from "../../APIs/homeApis";
 import { useCategories } from "../../Context/CategoriesProvider";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 
-const mockcategories = [
-  { label: "Entertainment", image: "images/Entertainment.jpg" },
-  { label: "Educational", image: "images/Educational.png" },
-  { label: "Community & charity", image: "images/Charity.jpg" },
-];
+// const mockcategories = [
+//   { label: "Entertainment", image: "images/Entertainment.jpg" },
+//   { label: "Educational", image: "images/Educational.png" },
+//   { label: "Community & charity", image: "images/Charity.jpg" },
+// ];
 
 function PreferenceSelection() {
   const [selected, setSelected] = useState([]);
@@ -85,7 +85,7 @@ function PreferenceSelection() {
         events and spaces for you."
       />
       {/* GRID */}
-      <div className="grid grid-cols-1 mb-10 sm:grid-cols-1 md:grid-cols-1 gap-6 p-5">
+      <div className="grid lg:grid-cols-2 grid-cols-1 mb-10 sm:grid-cols-1 md:grid-cols-1 gap-6 p-5">
         {categories.map((item, index) => (
           <label
             key={index}

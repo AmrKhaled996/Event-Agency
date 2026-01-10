@@ -14,7 +14,7 @@ import BackToLogin from "../pages/Auth/BackToLogin";
 import CompleteResister from "../pages/onboarding/CompleteRegister";
 import ResetPassword from "../pages/Auth/ResetPassword";
 import LocationSelection from "../pages/onboarding/LocationSelectionPage";
-import PreferenceSelection from "../pages/Onboarding/PreferenceSelection";
+import PreferenceSelection from "../pages/onboarding/PreferenceSelection";
 import PersonlityinfoQ from "../pages/onboarding/Personlityinfo";
 import Onboarding from "../components/Layout/Onbording";
 import HomePage from "../pages/HomePage";

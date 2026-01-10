@@ -4,53 +4,53 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { latestEvents, nearbyEvents, personalizedEvents } from "../../APIs/homeApis";
 import { useLocation, useParams } from "react-router-dom";
 
-const mockCards = [
-  {
-    image: "'/images/login.jpg'",
-    title: "Earthen Bott4444le",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-  },
-  {
-    image: "'/images/login.jpg'",
-    title: "Earthen Bott333le",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-  },
-  {
-    image: "'/images/login.jpg'",
-    title: "Earthen Bottl21e",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-  },
-  {
-    image: "'/images/login.jpg'",
-    title: "Earthen Bottl11e",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-  },
-  {
-    image: "'/images/login.jpg'",
-    title: "Earthen Bottl11e",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-  },
-  {
-    image: "'/images/login.jpg'",
-    title: "Earthen Bottl11e",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-  },
-];
+// const mockCards = [
+//   {
+//     image: "'/images/login.jpg'",
+//     title: "Earthen Bott4444le",
+//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
+//     time: "8:30 AM - 7:30 PM",
+//     viwes: "14 interested",
+//   },
+//   {
+//     image: "'/images/login.jpg'",
+//     title: "Earthen Bott333le",
+//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
+//     time: "8:30 AM - 7:30 PM",
+//     viwes: "14 interested",
+//   },
+//   {
+//     image: "'/images/login.jpg'",
+//     title: "Earthen Bottl21e",
+//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
+//     time: "8:30 AM - 7:30 PM",
+//     viwes: "14 interested",
+//   },
+//   {
+//     image: "'/images/login.jpg'",
+//     title: "Earthen Bottl11e",
+//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
+//     time: "8:30 AM - 7:30 PM",
+//     viwes: "14 interested",
+//   },
+//   {
+//     image: "'/images/login.jpg'",
+//     title: "Earthen Bottl11e",
+//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
+//     time: "8:30 AM - 7:30 PM",
+//     viwes: "14 interested",
+//   },
+//   {
+//     image: "'/images/login.jpg'",
+//     title: "Earthen Bottl11e",
+//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
+//     time: "8:30 AM - 7:30 PM",
+//     viwes: "14 interested",
+//   },
+// ];
 
 function OtherEventsSlider() {
-  const [cards, setcards] = useState(mockCards);
+  const [cards, setcards] = useState([]);
   const scrollRef = useRef(null);
   const slug =useParams();
   const id=new URLSearchParams(useLocation().search).get('id');

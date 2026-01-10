@@ -6,12 +6,11 @@ import { validateLogin } from "../../utils/FormVaildators";
 
 import { useAuth } from "../../Hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
-import EyeTrager from "../../components/UI/eyetrager";
+import EyeTrager from "../../components/Icons/Eyetrager";
 import { getGoogleAuth, login } from "../../APIs/authAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { useState } from "react";
-
 
 export const handleGoogleAuth = async (e) => {
   try {
@@ -19,7 +18,6 @@ export const handleGoogleAuth = async (e) => {
 
     const googleAuthUrl = response.data.data.url;
     console.log(googleAuthUrl);
-
 
     window.location.href = googleAuthUrl;
   } catch (error) {
@@ -84,8 +82,9 @@ function LoginPage() {
       <div className="lg:w-[60%] w-full bg-white flex flex-col justify-center px-3 lg:px-10 md:px-6  relative lg:rounded-l-3xl rounded-t-3xl  outline-white outline-10 shadow-[0_-25px_50px_2px] shadow-black ">
         {/* Close Button (optional) */}
         <button
-        onClick={()=>navigate('/')}
-        className="absolute top-3 right-3 lg:top-6 lg:right-6 text-gray-400 text-4xl hover:text-gray-600 ">
+          onClick={() => navigate("/")}
+          className="absolute top-3 right-3 lg:top-6 lg:right-6 text-gray-400 text-4xl hover:text-gray-600 "
+        >
           &times;
         </button>
 
@@ -205,7 +204,13 @@ function LoginPage() {
           </div>
         </div>
       )} */}
-      {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          message={dialogMessage}
+          onClose={() => setopenDialog(false)}
+        />
+      )}
       {loading && <Loading />}
     </div>
   );

@@ -4,7 +4,7 @@ import GoogleLogo from "../Icons/GoogleLogo";
 import { redirect } from "react-router-dom";
 import { useAuth } from "../../Hooks/useAuth";
 import { validateSignup } from "../../utils/FormVaildators";
-import EyeTrager from "../UI/eyetrager";
+import EyeTrager from "../Icons/Eyetrager";
 import { getGoogleAuth, signup } from "../../APIs/authAPIs";
 import Loading from "./LoadingLayout";
 import ErrorDialog from "../Dialogs/ErrorDialog";
@@ -35,7 +35,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
     dialogMessage,
     setDialogMessage,
     setopenDialog,
-  }); 
+  });
 
   const handleGoogleAuth = async (e) => {
     try {
@@ -174,7 +174,13 @@ function SignUpFormAttendeeUser({ loadingpage }) {
           </div>
         </div>
       )} */}
-            {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          message={dialogMessage}
+          onClose={() => setopenDialog(false)}
+        />
+      )}
       {loading && <Loading />}
     </>
   );
