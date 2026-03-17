@@ -8,7 +8,7 @@ export async function becomeOrganizer() {
 
   const decode = jwtDecode(token);
 
-  return axios.patch(`http://localhost:3000/api/v1/user/upgrade-to-organizer`, {},{
+  return axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/upgrade-to-organizer`, {},{
     headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
@@ -16,3 +16,23 @@ export async function becomeOrganizer() {
         }
   );
 }
+
+export async function getUserTickets() {
+  const token = getAccessToken();
+
+  return axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/tickets`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+export async function getInterestedEvents() {
+  const token = getAccessToken();
+
+  return axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/interested-events`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+

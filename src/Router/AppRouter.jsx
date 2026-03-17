@@ -39,6 +39,9 @@ import FailedNewsletter from "../pages/newsletter/FailedNewsletter";
 import ProtectedRoutes from "./ProtectedRoutes";
 import EventsPagination from "../pages/Events/EventsPagenation";
 import NotFoundPage from "../pages/NotFoundPage";
+import DisplayUserTickets from "../pages/Tickits/DisplayUserTickets";
+import UserProfileInfoPage from "../pages/Profile/User/UserProfileInfoPage";
+import UserAccountSettings from "../pages/Profile/User/UserAccountSettings";
 
 function AppRouter() {
   return (
@@ -54,7 +57,7 @@ function AppRouter() {
             element={
               <>
                 <NavigationBar />
-                  <UnauthorizedPage />
+                <UnauthorizedPage />
                 <Footer />
               </>
             }
@@ -238,7 +241,32 @@ function AppRouter() {
           />
           <Route path="/payment/success" element={<PaymentSuccessPage />} />
           <Route path="/payment/cancel" element={<PaymentCancelPage />} />
-
+          <Route
+            path="/tickets"
+            element={
+              <>
+                <NavigationBar />
+                <DisplayUserTickets />
+                <Footer />
+              </>
+            }
+          />
+          <Route path="/profile/:userId" element={
+            <>
+            <NavigationBar />
+            <UserProfileInfoPage />
+            <Footer />
+            </>
+            } />
+          <Route path="/profile/:userId/setting" element={
+            <>
+            <NavigationBar />
+            <UserAccountSettings />
+            <Footer />
+            </>
+            } />
+          
+          
           <Route path="/google/callback" element={<GoogleCallback />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

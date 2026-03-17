@@ -16,7 +16,7 @@ export default function DisplayLocatinMap({ lat, lon, name }) {
   if (!lat || !lon) return null; 
 
   return (
-    <div className="h-70 w-full rounded overflow-hidden border">
+    <div className="h-70 w-full rounded overflow-hidden border z-5">
       <MapContainer
         center={[lat, lon]}
         zoom={15}
@@ -24,7 +24,7 @@ export default function DisplayLocatinMap({ lat, lon, name }) {
         doubleClickZoom={false}
         dragging={false}
         zoomControl={false}
-        className="h-full w-full"
+        className="h-full w-full z-5"
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Marker position={[lat, lon]}>

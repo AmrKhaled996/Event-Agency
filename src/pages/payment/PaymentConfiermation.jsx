@@ -13,7 +13,6 @@ function ConfirmTicketsPage() {
   const { state } = useLocation();
   const tickets = state?.tickets || [];
   const id = state?.id;
-
   const subtotal = tickets.reduce((sum, t) => sum + t.price * t.count, 0);
 
   const tax = subtotal * 0.07;
@@ -26,8 +25,10 @@ function ConfirmTicketsPage() {
         tickets: tickets.map((ticket) => ({
           name: ticket.name,
           quantity: ticket.count,
+          seatInfo: ticket.seatInfo || [],
         })),
       };
+      // console.log(payload)
       // console.log("first ", id);
       const response = await checkoutEvent(payload, parseInt(id));
 
@@ -52,15 +53,15 @@ function ConfirmTicketsPage() {
 
         {/* Selected Tickets */}
         <div className="p-5">
-          {tickets.map((ticket) => (
+          {tickets.map((ticket,index) => (
             <div
-              key={ticket.id}
+              key={index}
               className="flex justify-between items-center mb-4 border-b border-gray-300 pb-3"
             >
               <div>
                 <h2 className="font-semibold">{ticket.name}</h2>
                 <p className="text-gray-400">
-                  {ticket.count} × {ticket.price} EGP
+                  {ticket.count} x {ticket.price} EGP
                 </p>
               </div>
               <span className="font-bold">

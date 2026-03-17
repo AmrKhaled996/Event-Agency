@@ -13,7 +13,7 @@ export async function verify(otp) {
 
   const token = getAccessToken();
   return axios.post(
-    "http://localhost:3000/api/v1/auth/verify-otp",
+    `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/verify-otp`,
     { otp },
     {
       headers: {
@@ -27,7 +27,7 @@ export async function verify(otp) {
 export async function resendOtps() {
   const token = getAccessToken();
   return axios.post(
-    "http://localhost:3000/api/v1/auth/resend-otp",
+    `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/resend-otp`,
     {},
     {
       headers: {
@@ -41,7 +41,7 @@ export async function refreshToken() {
   const refreshToken=getRefreshToken();
   const token = getAccessToken();
   
-  return axios.post("http://localhost:3000/api/v1/auth/refresh-token", {refreshToken : refreshToken},{
+  return axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/refresh-token`, {refreshToken : refreshToken},{
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -49,18 +49,18 @@ export async function refreshToken() {
     });
 }
 export async function frogetPassword(email) {
-  return axios.post("http://localhost:3000/api/v1/auth/forgot-password", {email});
+  return axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/forgot-password`, {email});
 }
 export async function resetPassword(newPassword,email,token) {
   return axios.post(
-    "http://localhost:3000/api/v1/auth/reset-password",
+    `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/reset-password`,
     {email:email , token:token , newPassword:newPassword}
   );
 }
 export async function logout() {
     const refreshToken=getRefreshToken();
     const token = getAccessToken();
-  return axios.post("http://localhost:3000/api/v1/auth/logout", {refreshToken},{
+  return axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/logout`, {refreshToken},{
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -68,8 +68,8 @@ export async function logout() {
     });
 }
 export async function getGoogleAuth() {
-  return axios.get("http://localhost:3000/api/v1/auth/google/url", {});
+  return axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/google/url`, {});
 }
 export async function googleAuthCallback() {
-  return axios.get("http://localhost:3000/api/v1/auth/google/callback", {});
+  return axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/google/callback`, {});
 }

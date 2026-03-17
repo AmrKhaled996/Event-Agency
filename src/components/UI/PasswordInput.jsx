@@ -19,7 +19,7 @@ function PasswordInput({ content, id, password, setPassword, errors }) {
           autoComplete="new-password"
           onChange={(e) => setPassword(e.target.value)}
           className={`w-full h-15 border ${
-            errors[password] ? "border-red-600" : "border-gray-300"
+            errors ? "border-red-600" : "border-gray-300"
           } rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-primary`}
         />
 
@@ -30,6 +30,7 @@ function PasswordInput({ content, id, password, setPassword, errors }) {
           <EyeTrager />
         </span>
       </div>
+      {errors && <span className="text-red-600">{errors}</span>}
     </label>
   );
 }

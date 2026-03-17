@@ -16,12 +16,12 @@ export const handleGoogleAuth = async (e) => {
   try {
     const response = await getGoogleAuth();
 
-    const googleAuthUrl = response.data.data.url;
+    const googleAuthUrl = response?.data?.data?.url;
     console.log(googleAuthUrl);
     
     window.location.href = googleAuthUrl;
   } catch (error) {
-    console.log(error.response.data || "something go wrong");
+    console.log(error.response?.data || "something go wrong");
   }
 };
 
@@ -85,7 +85,7 @@ function LoginPage() {
           &times;
         </button>
 
-        <h2 className="text-transparent bg-linear-to-b from-secandry  to-[#FF8370] bg-clip-text md:text-5xl text-4xl font-bold mb-5 mt-5 h-15">
+        <h2 className="text-transparent bg-linear-to-b from-secandry to-[#FF8370] bg-clip-text md:text-5xl text-4xl font-bold mb-5 mt-5 h-15">
           Login
         </h2>
 
