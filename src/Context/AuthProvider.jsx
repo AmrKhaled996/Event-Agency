@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
 
       const decoded = jwtDecode(accessToken);
       setUser(decoded);
-      // console.log("user:", decoded);
+      console.log("user:", decoded);
     } catch (error) {
       console.log("invalid token:", error);
       setUser(null);

@@ -11,52 +11,52 @@ import CardSkeleton from "../../components/UI/CardSkeleton";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { getUserTickets } from "../../APIs/userAPIs";
 
-// const mockTickets = [
-//   {
-//     id: 1,
-//     eventName: "Music Concert",
-//     date: "2027-02-01T12:30:00.000Z",
-//     numberOfTickets: 5,
-//     qrValue: "Ticket ID: 12345, Event: Music Concert",
-//     location: "City Arena",
-//     status: "Valid",
-//     organizer: "ABC Events",
-//     seats: "A1, A2, A3, A4, A5",
-//   },
-//   {
-//     id: 2,
-//     eventName: "Art Exhibition",
-//     date: "2027-03-01T12:30:00.000Z",
-//     numberOfTickets: 3,
-//     qrValue: "Ticket ID: 67890, Event: Art Exhibition",
-//     location: "Downtown Gallery",
-//     status: "Valid",
-//     organizer: "XYZ Arts",
-//     seats: "B1, B2, B3",
-//   },
-//   {
-//     id: 3,
-//     eventName: "Tech Conference",
-//     date: "2026-03-15T12:30:00.000Z",
-//     numberOfTickets: 2,
-//     qrValue: "Ticket ID: 98765, Event: Tech Conference",
-//     location: "Convention Center",
-//     status: "Valid",
-//     organizer: "TechWorld",
-//     seats: "C1, C2",
-//   },
-//   {
-//     id: 4,
-//     eventName: "Sports Event",
-//     date: "2027-01-015T1:30:00.000Z",
-//     numberOfTickets: 1,
-//     qrValue: "Ticket ID: 54321, Event: Sports Event",
-//     location: "Stadium",
-//     status: "Valid",
-//     organizer: "Sports Inc.",
-//     seats: "D1",
-//   },
-// ];
+const mockTickets = [
+  {
+    id: 1,
+    eventName: "Music Concert",
+    date: "2027-02-01T12:30:00.000Z",
+    numberOfTickets: 5,
+    qrValue: "Ticket ID: 12345, Event: Music Concert",
+    location: "City Arena",
+    status: "Valid",
+    organizer: "ABC Events",
+    seats: "A1, A2, A3, A4, A5",
+  },
+  {
+    id: 2,
+    eventName: "Art Exhibition",
+    date: "2027-03-01T12:30:00.000Z",
+    numberOfTickets: 3,
+    qrValue: "Ticket ID: 67890, Event: Art Exhibition",
+    location: "Downtown Gallery",
+    status: "Valid",
+    organizer: "XYZ Arts",
+    seats: "B1, B2, B3",
+  },
+  {
+    id: 3,
+    eventName: "Tech Conference",
+    date: "2026-03-15T12:30:00.000Z",
+    numberOfTickets: 2,
+    qrValue: "Ticket ID: 98765, Event: Tech Conference",
+    location: "Convention Center",
+    status: "Valid",
+    organizer: "TechWorld",
+    seats: "C1, C2",
+  },
+  {
+    id: 4,
+    eventName: "Sports Event",
+    date: "2027-01-015T1:30:00.000Z",
+    numberOfTickets: 1,
+    qrValue: "Ticket ID: 54321, Event: Sports Event",
+    location: "Stadium",
+    status: "Valid",
+    organizer: "Sports Inc.",
+    seats: "D1",
+  },
+];
 
 function DisplayUserTickets() {
   const [sortedMethod, setSortedMethod] = useState("Newest");
@@ -67,6 +67,7 @@ function DisplayUserTickets() {
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+     
   const handleSortingChange = (method) => {
     setSortedMethod(method);
     console.log(method);
@@ -164,7 +165,8 @@ function DisplayUserTickets() {
 
         "
         >
-          {tickets.length > 0
+          {console.log(tickets.length)}
+          {(Array(tickets)?.length >= 1)
             ? tickets.map((ticket) => (
                 <div
                   key={ticket.id}
@@ -176,13 +178,13 @@ function DisplayUserTickets() {
                 >
                   {/* QR */}
                   <div className="w-32 h-32 sm:w-40 sm:h-48 mt-8">
-                    <QRCode value={ticket.qrValue} className="w-full h-full" />
+                    <QRCode value={ticket.id} className="w-full h-full" />
                   </div>
 
                   {/* Info */}
                   <div className="py-4 px-4">
                     <h3 className="text-lg sm:text-xl font-bold mb-2">
-                      {ticket.eventName}
+                      {ticket.ticketType.event.title}
                     </h3>
 
                     <p className="text-gray-500 text-sm sm:text-base">
@@ -208,7 +210,7 @@ function DisplayUserTickets() {
             />
           )}
         </div>
-       { (!loading && tickets) && <p className="text-gray-500 text-center w-full min-h-[50vh] flex items-center justify-center">No tickets found.</p> }
+       { (!loading || tickets == null) && <p className="text-gray-500 text-center w-full min-h-[50vh] flex items-center justify-center">No tickets found.</p> }
       </div>
       {openErrorDialog && (
         <ErrorDialog

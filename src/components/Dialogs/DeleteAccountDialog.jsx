@@ -1,49 +1,94 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Dialog from "../UI/Dialog";
+import PasswordInput from "../UI/PasswordInput";
+import { deleteMyProfile } from "../../APIs/profileAPI";
+import { removeTokens } from "../../services/cookieTokenService";
 
+export default function DeleteAccountDialog({ open, onClose }) {
+  const [inputValue, setInputValue] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-export default function DeleteAccountDialog({ open, onClose, onConfirm }) {
-const [inputValue, setInputValue] = useState("");
+  const navigate = useNavigate();
+
+  const handleDeleteAccount = async () => {
+    // ✅ validate password input
+    if (!inputValue) {
+      setError("Password is required.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await deleteMyProfile(inputValue);
+      console.log(response);
+
+      removeTokens();
+
+      alert("Your account has been deleted successfully.");
+      navigate("/login");
+    } catch (error) {
+      console.error("Error deleting account:", error);
+
+      const message =
+        error?.response?.data?.message ||
+        "Failed to delete account. Please check your password.";
+
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClose = () => {
+    setInputValue("");
+    setError("");
+    onClose();
+  };
 
   return (
-    <Dialog open={open} onClose={onClose} className="relative z-50 ">
-      
-        <h3 className="text-xl font-semibold mb-4">Confirm Deletion</h3>
-        <p className="mb-4 font-bold text-red-500">
-          Are you sure you want to delete your account?
-        </p>
-        <input
-          type="text"
-          placeholder="Type 'delete' to confirm"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          className="border p-2 rounded w-full mb-4"
-        />
-        {(inputValue !== "delete" )&& (inputValue  !== "") && (
-          <small className="text-red-400 m-2 block">
-            This action cannot be undone. Please type "delete" to confirm.
-          </small>
-        )}
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={onClose}
-            className="bg-gray-400 text-white px-4 py-2 rounded"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={() => {
-              if (inputValue === "delete") {
-                onConfirm();
-              } else {
-                alert("You must type 'delete' to confirm!");
-              }
-            }}
-            className="bg-red-500 text-white px-4 py-2 rounded"
-          >
-            Delete
-          </button>
-        </div>
+    <Dialog open={open} onClose={handleClose} className="relative z-50">
+      <h3 className="text-xl font-semibold mb-4">Confirm Deletion</h3>
+
+      <p className="mb-4 font-bold text-red-500">
+        This action cannot be undone. Please enter your password to confirm.
+      </p>
+
+      <PasswordInput
+        content={"password"}
+        id={"deleteAccountPassword"}
+        password={inputValue}
+        setPassword={(val) => {
+          setInputValue(val);
+          setError("");
+        }}
+        errors={error}
+      />
+
+      {error && (
+        <small className="text-red-400 m-2 block">{error}</small>
+      )}
+
+      <div className="flex justify-end gap-2 mt-6">
+        <button
+          onClick={handleClose}
+          disabled={loading}
+          className="bg-gray-400 text-white px-4 py-2 rounded"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleDeleteAccount}
+          disabled={loading || !inputValue}
+          className="bg-red-500 text-white px-4 py-2 rounded disabled:opacity-50"
+        >
+          {loading ? "Deleting..." : "Delete"}
+        </button>
+      </div>
     </Dialog>
   );
 }

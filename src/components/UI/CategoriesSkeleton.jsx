@@ -1,6 +1,6 @@
 import { Skeleton } from "../shadcn/skeleton";
 
-function CategoriesSkeleton({ key }) {
+function CategoriesSkeleton( key ) {
   return (
     <div
       key={key}

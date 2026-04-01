@@ -10,6 +10,7 @@ import { useUser } from "../../../Context/AuthProvider";
 import { getAttendedEvents, getMyProfile, getPreferences } from "../../../APIs/profileAPI";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import Loading from "../../../components/Layout/LoadingLayout";
+import { DateToAge } from "../../../utils/dateFormater";
 
 function UserProfilePage() {
   const navigate = useNavigate();
@@ -31,13 +32,13 @@ function UserProfilePage() {
   const profile = (await getMyProfile()).data.data;
   const preferences = (await getPreferences()).data.data.preferences;
   const attendedEvents = (await getAttendedEvents()).data.data.count;
-
+  
   const fullData = {
-    ...profile,
+    ...profile,age: DateToAge(profile?.birthDate) ,
     preferences:preferences,
     attendedEvents,
   };
-
+  // console.log("user: ",fullData)
   setAccountData(fullData);
 
     } catch (error) {
@@ -46,7 +47,7 @@ function UserProfilePage() {
         "Something went wrong while fetching event data.";
       setDialogMessage(message);
       setopenDialog(true);
-      // console.log(error);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -108,7 +109,7 @@ function UserProfilePage() {
         </div>
        {user.id === accountId &&<div className="bg-slate-50  p-6 flex justify-start gap-3 border-t border-slate-200 ">
           <button
-            onClick={() => navigate(`/profile/${user.id}/setting`)}
+            onClick={() => navigate(`/profile/${user.id}/setting` , {state: {accountData: accountData} })}
             className="px-6 py-2.5 rounded-lg text-md font-bold bg-primary text-white shadow-md shadow-primary/25 hover:opacity-90 transition-opacity flex items-center gap-2"
           >
             <Settings color="white" size={24} /> Edit Account

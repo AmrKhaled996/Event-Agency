@@ -42,6 +42,8 @@ import NotFoundPage from "../pages/NotFoundPage";
 import DisplayUserTickets from "../pages/Tickits/DisplayUserTickets";
 import UserProfileInfoPage from "../pages/Profile/User/UserProfileInfoPage";
 import UserAccountSettings from "../pages/Profile/User/UserAccountSettings";
+import ConfirmEmail from "../pages/Profile/User/ConfirmEmail";
+import InterestedEventsPage from "../pages/Events/InterestedEvents";
 
 function AppRouter() {
   return (
@@ -265,7 +267,10 @@ function AppRouter() {
             <Footer />
             </>
             } />
-          
+            <Route path="/confirm-email" element={
+              <ConfirmEmail />
+            } />
+          <Route path="/interested" element={<InterestedEventsPage /> } />
           
           <Route path="/google/callback" element={<GoogleCallback />} />
           <Route path="*" element={<NotFoundPage />} />

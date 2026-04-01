@@ -89,9 +89,7 @@ function NavigationBar({ backGround = "primary" }) {
             {/* === 1/4: Menu Items === */}
             <div className="hidden lg:flex w-2/4 justify-center font-semibold text-lg">
               <ul className="flex justify-between w-full text-white">
-                <li className="text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1">
-                  <a href="#">Explore</a>
-                </li>
+
                 <li className="text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1">
                   <a href="#">Events</a>
                 </li>
@@ -110,7 +108,7 @@ function NavigationBar({ backGround = "primary" }) {
                 AR
               </button>
               <span className="text-white text-2xl">|</span>
-              <button className="text-white hover:text-gray-300 font-bold text-xl">
+              <button className="text-white hover:text-gray-300 font-bold text-xl mr-2">
                 EN
               </button>
             </div>
@@ -127,7 +125,9 @@ function NavigationBar({ backGround = "primary" }) {
                   <span>Tickets</span>
                 </button>
 
-                <button className="hidden md:flex flex-col items-center text-sm cursor-pointer">
+                <button 
+                onClick={()=>navigate(`/interested`)}
+                className="hidden md:flex flex-col items-center text-sm cursor-pointer">
                   <Heart size={30} />
                   <span>Interested</span>
                 </button>

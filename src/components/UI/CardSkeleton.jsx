@@ -1,6 +1,6 @@
 import { Skeleton } from "../shadcn/skeleton";
 
-function CardSkeleton({key}) {
+function CardSkeleton(key) {
     return (  <div
                   key={key}
                   className="flex flex-col-reverse justify-end items-center gap-3 border border-gray-50 rounded-xl p-4"

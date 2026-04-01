@@ -1,9 +1,8 @@
-import axios from "axios";
+import { axiosInstance } from "./axiosInstence";
 import { getAccessToken } from "../services/cookieTokenService";
 
 export async function createEvent(formDataa) {
   const token = getAccessToken();
-
 
   //   const formData = new FormData();
 
@@ -25,56 +24,53 @@ export async function createEvent(formDataa) {
   //   console.log(pair[0], pair[1]);
   // }
 
-  return axios.post(
-    "http://localhost:3000/api/v1/organizer/events",
+  return axiosInstance.post(
+    "/api/v1/organizer/events",
     formDataa,
     {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
-    }
+    },
   );
 }
 export async function updateEvent(formData, id) {
-
-    const token = getAccessToken();
-  console.log(formData)
-  return axios.put(
-    `http://localhost:3000/api/v1/organizer/events/${id}`,
-     formData ,
+  const token = getAccessToken();
+  console.log(formData);
+  return axiosInstance.put(
+    `/api/v1/organizer/events/${id}`,
+    formData,
     {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       },
-    }
+    },
   );
 }
 export async function deleteEvent(id) {
+  const token = getAccessToken();
 
-    const token = getAccessToken();
-
-  return axios.delete(
-    `http://localhost:3000/api/v1/organizer/events/${id}`,{
+  return axiosInstance.delete(
+    `/api/v1/organizer/events/${id}`,
+    {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 }
 export async function getAllEvents() {
-
-
   const token = getAccessToken();
 
-  return axios.get(
-    `http://localhost:3000/api/v1/organizer/events`,
+  return axiosInstance.get(
+    `/api/v1/organizer/events`,
 
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 }

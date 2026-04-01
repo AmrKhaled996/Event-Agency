@@ -6,10 +6,15 @@ import PreferencesSection from "../../../components/UI/UserProfileUI/UserSetting
 import DeleteAccountSection from "../../../components/UI/UserProfileUI/UserDeleteAccount";
 import { useCategories } from "../../../Context/CategoriesProvider";
 import { getPreferences } from "../../../APIs/profileAPI";
+import { useLocation } from "react-router-dom";
 
 function UserAccountSettings() {
   const { categories, loading } = useCategories();
   const [preferences, setPreferences] = useState([]);
+  const location = useLocation();
+  const [authProvider, setAuthProvider] = useState("");
+  const { accountData } = location.state || {};
+  // console.log(accountData)
 
   const [availablePreferences, setAvailablePreferences] = useState([]);
 
@@ -19,58 +24,50 @@ function UserAccountSettings() {
     );
   };
 
-  const handlePreferenceChange = (preference) => {
-    console.log(preference);
-    if (preferences.includes(preference)) {
-      const newprfrences = preferences.filter((p) => p.id !== preference.id );
-      console.log("new" , newprfrences)
-      setPreferences(newprfrences);
-      setAvailablePreferences([...availablePreferences, preference]);
-    } else {
-      const newpreference = [...preferences, preference]
-      const newavailableprfrences = availablePreferences.filter((p) => p.id !== preference.id );
-      console.log("new available preferences",newavailableprfrences)
-      console.log("new preference", newpreference);
-      setPreferences(newpreference);
-      setAvailablePreferences(newavailableprfrences);
-    }
-  };
-
   const handleGetUserPreferences = async () => {
     try {
-      const userpreferences =(await getPreferences()).data.data.preferences;
+      const userpreferences = (await getPreferences()).data.data.preferences;
       setPreferences(userpreferences);
-      console.log(userpreferences)
-      setAvailablePreferences(
-        categories.filter((cat) => !userpreferences.includes(cat.id)),
+      console.log(userpreferences);
+      const notuserpreferences = categories.filter(
+        (cat) => !userpreferences.some((pref) => pref.id === cat.id),
       );
+      console.log("not ", notuserpreferences);
+      setAvailablePreferences(notuserpreferences);
     } catch (error) {
       console.log(error);
     }
   };
 
- useEffect( () => {
-  try {
-    if (categories.length === 0) return;
-    handleGetUserPreferences();
-
-  } catch (error) {
-    console.log(error);
-  }
-}, [categories]);
+  useEffect(() => {
+    setAuthProvider(accountData?.authProvider);
+    // console.log(authProvider)
+    try {
+      if (categories.length === 0) return;
+      handleGetUserPreferences();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [categories, accountData]);
   return (
     <UserSettings
       title="Manage Account"
       description="Update your security settings and personal preferences."
     >
-      <UserSettingsSecurity />
+      {accountData?.authProvider === "LOCAL" && (
+        <UserSettingsSecurity provider={accountData?.authProvider} />
+      )}
 
-      <PersonalInfoSection />
+      <PersonalInfoSection
+        userLocation={accountData?.location}
+        accountData={accountData}
+      />
 
       <PreferencesSection
         preferences={preferences}
         availablePreferences={availablePreferences}
-        handlePreferenceChange={handlePreferenceChange}
+        setPreferences={setPreferences}
+        setAvailablePreferences={setAvailablePreferences}
         getAvailablePreferences={getAvailablePreferences}
       />
 

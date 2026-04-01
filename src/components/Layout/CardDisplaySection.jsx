@@ -93,15 +93,15 @@ function CardDisplaySection({ title, endpoint }) {
             return(
               <Card
                 key={index}
-                bannerUrl={`${card.bannerUrl}`}
-                title={card.title}
-                description={card.description}
-                date={card.date}
-                price={card.ticketTypes || []}
-                views={card.viwes}
-                id={card.id}
-                slug={card.slug}
-                sessions={card.eventSessions || []}
+                bannerUrl={`${card?.bannerUrl}`}
+                title={card?.title}
+                description={card?.description}
+                date={card?.date}
+                price={card?.ticketTypes || []}
+                views={card?.viwes}
+                id={card?.id}
+                slug={card?.slug}
+                sessions={card?.eventSessions || []}
                 crossOrigin="anonymous"
               />);
             }))
@@ -110,7 +110,7 @@ function CardDisplaySection({ title, endpoint }) {
       <div className="w-full flex justify-center ">
         <button
           onClick={handleDiscoverMore}
-          className="border border-primary bg-white md:px-30 px-20 py-3 font-semibold text-lg text-primary my-15 rounded-md cursor-pointer"
+          className="border border-primary bg-white md:px-30 px-20 py-3 font-semibold text-lg text-primary my-15 rounded-md cursor-pointer hover:shadow-primary/40 hover:shadow-lg  transition-all duration-300"
         >
           Discover More
         </button>

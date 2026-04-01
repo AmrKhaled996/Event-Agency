@@ -419,9 +419,11 @@ Special Dance performances and surprises!`;
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const message =
-            error.response?.data?.message || "Failed to reserve selected seats";
+            error.response?.data?.message || "Failed to reserve selected seats you are banned";
           // TODO: show error dialog
           console.log(message);
+          setopenDialog(true);
+          setDialogMessage(message);
           throw new Error(message);
         }
 
@@ -539,7 +541,7 @@ Special Dance performances and surprises!`;
           src={event.bannerUrl || eventinfo?.preview || "/images/login.jpg"}
           alt="Event Banner"
           crossOrigin="anonymous"
-          className="w-full h-60 rounded-xl mb-6"
+          className="w-full h-120 rounded-xl mb-6"
         />
 
         {/* Title + Icons */}

@@ -5,10 +5,11 @@ import UnactiveInterestedHart from "../Icons/UnactiveInterestedHart.jsx";
 import { Heart, Ticket } from "lucide-react";
 import { Link } from "react-router-dom";
 import { formatEventSessionDate } from "../../utils/dateFormater.js";
+import { addToInterested, removeFromInterested } from "../../APIs/eventApis.js";
 
 
 function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,sessions}) {
-  const [interestedButten, setinterestedButten] = useState(false);
+  const [interested, setInterested] = useState(false);
   const sessionssInfo = formatEventSessionDate(sessions );
   const priceRange = () => {
 
@@ -22,13 +23,23 @@ function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,se
     const maxprice = Math.max(...price.map((ticket) => ticket.price));
     return `${minprice} - ${maxprice} EGY`;
     }
-  const handleInterested = (e) => {
+  const handleInterested = async(e) => {
     e.preventDefault();
-    // console.log(sessionssInfo)
-    // 2. CRITICAL: Stop the event from propagating to the parent <div>
+    try {
+      if (interested) {
+        const response= await removeFromInterested(id);
+        console.log("action:" , response)
+      } else {
+        const response = await addToInterested(id);
+        console.log("action:", response)
+      }
+      
+      setInterested(!interested);
+    } catch (error) {
+      console.log(error?.response||error)
+    }
     e.stopPropagation();
 
-    return setinterestedButten(!interestedButten);
   };
 
 
@@ -36,20 +47,20 @@ function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,se
   return (
     <>
 
-      <Link to={`/events/${slug}?id=${id}`} className="max-w-full max-h-150  w-full mt-6 shadow-sm p-1 pb-6 rounded-xl "  >
+      <Link to={`/events/${slug}?id=${id}`} className="max-w-full max-h-150  w-full mt-6 shadow-sm p-1 pb-6 rounded-xl hover:scale-102 transition-all duration-300 hover:shadow-lg"  >
         <div className={`  rounded-lg border-0  bg-cover bg-center h-64 w-full object-cover group-hover:opacity-75 xl:aspect-7/8 relative`}>
 
         <img  
         src={encodeURI(bannerUrl)}
         loading="lazy"
         crossOrigin="anonymous"
-          className={`  rounded-lg border-0  bg-cover bg-center h-64 w-full object-cover group-hover:opacity-75 xl:aspect-7/8 relative`} style={{ backgroundImage: `url(${encodeURI(bannerUrl)})` }}
+          className={`  rounded-lg border-0  bg-cover bg-center h-64 w-full object-cover group-hover:opacity-98  xl:aspect-7/8 absolute group-hover:scale-102  transition-all `} style={{ backgroundImage: `url(${encodeURI(bannerUrl)})` }}
         />
           <button
             onClick={handleInterested}
-            className="bg-white rounded-full w-10 h-10  left-87/100 top-6/100 flex items-center hover:cursor-pointer mr-100 absolute"
+            className="bg-white rounded-full w-10 h-10  left-87/100 top-6/100 flex items-center hover:cursor-pointer mr-100 absolute hover:bg-white/85 duration-300 transition-colors"
           >
-            {interestedButten ? (
+            {interested ? (
               <ActiveInterestedHart />
             ) : (
               <UnactiveInterestedHart />
@@ -80,9 +91,7 @@ function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,se
           </div>
         </div>
       </Link>
-      {/* </div>
-        </div>
-      </div> */}
+
     </>
   );
 }

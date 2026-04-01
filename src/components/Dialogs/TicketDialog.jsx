@@ -37,7 +37,7 @@ function TicketDialog({ open, onClose, ticket }) {
     });
 
     pdf.addImage(imgData, "JPEG", 0, 0, 535, 518);
-    pdf.save(ticket.eventName + " ticket.pdf");
+    pdf.save(ticket.ticketType.event.title + " ticket.pdf");
   };
 
   return (
@@ -50,7 +50,7 @@ function TicketDialog({ open, onClose, ticket }) {
       </button>
 
       <h3 className="text-3xl text-center text-shadow-2xs text-shadow-gray-600 font-semibold mb-4 ">
-        {ticket.eventName}
+        {ticket.ticketType.event.title}
       </h3>
       <div
         key={ticket.id}
@@ -59,15 +59,15 @@ function TicketDialog({ open, onClose, ticket }) {
       >
         {/* QR */}
         <div className="w-40 h-40 sm:w-48 sm:h-48 mt-8 mb-8">
-          <QRCode value={ticket.qrValue} className="w-full h-full" />
+          <QRCode value={ticket.id} className="w-full h-full" />
         </div>
 
         {/* Info */}
-        <h3 className="text-lg sm:text-xl font-bold ">{ticket.eventName}</h3>
+        <h3 className="text-lg sm:text-xl font-bold ">{ticket.ticketType.event.title}</h3>
         <div className="py-4 px-4 flex flex-col items-start gap-3 ">
           <p className=" text-sm sm:text-base">Date: {ticket.date}</p>
 
-          <p className=" text-sm sm:text-base">Seats: {ticket.seats}</p>
+          <p className=" text-sm sm:text-base">Seats: {ticket.eventSeat.rowLabel}{ticket.eventSeat.seatLabel}</p>
 
           <p className=" text-sm sm:text-base">Location: {ticket.location}</p>
           <p className=" text-sm sm:text-base">
