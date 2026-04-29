@@ -46,15 +46,16 @@ export async function resendOtps() {
 }
 export async function refreshToken() {
   const refreshToken = getRefreshToken();
+  console.log("ref:",refreshToken)
   const token = getAccessToken();
 
   return axiosInstance.post(
     `/api/v1/auth/refresh-token`,
-    { refreshToken: refreshToken },
+    { refreshToken },
     {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+
       },
     },
   );

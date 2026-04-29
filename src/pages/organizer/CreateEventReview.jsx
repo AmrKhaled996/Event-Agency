@@ -29,7 +29,7 @@ function CreateEventReview() {
       fd.append("type", formData.tickets.type);
       fd.append("mode", formData.basicInfo.mode);
       fd.append("categoryName", formData.basicInfo.category);
-
+      
       for (let i = 0; i < formData.basicInfo.sessions.length; i++) {
         fd.append(
           `sessions[${i}][startDate]`,
@@ -70,6 +70,16 @@ function CreateEventReview() {
           formData.tickets.tickets[i].quantity,
         );
       }
+      for (let i = 0; i < formData.basicInfo.tags.length; i++) {
+        fd.append(`tags[${i}]`, formData.basicInfo.tags[i]);
+        console.log("tag",formData.basicInfo.tags[i])
+      }
+      for (let i = 0; i < formData.basicInfo.rules.length; i++) {
+        fd.append(`rules[${i}]`, formData.basicInfo.rules[i]);
+        console.log("rules",formData.basicInfo.rules[i])
+        
+      }
+      // === EVENT TYPE ===
 
       fd.append("eventType", formData.tickets.eventType);
 

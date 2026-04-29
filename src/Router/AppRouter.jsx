@@ -44,6 +44,8 @@ import UserProfileInfoPage from "../pages/Profile/User/UserProfileInfoPage";
 import UserAccountSettings from "../pages/Profile/User/UserAccountSettings";
 import ConfirmEmail from "../pages/Profile/User/ConfirmEmail";
 import InterestedEventsPage from "../pages/Events/InterestedEvents";
+import SearchEventsPage from "../pages/Events/SearchEventsPage";
+import UpgradePage from "../pages/organizer/upgradeToOrganizer/UpgradePage";
 
 function AppRouter() {
   return (
@@ -120,6 +122,7 @@ function AppRouter() {
               </>
             }
           />
+          <Route path="/search-events" element ={<SearchEventsPage/>} />
           {/* <Route path="/organizer/dashboard" element={<OrganizerDashboard />} /> */}
           <Route
             path="/organizer/dashboard/overview"
@@ -214,6 +217,7 @@ function AppRouter() {
               </ProtectedRoutes>
             }
           />
+          <Route path="/organizer/upgrade" element={<UpgradePage />} />
 
           <Route
             path="/newsletter/confermation"
@@ -253,25 +257,38 @@ function AppRouter() {
               </>
             }
           />
-          <Route path="/profile/:userId" element={
-            <>
-            <NavigationBar />
-            <UserProfileInfoPage />
-            <Footer />
-            </>
-            } />
-          <Route path="/profile/:userId/setting" element={
-            <>
-            <NavigationBar />
-            <UserAccountSettings />
-            <Footer />
-            </>
-            } />
-            <Route path="/confirm-email" element={
-              <ConfirmEmail />
-            } />
-          <Route path="/interested" element={<InterestedEventsPage /> } />
-          
+          <Route
+            path="/profile/:userId"
+            element={
+              <>
+                <NavigationBar />
+                <UserProfileInfoPage />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/profile/:userId/setting"
+            element={
+              <>
+                <NavigationBar />
+                <UserAccountSettings />
+                <Footer />
+              </>
+            }
+          />
+          <Route path="/confirm-email" element={<ConfirmEmail />} />
+          <Route
+            path="/interested"
+            element={
+              <>
+                <NavigationBar />
+                <InterestedEventsPage />
+                <Footer />
+              </>
+            }
+          />
+
           <Route path="/google/callback" element={<GoogleCallback />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

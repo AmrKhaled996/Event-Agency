@@ -15,12 +15,14 @@ import { logout ,refreshToken } from "../../APIs/authAPIs";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { becomeOrganizer } from "../../APIs/userAPIs";
+import { useTranslation } from "react-i18next";
 
 
 function NavigationBar({ backGround = "primary" }) {
   const [isOpen, setIsOpen] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const navigate = useNavigate();
+  const {t,i18n} =useTranslation();
 
   const { user, updateUser } = useUser();
 
@@ -31,7 +33,8 @@ function NavigationBar({ backGround = "primary" }) {
       updateUser({});
       // console.log(user)
       removeTokens();
-      window.location.reload();
+
+      navigate("/");
     } catch (error) {
       console.log("error", error);
     }
@@ -104,11 +107,15 @@ function NavigationBar({ backGround = "primary" }) {
 
             {/* === 1/4: Language Buttons === */}
             <div className="hidden lg:flex w-1/8 justify-center items-center space-x-4">
-              <button className="text-white hover:text-gray-300 font-bold text-xl">
+              <button 
+              onClick={() => i18n.changeLanguage("ar")}
+              className={`text-white hover:text-gray-300 font-bold text-xl hover:cursor-pointer `}>
                 AR
               </button>
               <span className="text-white text-2xl">|</span>
-              <button className="text-white hover:text-gray-300 font-bold text-xl mr-2">
+              <button 
+              onClick={() => i18n.changeLanguage("en")}
+              className={`text-white hover:text-gray-300 font-bold text-xl hover:cursor-pointer mr-2`}>
                 EN
               </button>
             </div>
@@ -162,7 +169,7 @@ function NavigationBar({ backGround = "primary" }) {
 
                       {user.role === "user" ? (
                         <button
-                          onClick={handleBecomeOrganizer}
+                          onClick={()=>navigate("/organizer/upgrade")}
                           className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
                         >
                           Upgrade to organizer

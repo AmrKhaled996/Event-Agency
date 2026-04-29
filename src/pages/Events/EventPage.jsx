@@ -49,12 +49,14 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   const [timeFormat, setTimeFormat] = useState([]);
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
+  const [isInterested, setisInterested] = useState(
+    event?.isInterested || false,
+  );
   const navigate = useNavigate();
   const { user } = useUser();
 
   const handleLoadEvents = async () => {
     try {
-      // console.log("Oid",event.organizerId ,"user  ",user)
       if (review) return;
       setloading(true);
       const urlParams = new URLSearchParams(window.location.search);
@@ -62,6 +64,8 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
       const response = await getEvents({ id: id });
 
       setEvent(response.data.data.event);
+      // console.log(response.data.data.event)
+      // console.log("Oid",event ,"user  ",user)
       const eventSessions =
         response.data.data.event?.eventSessions || eventinfo?.sessions;
 
@@ -419,7 +423,8 @@ Special Dance performances and surprises!`;
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const message =
-            error.response?.data?.message || "Failed to reserve selected seats you are banned";
+            error.response?.data?.message ||
+            "Failed to reserve selected seats you are banned";
           // TODO: show error dialog
           console.log(message);
           setopenDialog(true);
@@ -553,8 +558,17 @@ Special Dance performances and surprises!`;
             <button className="cursor-pointer">
               <Share2 size={30} />
             </button>
-            <button className="cursor-pointer">
-              <Heart size={30} />{" "}
+            <button
+              onClick={() => {
+                setIsInterested(!isInterested);
+              }}
+              className="cursor-pointer"
+            >
+              {isInterested ? (
+                <Heart size={30} className={`text-secandry`} fill="#FF49B5" />
+              ) : (
+                <Heart size={30} />
+              )}
             </button>
           </div>
         </div>

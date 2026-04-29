@@ -7,22 +7,30 @@ import SessionForm from "../../components/Layout/CreateEventSessionForm";
 import LocationPicker from "../../components/Layout/LocationPicker";
 import { Title } from "react-head";
 import { useCategories } from "../../Context/CategoriesProvider";
+import TagInput from "../../components/UI/TagInput";
+import RulesInput from "../../components/UI/RulesInput";
 
 export default function CreateEventBasics() {
-  const { formData,updateForm } = useEventForm();
+  const { formData, updateForm } = useEventForm();
+  const [tags, setTags] = useState([]);
+  const [rules, setRules] = useState([]);
   const navigate = useNavigate();
   const [position, setPosition] = useState(null);
   const [details, setDetails] = useState(null);
   const [errors, setErrors] = useState({});
-  const {categories} = useCategories();
+  const { categories } = useCategories();
 
   const [local, setLocal] = useState({
     title: formData.basicInfo.title || "",
-    category: formData.basicInfo.category || "",
+    category: formData.basicInfo.category || "edu",
     description: formData.basicInfo.description || "",
     location: formData.basicInfo.location || null,
     mode: formData.basicInfo.mode || "single",
-    sessions: formData.basicInfo.sessions ||[{ date: "", startTime: "", endTime: "" }],
+    sessions: formData.basicInfo.sessions || [
+      { date: "", startTime: "", endTime: "" },
+    ],
+    tags: formData.basicInfo.tags || [],
+    rules: formData.basicInfo.rules || [],
   });
 
   const validate = () => {
@@ -102,12 +110,10 @@ export default function CreateEventBasics() {
     "hamlet",
   ];
   const handleNext = () => {
-
     if (!validate()) {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-
 
     // console.log("details111", details);
     // console.log("local111", local);
@@ -122,9 +128,14 @@ export default function CreateEventBasics() {
       country: details.country || "",
     };
 
-    const newLocal = { ...local, location: newLocation };
+    const newLocal = {
+      ...local,
+      location: newLocation,
+      tags: tags,
+      rules: rules,
+    };
 
-    // console.log("newLocal", newLocal);
+    console.log("newLocal", newLocal);
 
     updateForm("basicInfo", newLocal);
     setLocal(newLocal);
@@ -135,7 +146,7 @@ export default function CreateEventBasics() {
     <div className="p-6 max-w-4xl mx-auto">
       <Title>Create Event - Basics</Title>
       {/* Header & Progress Bar */}
-      <div className="flex  items-center-safe gap-6 mb-6">
+      <div className="flex  items-center-safe gap-6 mb-3">
         <button
           onClick={() => navigate("/organizer/dashboard/overview")}
           className="text-5xl bg-gray-50 border relative top-1 border-primary rounded-full  p-2 w-fit h-fit hover:bg-gray-100"
@@ -149,13 +160,13 @@ export default function CreateEventBasics() {
 
       {/* Event Title & Category */}
       <label className="mb-3 flex gap-3 items-center">
-        <div className="text-md font-medium w-30 ">
-          Event Title <strong className="text-red-600 text-lg">*</strong>
+        <div className="text-md font-medium text-nowrap w-fit ">
+          Event Title <strong className="text-red-600 text-lg ">*</strong>
         </div>
         <input
           value={local.title}
           onChange={(e) => setLocal((s) => ({ ...s, title: e.target.value }))}
-          className="w-full border rounded p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
+          className="w-full border rounded-xl p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
           placeholder="Enter the name of your event"
         />
       </label>
@@ -163,7 +174,7 @@ export default function CreateEventBasics() {
         <div className="text-red-600 text-sm">{errors.title}</div>
       )}
       <label className="my-3 flex gap-3 items-center">
-        <div className="text-md font-medium w-30">
+        <div className="text-md font-medium text-nowrap w-fit">
           Event Category <strong className="text-red-600 text-lg">*</strong>
         </div>
         <select
@@ -171,7 +182,7 @@ export default function CreateEventBasics() {
           onChange={(e) =>
             setLocal((s) => ({ ...s, category: e.target.value }))
           }
-          className="w-full border rounded p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
+          className="w-full border rounded-xl p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
         >
           <option value="">Select one</option>
           {categories.map((category) => (
@@ -179,7 +190,6 @@ export default function CreateEventBasics() {
               {category.name}
             </option>
           ))}
-
         </select>
       </label>
       {errors.category && (
@@ -198,7 +208,7 @@ export default function CreateEventBasics() {
         )}
       </h2>
       <label className="mb-3 flex gap-6 items-center ">
-        <div className="text-md font-medium w-30">
+        <div className="text-md font-medium text-nowrap w-fit">
           Event mode <strong className="text-red-600 text-lg">*</strong>
         </div>
         <label name="single" className="flex items-center gap-4">
@@ -281,8 +291,8 @@ export default function CreateEventBasics() {
       <h2 className="text-3xl font-semibold mb-4 mt-6">
         Additional Information
       </h2>
-      <label className="block mb-6">
-        <div className="text-md font-medium w-30">
+      <label className="block mb-3">
+        <div className="text-md font-medium text-nowrap w-fit">
           Event Description <strong className="text-red-600 text-lg">*</strong>
         </div>
         <textarea
@@ -290,13 +300,16 @@ export default function CreateEventBasics() {
           onChange={(e) =>
             setLocal((s) => ({ ...s, description: e.target.value }))
           }
-          className="w-full border rounded p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none h-40"
+          className="w-full border rounded-xl p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none h-40"
           placeholder="Describe what's special about your event"
+          
         />
       </label>
       {errors.description && (
         <div className="text-red-600 text-sm">{errors.description}</div>
       )}
+      <RulesInput rules={rules} onChange={setRules} />
+      <TagInput tags={tags} setTags={setTags} />
       {/* Next Button */}
       <div className="flex justify-end">
         <button

@@ -1,0 +1,10 @@
+{
+  "home": {
+    "title": "Welcome",
+    "description": "This is a React app"
+  },
+  "buttons": {
+    "english": "English",
+    "arabic": "Arabic"
+  }
+}

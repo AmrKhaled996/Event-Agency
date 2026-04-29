@@ -1,4 +1,4 @@
-import HomeHader from "../components/Layout/HomeHeader";
+
 import CardDisplaySection from "../components/Layout/CardDisplaySection";
 import CuratedEventsSection from "../components/Layout/CuratedEventsSection";
 import Footer from "../components/Layout/Footer";
@@ -16,6 +16,7 @@ import {
 } from "../APIs/homeApis";
 import Loading from "../components/Layout/LoadingLayout";
 import { useState } from "react";
+import HomeHeader from "../components/Layout/HomeHeader";
 
 function HomePage() {
   // const {user} = useAuth();
@@ -24,7 +25,7 @@ function HomePage() {
   return (
     <>
       <Title>Fa3liat | HOME</Title>
-      <HomeHader />
+      <HomeHeader />
       <ExploreCategories endpoint={categories} />
       <CardDisplaySection
         title={"Events Just for You"}

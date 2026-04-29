@@ -69,7 +69,9 @@ function CardDisplaySection({ title, endpoint }) {
       console.log(title, "    ", response.data.data);
       setcards(newcards.events);
       // setloading(false);
-    } catch (error) {}
+    } catch (error) {
+      console.log("error" ,error.response)
+    }
   };
 
   const handleDiscoverMore = () => {
@@ -102,6 +104,7 @@ function CardDisplaySection({ title, endpoint }) {
                 id={card?.id}
                 slug={card?.slug}
                 sessions={card?.eventSessions || []}
+                isInterested={card?.isInterested}
                 crossOrigin="anonymous"
               />);
             }))

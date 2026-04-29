@@ -73,7 +73,7 @@ function OrganizerDashboard({ children, page, title }) {
           </button>
         </aside>
         {/* main content */}
-        <div className="flex-1 h-full min-h-170 bg-white shadow-2xl rounded-2xl p-8 ">
+        <div className="flex-1 h-full min-h-170 bg-white shadow-2xl rounded-2xl p-8 overflow-scroll overflow-x-auto scroll-m-52">
           {children}
           <Outlet />
         </div>

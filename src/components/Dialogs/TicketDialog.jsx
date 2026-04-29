@@ -50,30 +50,30 @@ function TicketDialog({ open, onClose, ticket }) {
       </button>
 
       <h3 className="text-3xl text-center text-shadow-2xs text-shadow-gray-600 font-semibold mb-4 ">
-        {ticket.ticketType.event.title}
+        {ticket?.ticketType?.event?.title}
       </h3>
       <div
-        key={ticket.id}
+        key={ticket?.id}
         ref={inputRef}
         className="border rounded-xl max-w-xl shadow-lg flex flex-col items-center text-center overflow-hidden m-auto "
       >
         {/* QR */}
         <div className="w-40 h-40 sm:w-48 sm:h-48 mt-8 mb-8">
-          <QRCode value={ticket.id} className="w-full h-full" />
+          <QRCode value={ticket?.id} className="w-full h-full" />
         </div>
 
         {/* Info */}
-        <h3 className="text-lg sm:text-xl font-bold ">{ticket.ticketType.event.title}</h3>
+        <h3 className="text-lg sm:text-xl font-bold ">{ticket?.ticketType?.event?.title}</h3>
         <div className="py-4 px-4 flex flex-col items-start gap-3 ">
-          <p className=" text-sm sm:text-base">Date: {ticket.date}</p>
+          <p className=" text-sm sm:text-base">Date: {ticket?.date}</p>
 
-          <p className=" text-sm sm:text-base">Seats: {ticket.eventSeat.rowLabel}{ticket.eventSeat.seatLabel}</p>
+          <p className=" text-sm sm:text-base">Seats: {ticket?.eventSeat?.rowLabel}{ticket?.eventSeat?.seatLabel}</p>
 
-          <p className=" text-sm sm:text-base">Location: {ticket.location}</p>
+          <p className=" text-sm sm:text-base">Location: {ticket?.location}</p>
           <p className=" text-sm sm:text-base">
-            Ticket Status: {ticket.status}
+            Ticket Status: {ticket?.status}
           </p>
-          <p className=" text-sm sm:text-base">organizer: {ticket.organizer}</p>
+          <p className=" text-sm sm:text-base">organizer: {ticket?.organizer}</p>
         </div>
         <footer className="w-full border-t border-[#ebe6e7] pt-2 pb-3 px-2 text-start text-xs font-light " style={{color: '#99a1af' }}>
           © 2026 Fa3liat

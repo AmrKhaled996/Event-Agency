@@ -2,7 +2,7 @@ function WarningIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-20 w-20 text-red-500 mb-4"
+      className="h-full w-full text-red-500 mb-4"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"

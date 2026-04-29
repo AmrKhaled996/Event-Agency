@@ -8,10 +8,13 @@ import { formatEventSessionDate } from "../../utils/dateFormater.js";
 import { addToInterested, removeFromInterested } from "../../APIs/eventApis.js";
 
 
-function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,sessions}) {
-  const [interested, setInterested] = useState(false);
+function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,sessions ,isInterested}) {
+  const [interested, setInterested] = useState(isInterested);
   const sessionssInfo = formatEventSessionDate(sessions );
   const priceRange = () => {
+
+    if(price.length==0) return "0";
+    
 
     if (Number(price[0].price) === 0 && price.length === 1) {
       return "Free";
@@ -26,6 +29,7 @@ function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,se
   const handleInterested = async(e) => {
     e.preventDefault();
     try {
+      setInterested(prv => !prv);
       if (interested) {
         const response= await removeFromInterested(id);
         console.log("action:" , response)
@@ -34,9 +38,9 @@ function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,se
         console.log("action:", response)
       }
       
-      setInterested(!interested);
     } catch (error) {
       console.log(error?.response||error)
+      setInterested(prv => !prv);
     }
     e.stopPropagation();
 
@@ -86,7 +90,7 @@ function Card({bannerUrl , title , date ,price ,views ,description ,slug ,id ,se
             <Heart size={20} className="mr-1 mb-1 " /> 0 Interested
           </p>
           <p className="mt-1 font-semibold text-green-700 flex items-start">
-            <Ticket size={24}  className="mr-1 pt-1 " /> {priceRange()}
+            <Ticket size={24}  className="mr-1 pt-1 " /> {priceRange()||"0"}
           </p>
           </div>
         </div>

@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import Card from "../UI/Card";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { latestEvents, nearbyEvents, personalizedEvents } from "../../APIs/homeApis";
+import {
+  latestEvents,
+  nearbyEvents,
+  personalizedEvents,
+} from "../../APIs/homeApis";
 import { useLocation, useParams } from "react-router-dom";
 
 // const mockCards = [
@@ -52,8 +56,8 @@ import { useLocation, useParams } from "react-router-dom";
 function OtherEventsSlider() {
   const [cards, setcards] = useState([]);
   const scrollRef = useRef(null);
-  const slug =useParams();
-  const id=new URLSearchParams(useLocation().search).get('id');
+  const slug = useParams();
+  const id = new URLSearchParams(useLocation().search).get("id");
 
   const slideRight = () => {
     if (scrollRef.current) {
@@ -65,20 +69,18 @@ function OtherEventsSlider() {
       scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
     }
   };
-    const handleEndpoint=async()=>{
-    try{
-      const response= await personalizedEvents();
+  const handleEndpoint = async () => {
+    try {
+      const response = await personalizedEvents();
       setcards(response.data.data.events);
-
+    } catch (error) {
+      console.log(error);
     }
-    catch(error){
-      console.log(error)
-    }
-  }
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     handleEndpoint();
-  }, [slug,id]);
+  }, [slug, id]);
 
   return (
     <section className="w-full py-20 bg-white no-scrollbar h-fit">
@@ -109,21 +111,21 @@ function OtherEventsSlider() {
         >
           {cards.map((card, index) => (
             <div key={index} className="shrink-0 w-80">
-
-           <Card
-              key={index}
-              bannerUrl={`${card.bannerUrl}`}
-              title={card.title}
-              description={card.description}
-              date={card.date}
-              price={card.ticketTypes||[]}
-              views={card.viwes}
-              id={card.id}
-              slug={card.slug}
-              sessions={card.eventSessions||[]}
-              crossOrigin="anonymous"
-            />
-              </div>
+              <Card
+                key={index}
+                bannerUrl={`${card.bannerUrl}`}
+                title={card.title}
+                description={card.description}
+                date={card.date}
+                price={card.ticketTypes || []}
+                views={card.viwes}
+                id={card.id}
+                slug={card.slug}
+                sessions={card.eventSessions || []}
+                isInterested={card?.isInterested}
+                crossOrigin="anonymous"
+              />
+            </div>
           ))}
         </div>
       </div>

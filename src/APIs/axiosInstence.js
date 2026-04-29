@@ -1,7 +1,12 @@
 import axios from "axios";
+import {
+  getAccessToken,
+  getRefreshToken,
+  refreshAccessToken,
+} from "../services/cookieTokenService";
 
 export const axiosInstance = axios.create({
-  baseURL: "",
+  baseURL: "", // ✅ important (with Vite proxy)
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,27 +18,39 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // ✅ only retry once
+    if (
+      (error.response?.status === 401 || error.response.status === 403) &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
 
       try {
-        await axiosInstance.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/v1/auth/refresh-token`,
+        console.log("Trying to refresh token...");
+        const refreshToken = getRefreshToken();
+        console.log("refreshToken", refreshToken);
+        const token = getAccessToken();
+
+        const response = await axios.post(
+          `/api/v1/auth/refresh-token`,
+          { refreshToken },
           {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
             withCredentials: true,
           },
         );
+        refreshAccessToken(response.data);
 
+        // ✅ retry original request
         return axiosInstance(originalRequest);
-      } catch (refreshTokenerror) {
-        console.error(
-          "Proccess failed, Refresh token Error",
-          refreshTokenerror,
-        );
+      } catch (refreshError) {
+        console.error("Refresh token failed", refreshError);
 
-        window.location.href = "/login";
-
-        return Promise.reject(refreshTokenerror);
+        // window.location.href = "/login";
+        return Promise.reject(refreshError);
       }
     }
 

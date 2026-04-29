@@ -3,7 +3,7 @@ import WarningIcon from "../components/Icons/WarningIcon";
 function NotFoundPage() {
     return ( 
         
-                <div className="w-full flex flex-col items-center justify-center min-h-140 h-full">
+                <div className="w-full flex flex-col items-center justify-center min-h-140 h-[60vh]">
             {/* icon */}
             <WarningIcon />
             <h1 className="text-4xl font-bold mb-6  ">Page Not Founded</h1>

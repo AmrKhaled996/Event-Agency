@@ -48,7 +48,7 @@ function ExploreCategories() {
 
         <div
           ref={scrollRef}
-          className="flex  overflow-x-auto gap-10 no-scrollbar scroll-smooth"
+          className="flex  overflow-x-auto lg:gap-10 md:gap-4 sm:gap-2 gap-0 no-scrollbar scroll-smooth space-x-2"
         >
           {categories.length > 0 ? (categories.map((cat, index) => ( 
             
