@@ -44,3 +44,15 @@ export async function getInterestedEvents() {
     },
   );
 }
+export async function getWalletBalance() {
+  const token = getAccessToken();
+
+  return axiosInstance.get(
+    `/api/v1/user/wallet`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}

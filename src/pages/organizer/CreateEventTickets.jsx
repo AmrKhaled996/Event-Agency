@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import CreateEventProgressBar from "../../components/UI/CreateEventProgressBar";
 import { useEventForm } from "../../Context/EventPovider";
 import { Title } from "react-head";
@@ -21,10 +20,11 @@ import {
 } from "./../../components/shadcn/tabs";
 import { Eye, Edit3 } from "lucide-react";
 import { toast } from "sonner";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function CreateEventTickets() {
   const { formData, updateForm } = useEventForm();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const [type, setType] = useState(formData.tickets.type || "ticketed");
   const [tickets, setTickets] = useState(formData.tickets.tickets || []);
   const [ticketName, setTicketName] = useState("");

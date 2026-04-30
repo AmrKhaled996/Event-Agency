@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import Loading from "../../components/Layout/LoadingLayout";
 import Card from "../../components/UI/Card";
@@ -11,6 +11,7 @@ import {
   personalizedEvents,
 } from "../../APIs/eventsPagenation";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function EventsPagination() {
   const [cards, setCards] = useState([]);
@@ -20,9 +21,9 @@ function EventsPagination() {
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
 
-//   const endpoint = state?.endpoint;
+  //   const endpoint = state?.endpoint;
 
   const urlParams = new URLSearchParams(location.search);
 
@@ -33,15 +34,14 @@ function EventsPagination() {
 
     try {
       const page = Number(urlParams.get("page")) || 1;
-      console.log(page)
+      console.log(page);
       setEventsPage(page);
 
       setLoading(true);
       let response;
       switch (title) {
         case "Past Events and Highlights":
-          
-        response = await pastEvents(page);
+          response = await pastEvents(page);
           break;
         case "Happening Near You":
           response = await nearbyEvents(page);
@@ -51,12 +51,10 @@ function EventsPagination() {
           break;
         case "Events Just for You":
           response = await personalizedEvents(page);
-          console.log(response)
+          console.log(response);
           break;
         default:
-         setDialogMessage(
-         "Error confirming order"
-      );
+          setDialogMessage("Error confirming order");
           break;
       }
       // console.log("first")
@@ -66,7 +64,7 @@ function EventsPagination() {
     } catch (error) {
       console.log(error);
       setDialogMessage(
-        error.response?.data?.message || "Error confirming order"
+        error.response?.data?.message || "Error confirming order",
       );
       setopenDialog(true);
     } finally {
@@ -84,23 +82,23 @@ function EventsPagination() {
         <h1 className="text-3xl font-bold mb-5 ml-10">{title}</h1>
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-          { cards.map((card,index) => {
-            return(
-            
-            <Card
-              key={index}
-              bannerUrl={`${card.bannerUrl}`}
-              title={card.title}
-              description={card.description}
-              date={card.date}
-              price={card.ticketTypes||[]}
-              views={card.viwes}
-              id={card.id}
-              slug={card.slug}
-              sessions={card.eventSessions||[]}
-              crossOrigin="anonymous"
-            />
-          )})}
+          {cards.map((card, index) => {
+            return (
+              <Card
+                key={index}
+                bannerUrl={`${card.bannerUrl}`}
+                title={card.title}
+                description={card.description}
+                date={card.date}
+                price={card.ticketTypes || []}
+                views={card.viwes}
+                id={card.id}
+                slug={card.slug}
+                sessions={card.eventSessions || []}
+                crossOrigin="anonymous"
+              />
+            );
+          })}
         </div>
         <div className="w-full flex justify-center my-10 gap-20">
           <button
@@ -110,9 +108,7 @@ function EventsPagination() {
               const nextPage = eventsPage - 1;
               const newUrlParams = new URLSearchParams(location.search);
               newUrlParams.set("page", nextPage);
-              const newUrl = `${
-                location.pathname
-              }?${newUrlParams.toString()}`;
+              const newUrl = `${location.pathname}?${newUrlParams.toString()}`;
               navigate(`${location.pathname}?${newUrlParams.toString()}`);
               setEventsPage(nextPage);
               scrollTo(0, 0);

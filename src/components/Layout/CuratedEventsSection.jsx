@@ -1,9 +1,12 @@
+import { useParams } from "react-router-dom";
+
 function CuratedEventsSection() {
+  const {lang} = useParams();
   return (
     <div
-      className="w-full flex justify-center z-20 px-4 my-10 relative
+      className={`w-full flex justify-center z-20 px-4 my-10 relative
            before:content-['kljlk']
-            before:absolute before:-left-10 before:bottom-10
+            before:absolute ${lang ==="ar"? 'before:-right-10':'before:-left-10'} before:bottom-10
             md:before:flex
             before:translate-y-10
             before:w-60 before:h-60
@@ -16,7 +19,7 @@ function CuratedEventsSection() {
             before:opacity-90
             before:z-10
             before:hidden
-            "
+            `}
     >
       <div
         className="

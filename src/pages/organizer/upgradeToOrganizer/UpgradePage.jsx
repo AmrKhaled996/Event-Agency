@@ -1,18 +1,22 @@
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import SuccessScreen from "./SuccessScreen";
 import CategorySelector from "../../../components/UI/UpgradeToOrganizer/CategorySelector";
 import DynamicForm from "../../../components/UI/UpgradeToOrganizer/DynamicForm";
 
-import { categories, fields, subtitles } from "../../../constants/upgradeConfig";
+import {
+  categories,
+  fields,
+  subtitles,
+} from "../../../constants/upgradeConfig";
 import { useUpgradeForm } from "../../../Hooks/useUpgradeForm";
+import useAppNavigate from "../../../Router/useAppNavigate";
 // import { useUpgradeForm } from "../hooks/useUpgradeForm";
 // import CategorySelector from "../components/upgrade/CategorySelector";
 // import DynamicForm from "../components/upgrade/DynamicForm";
 // import SuccessScreen from "../components/upgrade/SuccessScreen";
 
 export default function UpgradePage() {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
 
   const {
     selected,
@@ -36,7 +40,14 @@ export default function UpgradePage() {
     return <SuccessScreen category={selected} onReset={handleReset} />;
   }
   const submiting = () => {
-    console.log("formData:",formData ,"fileDate:",fileData ,"socialData:",socialData)
+    console.log(
+      "formData:",
+      formData,
+      "fileDate:",
+      fileData,
+      "socialData:",
+      socialData,
+    );
   };
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-8">

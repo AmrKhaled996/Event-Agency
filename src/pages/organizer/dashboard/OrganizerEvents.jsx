@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import InfoDialog from "../../../components/Dialogs/InfoDialog";
 import UpdateDialog from "../../../components/Dialogs/UpdateDialog";
 import DeleteDialog from "../../../components/Dialogs/DeleteDialog";
-import { useNavigate } from "react-router-dom";
 import { getStatsOrgainzerDashboard } from "../../../APIs/organizerDashboardAPIs";
 import { deleteEvent, getAllEvents } from "../../../APIs/organizerApis";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import Loading from "../../../components/Layout/LoadingLayout";
+import useAppNavigate from "../../../Router/useAppNavigate";
 
 const mockCards = [
   {
@@ -79,14 +79,14 @@ export default function OrganizerEventsPage() {
   const [events, setEvents] = useState({});
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-    const [openDialog, setopenDialog] = useState(false);
+  const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
 
   const [loading, setloading] = useState(false);
 
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
 
-  const handleDelete = async() => {
+  const handleDelete = async () => {
     try {
       // Call API to delete event
       const eventId = selectedEvent.id;
@@ -96,7 +96,7 @@ export default function OrganizerEventsPage() {
       // console.log(response.data);
 
       setEvents((prevEvents) =>
-        prevEvents.filter((event) => event.id !== eventId)
+        prevEvents.filter((event) => event.id !== eventId),
       );
       setDeleteDialogOpen(false);
       // console.log(`Deleting event with ID: ${eventId}`);
@@ -122,22 +122,19 @@ export default function OrganizerEventsPage() {
     }
   };
   const getEvents = async () => {
- try {
-        setloading(true);
-        const response= await getAllEvents();
-        // console.log(response.data.data.result);
-        setEvents(response.data.data.result);
+    try {
+      setloading(true);
+      const response = await getAllEvents();
+      // console.log(response.data.data.result);
+      setEvents(response.data.data.result);
     } catch (error) {
-           const message =
-        error.response?.data?.message || "Something went wrong";
+      const message = error.response?.data?.message || "Something went wrong";
       setDialogMessage(message);
       setopenDialog(true);
-    }
-    finally {
+    } finally {
       setloading(false);
     }
-
-  }
+  };
   useEffect(() => {
     getEvents();
   }, []);
@@ -165,7 +162,7 @@ export default function OrganizerEventsPage() {
                 <img
                   src={event.bannerUrl}
                   alt={event.title}
-                  crossOrigin= "anonymous"
+                  crossOrigin="anonymous"
                   className="h-full w-full overflow-hidden rounded-l-xl"
                 />
                 <p className="p-4 text-xl font-medium">{event.title}</p>
@@ -190,7 +187,7 @@ export default function OrganizerEventsPage() {
                 </p> */}
                 <p className="p-4 flex gap-2 h-20 justify-center items-center">
                   <Trash
-                  size={60}
+                    size={60}
                     fill="red"
                     color="red"
                     onClick={() => {
@@ -201,7 +198,6 @@ export default function OrganizerEventsPage() {
                   />{" "}
                   <Pencil
                     color="green"
-                    
                     onClick={() => {
                       setUpdateDialogOpen(true);
                       setSelectedEvent(event);
@@ -250,8 +246,14 @@ export default function OrganizerEventsPage() {
           event={selectedEvent}
         />
       )}
-            {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
-              {loading && <Loading />}
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          message={dialogMessage}
+          onClose={() => setopenDialog(false)}
+        />
+      )}
+      {loading && <Loading />}
     </div>
   );
 }

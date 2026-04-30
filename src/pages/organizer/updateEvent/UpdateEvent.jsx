@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { ArrowLeft, Plus } from "lucide-react";
 import { getEvents } from "../../../APIs/eventApis";
 import { Title } from "react-head";
@@ -10,22 +10,22 @@ import SessionForm from "../../../components/Layout/CreateEventSessionForm";
 import LocationPicker from "../../../components/Layout/LocationPicker";
 import { updateEvent } from "../../../APIs/organizerApis";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
+import useAppNavigate from "../../../Router/useAppNavigate";
 
 export default function UpdateEvent() {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const [event, setEvent] = useState({});
   const [loading, setloading] = useState(false);
   const [position, setPosition] = useState();
   const [details, setDetails] = useState(null);
   const [errors, setErrors] = useState({});
-  const [openDialog,setopenDialog] = useState(false);
-  const [dialogMessage,setDialogMessage] = useState("");
+  const [openDialog, setopenDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
 
-  const { categories, findCategoryById ,loading: catLoading } = useCategories();
+  const { categories, findCategoryById, loading: catLoading } = useCategories();
 
   const { state } = useLocation();
   const eventData = state?.event || {};
-
 
   const onFile = (e) => {
     const file = e.target.files[0];
@@ -33,13 +33,13 @@ export default function UpdateEvent() {
     if (!file) return;
     const preview = URL.createObjectURL(file);
 
-    setEvent(prev=>({ ...prev, bannerUrl: file, preview }));
+    setEvent((prev) => ({ ...prev, bannerUrl: file, preview }));
   };
 
   const validate = () => {
     const newErrors = {};
 
-    if (!event?.title?.trim())  newErrors.title = "Event title is required.";
+    if (!event?.title?.trim()) newErrors.title = "Event title is required.";
     // if (!event.category) newErrors.category = "Please select a category.";
     if (!event?.description?.trim())
       newErrors.description = "Event description is required.";
@@ -48,9 +48,9 @@ export default function UpdateEvent() {
     if (!position) newErrors.location = "Location is required.";
 
     if (!details) {
-      setErrors(s => ({ ...s, location: "Location details are missing" }));
-    return;
-}
+      setErrors((s) => ({ ...s, location: "Location details are missing" }));
+      return;
+    }
     // // Sessions validation
     // event.sessions.forEach((session, i) => {
     //   if (!session.date) newErrors[`session_date_${i}`] = "Date is required.";
@@ -89,14 +89,9 @@ export default function UpdateEvent() {
         window.scrollTo({ top: 0, behavior: "smooth" });
         return;
       }
-      const locationKey = possibleNames.find(
-  (key) => details?.[key]
-);
+      const locationKey = possibleNames.find((key) => details?.[key]);
 
-    const locationName = locationKey
-      ? details[locationKey]
-      : "name";
-
+      const locationName = locationKey ? details[locationKey] : "name";
 
       // console.log("details111", details);
       // console.log("event111", event);
@@ -128,7 +123,7 @@ export default function UpdateEvent() {
       for (let i = 0; i < event?.eventSessions?.length; i++) {
         fd.append(
           `sessions[${i}][startDate]`,
-          event?.eventSessions[i]?.startDate
+          event?.eventSessions[i]?.startDate,
         );
         fd.append(`sessions[${i}][endDate]`, event.eventSessions[i].endDate);
       }
@@ -159,7 +154,7 @@ export default function UpdateEvent() {
       for (let pair of fd.entries()) {
         // console.log(pair[0], pair[1]);
       }
-      console.log(fd)
+      console.log(fd);
       const response = await updateEvent(fd, eventData.id);
       // console.log("update response", response);
 
@@ -169,17 +164,16 @@ export default function UpdateEvent() {
       setDialogMessage(message);
       setopenDialog(true);
       console.error(error);
-    }
-    finally {
+    } finally {
       setloading(false);
     }
   };
   async function urlToFile(url, filename) {
-  const res = await fetch(url);
-  const blob = await res.blob();
+    const res = await fetch(url);
+    const blob = await res.blob();
 
-  return new File([blob], filename, { type: blob.type });
-}
+    return new File([blob], filename, { type: blob.type });
+  }
 
   const handleLoadEvents = async () => {
     try {
@@ -188,9 +182,12 @@ export default function UpdateEvent() {
       const id = urlParams.get("id");
       const response = await getEvents({ id: id });
       // console.log("cat ID:",response.data.data.event.categoryId );
-      
+
       const cat = findCategoryById(response.data.data.event.categoryId);
-      const oldFile = await urlToFile(response.data.data.event.bannerUrl, "no-updatedImage.png");
+      const oldFile = await urlToFile(
+        response.data.data.event.bannerUrl,
+        "no-updatedImage.png",
+      );
       const preview = URL.createObjectURL(oldFile);
       // console.log(oldFile)
       // console.log("category", cat);
@@ -202,7 +199,12 @@ export default function UpdateEvent() {
       setDetails(response.data.data.event.venue);
       // console.log(response.data.data);
       setEvent(response.data.data.event);
-      setEvent((s) => ({ ...s, category: cat?.name || "" , bannerUrl: oldFile, preview: preview}));
+      setEvent((s) => ({
+        ...s,
+        category: cat?.name || "",
+        bannerUrl: oldFile,
+        preview: preview,
+      }));
       // console.log(event)
       setloading(false);
     } catch (error) {
@@ -210,18 +212,16 @@ export default function UpdateEvent() {
       setDialogMessage(message);
       setopenDialog(true);
       // console.log(error);
-    }
-    finally {
+    } finally {
       setloading(false);
     }
   };
 
   useEffect(() => {
-    if(!catLoading) {
-      
+    if (!catLoading) {
       handleLoadEvents();
     }
-  }, [ catLoading]);
+  }, [catLoading]);
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -236,8 +236,6 @@ export default function UpdateEvent() {
         </button>
         <h1 className="text-5xl font-semibold ">Update New Event</h1>
       </div>
-
-
 
       {/* Event Title & Category */}
       <label className="mb-3 flex gap-3 items-center">
@@ -271,7 +269,6 @@ export default function UpdateEvent() {
               {category.name}
             </option>
           ))}
-
         </select>
       </label>
       {errors.category && (
@@ -429,7 +426,13 @@ export default function UpdateEvent() {
           Update Event
         </button>
       </div>
-      {openDialog &&<ErrorDialog open={openDialog} onClose={()=>setopenDialog(false)} message={dialogMessage}/>}
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          onClose={() => setopenDialog(false)}
+          message={dialogMessage}
+        />
+      )}
     </div>
   );
 }

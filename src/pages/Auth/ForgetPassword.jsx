@@ -1,24 +1,24 @@
 import { Mail, X, XCircle } from "lucide-react";
 import { useState } from "react";
 import { validateForgetPassword } from "../../utils/FormVaildators";
-import { Link, useNavigate } from "react-router-dom";
 import { frogetPassword } from "../../APIs/authAPIs";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import Loading from "../../components/Layout/LoadingLayout";
+import LocalLink from "../../Router/LocalLink";
 
 function ForgetPassword() {
   const [email, setemail] = useState("");
   const [error, setError] = useState({});
   // const [showDialog, setShowDialog] = useState(false);
   // const [dialogMessage, setDialogMessage] = useState("");
-    const [openDialog, setopenDialog] = useState(false);
+  const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setloading] = useState(false);
   const closeDialog = () => {
     setShowDialog(false);
     setDialogMessage("");
   };
-  const navigator = useNavigate();
+  const navigator = useAppNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
@@ -35,12 +35,10 @@ function ForgetPassword() {
 
       navigator("/forget-password/back");
     } catch (err) {
-      const message =
-        error.response?.data?.message || "Something went wrong";
+      const message = error.response?.data?.message || "Something went wrong";
       setDialogMessage(message);
       setopenDialog(true);
-    }
-    finally {
+    } finally {
       setloading(false);
     }
   };
@@ -107,12 +105,12 @@ function ForgetPassword() {
             </button>
             <p className="text-gray-600 text-sm font-medium text-center">
               Remember your password? &nbsp;
-              <Link
+              <LocalLink
                 className="text-sm font-medium text-primary hover:underline text-center"
                 to="/login"
               >
                 Back to login
-              </Link>
+              </LocalLink>
             </p>
           </div>
         </div>
@@ -132,8 +130,14 @@ function ForgetPassword() {
         </div>
       )} */}
 
-            {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
-              {loading &&<Loading />}
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          message={dialogMessage}
+          onClose={() => setopenDialog(false)}
+        />
+      )}
+      {loading && <Loading />}
     </div>
   );
 }

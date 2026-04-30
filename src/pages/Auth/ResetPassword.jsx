@@ -2,10 +2,10 @@ import { Mail, XCircle } from "lucide-react";
 import { useState } from "react";
 import { validateResetPassword } from "../../utils/FormVaildators";
 import PasswordInput from "../../components/UI/PasswordInput";
-import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../../APIs/authAPIs";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import Loading from "../../components/Layout/LoadingLayout";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function ResetPassword() {
   const [errors, setErrors] = useState({});
@@ -14,7 +14,7 @@ function ResetPassword() {
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setloading] = useState();
-  const navigator = useNavigate();
+  const navigator = useAppNavigate();
 
   const urlPrams = new URLSearchParams(window.location.search);
   const email = urlPrams.get("email");
@@ -25,22 +25,22 @@ function ResetPassword() {
     const values = { password, confirmPassword };
     const validationErrors = validateResetPassword(values);
     if (Object.keys(validationErrors).length > 0) {
+      setDialogMessage(
+        validationErrors.password || validationErrors.confirmPassword,
+      );
 
-        setDialogMessage(validationErrors.password||validationErrors.confirmPassword);
-
-        setopenDialog(true);
+      setopenDialog(true);
       return;
     } else {
       try {
-        setloading(true)
+        setloading(true);
         await resetPassword(values.password, email, token);
         navigator("/login");
       } catch (error) {
         const message = error.response?.data?.message || "Something went wrong";
         setDialogMessage(message);
         setopenDialog(true);
-      }
-      finally{
+      } finally {
         setloading(false);
       }
     }

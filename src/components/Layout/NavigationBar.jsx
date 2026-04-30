@@ -5,24 +5,27 @@ import TicketIcon from "../Icons/TicketIcon";
 import ProfileIcon from "../Icons/ProfileIcon";
 // import { useAuth } from "../../Hooks/useAuth";
 import { useUser } from "../../Context/AuthProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   getAccessToken,
   // refreshAccessToken,
   removeTokens,
 } from "../../services/cookieTokenService";
-import { logout ,refreshToken } from "../../APIs/authAPIs";
+import { logout, refreshToken } from "../../APIs/authAPIs";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { becomeOrganizer } from "../../APIs/userAPIs";
+import { becomeOrganizer, getWalletBalance } from "../../APIs/userAPIs";
 import { useTranslation } from "react-i18next";
-
-
+import useAppNavigate from "../../Router/useAppNavigate";
 function NavigationBar({ backGround = "primary" }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [UserBalance, setUserBalance] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
-  const navigate = useNavigate();
-  const {t,i18n} =useTranslation();
+  const navigate = useAppNavigate();
+  const navigateTo = useNavigate();
+  const location = useLocation();
+  const { t, i18n } = useTranslation();
+  const {lang} =useParams();
 
   const { user, updateUser } = useUser();
 
@@ -41,6 +44,7 @@ function NavigationBar({ backGround = "primary" }) {
   };
   useEffect(() => {
     try {
+
       // console.log(user);
       // console.log(user)
       const accessToken = getAccessToken();
@@ -54,21 +58,50 @@ function NavigationBar({ backGround = "primary" }) {
     }
   }, []);
 
-  const handleBecomeOrganizer = async () => {
-    try {
-      const response = await becomeOrganizer();
-      const newUser = { ...user, role: "organizer" };
-      updateUser(newUser);
-        // console.log(user);
-      // const newtoken = await refreshToken();
-      // refreshAccessToken(newtoken.data);
-      // window.location.reload();
-      // console.log("response", response);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
+  // const handleBecomeOrganizer = async () => {
+  //   try {
+  //     const response = await becomeOrganizer();
+  //     const newUser = { ...user, role: "organizer" };
+  //     updateUser(newUser);
+  //     // console.log(user);
+  //     // const newtoken = await refreshToken();
+  //     // refreshAccessToken(newtoken.data);
+  //     // window.location.reload();
+  //     // console.log("response", response);
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // };
+  const handleChangeLanguage = (language) => {
+    console.log(language)
+    console.log("now",i18n.language)
+    i18n.changeLanguage(language);
+    localStorage.setItem("lang", language);
+   const newPath = location.pathname.replace(`/${lang}`, "");
 
+    navigateTo({
+      pathname: `/${language}${newPath}`,
+      search: location.search,
+      hash: location.hash
+    });
+    window.location.reload();
+    console.log("after",i18n.language)
+
+  };
+  const getUserWalletBalance = async() => {
+
+  try {
+   const response = await getWalletBalance().then((res) => res.data.data);
+   console.log("userBalance:",response?.balance);
+   setUserBalance(response?.balance);
+
+  } catch (error) {
+    console.log(error.response)
+  }
+};
+  useEffect(() => {
+    getUserWalletBalance();
+  }, []);
   return (
     <>
       <nav
@@ -92,14 +125,13 @@ function NavigationBar({ backGround = "primary" }) {
             {/* === 1/4: Menu Items === */}
             <div className="hidden lg:flex w-2/4 justify-center font-semibold text-lg">
               <ul className="flex justify-between w-full text-white">
-
-                <li className="text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1">
+                <li className={`text-center hover:text-gray-300 cursor-pointer ${lang==='ar'? '':'border-r border-gray-400'} flex-1`}>
                   <a href="#">Events</a>
                 </li>
-                <li className="text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1">
+                <li className={`text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1`}>
                   <a href="#">Categories</a>
                 </li>
-                <li className="text-center hover:text-gray-300 cursor-pointer flex-1">
+                <li className={`text-center hover:text-gray-300 cursor-pointer ${lang==='en'? '':'border-r border-gray-400'} flex-1`}>
                   <a href="#">Calendar</a>
                 </li>
               </ul>
@@ -107,15 +139,19 @@ function NavigationBar({ backGround = "primary" }) {
 
             {/* === 1/4: Language Buttons === */}
             <div className="hidden lg:flex w-1/8 justify-center items-center space-x-4">
-              <button 
-              onClick={() => i18n.changeLanguage("ar")}
-              className={`text-white hover:text-gray-300 font-bold text-xl hover:cursor-pointer `}>
+              <button
+                disabled={lang === "ar"}
+                onClick={() => handleChangeLanguage("ar")}
+                className={`text-white  ${lang === 'ar' ? 'font-extrabold underline text-xl hover:cursor-not-allowed': 'font-bold text-xl hover:cursor-pointer hover:text-gray-300'} `}
+              >
                 AR
               </button>
               <span className="text-white text-2xl">|</span>
-              <button 
-              onClick={() => i18n.changeLanguage("en")}
-              className={`text-white hover:text-gray-300 font-bold text-xl hover:cursor-pointer mr-2`}>
+              <button
+              disabled={lang === "en"}
+                onClick={() => handleChangeLanguage("en")}
+                className={`text-white ${lang === 'en' ? 'font-extrabold underline text-xl hover:cursor-not-allowed': 'font-bold text-xl hover:cursor-pointer hover:text-gray-300'}  mr-2`}
+              >
                 EN
               </button>
             </div>
@@ -124,17 +160,19 @@ function NavigationBar({ backGround = "primary" }) {
 
             {user.role === "user" || user.role === "organizer" ? (
               <div className="text-white flex items-center gap-6">
-                <button 
-                onClick={()=>navigate(`/tickets`)}
-                className="hidden md:flex flex-col items-center text-sm cursor-pointer">
+                <button
+                  onClick={() => navigate(`/tickets`)}
+                  className="hidden md:flex flex-col items-center text-sm cursor-pointer"
+                >
                   <TicketIcon />
 
                   <span>Tickets</span>
                 </button>
 
-                <button 
-                onClick={()=>navigate(`/interested`)}
-                className="hidden md:flex flex-col items-center text-sm cursor-pointer">
+                <button
+                  onClick={() => navigate(`/interested`)}
+                  className="hidden md:flex flex-col items-center text-sm cursor-pointer"
+                >
                   <Heart size={30} />
                   <span>Interested</span>
                 </button>
@@ -154,9 +192,17 @@ function NavigationBar({ backGround = "primary" }) {
 
                   {openProfile && (
                     <div className="absolute right-0 mt-2 bg-white text-black shadow-lg rounded-lg w-48  z-20 ">
-                      <button 
-                      onClick={()=>{navigate(`/profile/${user.id}`)}}
-                      className="w-full text-left px-4 py-3 hover:bg-gray-200 transition duration-300 rounded-t-lg cursor-pointer">
+                      <button
+                        className="w-full flex justify-between text-left px-4 py-3 border-b border-gray-200 rounded-t-lg "
+                      >
+                        <span>Wallet</span> <span>{UserBalance || 0} EGP</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigate(`/profile/${user.id}`);
+                        }}
+                        className="w-full text-left px-4 py-3 hover:bg-gray-200 transition duration-300  cursor-pointer"
+                      >
                         Profile
                       </button>
                       <button
@@ -169,14 +215,16 @@ function NavigationBar({ backGround = "primary" }) {
 
                       {user.role === "user" ? (
                         <button
-                          onClick={()=>navigate("/organizer/upgrade")}
+                          onClick={() => navigate("/organizer/upgrade")}
                           className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
                         >
                           Upgrade to organizer
                         </button>
                       ) : (
                         <button
-                          onClick={() => navigate("/organizer/dashboard/overview")}
+                          onClick={() =>
+                            navigate("/organizer/dashboard/overview")
+                          }
                           className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
                         >
                           Go to Dashboard
@@ -236,12 +284,7 @@ function NavigationBar({ backGround = "primary" }) {
           {/* === Mobile Dropdown === */}
           {isOpen && (
             <div className="lg:hidden px-4 pb-4 space-y-2">
-              <a
-                href="#"
-                className="block text-white font-semibold hover:text-gray-300 mb-2 border-b py-3 border-white/30"
-              >
-                Explore
-              </a>
+             
               <a
                 href="#"
                 className="block text-white font-semibold hover:text-gray-300 mb-2 border-b py-3 border-white/30"

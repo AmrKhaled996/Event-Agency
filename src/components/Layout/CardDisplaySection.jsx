@@ -3,8 +3,8 @@ import Card from "../UI/Card";
 import { useUser } from "../../Context/AuthProvider";
 import { latestEvents } from "../../APIs/homeApis";
 import Loading from "./LoadingLayout";
-import { useNavigate } from "react-router-dom";
 import CardSkeleton from "../UI/CardSkeleton";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 // const mockCards = [
 //   {
@@ -55,7 +55,7 @@ function CardDisplaySection({ title, endpoint }) {
   const [cards, setcards] = useState([]);
   const { user } = useUser();
   // const [loading, setloading] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
 
   const handleEndpoint = async () => {
     try {
@@ -63,14 +63,14 @@ function CardDisplaySection({ title, endpoint }) {
       const response = await endpoint();
       const newcards = response.data.data;
       if (newcards.events.length === 0) {
-        setcards('No events found');
+        setcards("No events found");
         return;
       }
       console.log(title, "    ", response.data.data);
       setcards(newcards.events);
       // setloading(false);
     } catch (error) {
-      console.log("error" ,error.response)
+      console.log("error", error.response);
     }
   };
 
@@ -88,27 +88,34 @@ function CardDisplaySection({ title, endpoint }) {
     <div className="  md:ml-10 md:mr-10 md:px-10 px-2 mt-20">
       <h1 className=" text-3xl  font-bold mb-5 ml-10 ">{title}</h1>
       <div className="grid grid-cols-1 gap-x-6 gap-y-10 items-center sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8 ">
-        {cards.length > 0
-          ? ( cards==='No events found' ? (<div
-              className="col-span-full text-center text-gray-500 pt-10 pb-2">
-            {cards}</div>) : cards.map((card, index) => {
-            return(
-              <Card
-                key={index}
-                bannerUrl={`${card?.bannerUrl}`}
-                title={card?.title}
-                description={card?.description}
-                date={card?.date}
-                price={card?.ticketTypes || []}
-                views={card?.viwes}
-                id={card?.id}
-                slug={card?.slug}
-                sessions={card?.eventSessions || []}
-                isInterested={card?.isInterested}
-                crossOrigin="anonymous"
-              />);
-            }))
-          : ([1, 2, 3, 4, 5, 6].map((temp,index) => <CardSkeleton key={index} />))}
+        {cards.length > 0 ? (
+          cards === "No events found" ? (
+            <div className="col-span-full text-center text-gray-500 pt-10 pb-2">
+              {cards}
+            </div>
+          ) : (
+            cards.map((card, index) => {
+              return (
+                <Card
+                  key={index}
+                  bannerUrl={`${card?.bannerUrl}`}
+                  title={card?.title}
+                  description={card?.description}
+                  date={card?.date}
+                  price={card?.ticketTypes || []}
+                  views={card?.viwes}
+                  id={card?.id}
+                  slug={card?.slug}
+                  sessions={card?.eventSessions || []}
+                  isInterested={card?.isInterested}
+                  crossOrigin="anonymous"
+                />
+              );
+            })
+          )
+        ) : (
+          [1, 2, 3, 4, 5, 6].map((temp, index) => <CardSkeleton key={index} />)
+        )}
       </div>
       <div className="w-full flex justify-center ">
         <button

@@ -3,13 +3,13 @@ import { Check } from "lucide-react";
 import AuthHeaderSection from "../../components/UI/AuthHeaderSection";
 import ProgressBar from "../../components/UI/progressBar";
 import { Title } from "react-head";
-import { useNavigate } from "react-router-dom";
 import ButtonOnBoarding from "../../components/UI/ButtonOnBoarding";
 import { preferences } from "../../APIs/onboardingAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import { categories } from "../../APIs/homeApis";
 import { useCategories } from "../../Context/CategoriesProvider";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 // const mockcategories = [
 //   { label: "Entertainment", image: "images/Entertainment.jpg" },
@@ -21,16 +21,16 @@ function PreferenceSelection() {
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
   // const [providedcategories, setCategories] = useState(mockcategories);
-    const [openDialog, setopenDialog] = useState(false);
+  const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const { categories } = useCategories();
-  const navigator = useNavigate();
+  const navigator = useAppNavigate();
 
   const toggle = (item) => {
     setSelected((prev) =>
       prev.includes(item.name)
         ? prev.filter((c) => c !== item.name)
-        : [...prev, item.name]
+        : [...prev, item.name],
     );
   };
 
@@ -51,8 +51,7 @@ function PreferenceSelection() {
     } catch (error) {
       console.log("error", error);
 
-      const message =
-        error.response?.data?.message || "Something went wrong";
+      const message = error.response?.data?.message || "Something went wrong";
       setDialogMessage(message);
       setopenDialog(true);
       console.error(message);
@@ -122,7 +121,13 @@ function PreferenceSelection() {
         submit={submitPreference}
         data={selected.length === 0 ? null : selected}
       />
-            {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          message={dialogMessage}
+          onClose={() => setopenDialog(false)}
+        />
+      )}
       {loading && <Loading />}
     </>
   );

@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import ProgressBar from "../../components/UI/progressBar";
 import { Title } from "react-head";
 import { getStatus } from "../../APIs/onboardingAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import { useState } from "react";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function CompleteResister() {
   const [loading, setLoading] = useState(false);
-  const navigator = useNavigate();
+  const navigator = useAppNavigate();
 
   const goToHome = async () => {
     try {

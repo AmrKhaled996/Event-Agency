@@ -4,11 +4,11 @@ import CustomDateInput from "../../components/UI/CustemDateInput";
 import AuthHeaderSection from "../../components/UI/AuthHeaderSection";
 
 import genderRadio from "../../utils/genderRadio";
-import {  useNavigate } from "react-router-dom";
 import ButtonOnBoarding from "../../components/UI/ButtonOnBoarding";
 import { basic } from "../../APIs/onboardingAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function PersonlityinfoQ() {
   const [gender, setGender] = useState();
@@ -16,10 +16,10 @@ function PersonlityinfoQ() {
   // const [showDialog, setShowDialog] = useState(false);
   // const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-    const [openDialog, setopenDialog] = useState(false);
+  const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
 
-  const navigator = useNavigate();
+  const navigator = useAppNavigate();
   // const location = useLocation();
 
   const submitInfo = async (e) => {
@@ -44,8 +44,7 @@ function PersonlityinfoQ() {
       navigator("/onboarding/location-selection");
     } catch (error) {
       console.log("error", error);
-      const message =
-        error.response?.data?.message || "Something went wrong";
+      const message = error.response?.data?.message || "Something went wrong";
       setDialogMessage(message);
       setopenDialog(true);
     } finally {
@@ -109,7 +108,13 @@ function PersonlityinfoQ() {
 
       {/* Buttons */}
       <ButtonOnBoarding submit={submitInfo} data={gender && date} />
-            {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          message={dialogMessage}
+          onClose={() => setopenDialog(false)}
+        />
+      )}
       {loading && <Loading />}
     </>
   );

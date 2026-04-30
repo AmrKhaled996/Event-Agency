@@ -210,7 +210,7 @@ function DisplayUserTickets() {
             />
           )}
         </div>
-       { (!loading && tickets == null) && <p className="text-gray-500 text-center w-full min-h-[50vh] flex items-center justify-center">No tickets found.</p> }
+       { (  tickets?.length === 0&&!loading  ) && <p className="text-gray-500 text-center w-full min-h-[50vh] flex items-center justify-center">No tickets found.</p> }
       </div>
       {openErrorDialog && (
         <ErrorDialog

@@ -1,14 +1,18 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProgressBar from "../../components/UI/progressBar";
 import { useState } from "react";
 import CreateEventProgressBar from "../../components/UI/CreateEventProgressBar";
 import { useEventForm } from "../../Context/EventPovider";
 import { Title } from "react-head";
+import useAppNavigate from "../../Router/useAppNavigate";
+import LocalLink from "../../Router/LocalLink";
 
 function CreateEventBanner() {
   const { formData, updateForm } = useEventForm();
-  const navigate = useNavigate();
-  const [fileInfo, setFileInfo] = useState(formData.banner || { file: null, preview: null });
+  const navigate = useAppNavigate();
+  const [fileInfo, setFileInfo] = useState(
+    formData.banner || { file: null, preview: null },
+  );
   const onFile = (e) => {
     const f = e.target.files[0];
     if (!f) return;
@@ -57,9 +61,9 @@ function CreateEventBanner() {
       )}
 
       <div className="flex justify-between">
-        <Link to= {'/organizer/create-event/basics'} className="text-gray-600">
+        <LocalLink to={"/organizer/create-event/basics"} className="text-gray-600">
           Go back to Edit Event info
-        </Link >
+        </LocalLink>
         <button
           disabled={!fileInfo.file}
           onClick={handleNext}

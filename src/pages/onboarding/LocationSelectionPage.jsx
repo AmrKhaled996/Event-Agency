@@ -3,11 +3,11 @@ import ProgressBar from "../../components/UI/progressBar";
 import AuthHeaderSection from "../../components/UI/AuthHeaderSection";
 import locationOptions from "../../utils/LocationOptions";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ButtonOnBoarding from "../../components/UI/ButtonOnBoarding";
 import { location } from "../../APIs/onboardingAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function LocationSelection() {
   const [Location, setLocation] = useState("");
@@ -15,7 +15,7 @@ function LocationSelection() {
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
 
-  const navigator = useNavigate();
+  const navigator = useAppNavigate();
   const submitLocation = async (e) => {
     e.preventDefault();
     // console.log(Location);
@@ -35,8 +35,7 @@ function LocationSelection() {
     } catch (error) {
       console.log("error", error);
 
-      const message =
-        error.response?.data?.message || "Something went wrong";
+      const message = error.response?.data?.message || "Something went wrong";
       setDialogMessage(message);
       setopenDialog(true);
     } finally {
@@ -74,7 +73,13 @@ function LocationSelection() {
       {/* Buttons */}
       <ButtonOnBoarding submit={submitLocation} data={Location} />
 
-      {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          message={dialogMessage}
+          onClose={() => setopenDialog(false)}
+        />
+      )}
       {loading && <Loading />}
     </>
   );

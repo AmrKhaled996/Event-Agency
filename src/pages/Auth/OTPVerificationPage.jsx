@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Title } from "react-head";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { useAuth } from "../../Hooks/useAuth";
 import { validateOTP } from "../../utils/FormVaildators";

@@ -4,6 +4,7 @@ import { useCategories } from "../../Context/CategoriesProvider";
 import { useState } from "react";
 import { subscribeToNewsletter } from "../../APIs/newsletterAPIs";
 import Loading from "./LoadingLayout";
+import LocalLink from "../../Router/LocalLink";
 
 export default function Footer() {
   const {categories} = useCategories();
@@ -66,12 +67,12 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">Company Info</h3>
           <ul className="space-y-2 text-white/90">
-            <li><Link to="" className="hover:text-white">About Us</Link></li>
-            <li><Link to="" className="hover:text-white">Contact Us</Link></li>
-            <li><Link to="" className="hover:text-white">Careers</Link></li>
-            <li><Link to="" className="hover:text-white">FAQs</Link></li>
-            <li><Link to="" className="hover:text-white">Terms of Service</Link></li>
-            <li><Link to="" className="hover:text-white">Privacy Policy</Link></li>
+            <li><LocalLink to="" className="hover:text-white">About Us</LocalLink></li>
+            <li><LocalLink to="" className="hover:text-white">Contact Us</LocalLink></li>
+            <li><LocalLink to="" className="hover:text-white">Careers</LocalLink></li>
+            <li><LocalLink to="" className="hover:text-white">FAQs</LocalLink></li>
+            <li><LocalLink to="" className="hover:text-white">Terms of Service</LocalLink></li>
+            <li><LocalLink to="" className="hover:text-white">Privacy Policy</LocalLink></li>
           </ul>
         </div>
 
@@ -79,10 +80,10 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">Help</h3>
           <ul className="space-y-2 text-white/90">
-            <li><Link to="" className="hover:text-white">Account Support</Link></li>
-            <li><Link to="" className="hover:text-white">Listing Events</Link></li>
-            <li><Link to="" className="hover:text-white">Event Ticketing</Link></li>
-            <li><Link to="" className="hover:text-white">Ticket Purchase Terms & Conditions</Link></li>
+            <li><LocalLink to="" className="hover:text-white">Account Support</LocalLink></li>
+            <li><LocalLink to="" className="hover:text-white">Listing Events</LocalLink></li>
+            <li><LocalLink to="" className="hover:text-white">Event Ticketing</LocalLink></li>
+            <li><LocalLink to="" className="hover:text-white">Ticket Purchase Terms & Conditions</LocalLink></li>
           </ul>
         </div>
 
@@ -91,7 +92,7 @@ export default function Footer() {
           <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">Categories</h3>
           <ul className="space-y-2 text-white/90">
             {categories.length <5 ? categories.map((category) => (
-              <li key={category.name}><Link to={`/events?category=${category.name}`} className="hover:text-white">{category.name}</Link></li>
+              <li key={category.name}><LocalLink to={`/events?category=${category.name}`} className="hover:text-white">{category.name}</LocalLink></li>
             )):
               <li><Link to="/categories" className="hover:text-white font-semibold text-xl ">All Categories</Link></li>
             }

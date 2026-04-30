@@ -322,7 +322,7 @@
 //   const [errors, setErrors]       = useState({});
 //   const [socialErrors, setSocialErrors] = useState({});
 //   const [submitted, setSubmitted] = useState(false);
-//   const navigate = useNavigate();
+//   const navigate = useAppNavigate();
 
 //   const handleChange = (id, value) => {
 //     setFormData((prev) => ({ ...prev, [selected]: { ...prev[selected], [id]: value } }));
@@ -386,8 +386,6 @@
 //     }
 //   };
 
-
-
 //   const currentFields = fields[selected];
 
 //   if (submitted) {
@@ -408,7 +406,7 @@
 
 //   return (
 //     <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-8">
-//         <button 
+//         <button
 //         onClick={()=> navigate('/')}
 //         className=" w-12 h-12 rounded-full flex items-center justify-center bg-slate-200 hover:bg-slate-300">
 //           <ArrowLeft size={20}  className="text-slate-900"/>
@@ -434,8 +432,6 @@
 //           <h1 className="text-2xl font-medium text-gray-900">Personal Information</h1>
 //           <p className="text-sm text-gray-400 mt-1">{subtitles[selected]}</p>
 //         </div>
-
-
 
 //         <div className="grid grid-cols-2 gap-x-4 gap-y-5">
 //           {currentFields.map((field) => {

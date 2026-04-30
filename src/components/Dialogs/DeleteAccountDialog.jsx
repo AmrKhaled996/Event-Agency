@@ -1,16 +1,17 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Dialog from "../UI/Dialog";
 import PasswordInput from "../UI/PasswordInput";
 import { deleteMyProfile } from "../../APIs/profileAPI";
 import { removeTokens } from "../../services/cookieTokenService";
+import useAppNavigate from "../../Router/useAppNavigate";
+
 
 export default function DeleteAccountDialog({ open, onClose }) {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
 
   const handleDeleteAccount = async () => {
     // ✅ validate password input
@@ -68,9 +69,7 @@ export default function DeleteAccountDialog({ open, onClose }) {
         errors={error}
       />
 
-      {error && (
-        <small className="text-red-400 m-2 block">{error}</small>
-      )}
+      {error && <small className="text-red-400 m-2 block">{error}</small>}
 
       <div className="flex justify-end gap-2 mt-6">
         <button

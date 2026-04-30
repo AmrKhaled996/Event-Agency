@@ -4,15 +4,16 @@ import FacebookLogo from "../../components/Icons/FacebookLogo";
 
 import SignUpFormOrganizerUser from "../../components/Layout/SignUpFormOrganizerUser";
 import { Meta, Title } from "react-head";
-import { Link, useNavigate } from "react-router-dom";
 import SignUpFormAttendeeUser from "../../components/Layout/SignUpFormAttendeeUser";
 import Loading from "../../components/Layout/LoadingLayout";
+import LocalLink from "../../Router/LocalLink";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function SignUpPage() {
   // const [userRole, setUserRole] = useState("attendee");
   const [loading, setLoading] = useState(null);
-  
-  const navigator = useNavigate();
+
+  const navigator = useAppNavigate();
 
   // const handleSubmitedData = (data) => {
   //   const { userName, Email, Password } = data;
@@ -59,28 +60,31 @@ function SignUpPage() {
         <h2 className="text-transparent bg-linear-to-b from-secandry  to-[#FF8370] bg-clip-text md:text-5xl text-4xl font-bold mb-5 mt-5 h-15">
           Create Account
         </h2>
-   
-          <SignUpFormAttendeeUser loadingpage={setLoading}/>
+
+        <SignUpFormAttendeeUser loadingpage={setLoading} />
 
         <p className="mt-2 mb-6 text-gray-600 text-center">
           Already have an account? &nbsp;
-          <Link
+          <LocalLink
             to={"/login"}
             className="text-secandry font-semibold hover:underline"
           >
             Login
-          </Link>
+          </LocalLink>
         </p>
       </div>
-      {loading &&<Loading/>}
+      {loading && <Loading />}
     </div>
   );
 }
 
 export default SignUpPage;
 
-        {/* Select Role Buttons */}
-         {/* <div className="flex space-x-4 mb-6">
+{
+  /* Select Role Buttons */
+}
+{
+  /* <div className="flex space-x-4 mb-6">
           <button
             className={`h-28 flex-1 border-2 border-gray-300 rounded-2xl py-2 flex flex-col justify-center i lg:ify-cestarttems-center gap-0.5 md:gap-2 hover:bg-gray-50 transition hover:cursor-pointer ${
               userRole === "attendee"
@@ -119,27 +123,31 @@ export default SignUpPage;
                 // } `}
             // onClick={() => setUserRole("organizer")}
           // >
-        //     <h2*/}
-              {/* className={`text-xl md:text-2xl font-bold   */}
-        {/* //         userRole === "organizer"
+        //     <h2*/
+}
+{
+  /* className={`text-xl md:text-2xl font-bold   */
+}
+{
+  /* //         userRole === "organizer"
         //           ? "text-white"
         //           : /* soon*/
-        //             "text-transparent bg-linear-to-b from-secandry  to-[#FF8370] bg-clip-text"
-        //             "text-gray-400 cursor-not-allowed"
-        //       }`}
-        //     >
-        //       Organizer
-        //     </h2>
-        //     <p */}
-        //       className={` ${
-        //         userRole === "organizer" ? "text-gray-200" : "text-gray-500"
-        //       }`}
-        //     >
-        //       list and host your amazing events, parties
-        //     </p>
-        //   </button>
-        // </div>
-        // {/* divider */}
-        // <hr className=" mb-5" /> */}
-        // {/* Create Account attendee or organizer */
-        }
+  //             "text-transparent bg-linear-to-b from-secandry  to-[#FF8370] bg-clip-text"
+  //             "text-gray-400 cursor-not-allowed"
+  //       }`}
+  //     >
+  //       Organizer
+  //     </h2>
+  //     <p */}
+  //       className={` ${
+  //         userRole === "organizer" ? "text-gray-200" : "text-gray-500"
+  //       }`}
+  //     >
+  //       list and host your amazing events, parties
+  //     </p>
+  //   </button>
+  // </div>
+  // {/* divider */}
+  // <hr className=" mb-5" /> */}
+  // {/* Create Account attendee or organizer */
+}

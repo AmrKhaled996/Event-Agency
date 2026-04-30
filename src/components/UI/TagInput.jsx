@@ -4,15 +4,15 @@ import { useState, useRef } from "react";
 const MAX_TAGS = 10;
 const MAX_WORDS = 3;
 
-export default function TagInput({ tags = [], onChange }) {
+export default function TagInput({ tags = [], setTags }) {
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
   const inputRef = useRef(null);
 
-  const internalTags = onChange ? tags : undefined;
+  const internalTags = setTags ? tags : undefined;
   const [localTags, setLocalTags] = useState([]);
-  const activeTags = onChange ? tags : localTags;
-  const setActiveTags = onChange ? onChange : setLocalTags;
+  const activeTags = setTags ? tags : localTags;
+  const setActiveTags = setTags ? setTags : setLocalTags;
 
   function addTag() {
     const val = input.trim();
@@ -23,12 +23,14 @@ export default function TagInput({ tags = [], onChange }) {
     if (activeTags.length >= MAX_TAGS) { setError("Maximum of 10 tags reached."); return; }
     if (activeTags.map((t) => t.toLowerCase()).includes(val.toLowerCase())) { setError("This tag already exists."); return; }
     setActiveTags([...activeTags, val]);
+    setTags([...activeTags, val]);
     setInput("");
     inputRef.current?.focus();
   }
 
   function removeTag(i) {
     setActiveTags(activeTags.filter((_, idx) => idx !== i));
+    setTags(activeTags.filter((_, idx) => idx !== i));
     console.log(activeTags)
     setError("");
   }

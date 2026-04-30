@@ -5,12 +5,13 @@ import { Meta, Title } from "react-head";
 import { validateLogin } from "../../utils/FormVaildators";
 
 import { useAuth } from "../../Hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
 import EyeTrager from "../../components/Icons/Eyetrager";
 import { getGoogleAuth, login } from "../../APIs/authAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { useState } from "react";
+import LocalLink from "../../Router/LocalLink";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 export const handleGoogleAuth = async (e) => {
   try {
@@ -18,7 +19,7 @@ export const handleGoogleAuth = async (e) => {
 
     const googleAuthUrl = response?.data?.data?.url;
     console.log(googleAuthUrl);
-    
+
     window.location.href = googleAuthUrl;
   } catch (error) {
     console.log(error.response?.data || "something go wrong");
@@ -26,25 +27,21 @@ export const handleGoogleAuth = async (e) => {
 };
 
 function LoginPage() {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-  const {
-    showPassword,
-    handleShowPassword,
-    errors,
-    submit,
-    loading,
-  } = useAuth({
-    validator: validateLogin,
-    onSubmit: login,
-    redirectTo: "/",
-    origin: "login",
-    openDialog,
-    dialogMessage,
-    setDialogMessage,
-    setopenDialog,
-  });
+  const { showPassword, handleShowPassword, errors, submit, loading } = useAuth(
+    {
+      validator: validateLogin,
+      onSubmit: login,
+      redirectTo: "/",
+      origin: "login",
+      openDialog,
+      dialogMessage,
+      setDialogMessage,
+      setopenDialog,
+    },
+  );
 
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">
@@ -170,21 +167,21 @@ function LoginPage() {
 
         <p className="mt-6 text-gray-600 text-center">
           Don’t have an account? &nbsp;
-          <Link
+          <LocalLink
             to="/signup"
             className="text-secandry font-semibold hover:underline"
           >
             Sign up
-          </Link>
+          </LocalLink>
         </p>
         <p className="mt-6 text-gray-600 text-center">
           Forget your Password? &nbsp;
-          <Link
+          <LocalLink
             to="/forget-password/get-email"
             className="text-secandry font-semibold hover:underline"
           >
             Reset Password
-          </Link>
+          </LocalLink>
         </p>
       </div>
       {/* {showDialog && (

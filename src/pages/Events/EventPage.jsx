@@ -6,17 +6,19 @@ import OtherEventsSlider from "../../components/Layout/OtherEventsSlider";
 import { Title } from "react-head";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  addToInterested,
   getEventAvailability,
   getEvents,
+  removeFromInterested,
   reserveEventSeats,
 } from "../../APIs/eventApis";
 import DisplayLocatinMap from "./../../components/UI/DisplayLocatinMap";
 import Loading from "./../../components/Layout/LoadingLayout";
 import { extractDateTime } from "../../utils/dateFormater";
-import { useNavigate } from "react-router-dom";
+
 import ErrorDialog from "./../../components/Dialogs/ErrorDialog";
 import { useUser } from "../../Context/AuthProvider";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { BuyerSeatMap } from "./../../components/UI/BuyerSeatMap";
 import { ReservationTimer } from "./../../components/UI/ReservationTimer";
 import { Button } from "./../../components/shadcn/button";
@@ -37,6 +39,9 @@ import {
 import { ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { io } from "socket.io-client";
+import useAppNavigate from "../../Router/useAppNavigate";
+import { RulesList } from "../../components/UI/RulesList";
+import { TagsList } from "../../components/UI/Tagslist";
 
 const RESERVATION_DURATION = 1 * 60 * 1000;
 const SOCKET_SERVER_URL = "http://localhost:3000";
@@ -52,9 +57,9 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   const [isInterested, setisInterested] = useState(
     event?.isInterested || false,
   );
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const { user } = useUser();
-
+const location = useLocation();
   const handleLoadEvents = async () => {
     try {
       if (review) return;
@@ -133,29 +138,32 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
     }
   };
 
+
   useEffect(() => {
     handleLoadEvents();
-  }, []);
-  const description = ` 
-Get ready to kick off the Christmas season in Mumbai with SOUND OF
-CHRISTMAS - your favourite LIVE Christmas concert!
-          
-          
-City Youth Movement invites you to the 4th edition of our annual
-Christmas festivities - by the youth and for the youth! Featuring
-worship leaders, carols, quizzes and exciting surprises!
-          
-          
-Bring your family and friends and sing along on 2nd December, 6:30
+    window.scrollTo(0, 0);
+  }, [location.search]);
 
-PM onwards!
-          
-
- 3 Reasons to attend:
-          
-The FIRST Christmas concert of Mumbai!
-A special Christmas Choir!
-Special Dance performances and surprises!`;
+  const handleInterested = async(e) => {
+      e.preventDefault();
+      try {
+        console.log(event)
+        setisInterested(prv => !prv);
+        if (isInterested) {
+          const response= await removeFromInterested(event.id);
+          console.log("action:" , response)
+        } else {
+          const response = await addToInterested(event.id);
+          console.log("action:", response)
+        }
+        
+      } catch (error) {
+        console.log(error?.response||error)
+        setisInterested(prv => !prv);
+      }
+      e.stopPropagation();
+  
+    };
 
   const [seats, setSeats] = useState([]);
   const [priceTiers, setPriceTiers] = useState([]);
@@ -540,7 +548,7 @@ Special Dance performances and surprises!`;
     <>
       <Title>{event.title}</Title>
 
-      <div className="w-full bg-white text-black p-4 max-w-350 mx-auto">
+      <div className="w-full bg-white text-black p-4 max-w-350 mx-auto select-text">
         {/* Header Image */}
         <img
           src={event.bannerUrl || eventinfo?.preview || "/images/login.jpg"}
@@ -551,7 +559,7 @@ Special Dance performances and surprises!`;
 
         {/* Title + Icons */}
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-3xl font-bold select-text">
             {event.title || eventinfo?.title || "Sound Of Christmas 2023"}
           </h1>
           <div className="flex flex-col md:flex-row gap-8 text-2xl">
@@ -559,8 +567,8 @@ Special Dance performances and surprises!`;
               <Share2 size={30} />
             </button>
             <button
-              onClick={() => {
-                setIsInterested(!isInterested);
+              onClick={(e) => {
+                handleInterested(e);
               }}
               className="cursor-pointer"
             >
@@ -993,7 +1001,8 @@ Special Dance performances and surprises!`;
             </div>
           </div>
         </div>
-
+        <RulesList rules={event?.rules} />
+        <TagsList tags={event?.tags} />
         {/* Description */}
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-3">Event Description</h2>

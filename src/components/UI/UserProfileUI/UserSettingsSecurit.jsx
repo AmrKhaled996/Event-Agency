@@ -1,5 +1,5 @@
 import { KeyRoundIcon, Mail } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+
 import PasswordInput from "../../UI/PasswordInput";
 import { useState } from "react";
 import { changeEmail, changePassword } from "../../../APIs/profileAPI";
@@ -11,9 +11,10 @@ import {
   refreshAccessToken,
   removeTokens,
 } from "../../../services/cookieTokenService";
+import useAppNavigate from "../../../Router/useAppNavigate";
 
 function UserSettingsSecurity({ provider }) {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const [passwordchanging, setpasswordchanging] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");

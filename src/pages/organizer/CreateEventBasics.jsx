@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus } from "lucide-react";
 import { useEventForm } from "../../Context/EventPovider";
 import CreateEventProgressBar from "../../components/UI/CreateEventProgressBar";
@@ -9,12 +8,13 @@ import { Title } from "react-head";
 import { useCategories } from "../../Context/CategoriesProvider";
 import TagInput from "../../components/UI/TagInput";
 import RulesInput from "../../components/UI/RulesInput";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 export default function CreateEventBasics() {
   const { formData, updateForm } = useEventForm();
   const [tags, setTags] = useState([]);
   const [rules, setRules] = useState([]);
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const [position, setPosition] = useState(null);
   const [details, setDetails] = useState(null);
   const [errors, setErrors] = useState({});
@@ -302,7 +302,6 @@ export default function CreateEventBasics() {
           }
           className="w-full border rounded-xl p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none h-40"
           placeholder="Describe what's special about your event"
-          
         />
       </label>
       {errors.description && (

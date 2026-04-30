@@ -1,6 +1,7 @@
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 // const mocktickets = [
 //   {
@@ -28,27 +29,27 @@ function PayTicketsPage() {
   const tickets = state?.tickets || [];
   const id = state?.id;
   const [Eventtickets, setTickets] = useState(tickets);
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
 
   const selectedTickets = Eventtickets.filter((t) => t.count > 0);
 
   const increment = (id) => {
     setTickets((prev) =>
-      prev.map((ticket,ticketIndex) =>
-       ticketIndex === id && ticket.count < ticket.quantity
+      prev.map((ticket, ticketIndex) =>
+        ticketIndex === id && ticket.count < ticket.quantity
           ? { ...ticket, count: ticket.count + 1 }
-          : ticket
-      )
+          : ticket,
+      ),
     );
   };
 
   const decrement = (id) => {
     setTickets((prev) =>
-      prev.map((ticket,ticketIndex) =>
-       ticketIndex === id && ticket.count > 0
+      prev.map((ticket, ticketIndex) =>
+        ticketIndex === id && ticket.count > 0
           ? { ...ticket, count: ticket.count - 1 }
-          : ticket
-      )
+          : ticket,
+      ),
     );
   };
 
@@ -57,7 +58,7 @@ function PayTicketsPage() {
       tickets.map((ticket) => ({
         ...ticket,
         count: ticket.count ?? 0, // ensure unique count per ticket
-      }))
+      })),
     );
   }, [tickets]);
 
@@ -75,7 +76,7 @@ function PayTicketsPage() {
               <p className="text-lg md:text-2xl font-bold">Price</p>
               <p className="text-lg md:text-2xl font-bold">Quantity</p>
             </div>
-            {Eventtickets.map((ticket,index) => (
+            {Eventtickets.map((ticket, index) => (
               <div
                 className="flex justify-between items-center border-b border-gray-200 pb-4 pt-2 "
                 key={index}
@@ -128,7 +129,7 @@ function PayTicketsPage() {
             <span className="text-lg font-bold text-green-600">
               {Eventtickets.reduce(
                 (total, ticket) => total + ticket.count * ticket.price,
-                0
+                0,
               ).toFixed(2)}{" "}
               EGP
             </span>
@@ -139,7 +140,7 @@ function PayTicketsPage() {
               disabled={
                 Eventtickets.reduce(
                   (total, ticket) => total + ticket.count,
-                  0
+                  0,
                 ) === 0
               }
               onClick={() =>

@@ -1,9 +1,9 @@
 import { ArrowBigUp, CalendarPlus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { useUser } from "../../Context/AuthProvider";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function CreateEventHomePageSection() {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const { user } = useUser();
 
   return (
@@ -22,7 +22,7 @@ function CreateEventHomePageSection() {
           Got a show, event, activity or a great experience? Partner with us &
           get listed on Fa3liat
         </p>
-        {(user && user?.role === "organizer") ? (
+        {user && user?.role === "organizer" ? (
           <button
             onClick={() => navigate("/organizer/create-event/basics")}
             className="
@@ -35,7 +35,8 @@ function CreateEventHomePageSection() {
             <CalendarPlus size={20} />
             Create Event
           </button>
-        ):(<button
+        ) : (
+          <button
             onClick={() => navigate("/organizer/upgrade")}
             className="
             bg-white text-purple-600 font-semibold 
@@ -46,7 +47,8 @@ function CreateEventHomePageSection() {
           >
             <ArrowBigUp size={24} fill="#9810fa" />
             Upgrade Account
-          </button>)}
+          </button>
+        )}
       </div>
     </div>
   );

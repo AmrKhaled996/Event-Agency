@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useEventForm } from "../../Context/EventPovider";
 import CreateEventProgressBar from "../../components/UI/CreateEventProgressBar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { createEvent } from "../../APIs/organizerApis";
 import EventPage from "../Events/EventPage";
 import { Title } from "react-head";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import Loading from "../../components/Layout/LoadingLayout";
+import LocalLink from "../../Router/LocalLink";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function CreateEventReview() {
   const { formData } = useEventForm();
@@ -15,7 +17,7 @@ function CreateEventReview() {
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
 
   const submit = async () => {
     try {
@@ -29,7 +31,7 @@ function CreateEventReview() {
       fd.append("type", formData.tickets.type);
       fd.append("mode", formData.basicInfo.mode);
       fd.append("categoryName", formData.basicInfo.category);
-      
+
       for (let i = 0; i < formData.basicInfo.sessions.length; i++) {
         fd.append(
           `sessions[${i}][startDate]`,
@@ -72,12 +74,12 @@ function CreateEventReview() {
       }
       for (let i = 0; i < formData.basicInfo.tags.length; i++) {
         fd.append(`tags[${i}]`, formData.basicInfo.tags[i]);
-        console.log("tag",formData.basicInfo.tags[i])
+        console.log("tag", formData.basicInfo.tags[i]);
       }
+      const rules = (formData.basicInfo.rules).map((rule) => ({rule}));
       for (let i = 0; i < formData.basicInfo.rules.length; i++) {
-        fd.append(`rules[${i}]`, formData.basicInfo.rules[i]);
-        console.log("rules",formData.basicInfo.rules[i])
-        
+        console.log("rules", rules[i]);
+        fd.append(`eventRules[${i}][rule]`, rules[i].rule);
       }
       // === EVENT TYPE ===
 
@@ -103,7 +105,7 @@ function CreateEventReview() {
       navigate(`/organizer/dashboard/overview`);
     } catch (error) {
       const message = error.response?.data?.message || "Something went wrong";
-      console.log(error.response)
+      console.log(error.response);
       setDialogMessage(message);
       setopenDialog(true);
     } finally {
@@ -171,9 +173,9 @@ function CreateEventReview() {
       </div>
 
       <div className="flex justify-between mt-6">
-        <Link to="/organizer/create-event/ticket" className="text-gray-600">
+        <LocalLink to="/organizer/create-event/ticket" className="text-gray-600">
           Edit Tickets
-        </Link>
+        </LocalLink>
         <button
           onClick={submit}
           disabled={submitting}

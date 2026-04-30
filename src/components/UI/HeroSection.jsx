@@ -1,20 +1,21 @@
 import { Search, MapPin, ChevronDown } from "lucide-react";
 import locationOptions from "../../utils/LocationOptions";
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {  useSearchParams } from "react-router-dom";
 import ErrorDialog from "../Dialogs/ErrorDialog";
 import { toast } from "sonner";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 export default function HeroSection() {
   const [searchPramas, setSearchPramas] = useSearchParams();
-  const search = searchPramas.get("search") || "";
+  const search = searchPramas.get("q") || "";
   const [searchVal, setsearchVal] = useState(search);
   const locationParam = searchPramas.get("location") || "";
   const [location, setlocation] = useState(locationParam);
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
 
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
 
   const handleSearch = () => {
     // setSearchValue(searchVal); // to sent in api reques
@@ -31,14 +32,13 @@ export default function HeroSection() {
     }
     if (location) params.set("location", location);
 
-    
     if (!location || !trimmed) {
-      
-      toast.error("Please enter a search term and location.", { duration: 3000 });
+      toast.error("Please enter a search term and location.", {
+        duration: 3000,
+      });
       setopenDialog(true);
       setDialogMessage("Please enter a search term and location.");
       return;
-      
     } else {
       setSearchPramas(params);
       navigate(
@@ -91,7 +91,7 @@ export default function HeroSection() {
                   appearance-auto   
                 "
               >
-                <option value="" disabled selected>
+                <option value="" disabled defaultValue={""}>
                   Location
                 </option>
                 {locationOptions.map((city, index) => (
@@ -104,7 +104,13 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-      {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={()=>setopenDialog(false)} />}
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          message={dialogMessage}
+          onClose={() => setopenDialog(false)}
+        />
+      )}
     </section>
   );
 }
