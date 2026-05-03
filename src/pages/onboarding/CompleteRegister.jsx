@@ -4,11 +4,12 @@ import { getStatus } from "../../APIs/onboardingAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import { useState } from "react";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 function CompleteResister() {
   const [loading, setLoading] = useState(false);
   const navigator = useAppNavigate();
-
+    const {t}=useTranslation();
   const goToHome = async () => {
     try {
       setLoading(true);
@@ -41,7 +42,7 @@ function CompleteResister() {
           }}
         >
           <ProgressBar step={"Complete"} />
-          <Title>Completed!!</Title>
+          <Title>{t("onboarding.completeRegister.title")}</Title>
           <div className="h-120 flex flex-col justify-center items-center ">
             <img
               src={import.meta.env.BASE_URL + "images/CompleteSign.png"}
@@ -49,12 +50,10 @@ function CompleteResister() {
               className="w-fit h-20 lg:h-40 md:h-30 sm:h-20 object-cover mb-4"
             />
             <h1 className="lg:text-5xl md:text-4xl text-3xl mb-4 font-extrabold leading-tight text-center  ">
-              Thank You for Signing Up!
+              {t("onboarding.completeRegister.header")}
             </h1>
             <p className="w-3/4 lg:p-8  text-center">
-              Your account has been successfully created. Welcome to the
-              community! You can now explore and book unique spaces for your
-              parties, events, and workspaces.{" "}
+              {t("onboarding.completeRegister.description")}
             </p>
           </div>
           <div className="flex flex-row sm:flex-row gap-3 max-w-120 mx-auto z-20">
@@ -62,7 +61,7 @@ function CompleteResister() {
               onClick={goToHome}
               className={`flex-1 h-12 bg-linear-to-r from-primary to-secandry hover:bg-primary/90 cursor-pointer hover:opacity-90  text-white text-2xl rounded-lg font-bold tracking-wide transition z-30`}
             >
-              Continue
+              {t("onboarding.continue")}
             </button>
           </div>
         </div>

@@ -49,9 +49,12 @@ import UpgradePage from "../pages/organizer/upgradeToOrganizer/UpgradePage";
 import LocalRoutes from "../I18n/LocalRoutes";
 import AboutPage from "../pages/Info/AboutPage";
 import AboutPageAR from "../pages/Info/AboutPageAR";
+import ChatbotHelper from "../pages/chatbot/ChatbotHelper";
+import { useTranslation } from "react-i18next";
 
 function AppRouter() {
   const savedLang = localStorage.getItem("lang") || "ar";
+  const {t}=useTranslation();
   return (
     <>
       <BrowserRouter>
@@ -82,7 +85,7 @@ function AppRouter() {
             <Route
               path="onboarding/location-selection"
               element={
-                <Onboarding stepNo={2} pageTitle="Location Selection">
+                <Onboarding stepNo={2} pageTitle={t("onboarding.locationSelection.title")}>
                   <LocationSelection />
                 </Onboarding>
               }
@@ -91,7 +94,7 @@ function AppRouter() {
             <Route
               path="onboarding/preference-selection"
               element={
-                <Onboarding stepNo={3} pageTitle="Preference Selection">
+                <Onboarding stepNo={3} pageTitle={t("onboarding.preferenceSelection.title")}>
                   <PreferenceSelection />
                 </Onboarding>
               }
@@ -100,7 +103,7 @@ function AppRouter() {
             <Route
               path="onboarding/personality-info"
               element={
-                <Onboarding stepNo={1} pageTitle="Personality Information">
+                <Onboarding stepNo={1} pageTitle={t("onboarding.personalityinfo.title")}>
                   <PersonlityinfoQ />
                 </Onboarding>
               }
@@ -333,13 +336,23 @@ function AppRouter() {
               path="about"
               element={
                 <>
-                  <NavigationBar /> 
+                  <NavigationBar />
                   {savedLang === "ar" ? <AboutPageAR /> : <AboutPage />}
                   <Footer />
                 </>
               }
             />
-
+            {/* chatbotHelper */}
+            <Route
+              path="help/chatbot"
+              element={
+                <>
+                <NavigationBar />
+                  <ChatbotHelper />
+                  <Footer />
+                </>
+              }
+            />
             {/* NOT FOUND */}
             <Route path="*" element={<NotFoundPage />} />
           </Route>

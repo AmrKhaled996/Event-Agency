@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 function ButtonOnBoarding({submit,data}) {
+  const {t} = useTranslation();
   return (
     <div className="flex flex-row sm:flex-row gap-3 max-w-120 mx-auto">
       <button
@@ -9,7 +12,7 @@ function ButtonOnBoarding({submit,data}) {
             : `from-primary to-secandry hover:bg-primary/90 cursor-pointer `
         }hover:opacity-90  text-white text-2xl rounded-lg font-bold tracking-wide transition`}
       >
-        Continue
+        {t("onboarding.continue")}
       </button>
     </div>
   );

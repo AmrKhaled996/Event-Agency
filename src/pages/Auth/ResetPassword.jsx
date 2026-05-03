@@ -6,6 +6,8 @@ import { resetPassword } from "../../APIs/authAPIs";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import Loading from "../../components/Layout/LoadingLayout";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { Title } from "react-head";
+import { useTranslation } from "react-i18next";
 
 function ResetPassword() {
   const [errors, setErrors] = useState({});
@@ -15,6 +17,7 @@ function ResetPassword() {
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setloading] = useState();
   const navigator = useAppNavigate();
+  const {t} = useTranslation();
 
   const urlPrams = new URLSearchParams(window.location.search);
   const email = urlPrams.get("email");
@@ -48,6 +51,7 @@ function ResetPassword() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen ">
+      <Title>{t("resetPassword.title")}</Title>
       <div>
         <img
           src={import.meta.env.BASE_URL + "Fa3liatLogo.png"}
@@ -57,10 +61,10 @@ function ResetPassword() {
       </div>
       <div className="w-full max-w-md bg-white border-gray-200 rounded-xl shadow-lg p-8">
         <h1 className="text-slate-900 text-3xl font-bold leading-tight pb-3 text-center">
-          Set a New Password
+          {t("resetPassword.header")}
         </h1>
         <p className="text-gray-600 text-base font-normal leading-normal pb-6 text-center">
-          Your new password must be different from previously used passwords.
+          {t("resetPassword.instruction")}
         </p>
 
         <div className="flex flex-col gap-y-6">
@@ -98,7 +102,7 @@ function ResetPassword() {
               onClick={submitResetForm}
               className="  w-full cursor-pointer  rounded-lg h-12 px-5 bg-primary text-white  font-bold  hover:bg-primary/90  focus:ring-2 "
             >
-              <span className="">Set New Password</span>
+              <span className="">{t("auth.resetPassword.header")}</span>
             </button>
           </div>
         </div>

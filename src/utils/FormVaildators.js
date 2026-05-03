@@ -1,14 +1,13 @@
-export const validateLogin = (formData) => {
+export const validateLogin = (formData, t) => {
   const errors = {};
- 
 
   const email = formData.email?.trim();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   if (!email) {
-    errors.email = "Email is required";
+    errors.email = t("validation.emailRequired");
   } else if (!emailRegex.test(email)) {
-    errors.email = "Invalid email format";
+    errors.email = t("validation.invalidEmail");
   }
 
   const password = formData.password?.trim();
@@ -16,93 +15,94 @@ export const validateLogin = (formData) => {
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
 
   if (!password) {
-    errors.password = "Password is required";
+    errors.password = t("validation.passwordRequired");
   } else if (password.length < passwordMinLength) {
-    errors.password = `Password must be at least ${passwordMinLength} characters`;
+    errors.password = t("validation.passwordMin", {
+      length: passwordMinLength,
+    });
   } else if (!passwordRegex.test(password)) {
-    errors.password =
-      "Password must contain at least one letter and one number";
+    errors.password = t("validation.passwordFormat");
   }
 
   return errors;
 };
 
-export const validateSignup = (values) => {
+export const validateSignup = (values, t) => {
   const errors = {};
 
   const name = values.name?.trim();
   if (!name) {
-    errors.name = "Username is required";
+    errors.name = t("validation.usernameRequired");
   }
 
   const email = values.email?.trim();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   if (!email) {
-    errors.email = "email is required";
+    errors.email = t("validation.emailRequired");
   } else if (!emailRegex.test(email)) {
-    errors.email = "Invalid email format";
+    errors.email = t("validation.invalidEmail");
   }
 
   const password = values.password?.trim();
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
 
   if (!password) {
-    errors.password = "password is required";
+    errors.password = t("validation.passwordRequired");
   } else if (password.length < 6) {
-    errors.password = "password must be at least 6 characters";
+    errors.password = t("validation.passwordMin", { length: 6 });
   } else if (!passwordRegex.test(password)) {
-    errors.password = "Password must contain letters and numbers";
+    errors.password = t("validation.passwordFormat");
   }
 
-  // const confirm = values.ConfirmPassword?.trim();
+  // const confirm = values.confirmPassword?.trim();
   // if (confirm !== password) {
-  //   errors.ConfirmPassword = "Passwords do not match";
+  //   errors.confirmPassword = t("validation.passwordMatch");
   // }
 
   return errors;
 };
 
-export const validateOTP = (otp ) => {
+export const validateOTP = (otp, t) => {
   const errors = {};
 
   if (!otp || otp.length !== 6) {
-    errors.otp = "OTP must be 6 characters.";
- 
+    errors.otp = t("validation.otpLength");
   }
 
   return errors;
 };
 
-export const validateForgetPassword = (email) => {
+export const validateForgetPassword = (email, t) => {
   const errors = {};
 
   if (!email || !email.trim()) {
-    errors.email = "Email is required";
+    errors.email = t("validation.emailRequired");
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    errors.email = "Please enter a valid email";
+    errors.email = t("validation.invalidEmail");
   }
 
   return errors;
 };
 
-export const validateResetPassword = (values) => {
+export const validateResetPassword = (values, t) => {
   const errors = {};
 
   const password = values.password?.trim();
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).+$/;
 
   if (!password) {
-    errors.password = "password is required";
+    errors.password = t("validation.passwordRequired");
   } else if (password.length < 6) {
-    errors.password = "password must be at least 6 characters";
+    errors.password = t("validation.passwordMin", { length: 6 });
   } else if (!passwordRegex.test(password)) {
-    errors.password = "Password must contain letters and numbers";
+    errors.password = t("validation.passwordFormat");
   }
 
   const confirm = values.confirmPassword?.trim();
   if (confirm !== password) {
-    errors.confirmPassword = "Passwords do not match";
+    errors.confirmPassword = t("validation.passwordMatch");
   }
+
   return errors;
 };

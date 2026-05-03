@@ -8,6 +8,7 @@ import CardSkeleton from "../../components/UI/CardSkeleton";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { latestEvents } from "../../APIs/homeApis";
 import { getSearchEvents } from "../../APIs/search";
+import { useTranslation } from "react-i18next";
 
 function SearchEventsPage() {
   const [cards, setCards] = useState();
@@ -22,7 +23,7 @@ function SearchEventsPage() {
   const search = searchParams.get("q") || "";
   const location = searchParams.get("location") || "";
   // const [searchval, setsearchval] = useState<string>(search);
-
+    const {t}=useTranslation();
   const handleSearch = async () => {
     const params = new URLSearchParams(searchParams); // clone current params
 
@@ -86,14 +87,14 @@ function SearchEventsPage() {
 
   return (
     <div>
-      <Title>Fa3liat | Search Events</Title>
+      <Title>{t("events.search.title")}</Title>
       <HomeHeader />
       <div className="flex flex-col md:flex-row min-h-screen">
         {/* Sidebar */}
         {isOpenFilter && (
           <aside className="md:w-64 w-full md:border-r border-gray-200 px-5 py-6 flex flex-col  gap-7 border-b md:border-b-0 ">
             <div className="flex  justify-between">
-              <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+              <h2 className="text-lg font-medium text-gray-900">{t("events.search.filter")}</h2>
               <button
                 onClick={() => setIsOpenFilter(false)}
                 className="flex justify-center w-8 h-8 text-center items-center text-sm font-medium text-slate-900 rounded-lg bg-white accent-white border border-gray-200  hover:bg-gray-100 transition-all duration-300"
@@ -109,7 +110,7 @@ function SearchEventsPage() {
               {/* Price Range */}
               <div className="flex flex-col gap-3 flex-2">
                 <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
-                  Price Range
+                  {t("events.search.priceRange")}
                 </p>
                 <input
                   type="range"
@@ -121,7 +122,7 @@ function SearchEventsPage() {
                   className="w-full  accent-secandry cursor-pointer"
                 />
                 <p className="text-xs text-gray-400">
-                  Up to {priceMax.toLocaleString()} EGP
+                  {t("events.search.upTo")} {priceMax.toLocaleString()} {t("common.actions.currncy")}
                 </p>
                 <div className="flex items-center gap-2">
                   <input
@@ -150,14 +151,14 @@ function SearchEventsPage() {
               {/* Category Dropdown */}
               <div className="flex flex-col gap-3 flex-1">
                 <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
-                  Category
+                  {t("events.search.category")}
                 </p>
                 <select
                   value={category}
                   onChange={(e) => handleCategoryChange(e.target.value)}
                   className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white text-gray-800 outline-none focus:border-ring-primary focus:ring-1 focus:ring-primary/40 cursor-pointer"
                 >
-                  <option value="">All categories</option>
+                  <option value="">{t("events.search.allCategories")}</option>
                   {categories?.map((cat) => (
                     <option key={cat.id} value={cat.name}>
                       {cat.name}
@@ -171,7 +172,7 @@ function SearchEventsPage() {
 
             <div className="flex flex-col gap-3">
               <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
-                Date
+                {t("events.search.date")}
               </p>
               <div className="flex md:flex-col flex-wrap gap-1.5">
                 {dateOptions.map((opt) => (
@@ -206,7 +207,7 @@ function SearchEventsPage() {
                 onClick={applyFilters}
                 className=" flex justify-center w-64 py-2.5 text-sm font-medium text-white rounded-lg bg-primary accent-primary hover:opacity-90 transition-opacity"
               >
-                Apply filters
+               {t("events.search.apply")}
               </button>
             </div>
           </aside>
@@ -228,12 +229,12 @@ function SearchEventsPage() {
                   />
                 </button>
                 <span className="text-sm text-gray-400 font-medium self-center ">
-                  filter
+                  {t("events.search.filter")}
                 </span>
               </div>
             )}
             <p className="text-sm text-gray-500 m-3">
-              <span className="font-medium text-gray-900">24</span> events found
+              <span className="font-medium text-gray-900">24</span> {t("events.search.eventsFound")}
             </p>
             <select className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-white text-gray-800 outline-none  focus:ring-2 focus:ring-primary/20 cursor-pointer sm:ml-auto ">
               <option>Relevance</option>

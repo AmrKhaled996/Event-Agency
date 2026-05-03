@@ -5,7 +5,6 @@ import { deleteMyProfile } from "../../APIs/profileAPI";
 import { removeTokens } from "../../services/cookieTokenService";
 import useAppNavigate from "../../Router/useAppNavigate";
 
-
 export default function DeleteAccountDialog({ open, onClose }) {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
@@ -77,7 +76,7 @@ export default function DeleteAccountDialog({ open, onClose }) {
           disabled={loading}
           className="bg-gray-400 text-white px-4 py-2 rounded"
         >
-          Cancel
+          {t("common.action.cancel")}
         </button>
 
         <button

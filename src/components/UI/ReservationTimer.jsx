@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { Clock, AlertCircle } from "lucide-react";
 import { Card, CardContent } from "./../shadcn/card";
 import { cn } from "./../shadcn/utils";
+import { useTranslation } from "react-i18next";
 
 export function ReservationTimer({ expiresAt, onExpire }) {
   const [timeLeft, setTimeLeft] = useState(0);
+  const {t}=useTranslation();
 
   useEffect(() => {
     const updateTimer = () => {
@@ -64,7 +66,7 @@ export function ReservationTimer({ expiresAt, onExpire }) {
           </div>
           <div className="flex-1">
             <div className="text-sm font-medium text-gray-600">
-              Reservation Expires In
+              {t("events.details.booking.reservationTimer")}
             </div>
             <div
               className={cn(
@@ -88,14 +90,14 @@ export function ReservationTimer({ expiresAt, onExpire }) {
         >
           {isCritical && (
             <p className="font-medium">
-              ⚠️ Complete your purchase now or seats will be released!
+              {t("events.booking.completeNow")}
             </p>
           )}
           {isWarning && !isCritical && (
-            <p>Complete your purchase soon to secure your seats</p>
+            <p>{t("events.booking.completeSoon")}</p>
           )}
           {!isWarning && (
-            <p>Your seats are reserved. Complete your purchase.</p>
+            <p>{t("events.booking.yourSeats")}</p>
           )}
         </div>
       </CardContent>

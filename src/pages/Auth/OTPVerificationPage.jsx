@@ -8,6 +8,7 @@ import OTPInput from "../../components/UI/OTPInput";
 import { verify, resendOtps } from "../../APIs/authAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
+import { useTranslation } from "react-i18next";
 
 function OTPVerificationPage() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -16,7 +17,7 @@ function OTPVerificationPage() {
   const location = useLocation();
     const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-
+  const {t} = useTranslation();
   const {
     submitOTP,
     // showDialog,
@@ -85,13 +86,12 @@ function OTPVerificationPage() {
 
   return (
     <div className=" font-display min-h-screen flex flex-col items-center justify-center  sm:px-8 md:px-20 lg:px-20">
-      <Title>Verify Account </Title>
+      <Title>{t("auth.otp.title")}</Title>
       <div className="w-full max-w-4xl bg-white/10  backdrop-blur-lg rounded-xl shadow-lg p-8 flex flex-col items-center">
         {/* Title */}
         <h1 className="text-3xl font-extrabold mb-3">Verify Your Account</h1>
         <p className="mb-5">
-          We’ve sent a one-time password to your email. Please enter it below to
-          continue.
+          {t("auth.otp.instruction")}
         </p>
 
         {/* OTP inouts */}
@@ -109,12 +109,12 @@ function OTPVerificationPage() {
 
         {/* Resend */}
         <p className=" mb-8">
-          Didn’t receive the code?{" "}
+          {t("auth.otp.notReceived")}{" "}
           <button
             onClick={resendHandler}
             className="text-pink-500 hover:underline font-semibold cursor-pointer"
           >
-            Resend OTP
+            {t("auth.otp.resend")}
           </button>
         </p>
 
@@ -129,7 +129,7 @@ function OTPVerificationPage() {
             } transition cursor-pointer`}
           disabled={otp.join("").length < 6}
         >
-          Verify
+          {t("auth.otp.verify")}
         </button>
         {/* {showDialog && (
           <div className="mt-4 text-red-600 font-bold">{dialogMessage}</div>

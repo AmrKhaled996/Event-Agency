@@ -11,10 +11,10 @@ export default function LocalRoutes() {
 
   useEffect(() => {
     // لو اللغة غلط → redirect بعد render
-    if (!supportedLangs.includes(lang)) {
-      navigate("/ar", { replace: true });
-      return;
-    }
+    // if (!supportedLangs.includes(lang)) {
+    //   navigate("/ar", { replace: true });
+    //   return;
+    // }
 
     // set language
     i18n.changeLanguage(lang);

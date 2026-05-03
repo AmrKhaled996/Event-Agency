@@ -1,8 +1,10 @@
 import { Mail } from "lucide-react";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 function BackToLogin() {
   const navigator = useAppNavigate();
+  const {t} =useTranslation();
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-4 ">
       <div>
@@ -17,11 +19,10 @@ function BackToLogin() {
           <Mail size={48} className="mx-auto mb-4 text-primary " />
         </div>
         <h1 className="text-slate-900 text-3xl font-bold leading-tight pb-3 text-center">
-          Check Your Inbox
+          {t("auth.backtoLogin.title")}
         </h1>
         <p className="text-gray-600 text-base font-normal leading-normal pb-6 text-center">
-          We've sent a password reset link. if a Fa3liat account exists with
-          this email..
+         {t("auth.backtoLogin.instruction")}
         </p>
 
         <div className="flex flex-col gap-y-6">
@@ -30,7 +31,7 @@ function BackToLogin() {
               onClick={() => navigator("/login")}
               className="  w-full cursor-pointer  rounded-lg h-12 px-5 bg-primary text-white  font-bold  hover:bg-primary/90  focus:ring-2 "
             >
-              <span className="truncate">Back To Login</span>
+              <span className="truncate">{t("auth.backtoLogin.back")}</span>
             </button>
           </div>
         </div>

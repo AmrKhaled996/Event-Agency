@@ -1,6 +1,10 @@
 node_modules
+.gitignore
 # Keep environment variables out of version control
 .env
+english_strings.json
+translate-all.js
+scripts
 
 auth/src/generated/
 auth/notes.txt

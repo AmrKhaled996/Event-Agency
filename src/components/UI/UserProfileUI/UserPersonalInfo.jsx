@@ -2,11 +2,10 @@ import { useState } from "react";
 import { refreshToken } from "../../../APIs/authAPIs.js";
 import { updateMyProfile } from "../../../APIs/profileAPI.js";
 import { refreshAccessToken } from "../../../services/cookieTokenService.js";
-import locationOptions from "../../../utils/LocationOptions.js";
+import {locationOptions} from "../../../utils/LocationOptions.js";
 import Loading from "../../Layout/LoadingLayout.jsx";
 
-function PersonalInfoSection({userLocation ,accountData}) {
-
+function PersonalInfoSection({ userLocation, accountData }) {
   const [location, setlocation] = useState(userLocation);
   const [loading, setLoading] = useState(false);
 
@@ -14,13 +13,20 @@ function PersonalInfoSection({userLocation ,accountData}) {
     setlocation(e.target.value);
   };
 
-  const handleUpdateProfile = async(e) => {
+  const handleUpdateProfile = async (e) => {
     e.preventDefault();
 
-    try{
+    try {
       setLoading(true);
       // console.log(Location);
-      const response = await updateMyProfile({name: accountData.name, phone: accountData.phone, gender: accountData.gender, location:location, languagePreference: accountData.languagePreference, birthDate: accountData.birthDate});
+      const response = await updateMyProfile({
+        name: accountData.name,
+        phone: accountData.phone,
+        gender: accountData.gender,
+        location: location,
+        languagePreference: accountData.languagePreference,
+        birthDate: accountData.birthDate,
+      });
       // console.log("Success:", response.data);
       // console.log(user);
       const newtoken = await refreshToken();
@@ -29,10 +35,9 @@ function PersonalInfoSection({userLocation ,accountData}) {
       // console.log("response", response);
     } catch (error) {
       console.log("error", error);
-    }finally{
+    } finally {
       setLoading(false);
     }
-
   };
 
   return (
@@ -57,7 +62,7 @@ function PersonalInfoSection({userLocation ,accountData}) {
             <select className="form-select w-full bg-slate-100 h-12 rounded-lg text-md p-2 pr-10">
               {locationOptions.map((location) =>
                 location.value === userLocation ? (
-                  <option key={location.value} value={location.value} selected >
+                  <option key={location.value} value={location.value} selected>
                     {location.label}
                   </option>
                 ) : (
@@ -70,15 +75,16 @@ function PersonalInfoSection({userLocation ,accountData}) {
           </div>
 
           <div className="flex justify-end pt-2">
-            <button 
-            onClick={handleUpdateProfile}
-            className="px-6 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all">
-              Save Changes
+            <button
+              onClick={handleUpdateProfile}
+              className="px-6 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all"
+            >
+              {t("common.action.save")}
             </button>
           </div>
         </form>
       </div>
-      {loading && <Loading />}  
+      {loading && <Loading />}
     </section>
   );
 }

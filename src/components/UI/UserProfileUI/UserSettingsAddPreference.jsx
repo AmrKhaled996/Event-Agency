@@ -1,5 +1,3 @@
-
-
 import PreferenceBadge from "../PreferenceBadge";
 import AddPreferencePopover from "../AddPreferenceBadgeButton";
 import ErrorDialog from "../../Dialogs/ErrorDialog";
@@ -42,22 +40,26 @@ function UserSettingsAddPreference({
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [preferencesBeforeChanged, setPreferencesBeforeChanged] = useState(null);
-
+  const [preferencesBeforeChanged, setPreferencesBeforeChanged] =
+    useState(null);
 
   // @ts-ignore
   const handlePreferenceChange = (preference) => {
-
     if (preferences.includes(preference)) {
       // @ts-ignore
       const newprefrences = preferences.filter((p) => p.id !== preference.id);
-      const newpreferncesIdName= newprefrences.map((pref)=>[pref.id,pref.name]);
+      const newpreferncesIdName = newprefrences.map((pref) => [
+        pref.id,
+        pref.name,
+      ]);
       // console.log("new", newpreferncesIdName);
       setPreferences(newprefrences);
       setAvailablePreferences([...availablePreferences, preference]);
     } else {
       const newpreference = [...preferences, preference];
-       const newpreferncesIdName= newpreference.map((pref)=>{return {id: pref.id, name: pref.name}});
+      const newpreferncesIdName = newpreference.map((pref) => {
+        return { id: pref.id, name: pref.name };
+      });
       const newavailableprfrences = availablePreferences.filter(
         // @ts-ignore
         (p) => p.id !== preference.id,
@@ -91,15 +93,14 @@ function UserSettingsAddPreference({
       setLoading(false);
     }
   };
-useEffect(() => {
-  // console.log("preferences",preferences)
-  if (preferences.length > 0 && !preferencesBeforeChanged) {
-    let before = [...preferences]
-    setPreferencesBeforeChanged(before);
-    // console.log("current:" , preferences,"before:",before)
-  }
-
-}, [preferences]);
+  useEffect(() => {
+    // console.log("preferences",preferences)
+    if (preferences.length > 0 && !preferencesBeforeChanged) {
+      let before = [...preferences];
+      setPreferencesBeforeChanged(before);
+      // console.log("current:" , preferences,"before:",before)
+    }
+  }, [preferences]);
 
   return (
     <section className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
@@ -136,7 +137,7 @@ useEffect(() => {
             onClick={handleUpdatePreferences}
             className={`px-6 py-2 text-sm font-bold rounded-lg ${preferencesBeforeChanged !== preferences ? ` bg-primary text-white  hover:bg-primary/90 shadow-md shadow-primary/20` : `bg-slate-200 text-slate-400 `}  transition-all`}
           >
-            Save Changes
+            {t("common.action.save")}
           </button>
         </div>
       </div>

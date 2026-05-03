@@ -67,7 +67,6 @@ function DisplayUserTickets() {
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-     
   const handleSortingChange = (method) => {
     setSortedMethod(method);
     console.log(method);
@@ -88,14 +87,31 @@ function DisplayUserTickets() {
     }
   };
 
-  const handleLoadTickets = async() => {
+  const handleLoadTickets = async () => {
     try {
       setLoading(true);
       const response = (await getUserTickets()).data.data.tickets;
       console.log(response);
       const ticketsData = response;
-      setTickets(ticketsData);
 
+      const groupedTickets = Object.values(
+        ticketsData.reduce((acc, ticket) => {
+          const orderId = ticket?.orderId;
+
+          if (!acc[orderId]) {
+            acc[orderId] = {
+              orderId,
+              tickets: [],
+            };
+          }
+
+          acc[orderId].tickets.push(ticket);
+
+          return acc;
+        }, {}),
+      );
+      console.log("groupedTickets:", groupedTickets);
+      setTickets(groupedTickets);
     } catch (error) {
       const message =
         error.response?.data?.error ||
@@ -103,8 +119,7 @@ function DisplayUserTickets() {
       setDialogMessage(message);
       setopenErrorDialog(true);
       console.log(error);
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -166,51 +181,58 @@ function DisplayUserTickets() {
         "
         >
           {console.log(tickets.length)}
-          {(Array(tickets)?.length >= 1)
-            ? tickets.map((ticket) => (
-                <div
-                  key={ticket.id}
-                  onClick={() => {
-                    setopenDialog(true);
-                    setSelectedTicket(ticket);
-                  }}
-                  className="border rounded-xl shadow-lg flex flex-col items-center text-center overflow-hidden hover:shadow-2xl hover:scale-103 transition duration-500 hover:bg-black/5"
-                >
-                  {/* QR */}
-                  <div className="w-32 h-32 sm:w-40 sm:h-48 mt-8">
-                    <QRCode value={ticket.id} className="w-full h-full" />
+          {Array(tickets)?.length >= 1
+            ? tickets?.map((order,index) => 
+                
+                  <div
+                    key={order?.tickets[0]?.id}
+                    onClick={() => {
+                      setopenDialog(true);
+                      setSelectedTicket(order?.tickets);
+                    }}
+                    className="border rounded-xl shadow-lg flex flex-col items-center text-center overflow-hidden hover:shadow-2xl hover:scale-103 transition duration-500 hover:bg-black/5"
+                  >
+                    {/* QR */}
+                    <div className="w-32 h-32 sm:w-40 sm:h-48 mt-8">
+                      <QRCode value={order?.tickets[0]?.id} className="w-full h-full" />
+                    </div>
+
+                    {/* Info */}
+                    <div className="py-4 px-4">
+                      <h3 className="text-lg sm:text-xl font-bold mb-2">
+                        {order?.tickets[0]?.ticketType.event.title}
+                      </h3>
+
+                      <p className="text-gray-500 text-sm sm:text-base">
+                        Date: {order?.tickets[0]?.date}
+                      </p>
+
+                      <p className="text-gray-500 text-sm sm:text-base">
+                        Number of tickets: {order?.tickets?.length}
+                      </p>
+                    </div>
+                    {/* Button */}
+                    <button className="w-full bg-primary text-white py-3 flex items-center justify-center gap-2 hover:bg-primary/80 transition">
+                      View Details <ArrowRight size={18} />
+                    </button>
                   </div>
-
-                  {/* Info */}
-                  <div className="py-4 px-4">
-                    <h3 className="text-lg sm:text-xl font-bold mb-2">
-                      {ticket.ticketType.event.title}
-                    </h3>
-
-                    <p className="text-gray-500 text-sm sm:text-base">
-                      Date: {ticket.date}
-                    </p>
-
-                    <p className="text-gray-500 text-sm sm:text-base">
-                      Number of tickets: {ticket.numberOfTickets}
-                    </p>
-                  </div>
-                  {/* Button */}
-                  <button className="w-full bg-primary text-white py-3 flex items-center justify-center gap-2 hover:bg-primary/80 transition">
-                    View Details <ArrowRight size={18} />
-                  </button>
-                </div>
-              ))
-            : (loading && [1, 2, 3, 4, 5, 6].map((temp) => <CardSkeleton key={temp} />)) }
+               ,
+              )
+            : loading &&
+              [1, 2, 3, 4, 5, 6].map((temp) => <CardSkeleton key={temp} />)}
           {openDialog && (
             <TicketDialog
               open={openDialog}
               onClose={() => setopenDialog(false)}
-              ticket={selectedTicket}
+              tickets={selectedTicket}
             />
           )}
         </div>
-       { (  tickets?.length === 0&&!loading  ) && <p className="text-gray-500 text-center w-full min-h-[50vh] flex items-center justify-center">No tickets found.</p> }
+        {tickets?.length === 0 && !loading && (
+          <p className="text-gray-500 text-center w-full min-h-[50vh] flex items-center justify-center">
+            No tickets found.
+          </p>
+        )}
       </div>
       {openErrorDialog && (
         <ErrorDialog

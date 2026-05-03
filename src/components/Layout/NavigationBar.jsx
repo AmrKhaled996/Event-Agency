@@ -89,7 +89,7 @@ function NavigationBar({ backGround = "primary" }) {
 
   };
   const getUserWalletBalance = async() => {
-
+    if(!user?.id) return;
   try {
    const response = await getWalletBalance().then((res) => res.data.data);
    console.log("userBalance:",response?.balance);
@@ -191,7 +191,7 @@ function NavigationBar({ backGround = "primary" }) {
                   </button>
 
                   {openProfile && (
-                    <div className="absolute right-0 mt-2 bg-white text-black shadow-lg rounded-lg w-48  z-20 ">
+                    <div className={`absolute ${lang === "ar" ? "left-0" : "right-0"} mt-2 bg-white text-black shadow-lg rounded-lg w-48  z-20 `}>
                       <button
                         className="w-full flex justify-between text-left px-4 py-3 border-b border-gray-200 rounded-t-lg "
                       >

@@ -5,6 +5,8 @@ import { frogetPassword } from "../../APIs/authAPIs";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import Loading from "../../components/Layout/LoadingLayout";
 import LocalLink from "../../Router/LocalLink";
+import { useTranslation } from "react-i18next";
+import { Title } from "react-head";
 
 function ForgetPassword() {
   const [email, setemail] = useState("");
@@ -14,6 +16,7 @@ function ForgetPassword() {
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setloading] = useState(false);
+    const {t} =useTranslation();
   const closeDialog = () => {
     setShowDialog(false);
     setDialogMessage("");
@@ -44,6 +47,7 @@ function ForgetPassword() {
   };
   return (
     <div className="flex flex-col items-center justify-center h-screen ">
+      <Title>{t("auth.forgetPassword.title")}</Title>
       <div>
         <img
           src={import.meta.env.BASE_URL + "Fa3liatLogo.png"}
@@ -53,17 +57,16 @@ function ForgetPassword() {
       </div>
       <div className="w-full max-w-md bg-white border-gray-200 rounded-xl shadow-lg p-8">
         <h1 className="text-slate-900 text-3xl font-bold leading-tight pb-3 text-center">
-          Reset Your Password
+          {t("auth.forgetPassword.title")}
         </h1>
         <p className="text-gray-600 text-base font-normal leading-normal pb-6 text-center">
-          Enter your email address below, and we'll send you a link to reset
-          your password.
+          {t("auth.forgetPassword.instruction")}
         </p>
 
         <div className="flex flex-col gap-y-6">
           <div className="flex flex-col gap-4">
             <label className="flex flex-col min-w-40 flex-1 font-medium">
-              <p className="text-slate-900   pb-4">Email Address</p>
+              <p className="text-slate-900   pb-4">{t("auth.forgetPassword.emailLabel")}</p>
               <div className="relative flex w-full flex-1 items-stretch">
                 <input
                   className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg  focus:outline-0 focus:ring-2 focus:ring-primary/90 border border-gray-300 placeholder:text-gray-400 p-3 pl-11 text-base font-normal leading-normal"
@@ -101,15 +104,15 @@ function ForgetPassword() {
               onClick={submit}
               className="  w-full cursor-pointer  rounded-lg h-12 px-5 bg-primary text-white  font-bold  hover:bg-primary/90  focus:ring-2 "
             >
-              <span className="truncate">Send Reset Link</span>
+              <span className="truncate">{t("auth.forgetPassword.sentLink")}</span>
             </button>
             <p className="text-gray-600 text-sm font-medium text-center">
-              Remember your password? &nbsp;
+               {t("auth.forgetPassword.rememberPassword")} &nbsp;
               <LocalLink
                 className="text-sm font-medium text-primary hover:underline text-center"
                 to="/login"
               >
-                Back to login
+                {t("auth.backtoLogin.back")}
               </LocalLink>
             </p>
           </div>

@@ -8,11 +8,12 @@ import EyeTrager from "../Icons/Eyetrager";
 import { getGoogleAuth, signup } from "../../APIs/authAPIs";
 import Loading from "./LoadingLayout";
 import ErrorDialog from "../Dialogs/ErrorDialog";
+import { useTranslation } from "react-i18next";
 
 function SignUpFormAttendeeUser({ loadingpage }) {
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-
+  const {t}=useTranslation();
   const {
     values,
     handleChange,
@@ -59,10 +60,10 @@ function SignUpFormAttendeeUser({ loadingpage }) {
           onClick={handleGoogleAuth}
           className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer"
         >
-          <GoogleLogo /> Login with Google
+          <GoogleLogo /> {t("auth.signup.google")}
         </button>
         <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer text-[#1877F2]">
-          <FacebookLogo /> Login with Facebook
+          <FacebookLogo /> {t("auth.signup.facebook")}
         </button>
       </div>
 
@@ -80,10 +81,10 @@ function SignUpFormAttendeeUser({ loadingpage }) {
         onSubmit={submit}
       >
         <div>
-          <label className="block text-gray-700 font-semibold mb-1">Name</label>
+          <label className="block text-gray-700 font-semibold mb-1">{t("auth.signup.nameLabel")}</label>
           <input
             type="text"
-            placeholder="Enter your Name"
+            placeholder={t("auth.signup.namePlaceholder")}
             name="name"
             id="name"
             value={values.name || ""}
@@ -101,11 +102,11 @@ function SignUpFormAttendeeUser({ loadingpage }) {
         </div>
         <div>
           <label className="block text-gray-700 font-semibold mb-1">
-            E-mail Address
+            {t("auth.signup.emailLabel")}
           </label>
           <input
             type="email"
-            placeholder="Enter your e-mail"
+            placeholder={t("auth.signup.emailPlaceholder")}
             name="email"
             id="email"
             value={values.email || ""}
@@ -124,12 +125,12 @@ function SignUpFormAttendeeUser({ loadingpage }) {
 
         <div>
           <label className="block text-gray-700 font-semibold mb-1">
-            Password
+            {t("auth.signup.passwordLabel")}
           </label>
           <div className="relative">
             <input
               type={showPassword ? `text` : `password`}
-              placeholder="Enter password"
+              placeholder={t("auth.signup.passwordPlaceholder")}
               name="password"
               id="password"
               value={values.password || ""}
@@ -157,7 +158,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
           type="submit"
           className="w-full py-3 mt-2 rounded-md text-white text-2xl font-semibold bg-linear-to-r from-secandry to-[#FF8370] hover:opacity-90 transition"
         >
-          Create account
+          {t("auth.signup.createAccount")}
         </button>
       </form>
       {/* {showDialog && (

@@ -1,6 +1,5 @@
 import Dialog from "../UI/Dialog";
 
-
 export default function DeleteDialog({ open, onClose, onConfirm }) {
   return (
     <Dialog open={open} onClose={onClose}>
@@ -14,7 +13,7 @@ export default function DeleteDialog({ open, onClose, onConfirm }) {
           onClick={onClose}
           className="bg-gray-400 text-white px-4 py-2 rounded"
         >
-          Cancel
+          {t("common.action.cancel")}
         </button>
         <button
           onClick={onConfirm}

@@ -12,6 +12,8 @@ import {
 } from "../../APIs/eventsPagenation";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
+import { Title } from "react-head";
 
 function EventsPagination() {
   const [cards, setCards] = useState([]);
@@ -22,6 +24,7 @@ function EventsPagination() {
   const [dialogMessage, setDialogMessage] = useState("");
   const location = useLocation();
   const navigate = useAppNavigate();
+  const {t}= useTranslation();
 
   //   const endpoint = state?.endpoint;
 
@@ -78,6 +81,7 @@ function EventsPagination() {
 
   return (
     <>
+    <Title>{title}</Title>
       <div className="md:ml-10 md:mr-10 md:px-10 px-2 mt-20">
         <h1 className="text-3xl font-bold mb-5 ml-10">{title}</h1>
 
@@ -120,7 +124,7 @@ function EventsPagination() {
                 : "bg-primary cursor-pointer"
             } md:px-30 px-20 py-3 font-semibold text-lg text-white my-15 rounded-md  flex gap-3 items-center`}
           >
-            <ArrowLeft /> previous Page
+            <ArrowLeft /> {t("common.actions.previous")}
           </button>
           <button
             onClick={() => {
@@ -142,7 +146,7 @@ function EventsPagination() {
                 : "bg-primary cursor-pointer"
             } md:px-30 px-20 py-3 font-semibold text-lg text-white my-15 rounded-md  flex gap-3 items-center`}
           >
-            next Page <ArrowRight />
+            {t("common.actions.next")} <ArrowRight />
           </button>
         </div>
         {openDialog && (

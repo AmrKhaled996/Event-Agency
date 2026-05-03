@@ -4,6 +4,7 @@ import { setTokens } from "../services/cookieTokenService";
 import { resendOtps, logout } from "../APIs/authAPIs";
 import { useUser } from "../Context/AuthProvider";
 import useAppNavigate from "../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 export function useAuth({
   initialValues = {},
@@ -24,6 +25,7 @@ export function useAuth({
   // const [dialogMessage, setDialogMessage] = useState("");
   const navigate = useAppNavigate();
   const [loading, setLoading] = useState(false);
+  const {t}=useTranslation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +41,7 @@ export function useAuth({
 
     const formData = Object.fromEntries(new FormData(e.target).entries());
 
-    const validationErr = validator(formData);
+    const validationErr = validator(formData,t);
 
     setErrors(validationErr);
 
@@ -65,7 +67,7 @@ export function useAuth({
     }
   };
   const submitOTP = async (otp) => {
-    const validationErr = validator(otp);
+    const validationErr = validator(otp,t);
 
     setErrors(validationErr);
 

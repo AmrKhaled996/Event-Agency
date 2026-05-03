@@ -1,10 +1,11 @@
 import { Search, MapPin, ChevronDown } from "lucide-react";
-import locationOptions from "../../utils/LocationOptions";
+import {locationOptions} from "../../utils/LocationOptions";
 import { useState } from "react";
-import {  useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import ErrorDialog from "../Dialogs/ErrorDialog";
 import { toast } from "sonner";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 export default function HeroSection() {
   const [searchPramas, setSearchPramas] = useSearchParams();
@@ -14,7 +15,7 @@ export default function HeroSection() {
   const [location, setlocation] = useState(locationParam);
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-
+  const {t}=useTranslation();
   const navigate = useAppNavigate();
 
   const handleSearch = () => {
@@ -54,8 +55,8 @@ export default function HeroSection() {
       <div className="relative max-w-300 mx-auto md:px-6 pt-28 pb-24 text-center text-white">
         {/* ===== Title ===== */}
         <h1 className="text-3xl md:text-5xl font-bold leading-tight">
-          Explore the <span className="text-orange-300">vibrant events</span>
-          <span> that inspire you.</span>
+          {t("homePage.hero.title1")} <span className="text-orange-300">{t("homePage.hero.titleVar")} </span>
+          {t("homePage.hero.title2")}
         </h1>
 
         {/* ===== Search Bar ===== */}
@@ -72,7 +73,7 @@ export default function HeroSection() {
               <input
                 type="text"
                 value={searchVal}
-                placeholder="Search Events, Categories, Location,..."
+                placeholder={t("homePage.hero.searchPlaceholder")}
                 onKeyDown={(e) => {
                   e.key === "Enter" && handleSearch(e);
                 }}
@@ -92,7 +93,7 @@ export default function HeroSection() {
                 "
               >
                 <option value="" disabled defaultValue={""}>
-                  Location
+                  {t("homePage.hero.locationPlaceholder")}
                 </option>
                 {locationOptions.map((city, index) => (
                   <option key={index} value={city.value}>

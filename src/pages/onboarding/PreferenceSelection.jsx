@@ -10,6 +10,7 @@ import { categories } from "../../APIs/homeApis";
 import { useCategories } from "../../Context/CategoriesProvider";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 // const mockcategories = [
 //   { label: "Entertainment", image: "images/Entertainment.jpg" },
@@ -25,7 +26,7 @@ function PreferenceSelection() {
   const [dialogMessage, setDialogMessage] = useState("");
   const { categories } = useCategories();
   const navigator = useAppNavigate();
-
+    const {t}=useTranslation();
   const toggle = (item) => {
     setSelected((prev) =>
       prev.includes(item.name)
@@ -79,9 +80,8 @@ function PreferenceSelection() {
       {/* Header Section */}
 
       <AuthHeaderSection
-        title="What are you interested in?"
-        content="Select a few of your favorite topics to help us recommend the best
-        events and spaces for you."
+        title={t("onboarding.preferenceSelection.header")}
+        content={t("onboarding.preferenceSelection.description")}
       />
       {/* GRID */}
       <div className="grid lg:grid-cols-2 grid-cols-1 mb-10 sm:grid-cols-1 md:grid-cols-1 gap-6 p-5">

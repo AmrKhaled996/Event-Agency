@@ -12,22 +12,12 @@ import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { useState } from "react";
 import LocalLink from "../../Router/LocalLink";
 import useAppNavigate from "../../Router/useAppNavigate";
-
-export const handleGoogleAuth = async (e) => {
-  try {
-    const response = await getGoogleAuth();
-
-    const googleAuthUrl = response?.data?.data?.url;
-    console.log(googleAuthUrl);
-
-    window.location.href = googleAuthUrl;
-  } catch (error) {
-    console.log(error.response?.data || "something go wrong");
-  }
-};
+import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function LoginPage() {
   const navigate = useAppNavigate();
+  const { t } = useTranslation();
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const { showPassword, handleShowPassword, errors, submit, loading } = useAuth(
@@ -42,10 +32,22 @@ function LoginPage() {
       setopenDialog,
     },
   );
+  const { lang } = useParams();
+  const handleGoogleAuth = async (e) => {
+    try {
+      const response = await getGoogleAuth();
 
+      const googleAuthUrl = response?.data?.data?.url;
+      console.log(googleAuthUrl);
+
+      window.location.href = googleAuthUrl;
+    } catch (error) {
+      console.log(error.response?.data || "something go wrong");
+    }
+  };
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">
-      <Title>Fa3liat | Log in </Title>
+      <Title>{t("auth.login.title")}</Title>
       <Meta
         name="description"
         content="Login page in Fa3liat Event Agency site"
@@ -60,15 +62,18 @@ function LoginPage() {
       >
         <img src="/Fa3liatLogo.png" alt="Fa3liat Logo" className="mb-8 w-48" />
         <h1 className="text-4xl font-bold mb-4 text-start leading-snug hidden lg:flex">
-          Discover tailored
+          {t("auth.login.aside1")}
           <br />
-          events.
+          {t("auth.login.aside2")}
+
           <br />
-          Sign in for personalized
+          {t("auth.login.aside3")}
+
           <br />
-          recommendations
+          {t("auth.login.aside4")}
+
           <br />
-          today!
+          {t("auth.login.aside5")}
         </h1>
       </div>
 
@@ -83,7 +88,7 @@ function LoginPage() {
         </button>
 
         <h2 className="text-transparent bg-linear-to-b from-secandry to-[#FF8370] bg-clip-text md:text-5xl text-4xl font-bold mb-5 mt-5 h-15">
-          Login
+          {t("auth.login.login")}
         </h2>
 
         {/* Social Login Buttons */}
@@ -92,10 +97,10 @@ function LoginPage() {
             onClick={handleGoogleAuth}
             className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer"
           >
-            <GoogleLogo /> Login with Google
+            <GoogleLogo /> {t("auth.login.google")}
           </button>
           <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer text-[#1877F2]">
-            <FacebookLogo /> Login with Facebook
+            <FacebookLogo /> {t("auth.login.facebook")}
           </button>
         </div>
 
@@ -110,13 +115,13 @@ function LoginPage() {
         <form className="space-y-4" onSubmit={submit}>
           <div>
             <label className="block text-gray-700 font-semibold mb-1">
-              E-mail Address
+              {t("auth.login.emailLabel")}
             </label>
             <input
               type="email"
               name="email"
               id="email"
-              placeholder="Enter your e-mail"
+              placeholder={t("auth.login.emailplaceholder")}
               className={`w-full h-15 border  ${
                 errors.email ? "border-red-600" : "border-gray-300"
               }  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary mb-2`}
@@ -130,7 +135,7 @@ function LoginPage() {
 
           <div>
             <label className="block text-gray-700 font-semibold mb-1">
-              Password
+              {t("auth.login.passwordLabel")}
             </label>
             <div className="relative">
               <input
@@ -149,7 +154,7 @@ function LoginPage() {
                 </small>
               )}
               <span
-                className="absolute right-6 top-5 text-gray-400 cursor-pointer"
+                className={`absolute ${lang === "en" ? "right-6" : "left-6"} top-5 text-gray-400 cursor-pointer`}
                 onClick={handleShowPassword}
               >
                 <EyeTrager />
@@ -161,26 +166,26 @@ function LoginPage() {
             type="submit"
             className="w-full py-3 mt-2 rounded-md text-white font-semibold bg-linear-to-r from-secandry to-[#FF8370] hover:opacity-90 transition"
           >
-            Login
+            {t("auth.login.login")}
           </button>
         </form>
 
         <p className="mt-6 text-gray-600 text-center">
-          Don’t have an account? &nbsp;
+          {t("auth.login.haveNoAccount")}&nbsp;
           <LocalLink
             to="/signup"
             className="text-secandry font-semibold hover:underline"
           >
-            Sign up
+            {t("auth.login.signup")}
           </LocalLink>
         </p>
         <p className="mt-6 text-gray-600 text-center">
-          Forget your Password? &nbsp;
+          {t("auth.login.forgetPassword")} &nbsp;
           <LocalLink
             to="/forget-password/get-email"
             className="text-secandry font-semibold hover:underline"
           >
-            Reset Password
+            {t("auth.login.resetPassword")}
           </LocalLink>
         </p>
       </div>

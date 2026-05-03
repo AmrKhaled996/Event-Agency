@@ -3,12 +3,14 @@ import { useState } from "react";
 import CustomDateInput from "../../components/UI/CustemDateInput";
 import AuthHeaderSection from "../../components/UI/AuthHeaderSection";
 
-import genderRadio from "../../utils/genderRadio";
+import {genderRadio , genderRadioAr } from "../../utils/genderRadio";
 import ButtonOnBoarding from "../../components/UI/ButtonOnBoarding";
 import { basic } from "../../APIs/onboardingAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 function PersonlityinfoQ() {
   const [gender, setGender] = useState();
@@ -18,7 +20,8 @@ function PersonlityinfoQ() {
   const [loading, setLoading] = useState(false);
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-
+  const {t}=useTranslation();
+  const {lang}=useParams();
   const navigator = useAppNavigate();
   // const location = useLocation();
 
@@ -58,15 +61,15 @@ function PersonlityinfoQ() {
     <>
       {/* Header Section */}
       <AuthHeaderSection
-        title="Tell us a bit about yourself"
-        content="This helps us personalize your experience and show you relevant content."
+        title={t("onboarding.personlityinfo.header")}
+        content={t("onboarding.personlityinfo.description")}
       />
       {/* gender Selection */}
       <div className="mb-8 h-fit">
-        <h3 className="text-lg font-bold mb-4 ">What's your gender?</h3>
+        <h3 className="text-lg font-bold mb-4 ">{t("onboarding.personlityinfo.genderLabel")}</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {genderRadio.map((option) => (
+          {(lang === "ar" ? genderRadioAr:genderRadio).map((option) => (
             <label
               key={option.value}
               className={`group relative flex flex-col items-center justify-center p-6 rounded-lg border-2 cursor-pointer transition-all duration-400 hover:border-primary

@@ -8,10 +8,12 @@ import SignUpFormAttendeeUser from "../../components/Layout/SignUpFormAttendeeUs
 import Loading from "../../components/Layout/LoadingLayout";
 import LocalLink from "../../Router/LocalLink";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 function SignUpPage() {
   // const [userRole, setUserRole] = useState("attendee");
   const [loading, setLoading] = useState(null);
+  const {t}=useTranslation()
 
   const navigator = useAppNavigate();
 
@@ -23,7 +25,7 @@ function SignUpPage() {
 
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">
-      <Title>Fa3liat | Sign Up </Title>
+      <Title>{t("auth.signUp.title")} </Title>
       <Meta
         name="description"
         content="Login page in Fa3liat Event Agency site"
@@ -38,15 +40,18 @@ function SignUpPage() {
       >
         <img src="/Fa3liatLogo.png" alt="Fa3liat Logo" className="mb-8 w-48" />
         <h1 className="text-4xl font-bold mb-4 text-start leading-snug hidden lg:flex">
-          Discover tailored
+          {t("auth.login.aside1")}
           <br />
-          events.
+          {t("auth.login.aside2")}
+
           <br />
-          Sign in for personalized
+          {t("auth.login.aside3")}
+
           <br />
-          recommendations
+          {t("auth.login.aside4")}
+
           <br />
-          today!
+          {t("auth.login.aside5")}
         </h1>
       </div>
 
@@ -58,18 +63,18 @@ function SignUpPage() {
         </button>
 
         <h2 className="text-transparent bg-linear-to-b from-secandry  to-[#FF8370] bg-clip-text md:text-5xl text-4xl font-bold mb-5 mt-5 h-15">
-          Create Account
+          {t("auth.signup.createAccount")}
         </h2>
 
         <SignUpFormAttendeeUser loadingpage={setLoading} />
 
         <p className="mt-2 mb-6 text-gray-600 text-center">
-          Already have an account? &nbsp;
+          {t("auth.signup.alreadyHaveAccount")} &nbsp;
           <LocalLink
             to={"/login"}
             className="text-secandry font-semibold hover:underline"
           >
-            Login
+            {t("auth.signup.login")}
           </LocalLink>
         </p>
       </div>

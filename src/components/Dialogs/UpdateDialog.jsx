@@ -12,7 +12,7 @@ export default function UpdateDialog({ open, onClose, onConfirm, event }) {
           onClick={onClose}
           className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded mr-2"
         >
-          Cancel
+          {t("common.action.cancel")}
         </button>
         <button
           onClick={onConfirm}

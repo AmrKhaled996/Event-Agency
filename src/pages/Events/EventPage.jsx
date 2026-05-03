@@ -42,6 +42,7 @@ import { io } from "socket.io-client";
 import useAppNavigate from "../../Router/useAppNavigate";
 import { RulesList } from "../../components/UI/RulesList";
 import { TagsList } from "../../components/UI/Tagslist";
+import { useTranslation } from "react-i18next";
 
 const RESERVATION_DURATION = 1 * 60 * 1000;
 const SOCKET_SERVER_URL = "http://localhost:3000";
@@ -58,8 +59,9 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
     event?.isInterested || false,
   );
   const navigate = useAppNavigate();
+  const { t } = useTranslation();
   const { user } = useUser();
-const location = useLocation();
+  const location = useLocation();
   const handleLoadEvents = async () => {
     try {
       if (review) return;
@@ -138,32 +140,29 @@ const location = useLocation();
     }
   };
 
-
   useEffect(() => {
     handleLoadEvents();
     window.scrollTo(0, 0);
   }, [location.search]);
 
-  const handleInterested = async(e) => {
-      e.preventDefault();
-      try {
-        console.log(event)
-        setisInterested(prv => !prv);
-        if (isInterested) {
-          const response= await removeFromInterested(event.id);
-          console.log("action:" , response)
-        } else {
-          const response = await addToInterested(event.id);
-          console.log("action:", response)
-        }
-        
-      } catch (error) {
-        console.log(error?.response||error)
-        setisInterested(prv => !prv);
+  const handleInterested = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(event);
+      setisInterested((prv) => !prv);
+      if (isInterested) {
+        const response = await removeFromInterested(event.id);
+        console.log("action:", response);
+      } else {
+        const response = await addToInterested(event.id);
+        console.log("action:", response);
       }
-      e.stopPropagation();
-  
-    };
+    } catch (error) {
+      console.log(error?.response || error);
+      setisInterested((prv) => !prv);
+    }
+    e.stopPropagation();
+  };
 
   const [seats, setSeats] = useState([]);
   const [priceTiers, setPriceTiers] = useState([]);
@@ -583,7 +582,9 @@ const location = useLocation();
 
         {/* Date & Time */}
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">Date and Time</h2>
+          <h2 className="text-xl font-semibold mb-2">
+            {t("events.details.date")}
+          </h2>
 
           {dateFormat.length > 0 ? (
             dateFormat.map((dateItem, index) => (
@@ -625,10 +626,10 @@ const location = useLocation();
               <div className="mb-8 flex justify-between items-center">
                 <div>
                   <h1 className="text-3xl font-bold mb-2">
-                    Ticket information
+                    {t("events.details.seatMap.ticketInfo")}
                   </h1>
                   <p className="text-gray-600">
-                    Select your seats and complete your purchase
+                    {t("events.details.seatMap.ticketDescription")}
                   </p>
                 </div>
               </div>
@@ -639,7 +640,9 @@ const location = useLocation();
                   {/* View Mode Toggle */}
                   <Card>
                     <CardHeader>
-                      <CardTitle>View Mode</CardTitle>
+                      <CardTitle>
+                        {t("events.details.seatMap.viewMode")}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <Tabs
@@ -665,7 +668,7 @@ const location = useLocation();
         transition-all
       "
                           >
-                            Pricing
+                            {t("events.details.seatMap.pricing")}
                           </TabsTrigger>
 
                           <TabsTrigger
@@ -679,7 +682,7 @@ const location = useLocation();
         transition-all
       "
                           >
-                            Availability
+                            {t("events.details.seatMap.availability")}
                           </TabsTrigger>
                         </TabsList>
                       </Tabs>
@@ -689,7 +692,9 @@ const location = useLocation();
                   {/* Legend */}
                   <Card>
                     <CardHeader>
-                      <CardTitle>Legend</CardTitle>
+                      <CardTitle>
+                        {t("events.details.seatMap.legend")}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       {viewMode === "pricing" ? (
@@ -716,19 +721,21 @@ const location = useLocation();
                         <>
                           <div className="flex items-center gap-3">
                             <div className="w-6 h-6 rounded border-2 border-gray-400 bg-[#22c55e]" />
-                            <span>Available</span>
+                            <span>{t("events.details.seatMap.available")}</span>
                           </div>
                           <div className="flex items-center gap-3">
                             <div className="w-6 h-6 rounded border-2 border-gray-400 bg-[#ef4444]" />
-                            <span>Sold</span>
+                            <span>{t("events.details.seatMap.sold")}</span>
                           </div>
                           <div className="flex items-center gap-3">
                             <div className="w-6 h-6 rounded border-2 border-gray-400 bg-[#f59e0b]" />
-                            <span>Reserved</span>
+                            <span>{t("events.details.seatMap.reserved")}</span>
                           </div>
                           <div className="flex items-center gap-3">
                             <div className="w-6 h-6 rounded border-2 border-blue-700 bg-[#3b82f6]" />
-                            <span>Your Selection</span>
+                            <span>
+                              {t("events.details.seatMap.yourSelection")}
+                            </span>
                           </div>
                         </>
                       )}
@@ -738,13 +745,15 @@ const location = useLocation();
                   {/* Statistics */}
                   <Card>
                     <CardHeader>
-                      <CardTitle>Seat Availability</CardTitle>
+                      <CardTitle>
+                        {t("events.details.seatMap.seatAvailability")}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div>
                         <div className="flex justify-between items-center mb-1">
                           <span className="text-sm text-gray-600">
-                            Available
+                            {t("events.details.seatMap.available")}
                           </span>
                           <span className="font-bold text-green-600">
                             {stats.available}
@@ -758,7 +767,7 @@ const location = useLocation();
                         </div>
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-gray-600">
-                            Reserved
+                            {t("events.details.seatMap.reserved")}
                           </span>
                           <span className="font-bold text-amber-600">
                             {stats.reserved}
@@ -766,7 +775,9 @@ const location = useLocation();
                         </div>
                       </div>
                       <div className="border-t pt-4">
-                        <div className="text-sm text-gray-600">Total Seats</div>
+                        <div className="text-sm text-gray-600">
+                          {t("events.details.seatMap.totalSeats")}
+                        </div>
                         <div className="text-2xl font-bold">{stats.total}</div>
                       </div>
                     </CardContent>
@@ -777,7 +788,8 @@ const location = useLocation();
                     <Card>
                       <CardHeader>
                         <CardTitle>
-                          Selected Seats ({selectedSeats.length})
+                          {t("events.details.seatMap.yourSelection")} (
+                          {selectedSeats.length})
                         </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
@@ -792,7 +804,9 @@ const location = useLocation();
                                 className="flex justify-between items-center text-sm"
                               >
                                 <span>
-                                  Row {String.fromCharCode(65 + seat.row)}, Seat{" "}
+                                  {t("events.details.seatMap.row")}{" "}
+                                  {String.fromCharCode(65 + seat.row)},{" "}
+                                  {t("events.details.seatMap.seat")}{" "}
                                   {seat.number + 1}
                                 </span>
                                 <span className="font-medium">
@@ -803,7 +817,9 @@ const location = useLocation();
                           })}
                         </div>
                         <div className="border-t pt-3 flex justify-between items-center">
-                          <span className="font-semibold">Total</span>
+                          <span className="font-semibold">
+                            {t("events.details.seatMap.total")}
+                          </span>
                           <span className="text-xl font-bold text-green-600">
                             ${totalToPurchase.toFixed(2)}
                           </span>
@@ -824,7 +840,7 @@ const location = useLocation();
                           )
                         ) : (
                           <p className="text-lg pl-3 mb-2 text-red-600">
-                            You can't reserve tickets without signing in.
+                            {t("events.details.seatMap.cannotReserve")}
                           </p>
                         )}
                       </CardContent>
@@ -849,12 +865,13 @@ const location = useLocation();
                         size="lg"
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />
-                        Complete Purchase - ${totalToPurchase.toFixed(2)}
+                        {t("events.details.seatMap.completePurchase")} $
+                        {totalToPurchase.toFixed(2)}
                       </Button>
                     )
                   ) : (
                     <p className="text-lg pl-3 mb-2 text-red-600">
-                      You can't buy tickets without signing in.
+                      {t("events.details.seatMap.cannotBuy")}
                     </p>
                   )}
                 </div>
@@ -863,7 +880,9 @@ const location = useLocation();
                 <div className="lg:col-span-2">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Venue Seating Map</CardTitle>
+                      <CardTitle>
+                        {t("events.details.seatMap.venueMap")}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="overflow-x-auto pb-4">
@@ -890,14 +909,11 @@ const location = useLocation();
             >
               <DialogContent className="bg-white!">
                 <DialogHeader>
-                  <DialogTitle>Seats Reserved!</DialogTitle>
+                  <DialogTitle>
+                    {t("events.details.seatMap.seatReserved")}
+                  </DialogTitle>
                   <DialogDescription>
-                    Your {selectedSeats.length} seat(s) have been reserved for
-                    10 minutes. Please complete your purchase before the timer
-                    expires, or your seats will be released and become available
-                    to other customers. 3 times of failing to complete the
-                    purchase within the reservation time may result in a block
-                    of your account.
+                    {t("events.details.seatMap.DialogDescription")}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col gap-4 mt-4">
@@ -906,17 +922,16 @@ const location = useLocation();
                       <Clock className="w-5 h-5 text-amber-600 mt-0.5" />
                       <div className="flex-1">
                         <p className="font-medium text-amber-900">
-                          Timer Started
+                          {t("events.details.seatMap.timerStarted")}
                         </p>
                         <p className="text-sm text-amber-700 mt-1">
-                          Complete your purchase within 10 minutes to secure
-                          your seats.
+                          {t("events.details.seatMap.pleaseCompletePurchase")}
                         </p>
                       </div>
                     </div>
                   </div>
                   <Button onClick={() => setShowReservationDialog(false)}>
-                    Continue to Purchase
+                    {t("events.details.seatMap.continue")}
                   </Button>
                 </div>
               </DialogContent>
@@ -926,7 +941,9 @@ const location = useLocation();
           /* ======================= NORMAL TICKET UI ======================= */
           <>
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-3">Ticket Information</h2>
+              <h2 className="text-xl font-semibold mb-3">
+                {t("events.details.ticketing.ticketInfo")}
+              </h2>
 
               {event?.ticketTypes?.length > 0 ? (
                 event.ticketTypes.map((ticket) => (
@@ -941,7 +958,7 @@ const location = useLocation();
                   </p>
                 ))
               ) : (
-                <p>No tickets available</p>
+                <p>{t("events.details.ticketing.noAvailableTickets")}</p>
               )}
             </div>
 
@@ -955,11 +972,11 @@ const location = useLocation();
                 }
                 className="bg-pink-500 text-white px-6 py-3 rounded-lg shadow mb-6 cursor-pointer transition-all hover:bg-[#FF8370]"
               >
-                Buy Tickets
+                {t("events.details.ticketing.buyTickets")}
               </button>
             ) : (
               <p className="text-lg pl-3 mb-2 text-red-600">
-                You can't buy tickets without signing in.
+                {t("events.details.ticketing.cannotbuy")}
               </p>
             )}
           </>
@@ -967,7 +984,9 @@ const location = useLocation();
 
         {/* Location */}
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-2 ">Location</h2>
+          <h2 className="text-xl font-semibold mb-2 ">
+            {t("events.details.location")}
+          </h2>
           <p className="mb-3 select-all">
             {event.venue?.address ||
               eventinfo?.location?.address ||
@@ -985,17 +1004,19 @@ const location = useLocation();
 
         {/* Hosted By */}
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">Hosted by</h2>
+          <h2 className="text-xl font-semibold mb-2">
+            {t("events.details.hostedBy")}
+          </h2>
           <div className="flex items-center gap-3">
             <img src="/images/Charity.jpg" className="w-12 h-12 rounded-full" />
             <div>
               <p className="font-semibold">City Youth Movement{organizer}</p>
               <div className="flex gap-2 mt-1">
                 <button className="border px-2 py-1 rounded cursor-pointer">
-                  Contact
+                  {t("events.details.contact")}
                 </button>
                 <button className="border px-2 py-1 rounded bg-gray-900 text-white cursor-pointer">
-                  + Follow
+                  + {t("events.details.follow")}
                 </button>
               </div>
             </div>
@@ -1005,7 +1026,9 @@ const location = useLocation();
         <TagsList tags={event?.tags} />
         {/* Description */}
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-3">Event Description</h2>
+          <h2 className="text-xl font-semibold mb-3">
+            {t("events.details.description")}
+          </h2>
           <p className="whitespace-pre-wrap">
             {event.description || eventinfo?.description}
           </p>
