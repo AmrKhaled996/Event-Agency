@@ -12,6 +12,7 @@ import { subscribeToNewsletter } from "../../APIs/newsletterAPIs";
 import Loading from "./LoadingLayout";
 import LocalLink from "../../Router/LocalLink";
 import { useUser } from "../../Context/AuthProvider";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
   const { categories } = useCategories();
@@ -22,6 +23,7 @@ export default function Footer() {
   const [validSubscribe, setValidSubscribe] = useState(false);
   const [loading, setloading] = useState(false);
   const { user } = useUser();
+  const {t} = useTranslation();
 
   const validatenewsletterEmail = (email) => {
     setNewsletterEmail(email);
@@ -75,209 +77,227 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#B84DD6] text-white pt-14 pb-8  px-6 mt-5">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10">
-        {/* Company Info */}
-        <div>
-          <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">
-            Company Info
-          </h3>
-          <ul className="space-y-2 text-white/90">
-            <li>
-              <LocalLink to="" className="hover:text-white">
-                About Us
-              </LocalLink>
-            </li>
-            <li>
-              <LocalLink to="" className="hover:text-white">
-                Contact Us
-              </LocalLink>
-            </li>
-            <li>
-              <LocalLink to="" className="hover:text-white">
-                Careers
-              </LocalLink>
-            </li>
-            <li>
-              <LocalLink to="" className="hover:text-white">
-                FAQs
-              </LocalLink>
-            </li>
-            <li>
-              <LocalLink to="" className="hover:text-white">
-                Terms of Service
-              </LocalLink>
-            </li>
-            <li>
-              <LocalLink to="" className="hover:text-white">
-                Privacy Policy
-              </LocalLink>
-            </li>
-          </ul>
-        </div>
+    <footer className="bg-[#B84DD6] text-white pt-14 pb-8  px-6 mt-5 align-bottom">
+  <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10">
+    {/* Company Info */}
+    <div>
+      <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">
+        {t("layout.footer.companyInfo")}
+      </h3>
 
-        {/* Help */}
-        <div>
-          <h3 className="font-semibold text-lg mb-4 underline underline-offset-8 ">
-            Help
-          </h3>
-          <p className="mb-2">try our AI chatbot to get help</p>
-          {user&& user.role ?
-            (<LocalLink
-              to="/help/chatbot"
-              className="hover:text-white font-bold text-lg pt-8 underline underline-offset-4"
-            >
-              Fa3liat Chatbot
-            </LocalLink>
-          ):(<p>please login to use chatbot</p>)}{" "}
-          {/* <ul className="space-y-2 text-white/90">
-            <li><LocalLink to="" className="hover:text-white">Account Support</LocalLink></li>
-            <li><LocalLink to="" className="hover:text-white">Listing Events</LocalLink></li>
-            <li><LocalLink to="" className="hover:text-white">Event Ticketing</LocalLink></li>
-            <li><LocalLink to="" className="hover:text-white">Ticket Purchase Terms & Conditions</LocalLink></li>
-          </ul> */}
-        </div>
+      <ul className="space-y-2 text-white/90">
+        <li>
+          <LocalLink to="" className="hover:text-white">
+            {t("layout.footer.about")}
+          </LocalLink>
+        </li>
 
-        {/* Categories */}
-        <div>
-          <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">
-            Categories
-          </h3>
-          <ul className="space-y-2 text-white/90">
-            {categories.length < 7 ? (
-              categories.map((category) => (
-                <li key={category.name}>
-                  <LocalLink
-                    to={`/events?category=${category.name}`}
-                    className="hover:text-white"
-                  >
-                    {category.name}
-                  </LocalLink>
-                </li>
-              ))
-            ) : (
-              <li>
-                <Link
-                  to="/categories"
-                  className="hover:text-white font-semibold text-xl "
-                >
-                  All Categories
-                </Link>
-              </li>
-            )}
-            {/* <li><Link to="" className="hover:text-white">Arts & Culture</Link></li>
-            <li><Link to="" className="hover:text-white">Business & Professional</Link></li>
-            <li><Link to="" className="hover:text-white">Student & University</Link></li>
-            {/* <li><Link to="" className="hover:text-white">Workshops & Training Programs</Link></li>
-            <li><Link to="" className="hover:text-white">Exhibitions & Trade Shows</Link></li>
-            <li><Link to="" className="hover:text-white">Religious & Cultural Gatherings</Link></li>
-            <li><Link to="" className="hover:text-white">Fitness & Lifestyle</Link></li>
-            <li><Link to="" className="hover:text-white">Community & Charity Events</Link></li>
-            <li><Link to="" className="hover:text-white">Book & Culture Fairs</Link></li> */}
-          </ul>
-        </div>
+        <li>
+          <LocalLink to="" className="hover:text-white">
+            {t("layout.footer.contact")}
+          </LocalLink>
+        </li>
 
-        {/* Follow Us */}
-        <div>
-          <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">
-            Follow Us
-          </h3>
-          <div className="flex flex-col space-y-3 text-white/90">
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              className="flex items-center gap-2 hover:text-white"
-            >
-              <Facebook size={18} /> Facebook
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              className="flex items-center gap-2 hover:text-white"
-            >
-              <Instagram size={18} /> Instagram
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              className="flex items-center gap-2 hover:text-white"
-            >
-              <Twitter size={18} /> X (Twitter)
-            </a>
-            <a
-              href="https://youtube.com"
-              target="_blank"
-              className="flex items-center gap-2 hover:text-white"
-            >
-              <Youtube size={18} /> Youtube
-            </a>
-          </div>
-        </div>
+        <li>
+          <LocalLink to="" className="hover:text-white">
+            {t("layout.footer.careers")}
+          </LocalLink>
+        </li>
 
-        {/* Newsletter */}
-        <div>
-          <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">
-            Newsletter
-          </h3>
-          <p className="text-white/90 mb-4">
-            Stay updated with the latest events
-          </p>
+        <li>
+          <LocalLink to="" className="hover:text-white">
+            {t("layout.footer.faqs")}
+          </LocalLink>
+        </li>
 
-          <div className="flex flex-col items-center   gap-2">
+        <li>
+          <LocalLink to="" className="hover:text-white">
+            {t("layout.footer.terms")}
+          </LocalLink>
+        </li>
+
+        <li>
+          <LocalLink to="" className="hover:text-white">
+            {t("layout.footer.privacy")}
+          </LocalLink>
+        </li>
+      </ul>
+    </div>
+
+    {/* Help */}
+    <div>
+      <h3 className="font-semibold text-lg mb-4 underline underline-offset-8 ">
+        {t("layout.footer.help")}
+      </h3>
+
+      <p className="mb-2">{t("layout.footer.chatbotHelp")}</p>
+
+      {user && user.role ? (
+        <LocalLink
+          to="/help/chatbot"
+          className="hover:text-white font-bold text-lg pt-8 underline underline-offset-4"
+        >
+          {t("layout.footer.chatbot")}
+        </LocalLink>
+      ) : (
+        <p>{t("layout.footer.loginToUseChatbot")}</p>
+      )}{" "}
+    </div>
+
+    {/* Categories */}
+    <div>
+      <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">
+        {t("layout.footer.categories")}
+      </h3>
+
+      <ul className="space-y-2 text-white/90">
+        {categories.length < 7 ? (
+          categories.map((category) => (
+            <li key={category.name}>
+              <LocalLink
+                to={`/events?category=${category.name}`}
+                className="hover:text-white"
+              >
+                {category.name}
+              </LocalLink>
+            </li>
+          ))
+        ) : (
+          <li>
+            <Link
+              to="/categories"
+              className="hover:text-white font-semibold text-xl "
+            >
+              {t("layout.footer.allCategories")}
+            </Link>
+          </li>
+        )}
+      </ul>
+    </div>
+
+    {/* Follow Us */}
+    <div>
+      <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">
+        {t("layout.footer.followUs")}
+      </h3>
+
+      <div className="flex flex-col space-y-3 text-white/90">
+        <a
+          href="https://facebook.com"
+          target="_blank"
+          className="flex items-center gap-2 hover:text-white"
+        >
+          <Facebook size={18} /> {t("layout.footer.facebook")}
+        </a>
+
+        <a
+          href="https://instagram.com"
+          target="_blank"
+          className="flex items-center gap-2 hover:text-white"
+        >
+          <Instagram size={18} /> {t("layout.footer.instagram")}
+        </a>
+
+        <a
+          href="https://twitter.com"
+          target="_blank"
+          className="flex items-center gap-2 hover:text-white"
+        >
+          <Twitter size={18} /> {t("layout.footer.twitter")}
+        </a>
+
+        <a
+          href="https://youtube.com"
+          target="_blank"
+          className="flex items-center gap-2 hover:text-white"
+        >
+          <Youtube size={18} /> {t("layout.footer.youtube")}
+        </a>
+      </div>
+    </div>
+
+    {/* Newsletter */}
+    <div>
+      <h3 className="font-semibold text-lg mb-4 underline underline-offset-8">
+        {t("layout.footer.newsletter")}
+      </h3>
+
+      <p className="text-white/90 mb-4">
+        {t("layout.footer.newsletterText")}
+      </p>
+
+      <div className="flex flex-col items-center gap-2">
+        <input
+          type="email"
+          placeholder={t("layout.footer.newsletterPlaceholder")}
+          value={newsletterEmail}
+          onChange={(e) => validatenewsletterEmail(e.target.value)}
+          className="bg-white rounded-lg mb-6 p-10 w-full h-12 text-black placeholder-gray-400 placeholder:overflow-hidden outline-none px-3 py-2 mr-2"
+        />
+
+        {validEmail && (
+          <div className=" text-lg mb-4 w-full flex items-center justify-between">
+            {t("layout.footer.language")}:
+            <br />
+
             <input
-              type="email"
-              placeholder="Enter your email"
-              value={newsletterEmail}
-              onChange={(e) => validatenewsletterEmail(e.target.value)}
-              className="  bg-white rounded-lg mb-6 p-10 w-full h-12 text-black placeholder-gray-400 placeholder:overflow-hidden outline-none px-3 py-2 mr-2"
+              type="radio"
+              id="en"
+              name="language"
+              value="en"
+              className="ml-4 mr-1"
+              onChange={(e) => setNewsletterLanguage(e.target.value)}
             />
-            {/* language ratio */}
-            {validEmail && (
-              <div className=" text-lg mb-4 w-full flex items-center justify-between">
-                language: <br />
-                <input
-                  type="radio"
-                  id="en"
-                  name="language"
-                  value="en"
-                  className="ml-4 mr-1"
-                  onChange={(e) => setNewsletterLanguage(e.target.value)}
-                />
-                <label htmlFor="en" className="mr-4">
-                  English
-                </label>
-                <input
-                  type="radio"
-                  id="ar"
-                  name="language"
-                  value="ar"
-                  className="ml-4 mr-1"
-                  onChange={(e) => setNewsletterLanguage(e.target.value)}
-                />
-                <label htmlFor="ar">Arabic</label>
-              </div>
-            )}
-            {newsletterError && (
-              <p className="text-red-500">{newsletterError}</p>
-            )}
-            <button
-              type="submit"
-              className={` h-fit w-40 text-white font-semibold px-4 py-3 rounded-md flex justify-center items-center gap-2 ${validSubscribe ? "bg-green-600 cursor-not-allowed" : "bg-secandry hover:cursor-pointer"}`}
-              disabled={validSubscribe}
-              onClick={handleSubscribe}
-            >
-              {validSubscribe ? "Email Sent  " : "Subscribe"}{" "}
-              {validSubscribe && <CheckCircleIcon />}
-            </button>
-          </div>
-        </div>
-      </div>
 
-      {/* Bottom */}
-      <div className="mt-12 pt-6  border-t border-white/20 text-center text-white/80">
-        © {new Date().getFullYear()} Fa3liat. All rights reserved.
+            <label htmlFor="en" className="mr-4">
+              {t("layout.footer.english")}
+            </label>
+
+            <input
+              type="radio"
+              id="ar"
+              name="language"
+              value="ar"
+              className="ml-4 mr-1"
+              onChange={(e) => setNewsletterLanguage(e.target.value)}
+            />
+
+            <label htmlFor="ar">
+              {t("layout.footer.arabic")}
+            </label>
+          </div>
+        )}
+
+        {newsletterError && (
+          <p className="text-red-500">{newsletterError}</p>
+        )}
+
+        <button
+          type="submit"
+          className={` h-fit w-40 text-white font-semibold px-4 py-3 rounded-md flex justify-center items-center gap-2 ${
+            validSubscribe
+              ? "bg-green-600 cursor-not-allowed"
+              : "bg-secandry hover:cursor-pointer"
+          }`}
+          disabled={validSubscribe}
+          onClick={handleSubscribe}
+        >
+          {validSubscribe
+            ? t("layout.footer.emailSent")
+            : t("layout.footer.subscribe")}{" "}
+
+          {validSubscribe && <CheckCircleIcon />}
+        </button>
       </div>
-      {loading && <Loading />}
-    </footer>
-  );
+    </div>
+  </div>
+
+  {/* Bottom */}
+  <div className="mt-12 pt-6 border-t border-white/20 text-center text-white/80">
+    © {new Date().getFullYear()} Fa3liat.{" "}
+    {t("layout.footer.allRightsReserved")}
+  </div>
+
+  {loading && <Loading />}
+</footer>  );
 }

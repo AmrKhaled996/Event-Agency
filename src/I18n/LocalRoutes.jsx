@@ -18,6 +18,7 @@ export default function LocalRoutes() {
 
     // set language
     i18n.changeLanguage(lang);
+    localStorage.setItem("lang", lang);
 
     // set direction
     document.dir = lang === "ar" ? "rtl" : "ltr";

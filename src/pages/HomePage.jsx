@@ -1,4 +1,3 @@
-
 import CardDisplaySection from "../components/Layout/CardDisplaySection";
 import CuratedEventsSection from "../components/Layout/CuratedEventsSection";
 import Footer from "../components/Layout/Footer";
@@ -17,31 +16,33 @@ import {
 import Loading from "../components/Layout/LoadingLayout";
 import { useState } from "react";
 import HomeHeader from "../components/Layout/HomeHeader";
+import { useTranslation } from "react-i18next";
 
 function HomePage() {
   // const {user} = useAuth();
   const [loading, setloading] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <>
-      <Title>Fa3liat | HOME</Title>
+      <Title>{t(`homePage.seoTitle`)}</Title>
       <HomeHeader />
       <ExploreCategories endpoint={categories} />
       <CardDisplaySection
-        title={"Events Just for You"}
+        title={t(`homePage.sections.curated`)}
         endpoint={personalizedEvents}
       />
       <CardDisplaySection
-        title={"What's New This Week"}
+        title={t(`homePage.sections.new`)}
         endpoint={newEventsThisWeek}
       />
       <CuratedEventsSection />
       <CardDisplaySection
-        title={"Happening Near You"}
+        title={t(`homePage.sections.nearby`)}
         endpoint={nearbyEvents}
       />
       <CardDisplaySection
-        title={"Past Events and Highlights"}
+        title={t(`homePage.sections.past`)}
         endpoint={pastEvents}
       />
       <CreateEventHomePageSection />

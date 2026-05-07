@@ -1,5 +1,5 @@
 import { Search, MapPin, ChevronDown } from "lucide-react";
-import {locationOptions} from "../../utils/LocationOptions";
+import {locationOptions, locationOptionsAr} from "../../utils/LocationOptions";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ErrorDialog from "../Dialogs/ErrorDialog";
@@ -15,6 +15,7 @@ export default function HeroSection() {
   const [location, setlocation] = useState(locationParam);
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
+  const { lang } = useTranslation();
   const {t}=useTranslation();
   const navigate = useAppNavigate();
 
@@ -95,7 +96,7 @@ export default function HeroSection() {
                 <option value="" disabled defaultValue={""}>
                   {t("homePage.hero.locationPlaceholder")}
                 </option>
-                {locationOptions.map((city, index) => (
+                {(lang === "ar" ? locationOptionsAr : locationOptions).map((city, index) => (
                   <option key={index} value={city.value}>
                     {city.label}
                   </option>

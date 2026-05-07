@@ -1,21 +1,22 @@
-import GoogleLogo from "../../components/Icons/GoogleLogo";
-import FacebookLogo from "../../components/Icons/FacebookLogo";
+import GoogleLogo from "../../../components/Icons/GoogleLogo";
+import FacebookLogo from "../../../components/Icons/FacebookLogo";
 import { Meta, Title } from "react-head";
 
-import { validateLogin } from "../../utils/FormVaildators";
+import { validateLogin } from "../../../utils/FormVaildators";
 
-import { useAuth } from "../../Hooks/useAuth";
-import EyeTrager from "../../components/Icons/Eyetrager";
-import { getGoogleAuth, login } from "../../APIs/authAPIs";
-import Loading from "../../components/Layout/LoadingLayout";
-import ErrorDialog from "../../components/Dialogs/ErrorDialog";
+import { useAuth } from "../../../Hooks/useAuth";
+import EyeTrager from "../../../components/Icons/Eyetrager";
+import { getGoogleAuth, login } from "../../../APIs/authAPIs";
+import Loading from "../../../components/Layout/LoadingLayout";
+import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import { useState } from "react";
-import LocalLink from "../../Router/LocalLink";
-import useAppNavigate from "../../Router/useAppNavigate";
+import LocalLink from "../../../Router/LocalLink";
+import useAppNavigate from "../../../Router/useAppNavigate";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { adminDashboardauth } from "../../../APIs/adminDashboardApis";
 
-function LoginPage() {
+function LoginPageAdmin() {
   const navigate = useAppNavigate();
   const { t } = useTranslation();
   const [openDialog, setopenDialog] = useState(false);
@@ -23,8 +24,8 @@ function LoginPage() {
   const { showPassword, handleShowPassword, errors, submit, loading } = useAuth(
     {
       validator: validateLogin,
-      onSubmit: login,
-      redirectTo: "/",
+      onSubmit: adminDashboardauth.login,
+      redirectTo: "/admin",
       origin: "login",
       openDialog,
       dialogMessage,
@@ -62,18 +63,7 @@ function LoginPage() {
       >
         <img src="/Fa3liatLogo.png" alt="Fa3liat Logo" className="mb-8 w-48" />
         <h1 className="text-4xl font-bold mb-4 text-start leading-snug hidden lg:flex">
-          {t("auth.login.aside1")}
-          <br />
-          {t("auth.login.aside2")}
-
-          <br />
-          {t("auth.login.aside3")}
-
-          <br />
-          {t("auth.login.aside4")}
-
-          <br />
-          {t("auth.login.aside5")}
+          {t("auth.adminAuth.asideLogin")}
         </h1>
       </div>
 
@@ -92,7 +82,7 @@ function LoginPage() {
         </h2>
 
         {/* Social Login Buttons */}
-        <div className="flex space-x-4 mb-6">
+        {/* <div className="flex space-x-4 mb-6">
           <button
             onClick={handleGoogleAuth}
             className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer"
@@ -102,7 +92,7 @@ function LoginPage() {
           <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer text-[#1877F2]">
             <FacebookLogo /> {t("auth.login.facebook")}
           </button>
-        </div>
+        </div> */}
 
         {/* Divider */}
         <div className="flex items-center mb-6">
@@ -173,13 +163,13 @@ function LoginPage() {
         <p className="mt-6 text-gray-600 text-center">
           {t("auth.login.haveNoAccount")}&nbsp;
           <LocalLink
-            to="/signup"
+            to="/admin/signup"
             className="text-secandry font-semibold hover:underline"
           >
             {t("auth.login.signup")}
           </LocalLink>
         </p>
-        <p className="mt-6 text-gray-600 text-center">
+        {/* <p className="mt-6 text-gray-600 text-center">
           {t("auth.login.forgetPassword")} &nbsp;
           <LocalLink
             to="/forget-password/get-email"
@@ -187,7 +177,7 @@ function LoginPage() {
           >
             {t("auth.login.resetPassword")}
           </LocalLink>
-        </p>
+        </p> */}
       </div>
       {/* {showDialog && (
         <div className="fixed inset-0 bg-white/40 flex items-center justify-center z-50">
@@ -215,4 +205,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default LoginPageAdmin;

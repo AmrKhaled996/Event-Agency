@@ -5,6 +5,7 @@ import { latestEvents } from "../../APIs/homeApis";
 import Loading from "./LoadingLayout";
 import CardSkeleton from "../UI/CardSkeleton";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 // const mockCards = [
 //   {
@@ -56,6 +57,7 @@ function CardDisplaySection({ title, endpoint }) {
   const { user } = useUser();
   // const [loading, setloading] = useState(false);
   const navigate = useAppNavigate();
+  const { t } = useTranslation();
 
   const handleEndpoint = async () => {
     try {
@@ -122,7 +124,7 @@ function CardDisplaySection({ title, endpoint }) {
           onClick={handleDiscoverMore}
           className="border border-primary bg-white md:px-30 px-20 py-3 font-semibold text-lg text-primary my-15 rounded-md cursor-pointer hover:shadow-primary/40 hover:shadow-lg  transition-all duration-300"
         >
-          Discover More
+          {t(`homePage.sections.discover`)}
         </button>
       </div>
       {/* {loading && <Loading />} */}

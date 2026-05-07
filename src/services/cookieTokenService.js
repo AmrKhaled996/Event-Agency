@@ -32,6 +32,19 @@ export const refreshAccessToken = async (data) => {
     sameSite: "strict",
   });
 };
+export const adminRefreshAccessToken = async (data) => {
+  const accessToken = data.data.accessToken.token
+  const expiresIn = data.data.accessToken.expiresIn;
+
+  Cookies.remove("accessToken");
+  const ref= Cookies.get("refreshToken");
+  
+  Cookies.set("accessToken", accessToken, {
+    expires: expiresIn / 86400,
+    secure: true,
+    sameSite: "strict",
+  });
+};
 
 export function getAccessToken() {
   return Cookies.get("accessToken");

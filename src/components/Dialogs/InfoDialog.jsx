@@ -1,16 +1,35 @@
+import { useTranslation } from "react-i18next";
 import Dialog from "../UI/Dialog";
 
-export default function InfoDialog({ open, onClose, event }) {
-  if (!event) return null;
-
+export default function InfoDialog({ open, onClose, data, labels }) {
+  if (!data) return null;
+  console.log("first",data)
+  const {t} = useTranslation();
   return (
     <Dialog open={open} onClose={onClose}>
-      <h3 className="text-xl font-semibold mb-4">Event Details</h3>
+      
+      <h3 className="text-xl font-semibold mb-4">Data :</h3>
+      <hr  className="text-3xl border-2 border-black bg-black mb-8"/>
+      <table className="w-full text-sm border-collapse">
+        <tbody>
+          {Object.entries(data).map(([key, value]) => (
+            <tr
+              key={key}
+              className="border-b last:border-0 "
+            >
+              {/* KEY */}
+              <td className="px-3 py-4  text-lg w-1/3 font-bold whitespace-nowrap">
+                {t(`organizerFields.${key}`, { defaultValue: key })}:
+              </td>
 
-      <p className="text-gray-600 mb-2"><strong>Event ID:</strong> {event?.id}</p>
-      <p className="text-gray-600 mb-2"><strong>Title:</strong> {event?.title}</p>
-      <p className="text-gray-600 mb-2"><strong>Description:</strong> {event?.description}</p>
-      <p className="text-gray-600 mb-2"><strong>Location name:</strong> {event?.venue?.name}</p>
+              {/* VALUE */}
+              <td className="px-3 py-2 font-medium  ">
+                {value?.toString() ?? "-"}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       <div className="flex justify-end mt-4">
         <button

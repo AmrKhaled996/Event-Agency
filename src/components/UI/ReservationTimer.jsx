@@ -66,7 +66,7 @@ export function ReservationTimer({ expiresAt, onExpire }) {
           </div>
           <div className="flex-1">
             <div className="text-sm font-medium text-gray-600">
-              {t("events.details.booking.reservationTimer")}
+              {t("events.booking.reservationTimer")}
             </div>
             <div
               className={cn(

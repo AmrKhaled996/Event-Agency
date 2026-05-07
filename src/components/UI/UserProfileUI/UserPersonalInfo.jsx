@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { refreshToken } from "../../../APIs/authAPIs.js";
 import { updateMyProfile } from "../../../APIs/profileAPI.js";
 import { refreshAccessToken } from "../../../services/cookieTokenService.js";
-import {locationOptions} from "../../../utils/LocationOptions.js";
+import {locationOptions, locationOptionsAr} from "../../../utils/LocationOptions.js";
 import Loading from "../../Layout/LoadingLayout.jsx";
+import { useTranslation } from "react-i18next";
 
 function PersonalInfoSection({ userLocation, accountData }) {
   const [location, setlocation] = useState(userLocation);
   const [loading, setLoading] = useState(false);
+  const {lang}= useTranslation();
 
   const handleChangeLoction = (e) => {
     setlocation(e.target.value);
@@ -60,7 +62,7 @@ function PersonalInfoSection({ userLocation, accountData }) {
             </label>
             {/* {console.log(userLocation)} */}
             <select className="form-select w-full bg-slate-100 h-12 rounded-lg text-md p-2 pr-10">
-              {locationOptions.map((location) =>
+              {(lang === "ar" ? locationOptionsAr : locationOptions).map((location) =>
                 location.value === userLocation ? (
                   <option key={location.value} value={location.value} selected>
                     {location.label}

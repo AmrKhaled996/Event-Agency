@@ -51,10 +51,13 @@ import AboutPage from "../pages/Info/AboutPage";
 import AboutPageAR from "../pages/Info/AboutPageAR";
 import ChatbotHelper from "../pages/chatbot/ChatbotHelper";
 import { useTranslation } from "react-i18next";
+import AdminDashboard from "../pages/Admin/AdminDashboard";
+import LoginPageAdmin from "../pages/Admin/Auth/LoginPage";
+import SignUpPageAdmin from "../pages/Admin/Auth/SignUpPage";
 
 function AppRouter() {
+  const { t } = useTranslation();
   const savedLang = localStorage.getItem("lang") || "ar";
-  const {t}=useTranslation();
   return (
     <>
       <BrowserRouter>
@@ -85,7 +88,10 @@ function AppRouter() {
             <Route
               path="onboarding/location-selection"
               element={
-                <Onboarding stepNo={2} pageTitle={t("onboarding.locationSelection.title")}>
+                <Onboarding
+                  stepNo={2}
+                  pageTitle={t("onboarding.locationSelection.title")}
+                >
                   <LocationSelection />
                 </Onboarding>
               }
@@ -94,7 +100,10 @@ function AppRouter() {
             <Route
               path="onboarding/preference-selection"
               element={
-                <Onboarding stepNo={3} pageTitle={t("onboarding.preferenceSelection.title")}>
+                <Onboarding
+                  stepNo={3}
+                  pageTitle={t("onboarding.preferenceSelection.title")}
+                >
                   <PreferenceSelection />
                 </Onboarding>
               }
@@ -103,7 +112,10 @@ function AppRouter() {
             <Route
               path="onboarding/personality-info"
               element={
-                <Onboarding stepNo={1} pageTitle={t("onboarding.personalityinfo.title")}>
+                <Onboarding
+                  stepNo={1}
+                  pageTitle={t("onboarding.personalityinfo.title")}
+                >
                   <PersonlityinfoQ />
                 </Onboarding>
               }
@@ -342,12 +354,26 @@ function AppRouter() {
                 </>
               }
             />
+            {/* ADMIN AUTH */}
+              <Route path="admin/login" element={<LoginPageAdmin />} />
+            <Route path="admin/signup" element={<SignUpPageAdmin />} />
+            {/* ADMIN */}
+
+            <Route
+              path="admin"
+              element={
+                <ProtectedRoutes Roles={["admin"]}>
+                  <AdminDashboard />
+                </ProtectedRoutes>
+              }
+            />
+
             {/* chatbotHelper */}
             <Route
               path="help/chatbot"
               element={
                 <>
-                <NavigationBar />
+                  <NavigationBar />
                   <ChatbotHelper />
                   <Footer />
                 </>

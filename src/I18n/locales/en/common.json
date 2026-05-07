@@ -24,7 +24,9 @@
       "loading": "Loading...",
       "noResults": "No events found",
       "success": "Success!"
-    }
+    },
+    "yes": "Yes",
+    "no": "No"
   },
   "validation": {
     "emailRequired": "Email is required",
@@ -45,11 +47,12 @@
       "logout": "Logout",
       "Join": "Join Us",
       "tickets": "Tickets",
-      "interest": "Interests",
       "wallet": "Wallet",
       "upgrade": "Upgrade to organizer",
       "dashboard": "Go to Dashboard",
-      "join": "Join Us"
+      "join": "Join Us",
+      "calendar": "Calendar",
+      "interest": "Interested"
     },
     "footer": {
       "companyInfo": "Company Info",
@@ -61,7 +64,24 @@
       "newsletter": "Newsletter",
       "newsletterText": "Stay updated with the latest events",
       "newsletterPlaceholder": "Enter your email",
-      "subscribe": "Subscribe"
+      "subscribe": "Subscribe",
+      "careers": "Careers",
+      "faqs": "FAQs",
+      "help": "Help",
+      "chatbotHelp": "try our AI chatbot to get help",
+      "chatbot": "Fa3liat Chatbot",
+      "loginToUseChatbot": "please login to use chatbot",
+      "categories": "Categories",
+      "allCategories": "All Categories",
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "X (Twitter)",
+      "youtube": "Youtube",
+      "language": "Language",
+      "english": "English",
+      "arabic": "Arabic",
+      "emailSent": "Email Sent",
+      "allRightsReserved": "All rights reserved."
     }
   },
   "newsletter": {
@@ -152,6 +172,10 @@
       "title": "Check Your Inbox",
       "instruction": "We've sent a password reset link. if a Fa3liat account exists with this email..",
       "back": "Back To Login"
+    },
+    "adminAuth":{
+      "asideLogin":"  You have power in your hands. <br /> Just login and enjoy the world of events.",
+      "asideSignUp":"controll the whole world with one click. \n you can do anything you want. \n just login and enjoy the power."
     }
   },
   "homePage": {
@@ -213,7 +237,7 @@
         "cannotbuy": "You can't buy tickets without signing in.",
         "venueMap": "Venue Seating Map",
         "seatReserved": "Seat Reserved!",
-        "DialogDescription": "                    Your ${selectedSeats.length} seat(s) have been reserved for\n                    10 minutes. Please complete your purchase before the timer\n                    expires, or your seats will be released and become available\n                    to other customers. 3 times of failing to complete the\n                    purchase within the reservation time may result in a block\n                    of your account.",
+        "DialogDescription": "                    Your {{selectedSeats.length}} seat(s) have been reserved for\n                    10 minutes. Please complete your purchase before the timer\n                    expires, or your seats will be released and become available\n                    to other customers. 3 times of failing to complete the\n                    purchase within the reservation time may result in a block\n                    of your account.",
         "timerStarted": "Reservation Timer Started",
         "pleaseCompletePurchase": "Complete your purchase within 10 minutes to secure your seats.",
         "continue": "Continue to Purchase"
@@ -240,7 +264,7 @@
       "reservationTimer": "Reservation Expires In",
       "seatsSelected": "Selected Seats",
       "completePurchase": "Complete Purchase - $",
-      "comleteNow": "⚠️ Complete your purchase now or seats will be released!",
+      "completeNow": "⚠️ Complete your purchase now or seats will be released!",
       "completeSoon": "Complete your purchase soon to secure your seats.",
       "yourSeats": "Your seats are reserved. Complete your purchase.",
       "signinRequired": "You can't reserve tickets without signing in."
@@ -358,5 +382,199 @@
       "description": "Your account has been successfully created. Welcome to the community! You can now explore and book unique spaces for your parties, events, and workspaces."
     },
     "continue": "Continue"
+  },
+  "appTitle": "Admin Controller",
+  "sandbox": "Fa3liat controller environment",
+  "live": "LIVE",
+  "nav": {
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "organizers": "Organizers",
+    "analytics": "Analytics",
+    "finance": "Finance",
+    "events": "Events"
+  },
+  "actions": {
+    "dashboardSummary": "Dashboard Summary",
+    "reviewQueue": "Review Queue",
+    "listUsers": "List Users",
+    "getUser": "Get User",
+    "deleteUser": "Delete User",
+    "restoreUser": "Restore User",
+    "listOrganizers": "List Organizers",
+    "getOrganizer": "Get Organizer",
+    "approveOrganizer": "Approve Organizer",
+    "rejectOrganizer": "Reject Organizer",
+    "suspendOrganizer": "Suspend Organizer",
+    "reactivateOrganizer": "Reactivate Organizer",
+    "ticketsByEvent": "Tickets Sold By Event",
+    "revenueByEvent": "Revenue By Event",
+    "activeUsers": "Active Users",
+    "financeSummary": "Summary",
+    "processPayouts": "Process Payouts",
+    "listEvents": "List Events",
+    "getEvent": "Get Event",
+    "deleteEvent": "Delete Event",
+    "restoreEvent": "Restore Event"
+  },
+  "table": {
+    "id": "ID",
+    "name": "Name",
+    "email": "Email",
+    "status": "Status",
+    "joined": "Joined",
+    "events": "Events",
+    "organizer": "Organizer",
+    "date": "Date",
+    "tickets": "Tickets",
+    "type": "Type",
+    "submitted": "Submitted",
+    "title": "Title",
+    "deletedAt": "Deleted At",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "actions": "Actions",
+    "mode": "Mode"
+  },
+  "pagination": {
+    "range": "{{from}}–{{to}} of {{total}}"
+  },
+  "fields": {
+    "userId": "User ID",
+    "userIdPlaceholder": "usr_0001",
+    "organizerId": "Organizer ID",
+    "organizerIdPlaceholder": "org_0001",
+    "eventId": "Event ID",
+    "eventIdPlaceholder": "evt_0001",
+    "reason": "Reason (optional)",
+    "reasonPlaceholder": "Provide a reason…"
+  },
+  "buttons": {
+    "deleteUser": "Delete User",
+    "restoreUser": "Restore User",
+    "approve": "Approve",
+    "reject": "Reject",
+    "suspend": "Suspend",
+    "reactivate": "Reactivate",
+    "processPayouts": "Process Payouts",
+    "deleteEvent": "Delete",
+    "restoreEvent": "Restore",
+    "confirm": "Confirm"
+  },
+  "confirm": {
+    "deleteUser": "Confirm permanent deletion",
+    "deleteEvent": "Confirm permanent deletion",
+    "processPayouts": "Confirm — process all 14 pending payouts ($18,340)",
+    "restoreEvent": "Confirm restore event"
+  },
+  "dashboardSummary": {
+    "users": "Users",
+    "organizers": "Organizers",
+    "events": "Events",
+    "orders": "Orders",
+
+    "total": "Total",
+    "active": "Active (period)",
+    "deleted": "Deleted",
+
+    "pendingReview": "Pending review",
+
+    "completed": "Completed",
+    "pending": "Pending",
+    "cancelled": "Cancelled",
+
+    "revenue": "Revenue"
+  },
+  "listorganizersTable": {
+    "id": "ID",
+    "name": "Name",
+    "email": "Email",
+    "type": "Type",
+    "status": "Status",
+    "verification": "Verification",
+    "reason": "Reason",
+    "rejected": "Rejected",
+    "suspended": "Suspended"
+  },
+
+  "organizerFields": {
+    "id": "ID",
+    "userId": "User ID",
+    "phone": "Phone",
+    "contactPhone": "Phone",
+    "reviewedBy": "Reviewed By",
+    "reviewedAt": "Reviewed At",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
+  },
+  "userTable": {
+    "id": "ID",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "verified": "Verified",
+    "completed": "Completed",
+    "location": "Location",
+    "deleted": "Deleted"
+  },
+  "userFields": {
+    "id": "ID",
+    "phone": "Phone",
+    "gender": "Gender",
+    "birthDate": "Birth Date",
+    "languagePreference": "Language",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
+  },
+  "eventDialog": {
+    "deletedSuccess": "Event deleted at {{time}}",
+    "restoredSuccess": "Event restored at {{time}}",
+    "title": "Event Details",
+    "fields": {
+      "id": "ID",
+      "organizerId": "Organizer ID",
+      "title": "Title",
+      "slug": "Slug",
+      "description": "Description",
+      "bannerUrl": "Banner URL",
+      "type": "Type",
+      "mode": "Mode",
+      "category": "Category",
+      "categoryId": "Category ID",
+      "categoryName": "Category Name",
+      "venue": "Venue",
+      "venueId": "Venue ID",
+      "venueName": "Venue Name",
+      "address": "Address",
+      "city": "City",
+      "state": "State",
+      "country": "Country",
+      "zipCode": "Zip Code",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "tags": "Tags",
+      "hasSeatMap": "Seat Map",
+      "deletedAt": "Deleted At",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At"
+    },
+
+    "status": {
+      "Active": "Active",
+      "Approved": "Approved",
+      "reactivated": "Reactivated",
+      "published": "Published",
+
+      "inactive": "Inactive",
+      "pending": "Pending",
+      "draft": "Draft",
+      "under_review": "Under Review",
+
+      "banned": "Banned",
+      "suspended": "Suspended",
+      "cancelled": "Cancelled",
+      "rejected": "Rejected",
+      "deleted": "Deleted"
+    }
   }
 }

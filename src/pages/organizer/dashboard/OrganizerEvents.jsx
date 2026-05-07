@@ -243,7 +243,7 @@ export default function OrganizerEventsPage() {
         <InfoDialog
           open={infoDialogOpen}
           onClose={() => setInfoDialogOpen(false)}
-          event={selectedEvent}
+          data={selectedEvent}
         />
       )}
       {openDialog && (

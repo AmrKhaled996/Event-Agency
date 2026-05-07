@@ -125,127 +125,154 @@ function NavigationBar({ backGround = "primary" }) {
             {/* === 1/4: Menu Items === */}
             <div className="hidden lg:flex w-2/4 justify-center font-semibold text-lg">
               <ul className="flex justify-between w-full text-white">
-                <li className={`text-center hover:text-gray-300 cursor-pointer ${lang==='ar'? '':'border-r border-gray-400'} flex-1`}>
-                  <a href="#">Events</a>
-                </li>
-                <li className={`text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1`}>
-                  <a href="#">Categories</a>
-                </li>
-                <li className={`text-center hover:text-gray-300 cursor-pointer ${lang==='en'? '':'border-r border-gray-400'} flex-1`}>
-                  <a href="#">Calendar</a>
-                </li>
-              </ul>
-            </div>
+  <li
+    className={`text-center hover:text-gray-300 cursor-pointer ${
+      lang === "ar" ? "" : "border-r border-gray-400"
+    } flex-1`}
+  >
+    <a href="#">{t("layout.nav.events")}</a>
+  </li>
 
-            {/* === 1/4: Language Buttons === */}
-            <div className="hidden lg:flex w-1/8 justify-center items-center space-x-4">
-              <button
-                disabled={lang === "ar"}
-                onClick={() => handleChangeLanguage("ar")}
-                className={`text-white  ${lang === 'ar' ? 'font-extrabold underline text-xl hover:cursor-not-allowed': 'font-bold text-xl hover:cursor-pointer hover:text-gray-300'} `}
-              >
-                AR
-              </button>
-              <span className="text-white text-2xl">|</span>
-              <button
-              disabled={lang === "en"}
-                onClick={() => handleChangeLanguage("en")}
-                className={`text-white ${lang === 'en' ? 'font-extrabold underline text-xl hover:cursor-not-allowed': 'font-bold text-xl hover:cursor-pointer hover:text-gray-300'}  mr-2`}
-              >
-                EN
-              </button>
-            </div>
+  <li className="text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1">
+    <a href="#">{t("layout.nav.categories")}</a>
+  </li>
 
-            {/* === 1/4: Auth Buttons === */}
+  <li
+    className={`text-center hover:text-gray-300 cursor-pointer ${
+      lang === "en" ? "" : "border-r border-gray-400"
+    } flex-1`}
+  >
+    <a href="#">{t("layout.nav.calendar")}</a>
+  </li>
+</ul>
+</div>
 
-            {user.role === "user" || user.role === "organizer" ? (
-              <div className="text-white flex items-center gap-6">
-                <button
-                  onClick={() => navigate(`/tickets`)}
-                  className="hidden md:flex flex-col items-center text-sm cursor-pointer"
-                >
-                  <TicketIcon />
+{/* === 1/4: Language Buttons === */}
+<div className="hidden lg:flex w-1/8 justify-center items-center space-x-4">
+  <button
+    disabled={lang === "ar"}
+    onClick={() => handleChangeLanguage("ar")}
+    className={`text-white ${
+      lang === "ar"
+        ? "font-extrabold underline text-xl hover:cursor-not-allowed"
+        : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"
+    } `}
+  >
+    AR
+  </button>
 
-                  <span>Tickets</span>
-                </button>
+  <span className="text-white text-2xl">|</span>
 
-                <button
-                  onClick={() => navigate(`/interested`)}
-                  className="hidden md:flex flex-col items-center text-sm cursor-pointer"
-                >
-                  <Heart size={30} />
-                  <span>Interested</span>
-                </button>
+  <button
+    disabled={lang === "en"}
+    onClick={() => handleChangeLanguage("en")}
+    className={`text-white ${
+      lang === "en"
+        ? "font-extrabold underline text-xl hover:cursor-not-allowed"
+        : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"
+    } mr-2`}
+  >
+    EN
+  </button>
+</div>
 
-                <div className="relative">
-                  <button
-                    onClick={() => setOpenProfile(!openProfile)}
-                    className="flex  items-center gap-1 cursor-pointer"
-                  >
-                    <div className="flex flex-col items-center text-sm">
-                      <ProfileIcon />
+{/* === 1/4: Auth Buttons === */}
 
-                      <span>Profile</span>
-                    </div>
-                    <ChevronDown size={20} />
-                  </button>
+{user.role === "user" || user.role === "organizer" ? (
+  <div className="text-white flex items-center gap-6">
+    <button
+      onClick={() => navigate(`/tickets`)}
+      className="hidden md:flex flex-col items-center text-sm cursor-pointer"
+    >
+      <TicketIcon />
 
-                  {openProfile && (
-                    <div className={`absolute ${lang === "ar" ? "left-0" : "right-0"} mt-2 bg-white text-black shadow-lg rounded-lg w-48  z-20 `}>
-                      <button
-                        className="w-full flex justify-between text-left px-4 py-3 border-b border-gray-200 rounded-t-lg "
-                      >
-                        <span>Wallet</span> <span>{UserBalance || 0} EGP</span>
-                      </button>
-                      <button
-                        onClick={() => {
-                          navigate(`/profile/${user.id}`);
-                        }}
-                        className="w-full text-left px-4 py-3 hover:bg-gray-200 transition duration-300  cursor-pointer"
-                      >
-                        Profile
-                      </button>
-                      <button
-                        onClick={handlelogout}
-                        className="w-full text-left px-4 py-3  transition duration-300 flex gap-2 items-center text-red-700 hover:text-white hover:bg-red-600 cursor-pointer"
-                      >
-                        <DoorOpen size={20} />
-                        logout
-                      </button>
+      <span>{t("layout.nav.tickets")}</span>
+    </button>
 
-                      {user.role === "user" ? (
-                        <button
-                          onClick={() => navigate("/organizer/upgrade")}
-                          className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
-                        >
-                          Upgrade to organizer
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() =>
-                            navigate("/organizer/dashboard/overview")
-                          }
-                          className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
-                        >
-                          Go to Dashboard
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="hidden lg:flex w-1/5 justify-end space-x-4">
-                <button
-                  onClick={() => {
-                    // console.log(user);
-                    navigate("/login");
-                  }}
-                  className="px-6 py-2 bg-secandry text-white rounded-md hover:bg-[#FF8370] transition w-3/5"
-                >
-                  Join Us
-                </button>
-              </div>
+    <button
+      onClick={() => navigate(`/interested`)}
+      className="hidden md:flex flex-col items-center text-sm cursor-pointer"
+    >
+      <Heart size={30} />
+
+      <span>{t("layout.nav.interest")}</span>
+    </button>
+
+    <div className="relative">
+      <button
+        onClick={() => setOpenProfile(!openProfile)}
+        className="flex items-center gap-1 cursor-pointer"
+      >
+        <div className="flex flex-col items-center text-sm">
+          <ProfileIcon />
+
+          <span>{t("layout.nav.profile")}</span>
+        </div>
+
+        <ChevronDown size={20} />
+      </button>
+
+      {openProfile && (
+        <div
+          className={`absolute ${
+            lang === "ar" ? "left-0 " : "right-0"
+          } mt-2 bg-white text-black shadow-lg  rounded-lg w-48 z-20`}
+        >
+          <button className="w-full flex justify-between text-left px-4 py-3 border-b border-gray-200 rounded-t-lg ">
+            <span>{t("layout.nav.wallet")}</span>
+
+            <span>{UserBalance || 0} EGP</span>
+          </button>
+
+          <button
+            onClick={() => {
+              navigate(`/profile/${user.id}`);
+            }}
+            className="w-full text-left px-4 py-3 hover:bg-gray-200 transition duration-300 cursor-pointer"
+          >
+            {t("layout.nav.profile")}
+          </button>
+
+          <button
+            onClick={handlelogout}
+            className={`w-full text-left px-4 py-3 transition duration-300 flex ${lang ==="ar" ? "flex-row-reverse" : ""} gap-2 items-center text-red-700 hover:text-white hover:bg-red-600 cursor-pointer`}
+          >
+            <DoorOpen size={20} />
+
+            {t("layout.nav.logout")}
+          </button>
+
+          {user.role === "user" ? (
+            <button
+              onClick={() => navigate("/organizer/upgrade")}
+              className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
+            >
+              {t("layout.nav.upgrade")}
+            </button>
+          ) : (
+            <button
+              onClick={() =>
+                navigate("/organizer/dashboard/overview")
+              }
+              className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
+            >
+              {t("layout.nav.dashboard")}
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+) : (
+  <div className="hidden lg:flex w-1/5 justify-end space-x-4">
+    <button
+      onClick={() => {
+        navigate("/login");
+      }}
+      className="px-6 py-2 bg-secandry text-white rounded-md hover:bg-[#FF8370] transition w-3/5"
+    >
+      {t("layout.nav.join")}
+    </button>        </div>
             )}
 
             {/* === Mobile Menu Button === */}
@@ -326,9 +353,28 @@ function NavigationBar({ backGround = "primary" }) {
                   >
                     Join Us
                   </button>
+                  
                 </div>
               )}
+              <div className="flex lg:flex justify-center w-full items-center space-x-4 mt-4  ">
+              <button
+                disabled={lang === "ar"}
+                onClick={() => handleChangeLanguage("ar")}
+                className={`text-white  ${lang === 'ar' ? 'font-extrabold underline text-xl hover:cursor-not-allowed': 'font-bold text-xl hover:cursor-pointer hover:text-gray-300'} `}
+              >
+                AR
+              </button>
+              <span className="text-white text-2xl">|</span>
+              <button
+              disabled={lang === "en"}
+                onClick={() => handleChangeLanguage("en")}
+                className={`text-white ${lang === 'en' ? 'font-extrabold underline text-xl hover:cursor-not-allowed': 'font-bold text-xl hover:cursor-pointer hover:text-gray-300'}  mr-2`}
+              >
+                EN
+              </button>
             </div>
+            </div>
+            
           )}
         </div>
       </nav>

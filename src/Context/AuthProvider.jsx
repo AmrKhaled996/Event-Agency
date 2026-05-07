@@ -24,6 +24,8 @@ export function AuthProvider({ children }) {
 
       const decoded = jwtDecode(accessToken);
       setUser(decoded);
+      if(decoded?.languagePreference)
+      localStorage.setItem("lang", decoded?.languagePreference );
       console.log("user:", decoded);
     } catch (error) {
       console.log("invalid token:", error);

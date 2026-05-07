@@ -8,13 +8,14 @@ const resources = {
   en: { common: en },
   ar: { common: ar }
 };
+  
 const savedLang = localStorage.getItem("lang") || "ar";
 i18n
   .use(initReactI18next)
   .init({
     resources,
     lng: savedLang, // default
-    fallbackLng: "en",
+    fallbackLng: "ar",
 
     ns: ["common"],
     defaultNS: "common",

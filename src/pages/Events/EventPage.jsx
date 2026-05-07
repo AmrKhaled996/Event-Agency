@@ -44,7 +44,7 @@ import { RulesList } from "../../components/UI/RulesList";
 import { TagsList } from "../../components/UI/Tagslist";
 import { useTranslation } from "react-i18next";
 
-const RESERVATION_DURATION = 1 * 60 * 1000;
+const RESERVATION_DURATION = 10 * 60 * 1000;
 const SOCKET_SERVER_URL = "http://localhost:3000";
 const RESERVATION_STORAGE_PREFIX = "event-seat-reservation";
 
@@ -760,7 +760,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
                           </span>
                         </div>
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-sm text-gray-600">Sold</span>
+                          <span className="text-sm text-gray-600">{t("events.details.seatMap.sold")}</span>
                           <span className="font-bold text-red-600">
                             {stats.sold}
                           </span>
