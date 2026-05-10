@@ -17,6 +17,7 @@ import { jwtDecode } from "jwt-decode";
 import { becomeOrganizer, getWalletBalance } from "../../APIs/userAPIs";
 import { useTranslation } from "react-i18next";
 import useAppNavigate from "../../Router/useAppNavigate";
+import LocalLink from "../../Router/LocalLink";
 function NavigationBar({ backGround = "primary" }) {
   const [isOpen, setIsOpen] = useState(false);
   const [UserBalance, setUserBalance] = useState(null);
@@ -83,8 +84,8 @@ function NavigationBar({ backGround = "primary" }) {
       pathname: `/${language}${newPath}`,
       search: location.search,
       hash: location.hash
-    });
-    window.location.reload();
+    },{replace: true});
+    // window.location.reload();
     console.log("after",i18n.language)
 
   };
@@ -113,13 +114,13 @@ function NavigationBar({ backGround = "primary" }) {
           <div className="flex items-center justify-between h-16">
             {/* === 1/4: Logo / Brand === */}
             <div className="w-3/4 flex items-center md:w-1/6">
-              <Link to="/" className="h-full w-full flex items-center">
+              <LocalLink to="/" className="h-full w-full flex items-center">
                 <img
                   src={"/public/Fa3liatLogo.png"}
                   alt="Fa3liat Logo"
                   className="md:h-20 h-16 w-fit pb-2"
                 />
-              </Link>
+              </LocalLink>
             </div>
 
             {/* === 1/4: Menu Items === */}
@@ -316,31 +317,37 @@ function NavigationBar({ backGround = "primary" }) {
                 href="#"
                 className="block text-white font-semibold hover:text-gray-300 mb-2 border-b py-3 border-white/30"
               >
-                Events
+                {t("layout.nav.events")}
               </a>
               <a
                 href="#"
                 className="block text-white font-semibold hover:text-gray-300 mb-2 border-b py-3 border-white/30"
               >
-                Categories
+                {t("layout.nav.categories")}
               </a>
               <a
                 href="#"
                 className="block text-white font-semibold hover:text-gray-300 mb-5"
               >
-                Calendar
+                {t("layout.nav.calendar")}
               </a>
               {user.role === "user" || user.role === "organizer" ? (
                 <div className="flex space-x-2 items-center justify-center text-white  gap-10">
-                  <div className=" flex flex-col items-center text-lg cursor-pointer ">
+                  <div
+                    onClick={() => navigate(`/tickets`)}
+                    className=" flex flex-col items-center text-lg cursor-pointer "
+                  >
                     <TicketIcon />
 
-                    <span>Tickets</span>
+                    <span>{t("layout.nav.tickets")}</span>
                   </div>
 
-                  <div className=" flex flex-col items-center text-lg cursor-pointer  ">
+                  <div
+                    onClick={() => navigate(`/interested`)}
+                    className=" flex flex-col items-center text-lg cursor-pointer  "
+                  >
                     <Heart size={30} />
-                    <span>Interested</span>
+                    <span>{t("layout.nav.interest")}</span>
                   </div>
                 </div>
               ) : (
@@ -351,7 +358,7 @@ function NavigationBar({ backGround = "primary" }) {
                     }}
                     className="px-6 py-2 bg-secandry text-white rounded-md hover:bg-[#FF8370] transition w-3/5"
                   >
-                    Join Us
+                    {t("layout.nav.join")}
                   </button>
                   
                 </div>

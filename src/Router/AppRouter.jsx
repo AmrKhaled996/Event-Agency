@@ -161,7 +161,7 @@ function AppRouter() {
               path="organizer/dashboard/overview"
               element={
                 <ProtectedRoutes Roles={["organizer"]}>
-                  <OrganizerDashboard page="overview" title="Overview">
+                  <OrganizerDashboard page="overview" title={t("organizer.dashboard.overview")}>
                     <OrganizerOverviewPage />
                   </OrganizerDashboard>
                 </ProtectedRoutes>
@@ -172,7 +172,7 @@ function AppRouter() {
               path="organizer/dashboard/events"
               element={
                 <ProtectedRoutes Roles={["organizer"]}>
-                  <OrganizerDashboard page="events" title="Events">
+                  <OrganizerDashboard page="events" title={t("organizer.dashboard.myEvents")}>
                     <OrganizerEventsPage />
                   </OrganizerDashboard>
                 </ProtectedRoutes>
@@ -183,7 +183,7 @@ function AppRouter() {
               path="organizer/dashboard/analytics"
               element={
                 <ProtectedRoutes Roles={["organizer"]}>
-                  <OrganizerDashboard page="analytics" title="Analytics">
+                  <OrganizerDashboard page="analytics" title={t("organizer.dashboard.analytics")}>
                     <OrganizerAnalyticsPage />
                   </OrganizerDashboard>
                 </ProtectedRoutes>
@@ -196,13 +196,14 @@ function AppRouter() {
                 <ProtectedRoutes Roles={["organizer"]}>
                   <OrganizerDashboard
                     page="attendee-insights"
-                    title="Attendee Insights"
+                    title={t("organizer.dashboard.attendees")}
                   >
                     <OrganizerAttendeeInsightsPage />
                   </OrganizerDashboard>
                 </ProtectedRoutes>
               }
             />
+
 
             {/* CREATE EVENT */}
             <Route

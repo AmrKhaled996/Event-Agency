@@ -2,6 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import SuccessScreen from "./SuccessScreen";
 import CategorySelector from "../../../components/UI/UpgradeToOrganizer/CategorySelector";
 import DynamicForm from "../../../components/UI/UpgradeToOrganizer/DynamicForm";
+import { useTranslation } from "react-i18next";
 
 import {
   categories,
@@ -10,13 +11,10 @@ import {
 } from "../../../constants/upgradeConfig";
 import { useUpgradeForm } from "../../../Hooks/useUpgradeForm";
 import useAppNavigate from "../../../Router/useAppNavigate";
-// import { useUpgradeForm } from "../hooks/useUpgradeForm";
-// import CategorySelector from "../components/upgrade/CategorySelector";
-// import DynamicForm from "../components/upgrade/DynamicForm";
-// import SuccessScreen from "../components/upgrade/SuccessScreen";
 
 export default function UpgradePage() {
   const navigate = useAppNavigate();
+  const { t } = useTranslation();
 
   const {
     selected,
@@ -39,16 +37,7 @@ export default function UpgradePage() {
   if (submitted) {
     return <SuccessScreen category={selected} onReset={handleReset} />;
   }
-  const submiting = () => {
-    console.log(
-      "formData:",
-      formData,
-      "fileDate:",
-      fileData,
-      "socialData:",
-      socialData,
-    );
-  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-8">
       {/* Back button */}
@@ -68,7 +57,7 @@ export default function UpgradePage() {
 
       {/* Dynamic form */}
       <DynamicForm
-        title="Personal Information"
+        title={t("upgradeToOrganizer.page.personalInfo")}
         subtitle={subtitles[selected]}
         fields={fields[selected]}
         formData={formData}
@@ -89,9 +78,10 @@ export default function UpgradePage() {
           onClick={handleSubmit}
           className="px-6 py-2.5 text-sm font-medium text-white rounded-xl bg-primary hover:bg-secandry transition-colors"
         >
-          Submit Upgrade
+          {t("upgradeToOrganizer.page.submitUpgrade")}
         </button>
       </div>
     </div>
   );
 }
+

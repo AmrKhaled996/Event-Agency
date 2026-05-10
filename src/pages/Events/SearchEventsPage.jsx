@@ -291,6 +291,7 @@ function SearchEventsPage() {
                       sessions={card?.eventSessions || []}
                       isInterested={card?.isInterested}
                       crossOrigin="anonymous"
+                      interestedCount={card?.interestedCount}
                     />
                   );
                 })

@@ -1,6 +1,9 @@
+import { useParams } from "react-router-dom";
+
 function OTPInput({ otp, inputsRef, handleChange, handleKeyDown }) {
+    const {lang} =useParams();
   return (
-    <div className="flex justify-center gap-3 mb-10 transition duration-500">
+    <div className={`flex justify-center gap-3 mb-10 transition duration-500 ${lang==="ar" ? "flex-row-reverse" : "flex-row"}`}>
       {otp.map((value, i) => (
         <input
           key={i}

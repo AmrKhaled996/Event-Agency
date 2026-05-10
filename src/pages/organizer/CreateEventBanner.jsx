@@ -6,8 +6,10 @@ import { useEventForm } from "../../Context/EventPovider";
 import { Title } from "react-head";
 import useAppNavigate from "../../Router/useAppNavigate";
 import LocalLink from "../../Router/LocalLink";
+import { useTranslation } from "react-i18next";
 
 function CreateEventBanner() {
+  const { t } = useTranslation();
   const { formData, updateForm } = useEventForm();
   const navigate = useAppNavigate();
   const [fileInfo, setFileInfo] = useState(
@@ -30,10 +32,10 @@ function CreateEventBanner() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <Title>Create Event - Banner</Title>
+      <Title>{t("organizer.createEvent.banner")}</Title>
       <CreateEventProgressBar step={2} />
 
-      <h2 className="text-xl font-semibold mb-4">Banner</h2>
+      <h2 className="text-xl font-semibold mb-4">{t("organizer.createEvent.bannerTitle")}</h2>
 
       <div className="mb-4">
         <input
@@ -43,8 +45,7 @@ function CreateEventBanner() {
           className="bg-primary/10 w-1/2 h-20 text-center text-3xl font-bold border border-gray-300 rounded-lg p-5 "
         />
         <p className="text-xs text-gray-500 mt-2">
-          Feature image must be at least 1170px wide x 504px high. Valid
-          formats: JPG, GIF, PNG.
+          {t("organizer.createEvent.bannerHint")}
         </p>
       </div>
 
@@ -62,14 +63,14 @@ function CreateEventBanner() {
 
       <div className="flex justify-between">
         <LocalLink to={"/organizer/create-event/basics"} className="text-gray-600">
-          Go back to Edit Event info
+          {t("organizer.createEvent.editInfo")}
         </LocalLink>
         <button
           disabled={!fileInfo.file}
           onClick={handleNext}
           className="bg-purple-700 text-white px-6 py-2 rounded"
         >
-          Next
+          {t("organizer.createEvent.next")}
         </button>
       </div>
     </div>
@@ -77,3 +78,4 @@ function CreateEventBanner() {
 }
 
 export default CreateEventBanner;
+

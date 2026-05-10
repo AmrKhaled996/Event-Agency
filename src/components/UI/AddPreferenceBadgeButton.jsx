@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Popover,
   PopoverTrigger,
@@ -9,6 +10,7 @@ function AddPreferencePopover({
   handlePreferenceChange,
 
 }) {
+  const { t } = useTranslation();
   return (
     <Popover>
 
@@ -17,7 +19,7 @@ function AddPreferencePopover({
           // onClick={getAvailablePreferences}
           className="px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-bold border border-primary/20 hover:bg-primary/20"
         >
-          + Add New
+          {t("ui.addPreference.addNew")}
         </button>
       </PopoverTrigger>
 

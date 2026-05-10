@@ -2,29 +2,11 @@ import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
+import { Title } from "react-head";
 
-// const mocktickets = [
-//   {
-//     id: 1,
-//     name: "Ticket 1",
-//     price: 50.5,
-//     quantity: 20,
-//     count: 0,
-//   },
-//   {
-//     id: 2,
-//     name: "Ticket 2",
-//     price: 75,
-//     quantity: 10,
-//   },
-//   {
-//     id: 3,
-//     name: "Ticket 3",
-//     price: 100,
-//     quantity: 5,
-//   },
-// ];
 function PayTicketsPage() {
+  const { t } = useTranslation();
   const { state } = useLocation();
   const tickets = state?.tickets || [];
   const id = state?.id;
@@ -65,16 +47,17 @@ function PayTicketsPage() {
   return (
     <>
       <div className="w-full h-screen flex justify-center items-center px-5 ">
+        <Title>{t("payment.select.title")}</Title>
         <div className="max-w-2xl w-2xl  border border-gray-200 rounded-2xl flex flex-col items-center shadow-xl ">
           <h1 className="text-3xl w-full text-center text-white font-bold mb-4 bg-linear-to-r from-secandry  to-[#FF8370] p-5 rounded-t-2xl ">
-            Select Your Tickets
+            {t("payment.select.title")}
           </h1>
           {/* Ticket selection*/}
           <div className="p-5 w-full">
             <div className="flex justify-between items-center mb-2 border-b border-gray-600 pb-5">
-              <p className="text-lg md:text-2xl font-bold">Tickets</p>
-              <p className="text-lg md:text-2xl font-bold">Price</p>
-              <p className="text-lg md:text-2xl font-bold">Quantity</p>
+              <p className="text-lg md:text-2xl font-bold">{t("payment.select.tickets")}</p>
+              <p className="text-lg md:text-2xl font-bold">{t("payment.select.price")}</p>
+              <p className="text-lg md:text-2xl font-bold">{t("payment.select.quantity")}</p>
             </div>
             {Eventtickets.map((ticket, index) => (
               <div
@@ -85,11 +68,11 @@ function PayTicketsPage() {
                   <h2 className="text-md md:text-lg font-semibold">
                     {ticket.name}
                   </h2>
-                  <p className="text-gray-400">remainging: {ticket.quantity}</p>
+                  <p className="text-gray-400">{t("payment.select.remaining", { count: ticket.quantity })}</p>
                 </div>
                 <div>
                   <span className="text-md md:text-lg font-bold">
-                    {ticket.price} EGP
+                    {ticket.price} {t("common.actions.currncy")}
                   </span>
                 </div>
                 {/* counter of tickets */}
@@ -125,13 +108,13 @@ function PayTicketsPage() {
           </div>
           {/* tickets total price and quntity */}
           <div className="w-full p-5 border-t border-gray-200 flex justify-between items-center">
-            <span className="text-lg font-semibold">Total:</span>
+            <span className="text-lg font-semibold">{t("payment.checkout.total")}</span>
             <span className="text-lg font-bold text-green-600">
               {Eventtickets.reduce(
                 (total, ticket) => total + ticket.count * ticket.price,
                 0,
               ).toFixed(2)}{" "}
-              EGP
+              {t("common.actions.currncy")}
             </span>
           </div>
           {/* button to pay */}
@@ -150,7 +133,7 @@ function PayTicketsPage() {
               }
               className="w-full bg-linear-to-r from-primary to-secandry hover:bg-primary/90 text-lg text-white py-3 rounded-lg font-semibold hover:bg-primary-dark transition duration-300 disabled:bg-linear-to-r disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed"
             >
-              Pay Now
+              {t("payment.select.payNow")}
             </button>
           </div>
         </div>

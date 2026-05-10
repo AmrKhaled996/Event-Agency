@@ -9,8 +9,10 @@ import { useCategories } from "../../Context/CategoriesProvider";
 import TagInput from "../../components/UI/TagInput";
 import RulesInput from "../../components/UI/RulesInput";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 export default function CreateEventBasics() {
+  const { t } = useTranslation();
   const { formData, updateForm } = useEventForm();
   const [tags, setTags] = useState([]);
   const [rules, setRules] = useState([]);
@@ -36,28 +38,28 @@ export default function CreateEventBasics() {
   const validate = () => {
     const newErrors = {};
 
-    if (!local.title.trim()) newErrors.title = "Event title is required.";
-    if (!local.category) newErrors.category = "Please select a category.";
+    if (!local.title.trim()) newErrors.title = t("organizer.createEvent.validation.titleRequired");
+    if (!local.category) newErrors.category = t("organizer.createEvent.validation.categoryRequired");
     if (!local.description.trim())
-      newErrors.description = "Event description is required.";
+      newErrors.description = t("organizer.createEvent.validation.descriptionRequired");
 
     // Location
-    if (!position) newErrors.location = "Location is required.";
+    if (!position) newErrors.location = t("organizer.createEvent.validation.locationRequired");
 
     // Sessions validation
     local.sessions.forEach((session, i) => {
-      if (!session.date) newErrors[`session_date_${i}`] = "Date is required.";
+      if (!session.date) newErrors[`session_date_${i}`] = t("organizer.createEvent.validation.dateRequired");
       if (!session.startTime)
-        newErrors[`session_start_${i}`] = "Start time is required.";
+        newErrors[`session_start_${i}`] = t("organizer.createEvent.validation.startTimeRequired");
       if (!session.endTime)
-        newErrors[`session_end_${i}`] = "End time is required.";
+        newErrors[`session_end_${i}`] = t("organizer.createEvent.validation.endTimeRequired");
 
       if (
         session.startTime &&
         session.endTime &&
         session.endTime <= session.startTime
       ) {
-        newErrors[`session_time_${i}`] = "End time must be after start time.";
+        newErrors[`session_time_${i}`] = t("organizer.createEvent.validation.timeSequence");
       }
     });
 
@@ -144,7 +146,7 @@ export default function CreateEventBasics() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <Title>Create Event - Basics</Title>
+      <Title>{t("organizer.createEvent.basics")}</Title>
       {/* Header & Progress Bar */}
       <div className="flex  items-center-safe gap-6 mb-3">
         <button
@@ -153,7 +155,7 @@ export default function CreateEventBasics() {
         >
           <ArrowLeft size={30} />
         </button>
-        <h1 className="text-5xl font-semibold ">Create New Event</h1>
+        <h1 className="text-5xl font-semibold ">{t("organizer.createEvent.title")}</h1>
       </div>
 
       <CreateEventProgressBar step={1} />
@@ -161,13 +163,13 @@ export default function CreateEventBasics() {
       {/* Event Title & Category */}
       <label className="mb-3 flex gap-3 items-center">
         <div className="text-md font-medium text-nowrap w-fit ">
-          Event Title <strong className="text-red-600 text-lg ">*</strong>
+          {t("organizer.createEvent.eventTitle")} <strong className="text-red-600 text-lg ">*</strong>
         </div>
         <input
           value={local.title}
           onChange={(e) => setLocal((s) => ({ ...s, title: e.target.value }))}
           className="w-full border rounded-xl p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
-          placeholder="Enter the name of your event"
+          placeholder={t("organizer.createEvent.titlePlaceholder")}
         />
       </label>
       {errors.title && (
@@ -175,7 +177,7 @@ export default function CreateEventBasics() {
       )}
       <label className="my-3 flex gap-3 items-center">
         <div className="text-md font-medium text-nowrap w-fit">
-          Event Category <strong className="text-red-600 text-lg">*</strong>
+          {t("organizer.createEvent.category")} <strong className="text-red-600 text-lg">*</strong>
         </div>
         <select
           value={local.category}
@@ -184,7 +186,7 @@ export default function CreateEventBasics() {
           }
           className="w-full border rounded-xl p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
         >
-          <option value="">Select one</option>
+          <option value="">{t("organizer.createEvent.selectOne")}</option>
           {categories.map((category) => (
             <option key={category.name} value={category.name}>
               {category.name}
@@ -197,7 +199,7 @@ export default function CreateEventBasics() {
       )}
       {/* Sessions */}
       <h2 className="text-3xl font-semibold mb-4 mt-6 flex items-center justify-between">
-        Date & Time
+        {t("organizer.createEvent.dateTime")}
         {local.mode === "recurring" && (
           <button
             className="border-2 rounded-full w-8 h-8 flex items-center justify-center"
@@ -209,7 +211,7 @@ export default function CreateEventBasics() {
       </h2>
       <label className="mb-3 flex gap-6 items-center ">
         <div className="text-md font-medium text-nowrap w-fit">
-          Event mode <strong className="text-red-600 text-lg">*</strong>
+          {t("organizer.createEvent.eventMode")} <strong className="text-red-600 text-lg">*</strong>
         </div>
         <label name="single" className="flex items-center gap-4">
           <input
@@ -217,6 +219,7 @@ export default function CreateEventBasics() {
             name="mode"
             value="single"
             id="single"
+            checked={local.mode === "single"}
             onChange={(e) =>
               setLocal((s) => ({
                 ...s,
@@ -225,7 +228,7 @@ export default function CreateEventBasics() {
               }))
             }
           />
-          single session
+          {t("organizer.createEvent.singleSession")}
         </label>
         <label name="recurring" className="flex items-center gap-4">
           <input
@@ -233,14 +236,15 @@ export default function CreateEventBasics() {
             name="mode"
             value="recurring"
             id="recurring"
+            checked={local.mode === "recurring"}
             onChange={(e) => {
               setLocal((s) => ({ ...s, mode: e.target.value }));
             }}
           />
-          recurring sessions
+          {t("organizer.createEvent.recurringSessions")}
         </label>
       </label>
-      <h3 className="text-xl font-semibold p-3">Sessions</h3>
+      <h3 className="text-xl font-semibold p-3">{t("organizer.createEvent.sessions")}</h3>
       {local.sessions.map((session, index) => (
         <div key={index} className=" mb-4">
           <SessionForm
@@ -275,7 +279,7 @@ export default function CreateEventBasics() {
       ))}
 
       {/* Location */}
-      <h2 className="text-3xl font-semibold mb-4 mt-6">Location</h2>
+      <h2 className="text-3xl font-semibold mb-4 mt-6">{t("organizer.createEvent.location")}</h2>
       <LocationPicker
         local={local}
         setLocal={setLocal}
@@ -289,11 +293,11 @@ export default function CreateEventBasics() {
       )}
       {/* Description */}
       <h2 className="text-3xl font-semibold mb-4 mt-6">
-        Additional Information
+        {t("organizer.createEvent.additionalInfo")}
       </h2>
       <label className="block mb-3">
         <div className="text-md font-medium text-nowrap w-fit">
-          Event Description <strong className="text-red-600 text-lg">*</strong>
+          {t("organizer.createEvent.description")} <strong className="text-red-600 text-lg">*</strong>
         </div>
         <textarea
           value={local.description}
@@ -301,7 +305,7 @@ export default function CreateEventBasics() {
             setLocal((s) => ({ ...s, description: e.target.value }))
           }
           className="w-full border rounded-xl p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none h-40"
-          placeholder="Describe what's special about your event"
+          placeholder={t("organizer.createEvent.descriptionPlaceholder")}
         />
       </label>
       {errors.description && (
@@ -316,9 +320,10 @@ export default function CreateEventBasics() {
           onClick={handleNext}
           className="bg-purple-700 text-white px-6 py-2 rounded"
         >
-          Next
+          {t("organizer.createEvent.next")}
         </button>
       </div>
     </div>
   );
 }
+

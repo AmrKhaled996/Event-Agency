@@ -7,57 +7,15 @@ import {
   personalizedEvents,
 } from "../../APIs/homeApis";
 import { useLocation, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-// const mockCards = [
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bott4444le",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bott333le",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bottl21e",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bottl11e",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bottl11e",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bottl11e",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-// ];
 
 function OtherEventsSlider() {
   const [cards, setcards] = useState([]);
   const scrollRef = useRef(null);
   const slug = useParams();
   const id = new URLSearchParams(useLocation().search).get("id");
+  const {t}= useTranslation();
 
   const slideRight = () => {
     if (scrollRef.current) {
@@ -87,7 +45,7 @@ function OtherEventsSlider() {
       <div className="max-w-350 mx-auto px-6">
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-            Other events you may like
+            {t("homePage.sections.otherEvents")}
           </h2>
           <div>
             <button
@@ -109,7 +67,7 @@ function OtherEventsSlider() {
           ref={scrollRef}
           className="flex overflow-x-auto gap-10 no-scrollbar scroll-smooth h-fit"
         >
-          {cards.map((card, index) => (
+          {cards?.map((card, index) => (
             <div key={index} className="shrink-0 w-80">
               <Card
                 key={index}
@@ -124,6 +82,7 @@ function OtherEventsSlider() {
                 sessions={card.eventSessions || []}
                 isInterested={card?.isInterested}
                 crossOrigin="anonymous"
+                interestedCount={card?.interestedCount}
               />
             </div>
           ))}

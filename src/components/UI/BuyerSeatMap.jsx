@@ -1,5 +1,7 @@
+import { useParams } from "react-router-dom";
 import { cn } from "./../shadcn/utils";
 import { Check } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function BuyerSeatMap({
   seats,
@@ -10,6 +12,8 @@ export function BuyerSeatMap({
   selectedSeats,
   viewMode,
 }) {
+  const { t } = useTranslation();
+  const {lang}=useParams();
   const getSeat = (row, number) => {
     return seats.find((s) => s.row === row && s.number === number);
   };
@@ -87,8 +91,7 @@ export function BuyerSeatMap({
     }
 
     // Availability mode
-    const statusText =
-      seat.status.charAt(0).toUpperCase() + seat.status.slice(1);
+    const statusText = t(`ui.seatMap.${seat.status}`);
     return `${statusText} - ${tierInfo.name} ($${tierInfo.price})`;
   };
 
@@ -97,21 +100,21 @@ export function BuyerSeatMap({
       {/* Stage */}
       <div className="w-full max-w-4xl">
         <div className="bg-gray-800 text-white text-center py-3 rounded-t-lg">
-          STAGE
+          {t("ui.seatMap.stage")}
         </div>
       </div>
 
       {/* Seats Grid */}
       <div className="flex flex-col gap-2">
         {Array.from({ length: rows }, (_, rowIndex) => (
-          <div key={rowIndex} className="flex items-center gap-2">
+          <div key={rowIndex} className="flex items-center gap-2 ">
             {/* Row Label */}
             <div className="w-8 text-center text-sm font-medium text-gray-600">
               {String.fromCharCode(65 + rowIndex)}
             </div>
 
             {/* Seats */}
-            <div className="flex gap-1">
+            <div className={`flex gap-1 ${lang === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
               {Array.from({ length: seatsPerRow }, (_, seatIndex) => {
                 const seat = getSeat(rowIndex, seatIndex);
                 const tooltipText = getTooltipText(seat);
@@ -160,9 +163,9 @@ export function BuyerSeatMap({
       </div>
 
       {/* Seat Numbers */}
-      <div className="flex items-center gap-2">
+      <div className="flex  items-center gap-2">
         <div className="w-8" />
-        <div className="flex gap-1">
+        <div className="flex  gap-1">
           {Array.from({ length: seatsPerRow }, (_, i) => (
             <div key={i} className="w-8 text-center text-xs text-gray-500">
               {i + 1}
@@ -174,3 +177,4 @@ export function BuyerSeatMap({
     </div>
   );
 }
+

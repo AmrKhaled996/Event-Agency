@@ -2,8 +2,10 @@ import { useState } from "react";
 import FacebookLogo from "../Icons/FacebookLogo";
 import GoogleLogo from "../Icons/GoogleLogo";
 import EyeTrager from "../Icons/Eyetrager";
+import { useTranslation } from "react-i18next";
 
 function SignUpFormOrganizerUser({ submitedData }) {
+  const { t } = useTranslation();
   const [showPassword, setshowPassword] = useState(false);
 
   const [errors, setErrors] = useState({
@@ -20,20 +22,20 @@ function SignUpFormOrganizerUser({ submitedData }) {
     const newErrors = {};
 
     if (!formData.userName.trim()) {
-      newErrors.name = "Name is required";
+      newErrors.name = t("auth.signup.organizer.nameRequired") || "Name is required";
     }
 
     if (!formData.Email.includes("@")) {
-      newErrors.email = "Invalid email format";
+      newErrors.email = t("validation.invalidEmail");
     }
     if (!formData.Email.trim()) {
-      newErrors.email = "email is requierd";
+      newErrors.email = t("validation.emailRequired");
     }
 
     if (!formData.Password.trim()) {
-      newErrors.password = "password is requierd";
+      newErrors.password = t("validation.passwordRequired");
     } else if (formData.Password.trim().length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+      newErrors.password = t("validation.passwordMin", { length: 6 });
     }
     console.log(newErrors);
 
@@ -64,17 +66,17 @@ function SignUpFormOrganizerUser({ submitedData }) {
       {/* Social Login Buttons */}
       <div className="flex space-x-4 mb-6">
         <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer">
-          <GoogleLogo /> Login with Google
+          <GoogleLogo /> {t("auth.login.google")}
         </button>
         <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer text-[#1877F2]">
-          <FacebookLogo /> Login with Facebook
+          <FacebookLogo /> {t("auth.login.facebook")}
         </button>
       </div>
 
       {/* Divider */}
       <div className="flex items-center mb-6">
         <hr className="grow border-gray-200" />
-        <span className="mx-3 text-gray-400">OR</span>
+        <span className="mx-3 text-gray-400">{t("common.actions.or")}</span>
         <hr className="grow border-gray-200" />
       </div>
 
@@ -82,11 +84,11 @@ function SignUpFormOrganizerUser({ submitedData }) {
       <form className="space-y-4" name="SignUpFormOrganizerUser">
         <div>
           <label className="block text-gray-700 font-semibold mb-1">
-            Orgnaization Name
+            {t("auth.signup.organizer.nameLabel")}
           </label>
           <input
             type="text"
-            placeholder="Enter Organization Name"
+            placeholder={t("auth.signup.organizer.namePlaceholder")}
             name="OrganizationName"
             id="OrganizationName"
             autoComplete="name"
@@ -102,11 +104,11 @@ function SignUpFormOrganizerUser({ submitedData }) {
         </div>
         <div>
           <label className="block text-gray-700 font-semibold mb-1">
-            E-mail Address
+            {t("auth.signup.emailLabel")}
           </label>
           <input
             type="email"
-            placeholder="Enter your e-mail"
+            placeholder={t("auth.signup.organizer.emailPlaceholder")}
             name="Email"
             id="Email"
             autoComplete="email"
@@ -123,12 +125,12 @@ function SignUpFormOrganizerUser({ submitedData }) {
 
         <div>
           <label className="block text-gray-700 font-semibold mb-1">
-            Password
+            {t("auth.signup.passwordLabel")}
           </label>
           <div className="relative">
             <input
               type={showPassword ? `text` : `password`}
-              placeholder="Enter password"
+              placeholder={t("auth.signup.passwordPlaceholder")}
               name="Password"
               id="Password"
               autoComplete="new-password"
@@ -155,7 +157,7 @@ function SignUpFormOrganizerUser({ submitedData }) {
           onClick={submitSignUpForm}
           className="w-full py-3 mt-2 rounded-md text-white text-2xl font-semibold bg-linear-to-r from-secandry to-[#FF8370] hover:opacity-90 transition"
         >
-          Create account
+          {t("auth.signup.organizer.createAccount")}
         </button>
       </form>
     </>
@@ -163,3 +165,4 @@ function SignUpFormOrganizerUser({ submitedData }) {
 }
 
 export default SignUpFormOrganizerUser;
+

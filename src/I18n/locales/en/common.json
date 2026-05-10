@@ -15,6 +15,7 @@
       "close": "Close",
       "add": "Add",
       "remove": "Remove",
+      "or": "OR",
       "error": "Error",
       "loading": "Loading...",
       "currncy": "EGP"
@@ -81,8 +82,27 @@
       "english": "English",
       "arabic": "Arabic",
       "emailSent": "Email Sent",
-      "allRightsReserved": "All rights reserved."
+      "allRightsReserved": "All rights reserved.",
+      "validation": {
+        "emailRequired": "Email is required",
+        "languageRequired": "Language is required",
+        "invalidFormat": "Invalid email format (should contain letters, @ and .)"
+      }
     }
+  },
+  "sessions": {
+    "session": "Session",
+    "date": "Session Date",
+    "startTime": "Start Time",
+    "endTime": "End Time"
+  },
+  "locationPicker": {
+    "placeholder": "Search location...",
+    "search": "Search",
+    "notFound": "This place does not exist"
+  },
+  "categoriesSection": {
+    "title": "Explore Categories"
   },
   "newsletter": {
     "success": {
@@ -143,7 +163,13 @@
       "google": "Sign up with Google",
       "facebook": "Sign up with Facebook",
       "haveNoAccount": "Don’t have an account? ",
-      "login": "Login"
+      "login": "Login",
+      "organizer": {
+        "nameLabel": "Orgnaization Name",
+        "namePlaceholder": "Enter Organization Name",
+        "emailPlaceholder": "Enter your e-mail",
+        "createAccount": "Create account"
+      }
     },
     "otp": {
       "title": "Verify Your Account",
@@ -173,9 +199,9 @@
       "instruction": "We've sent a password reset link. if a Fa3liat account exists with this email..",
       "back": "Back To Login"
     },
-    "adminAuth":{
-      "asideLogin":"  You have power in your hands. <br /> Just login and enjoy the world of events.",
-      "asideSignUp":"controll the whole world with one click. \n you can do anything you want. \n just login and enjoy the power."
+    "adminAuth": {
+      "asideLogin": "  You have power in your hands. <br /> Just login and enjoy the world of events.",
+      "asideSignUp": "controll the whole world with one click. \n you can do anything you want. \n just login and enjoy the power."
     }
   },
   "homePage": {
@@ -193,7 +219,12 @@
       "nearby": "Happening Near You",
       "past": "Past Events and Highlights",
       "discover": "Discover More Events",
-      "interested": "Interested Events"
+      "interested": "Interested Events",
+      "otherEvents":"Other events you may like",
+      "curatedForYou": "Events specially curated for you!",
+      "curatedForYouDescription": "Get event suggestions tailored to your interests! Don't let your \nfavorite events slip away.",
+      "createEvent": "Create an event with Fa3liat!",
+      "createEventDescription": "Got a show, event, activity or a great experience? Partner with us & get listed on Fa3liat"
     }
   },
   "events": {
@@ -277,17 +308,113 @@
   },
   "organizer": {
     "dashboard": {
+      "overview": "Overview",
       "totalEvents": "Total Events",
       "activeEvents": "Active Events",
+      "upcomingEvents": "Upcoming Events",
       "revenue": "Total Revenue",
-      "sold": "Sold Tickets"
+      "sold": "Sold Tickets",
+      "remainingTickets": "Remaining Tickets",
+      "completedOrders": "Completed Orders",
+      "totalOrders": "Total Orders",
+      "analytics": "Analytics",
+      "attendees": "Attendees",
+      "myEvents": "My Events",
+      "createEvent": "Create New Event",
+      "sellingTicketsStats": "Selling Tickets Statistics",
+      "eventsStats": "Events Statistics",
+      "ordersStats": "Orders Statistics",
+      "totalTickets": "Total Tickets",
+      "soldTickets": "Sold Tickets",
+      "pendingOrders": "Pending Orders",
+      "cancelledOrders": "Cancelled Orders",
+      "username": "Username",
+      "gender": "Gender",
+      "age": "Age",
+      "location": "Location",
+      "event": "Event",
+      "eventImage": "Event Image",
+      "eventName": "Event Name",
+      "options": "Options",
+      "noEventsFound": "No events found."
     },
     "createEvent": {
       "basics": "Create Event - Basics",
       "eventTitle": "Event Title",
       "category": "Event Category",
       "description": "Event Description",
-      "banner": "Create Event - Banner"
+      "banner": "Create Event - Banner",
+      "title": "Create New Event",
+      "titlePlaceholder": "Enter the name of your event",
+      "selectOne": "Select one",
+      "dateTime": "Date & Time",
+      "eventMode": "Event mode",
+      "singleSession": "single session",
+      "recurringSessions": "recurring sessions",
+      "sessions": "Sessions",
+      "location": "Location",
+      "additionalInfo": "Additional Information",
+      "descriptionPlaceholder": "Describe what's special about your event",
+      "next": "Next",
+      "back": "Go back",
+      "editInfo": "Go back to Edit Event info",
+      "review": "Create Event - Review",
+      "reviewTitle": "Review",
+      "creating": "Creating...",
+      "createSuccess": "Event created successfully!",
+      "editTickets": "Edit Tickets",
+      "ticketing": "Create Event - Ticketing",
+      "ticketingTitle": "Ticketing",
+      "seatMap": "Seat Map",
+      "generalAdmission": "General Admission",
+      "configureLayout": "Configure your seat map layout here.",
+      "seatMapTitle": "Event Seat Map",
+      "seatMapDesc": "Design your venue layout and set prices for different seating areas",
+      "controls": "Controls",
+      "edit": "Edit",
+      "preview": "Preview",
+      "dragInstruction": "Click and drag over seats to assign them to the selected tier",
+      "priceTiers": "Price Tiers",
+      "layout": "Layout",
+      "statistics": "Statistics",
+      "totalSeats": "Total Seats",
+      "assignedSeats": "Assigned Seats",
+      "potentialRevenue": "Potential Revenue",
+      "venueMap": "Venue Seating Map",
+      "generalAdmissionDesc": "Set ticket quantity and pricing for general admission.",
+      "ticketedEvent": "Ticketed Event",
+      "ticketedEventDesc": "My event requires tickets for entry",
+      "freeEvent": "Free Event",
+      "freeEventDesc": "I'm running a free event",
+      "ticketNamePlaceholder": "Ticket Name e.g. General Admission",
+      "pricePlaceholder": "Price",
+      "quantityPlaceholder": "Quantity",
+      "addTicket": "Add Ticket",
+      "priceLabel": "Price:",
+      "quantityLabel": "Quantity:",
+      "updateTitle": "Update Event - Basics",
+      "updateHeader": "Update New Event",
+      "updateEvent": "Update Event",
+      "bannerTitle": "Banner",
+      "bannerHint": "Feature image must be at least 1170px wide x 504px high. Valid formats: JPG, GIF, PNG.",
+      "validation": {
+        "titleRequired": "Event title is required.",
+        "categoryRequired": "Please select a category.",
+        "descriptionRequired": "Event description is required.",
+        "locationRequired": "Location is required.",
+        "locationDetailsMissing": "Location details are missing",
+        "dateRequired": "Date is required.",
+        "startTimeRequired": "Start time is required.",
+        "endTimeRequired": "End time is required.",
+        "timeSequence": "End time must be after start time.",
+        "selectTier": "Please select a price tier first",
+        "tierAdded": "{{name}} tier added",
+        "tierDeleted": "Tier deleted",
+        "layoutUpdated": "Layout updated"
+      },
+      "errors": {
+        "loadEvents": "Error loading events"
+      }
     },
     "ticketing": {
       "priceTiers": "Price Tiers",
@@ -299,31 +426,185 @@
   "payment": {
     "checkout": {
       "title": "Confirm Your Tickets",
+      "subtotal": "Subtotal",
       "tax": "Tax (7%)",
-      "total": "Total:"
+      "total": "Total:",
+      "confirmAndPay": "Confirm & Pay",
+      "errorConfirming": "Error confirming order"
+    },
+    "select": {
+      "title": "Select Your Tickets",
+      "tickets": "Tickets",
+      "price": "Price",
+      "quantity": "Quantity",
+      "remaining": "remaining: {{count}}",
+      "payNow": "Pay Now"
     },
     "success": {
       "title": "Payment Successful",
       "message": "Your payment has been completed successfully",
+      "bookedMessage": "Your tickets have been booked and sent to your email.",
       "viewTickets": "Go To Your Tickets"
     },
     "cancel": {
       "title": "Payment Cancelled",
-      "message": "Your payment was cancelled or failed ❌"
+      "message": "Your payment was cancelled or failed ❌",
+      "tryAgainMessage": "You can try again or return to the home page.",
+      "tryAgain": "Try Again"
+    },
+    "backToHome": "Back to Home"
+  },
+  "tickets": {
+    "title": "My Tickets",
+    "header": "Tickets",
+    "sorting": {
+      "newest": "Newest",
+      "nearest": "Nearest"
+    },
+    "details": {
+      "date": "Date",
+      "quantity": "Number of tickets",
+      "viewDetails": "View Details",
+      "noTickets": "No tickets found.",
+      "fetchError": "Something went wrong while fetching event data.",
+      "seats": "Seats",
+      "price": "Price",
+      "location": "Location",
+      "status": "Ticket Status",
+      "organizer": "Organizer",
+      "downloadPDF": "Download as PDF"
     }
   },
   "profile": {
     "user": {
+      "title": "Fa3liat | Profile",
       "personalInfo": "Personal Information",
       "preferences": "Preferences & Interests",
       "memberSince": "Member since",
-      "myTickets": "My Tickets"
+      "myTickets": "My Tickets",
+      "age": "Age",
+      "gender": "Gender",
+      "location": "Location",
+      "email": "Email Address",
+      "editAccount": "Edit Account",
+      "userName": "User Name",
+      "fetchError": "Something went wrong while fetching event data."
     },
     "settings": {
       "manage": "Manage Account",
-      "security": "Update your security settings",
+      "security": {
+        "title": "Security",
+        "desc": "Protect your account with a strong password.",
+        "email": "Email",
+        "password": "Password",
+        "change": "Change",
+        "oldPassword": "Old Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
+        "newEmail": "New Email",
+        "confirmEmail": "Confirm Email",
+        "passwordPlaceholder": "Password",
+        "changePassword": "Change Password",
+        "save": "Save",
+        "errors": {
+          "oldPasswordRequired": "Old password is required.",
+          "newPasswordRequired": "New password is required.",
+          "confirmPasswordRequired": "Confirm password is required.",
+          "passwordMismatch": "Passwords do not match.",
+          "emailMismatch": "Emails do not match.",
+          "passwordForEmail": "Password is required for email change.",
+          "genericError": "Something went wrong."
+        }
+      },
+      "personalInfo": {
+        "title": "Personal Information",
+        "desc": "Update your location and regional settings.",
+        "location": "Location"
+      },
+      "preferences": {
+        "title": "Preferences",
+        "desc": "Configure how you interact with the platform."
+      },
+      "deleteAccount": {
+        "title": "Delete Account",
+        "desc": "Once you delete your account, there is no going back.",
+        "button": "Delete My Account",
+        "success": "Your account has been deleted successfully.",
+        "error": "Failed to delete account. Please try again."
+      },
       "changeEmail": "Email about to change",
-      "deleteAccount": "Delete My Account"
+      "deleteAccountLabel": "Delete My Account",
+      "manageDesc": "Update your security settings and personal preferences."
+    },
+    "confirmEmail": {
+      "title": "Email about to change",
+      "step": "One more step. Just Confirm the email change"
+    }
+  },
+  "ui": {
+    "addPreference": {
+      "addNew": "+ Add New"
+    },
+    "seatMap": {
+      "stage": "STAGE",
+      "available": "Available",
+      "sold": "Sold",
+      "reserved": "Reserved",
+      "selected": "Selected"
+    },
+    "card": {
+      "free": "Free"
+    },
+    "hero": {
+      "searchError": "Please enter a search term and location."
+    },
+    "passwordInput": {
+      "placeholder": "Enter password"
+    },
+    "priceTier": {
+      "title": "Price Tiers",
+      "addNew": "Add New Tier",
+      "nameLabel": "Tier Name",
+      "priceLabel": "Price ($)",
+      "colorLabel": "Color",
+      "addButton": "Add Tier",
+      "namePlaceholder": "e.g., VIP, Premium, Standard"
+    },
+    "rules": {
+      "title": "Restrictions & Rules",
+      "desc": "Define the rules that apply",
+      "placeholder": "e.g. No offensive language allowed …",
+      "addButton": "Add rule",
+      "rule": "rule",
+      "rules": "rules",
+      "added": "added"
+    },
+    "tags": {
+      "title": "Tags",
+      "desc": "Add up to {{max}} tags · max {{words}} words each",
+      "placeholder": "e.g. machine learning …",
+      "addButton": "Add tag",
+      "used": "tags used",
+      "errors": {
+        "words": "Tags can have at most {{count}} words.",
+        "max": "Maximum of {{count}} tags reached.",
+        "exists": "This tag already exists."
+      }
+    },
+    "venue": {
+      "title": "Venue Layout",
+      "rowsLabel": "Number of Rows",
+      "seatsLabel": "Seats Per Row",
+      "applyButton": "Apply Layout"
+    },
+    "location": {
+      "selectedPlace": "Selected Place"
+    },
+    "progressBar": {
+      "edit": "Edit",
+      "banner": "Banner",
+      "ticketing": "Ticketing",
+      "review": "Review"
     }
   },
   "about": {
@@ -560,8 +841,8 @@
     },
 
     "status": {
-      "Active": "Active",
-      "Approved": "Approved",
+      "active": "Active",
+      "approve": "Approved",
       "reactivated": "Reactivated",
       "published": "Published",
 
@@ -575,6 +856,107 @@
       "cancelled": "Cancelled",
       "rejected": "Rejected",
       "deleted": "Deleted"
+    }
+  },
+  "upgradeToOrganizer": {
+    "success": {
+      "title": "Upgrade submitted!",
+      "description": "Your {{category}} upgrade request has been received. We'll review and get back to you shortly.",
+      "submitAnother": "Submit another"
+    },
+    "page": {
+      "personalInfo": "Personal Information",
+      "submitUpgrade": "Submit Upgrade",
+      "selectionCategory": "Selection category"
+    },
+    "categories": {
+      "hobbyist": {
+        "label": "Hobbyist",
+        "description": "Individual curators & casual meetups"
+      },
+      "business": {
+        "label": "Business",
+        "description": "Solo entrepreneurs & small agencies"
+      },
+      "company": {
+        "label": "Company",
+        "description": "Registered firms & large organizations"
+      }
+    },
+    "subtitles": {
+      "hobbyist": "Details required for Hobbies-level curators.",
+      "business": "Details required for Business-level verification.",
+      "company": "Details required for Company-level registration."
+    },
+    "fields": {
+      "name": "Full Name",
+      "businessName": "Business Name",
+      "companyName": "Company Legal Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "contactPhone": "Phone (Contact Person)",
+      "nationalId": "National ID / Passport No.",
+      "address": "Address",
+      "businessAddress": "Business Address",
+      "companyAddress": "Company Address",
+      "commercialRegistration": "Commercial Registration",
+      "registrationNumber": "Registration Number",
+      "taxId": "Tax ID",
+      "officialEmailDomain": "Official Email Domain",
+      "officialDocuments": "Official Documents",
+      "profilePhoto": "Profile Photo",
+      "placeholders": {
+        "name": "e.g. Amr Hassan",
+        "businessName": "Your business name",
+        "companyName": "Full registered name",
+        "email": "j.sterling@example.com",
+        "phone": "(+02)000-000-0000",
+        "nationalId": "Identification Number",
+        "address": "Street, City, Country",
+        "registrationNumber": "Registration number",
+        "taxId": "Tax identification number",
+        "emailDomain": "@yourcompany.com",
+        "social": "Paste your URL here"
+      }
+    },
+    "social": {
+      "label": "Social & Web Links",
+      "optional": "All optional — add whichever apply",
+      "selectPlatform": "Select platform",
+      "allAdded": "All platforms added",
+      "platforms": {
+        "websiteUrl": "Website",
+        "instagramUrl": "Instagram",
+        "facebookUrl": "Facebook",
+        "twitterUrl": "X / Twitter",
+        "linkedinUrl": "LinkedIn",
+        "youtubeUrl": "YouTube"
+      }
+    },
+    "validation": {
+      "nameRequired": "Full name is required",
+      "businessNameRequired": "Business name is required",
+      "companyNameRequired": "Company name is required",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Enter a valid email",
+      "phoneRequired": "Phone number is required",
+      "invalidPhone": "Enter a valid phone number",
+      "idRequired": "ID number is required",
+      "addressRequired": "Address is required",
+      "registrationRequired": "Registration number is required",
+      "taxIdRequired": "Tax ID is required",
+      "invalidDomain": "Enter a valid domain (e.g. @company.com)",
+      "photoRequired": "Profile photo is required",
+      "documentRequired": "Document upload is required",
+      "selectPlatform": "Please select a platform",
+      "enterUrl": "Please enter a URL",
+      "invalidUrl": "Enter a valid URL (https://...)",
+      "genericRequired": "This field is required"
+    },
+    "upload": {
+      "clickOrDrag": "Click to upload or drag and drop",
+      "photoHint": "PNG, JPG up to 10MB",
+      "pdfHint": "PDF only, up to 20MB"
     }
   }
 }

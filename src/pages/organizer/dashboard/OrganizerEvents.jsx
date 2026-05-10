@@ -8,6 +8,7 @@ import { deleteEvent, getAllEvents } from "../../../APIs/organizerApis";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import Loading from "../../../components/Layout/LoadingLayout";
 import useAppNavigate from "../../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 const mockCards = [
   {
@@ -73,6 +74,7 @@ const mockCards = [
 ];
 
 export default function OrganizerEventsPage() {
+  const { t } = useTranslation();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
@@ -128,7 +130,7 @@ export default function OrganizerEventsPage() {
       // console.log(response.data.data.result);
       setEvents(response.data.data.result);
     } catch (error) {
-      const message = error.response?.data?.message || "Something went wrong";
+      const message = error.response?.data?.message || t("common.feedback.error");
       setDialogMessage(message);
       setopenDialog(true);
     } finally {
@@ -141,15 +143,15 @@ export default function OrganizerEventsPage() {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-6">My Events</h2>
+      <h2 className="text-3xl font-bold mb-6">{t("organizer.dashboard.myEvents")}</h2>
 
       <div className="bg-white rounded-t-xl shadow-md overflow-hidden min-h-145 p-2">
         <div className="grid grid-cols-1 md:grid-cols-3 text-center p-1 gap-4 text-lg font-semibold bg-blue-50">
-          <p className="p-4">Event Image</p>
-          <p className="p-4">Event Name</p>
+          <p className="p-4">{t("organizer.dashboard.eventImage")}</p>
+          <p className="p-4">{t("organizer.dashboard.eventName")}</p>
           {/* <p className="p-4 px-7">ID</p>
           <p className="p-4">Status</p> */}
-          <p className="p-4 text-center">Options</p>
+          <p className="p-4 text-center">{t("organizer.dashboard.options")}</p>
         </div>
 
         <div className="max-h-120 h-full overflow-y-auto overflow-x-auto py-2 flex flex-col gap-6 rounded-2xl">
@@ -217,7 +219,7 @@ export default function OrganizerEventsPage() {
             ))
           ) : (
             <div className="p-6 text-center text-gray-500">
-              No events found.
+              {t("organizer.dashboard.noEventsFound")}
             </div>
           )}
         </div>

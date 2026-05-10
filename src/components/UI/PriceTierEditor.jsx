@@ -4,6 +4,7 @@ import { Input } from "./../shadcn/input";
 import { Label } from "./../shadcn/label";
 import { Trash2, Plus } from "lucide-react";
 import { cn } from "./../shadcn/utils";
+import { useTranslation } from "react-i18next";
 
 const PRESET_COLORS = [
   "#14b8a6", // teal
@@ -24,6 +25,7 @@ export function PriceTierEditor({
   onTierUpdate,
   onTierDelete,
 }) {
+  const { t } = useTranslation();
   const [newTierName, setNewTierName] = useState("");
   const [newTierPrice, setNewTierPrice] = useState("");
   const [newTierColor, setNewTierColor] = useState(PRESET_COLORS[0]);
@@ -45,7 +47,7 @@ export function PriceTierEditor({
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="font-semibold mb-4">Price Tiers</h3>
+        <h3 className="font-semibold mb-4">{t("ui.priceTier.title")}</h3>
         <div className="space-y-2">
           {priceTiers.map((tier) => (
             <div
@@ -82,20 +84,20 @@ export function PriceTierEditor({
       </div>
 
       <div className="border-t pt-6">
-        <h4 className="font-semibold mb-4">Add New Tier</h4>
+        <h4 className="font-semibold mb-4">{t("ui.priceTier.addNew")}</h4>
         <div className="space-y-4">
           <div>
-            <Label htmlFor="tierName">Tier Name</Label>
+            <Label htmlFor="tierName">{t("ui.priceTier.nameLabel")}</Label>
             <Input
               id="tierName"
-              placeholder="e.g., VIP, Premium, Standard"
+              placeholder={t("ui.priceTier.namePlaceholder")}
               value={newTierName}
               onChange={(e) => setNewTierName(e.target.value)}
             />
           </div>
 
           <div>
-            <Label htmlFor="tierPrice">Price ($)</Label>
+            <Label htmlFor="tierPrice">{t("ui.priceTier.priceLabel")}</Label>
             <Input
               id="tierPrice"
               type="number"
@@ -107,7 +109,7 @@ export function PriceTierEditor({
           </div>
 
           <div>
-            <Label>Color</Label>
+            <Label>{t("ui.priceTier.colorLabel")}</Label>
             <div className="flex gap-2 mt-2">
               {PRESET_COLORS.map((color) => (
                 <button
@@ -131,10 +133,11 @@ export function PriceTierEditor({
             disabled={!newTierName.trim() || !newTierPrice.trim()}
           >
             <Plus className="w-4 h-4 mr-2" />
-            Add Tier
+            {t("ui.priceTier.addButton")}
           </Button>
         </div>
       </div>
     </div>
   );
 }
+

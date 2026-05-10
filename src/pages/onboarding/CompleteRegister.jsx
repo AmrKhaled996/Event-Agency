@@ -37,7 +37,7 @@ function CompleteResister() {
         <div
           className="w-full max-w-4xl bg-white/10 rounded-xl shadow-2xl px-12 py-8"
           style={{
-            background: `url('images/CompleteRegister.png')`,
+            background: `url('/images/CompleteRegister.png')`,
             backgroundSize: "cover",
           }}
         >

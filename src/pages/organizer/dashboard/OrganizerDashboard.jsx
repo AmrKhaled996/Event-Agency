@@ -4,8 +4,10 @@ import { useUser } from "../../../Context/AuthProvider";
 import { ChartColumn, Info, LucideBookHeart, Plus, Users2 } from "lucide-react";
 import UnauthorizedPage from "../../Unauthorized";
 import useAppNavigate from "../../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 function OrganizerDashboard({ children, page, title }) {
+  const { t } = useTranslation();
   const navigate = useAppNavigate();
   const { user } = useUser();
   return (
@@ -30,7 +32,7 @@ function OrganizerDashboard({ children, page, title }) {
               ${page === "overview" ? "bg-black/30 hover:bg-black/30" : ""}
               `}
                 >
-                  <Info className="self-center" /> Overview
+                  <Info className="self-center" /> {t("organizer.dashboard.overview")}
                 </li>
                 <li
                   onClick={() => navigate("/organizer/dashboard/events")}
@@ -38,7 +40,7 @@ function OrganizerDashboard({ children, page, title }) {
               ${page === "events" ? "bg-black/30 hover:bg-black/30" : ""}
               `}
                 >
-                  <LucideBookHeart /> My Events
+                  <LucideBookHeart /> {t("organizer.dashboard.myEvents")}
                 </li>
                 {/* attendee insights : for organizer to get insights of their attendees */}
                 {/* <li
@@ -52,7 +54,7 @@ function OrganizerDashboard({ children, page, title }) {
               `}
             >
               <Users2 className="self-center" />
-              Attendee Insights
+              {t("organizer.dashboard.attendees")}
             </li> */}
 
                 <li
@@ -62,15 +64,15 @@ function OrganizerDashboard({ children, page, title }) {
               `}
                 >
                   <ChartColumn className="self-center" />
-                  analytics
+                  {t("organizer.dashboard.analytics")}
                 </li>
-                {/* <li onClick={() => navigate("/organizer/create-event/basics")}  className="flex gap-3 hover:cursor-pointer hover:bg-black/10 p-3 rounded-md self-end"> <Plus className="self-center"/> Create New Event </li> */}
+                {/* <li onClick={() => navigate("/organizer/create-event/basics")}  className="flex gap-3 hover:cursor-pointer hover:bg-black/10 p-3 rounded-md self-end"> <Plus className="self-center"/> {t("organizer.dashboard.createEvent")} </li> */}
               </ul>
               <button
                 onClick={() => navigate("/organizer/create-event/basics")}
                 className="text-2xl p-4 flex gap-2 hover:bg-blue-950/95 transition duration-300 bg-blue-950 text-white rounded-2xl cursor-pointer"
               >
-                <Plus className="self-center" /> Create New Event
+                <Plus className="self-center" /> {t("organizer.dashboard.createEvent")}
               </button>
             </aside>
             {/* main content */}

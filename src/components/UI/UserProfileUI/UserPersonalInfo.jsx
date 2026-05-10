@@ -5,11 +5,13 @@ import { refreshAccessToken } from "../../../services/cookieTokenService.js";
 import {locationOptions, locationOptionsAr} from "../../../utils/LocationOptions.js";
 import Loading from "../../Layout/LoadingLayout.jsx";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 function PersonalInfoSection({ userLocation, accountData }) {
   const [location, setlocation] = useState(userLocation);
   const [loading, setLoading] = useState(false);
-  const {lang}= useTranslation();
+  const { t } = useTranslation();
+  const { lang } = useParams();
 
   const handleChangeLoction = (e) => {
     setlocation(e.target.value);
@@ -46,11 +48,11 @@ function PersonalInfoSection({ userLocation, accountData }) {
     <section className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
       <div className="p-6 border-b border-slate-200">
         <h2 className="text-lg font-bold text-slate-900">
-          Personal Information
+          {t("profile.settings.personalInfo.title")}
         </h2>
 
         <p className="text-sm text-slate-500">
-          Update your location and regional settings.
+          {t("profile.settings.personalInfo.desc")}
         </p>
       </div>
 
@@ -58,16 +60,16 @@ function PersonalInfoSection({ userLocation, accountData }) {
         <form className="flex flex-col gap-5">
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-semibold text-slate-700">
-              Location
+              {t("profile.settings.personalInfo.location")}
             </label>
             {/* {console.log(userLocation)} */}
-            <select className="form-select w-full bg-slate-100 h-12 rounded-lg text-md p-2 pr-10">
-              {(lang === "ar" ? locationOptionsAr : locationOptions).map((location) =>
-                location.value === userLocation ? (
-                  <option key={location.value} value={location.value} selected>
-                    {location.label}
-                  </option>
-                ) : (
+            <select
+              className="form-select w-full bg-slate-100 h-12 rounded-lg text-md p-2 pr-10"
+              value={location}
+              onChange={handleChangeLoction}
+            >
+              {(lang === "ar" ? locationOptionsAr : locationOptions).map(
+                (location) => (
                   <option key={location.value} value={location.value}>
                     {location.label}
                   </option>
@@ -81,7 +83,7 @@ function PersonalInfoSection({ userLocation, accountData }) {
               onClick={handleUpdateProfile}
               className="px-6 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all"
             >
-              {t("common.action.save")}
+              {t("common.actions.save")}
             </button>
           </div>
         </form>

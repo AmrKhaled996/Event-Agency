@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Title } from "react-head";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import { useAuth } from "../../Hooks/useAuth";
 import { validateOTP } from "../../utils/FormVaildators";
@@ -18,6 +18,7 @@ function OTPVerificationPage() {
     const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const {t} = useTranslation();
+  const {lang} =useParams();
   const {
     submitOTP,
     // showDialog,
@@ -103,8 +104,8 @@ function OTPVerificationPage() {
         />
 
         {/* Timer */}
-        <div className="text-3xl font-bold mb-6">
-          {minutes} : {seconds}
+        <div className={`flex text-3xl font-bold mb-6 felx-row-reverse`}>
+         {(minutes +":" +seconds)}
         </div>
 
         {/* Resend */}

@@ -1,10 +1,12 @@
 import { ArrowBigUp, CalendarPlus } from "lucide-react";
 import { useUser } from "../../Context/AuthProvider";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 function CreateEventHomePageSection() {
   const navigate = useAppNavigate();
   const { user } = useUser();
+    const {t}= useTranslation();
 
   return (
     <div className="w-full flex justify-center ">
@@ -15,12 +17,12 @@ function CreateEventHomePageSection() {
         {/* Left Gradient Bulb */}
 
         <h2 className="text-3xl font-bold mb-3">
-          Create an event with Fa3liat!
+          {t("homePage.sections.createEvent")}
         </h2>
 
         <p className="text-lg mb-6 text-white/90">
-          Got a show, event, activity or a great experience? Partner with us &
-          get listed on Fa3liat
+          {t("homePage.sections.createEventDescription")}
+
         </p>
         {user && user?.role === "organizer" ? (
           <button

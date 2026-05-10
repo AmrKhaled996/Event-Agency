@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 /**
  * CategorySelector
  * Renders the three category cards (Hobbies / Business / Company).
@@ -8,10 +10,12 @@
  *  - onSelect    {(id: string) => void}
  */
 export default function CategorySelector({ categories, selected, onSelect }) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col gap-3">
       <p className="text-xs font-medium uppercase tracking-widest text-gray-400">
-        Selection category
+        {t("upgradeToOrganizer.page.selectionCategory")}
       </p>
 
       <div className="flex flex-wrap gap-6 justify-center">
@@ -33,12 +37,15 @@ export default function CategorySelector({ categories, selected, onSelect }) {
                 selected === cat.id ? "text-primary" : "text-gray-800"
               }`}
             >
-              {cat.label}
+              {t(cat.label)}
             </span>
-            <span className="text-xs text-gray-400 leading-snug">{cat.description}</span>
+            <span className="text-xs text-gray-400 leading-snug">
+              {t(cat.description)}
+            </span>
           </button>
         ))}
       </div>
     </div>
   );
 }
+

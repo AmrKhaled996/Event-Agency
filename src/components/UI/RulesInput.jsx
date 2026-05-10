@@ -1,7 +1,9 @@
 import { X } from "lucide-react";
 import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function RulesInput({ rules = [], onChange }) {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
   const inputRef = useRef(null);
@@ -31,10 +33,10 @@ export default function RulesInput({ rules = [], onChange }) {
       {/* Header */}
       <div className="flex items-center gap-2 mb-1">
         
-        <h2 className="text-base text-md font-medium w-fit">Restrictions & Rules </h2>
+        <h2 className="text-base text-md font-medium w-fit">{t("ui.rules.title")} </h2>
       </div>
       <p className="text-xs mb-4 text-slate-400">
-        Define the rules that apply 
+        {t("ui.rules.desc")} 
       </p>
 
       {/* Input row */}
@@ -45,7 +47,7 @@ export default function RulesInput({ rules = [], onChange }) {
           value={input}
           onChange={(e) => { setInput(e.target.value); setError(""); }}
           onKeyDown={(e) => e.key === "Enter" && addRule()}
-          placeholder="e.g. No offensive language allowed …"
+          placeholder={t("ui.rules.placeholder")}
           maxLength={200}
           className="flex-1 h-10 rounded-xl px-4 text-sm outline-none border transition-all duration-150"
           style={{ borderColor: error ? "#FF49B5" : "#ffc8e8", background: "#fff", color: "#1a1a1a" }}
@@ -59,7 +61,7 @@ export default function RulesInput({ rules = [], onChange }) {
           onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(0.88)")}
           onMouseLeave={(e) => (e.currentTarget.style.filter = "none")}
         >
-          Add rule
+          {t("ui.rules.addButton")}
         </button>
       </div>
 
@@ -96,9 +98,10 @@ export default function RulesInput({ rules = [], onChange }) {
       {activeRules.length > 0 && (
         <p className="text-sm mt-3" >
           <span style={{ color: "#FF49B5", fontWeight: 600 }}>{activeRules.length}</span>{" "}
-          {activeRules.length === 1 ? "rule" : "rules"} added
+          {activeRules.length === 1 ? t("ui.rules.rule") : t("ui.rules.rules")} {t("ui.rules.added")}
         </p>
       )}
     </div>
   );
 }
+

@@ -65,7 +65,7 @@ function CardDisplaySection({ title, endpoint }) {
       const response = await endpoint();
       const newcards = response.data.data;
       if (newcards.events.length === 0) {
-        setcards("No events found");
+        setcards(t("common.feedback.noResults"));
         return;
       }
       console.log(title, "    ", response.data.data);
@@ -90,13 +90,13 @@ function CardDisplaySection({ title, endpoint }) {
     <div className="  md:ml-10 md:mr-10 md:px-10 px-2 mt-20">
       <h1 className=" text-3xl  font-bold mb-5 ml-10 ">{title}</h1>
       <div className="grid grid-cols-1 gap-x-6 gap-y-10 items-center sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8 ">
-        {cards.length > 0 ? (
+        {cards?.length > 0 ? (
           cards === "No events found" ? (
             <div className="col-span-full text-center text-gray-500 pt-10 pb-2">
               {cards}
             </div>
           ) : (
-            cards.map((card, index) => {
+            cards?.map((card, index) => {
               return (
                 <Card
                   key={index}
@@ -111,6 +111,7 @@ function CardDisplaySection({ title, endpoint }) {
                   sessions={card?.eventSessions || []}
                   isInterested={card?.isInterested}
                   crossOrigin="anonymous"
+                  interestedCount={card?.interestedCount}
                 />
               );
             })

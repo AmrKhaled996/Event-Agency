@@ -20,6 +20,7 @@ function Card({
   id,
   sessions,
   isInterested,
+  interestedCount,
 }) {
   const [interested, setInterested] = useState(isInterested);
   const sessionssInfo = formatEventSessionDate(sessions);
@@ -28,14 +29,14 @@ function Card({
     if (price.length == 0) return "0";
 
     if (Number(price[0].price) === 0 && price.length === 1) {
-      return "Free";
+      return t("ui.card.free");
     }
     if (price[0].price != 0 && price?.length === 1) {
       return `${price[0].price} ${t("common.actions.currncy")}`;
     }
     const minprice = Math.min(...price.map((ticket) => ticket.price));
     const maxprice = Math.max(...price.map((ticket) => ticket.price));
-    return `${minprice} - ${maxprice} EGY`;
+    return `${minprice} - ${maxprice} ${t("common.actions.currncy")}`;
   };
   const handleInterested = async (e) => {
     e.preventDefault();
@@ -95,7 +96,7 @@ function Card({
               {sessionssInfo?.endTime || "6:30 PM - 9:30 PM"}
             </p>
             <p className="mt-1 font-normal text-secandry flex items-center">
-              <Heart size={20} className="mr-1 mb-1 " /> 0{" "}
+              <Heart size={20} className="mr-1 mb-1 " /> {interestedCount || 0}{" "}
               {t("events.Interested.Interested")}
             </p>
             <p className="mt-1 font-semibold text-green-700 flex items-start">

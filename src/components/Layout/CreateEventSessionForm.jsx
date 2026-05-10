@@ -1,4 +1,5 @@
 import { Minus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function SessionForm({
   session,
@@ -7,6 +8,7 @@ export default function SessionForm({
   removeSession,
   canRemove,
 }) {
+  const { t } = useTranslation();
 const buildDateTime = (date, time) => {
   if (!date || !time) return null;
 
@@ -34,7 +36,7 @@ const buildDateTime = (date, time) => {
     <div className="p-4 rounded mb-4 border border-gray-200">
       
       <h3 className="font-semibold mb-3 flex items-center justify-between">
-        Session {index + 1}
+        {t("sessions.session")} {index + 1}
         {canRemove && (
           <button
             className="border rounded-full w-6 h-6 text-center flex items-center justify-center"
@@ -47,7 +49,7 @@ const buildDateTime = (date, time) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <label>
-          <div className="text-sm">Session Date <strong className="text-red-600 text-md">*</strong></div>
+          <div className="text-sm">{t("sessions.date")} <strong className="text-red-600 text-md">*</strong></div>
           <input
             type="date"
             value={session.date}
@@ -58,7 +60,7 @@ const buildDateTime = (date, time) => {
         </label>
 
         <label>
-          <div className="text-sm">Start Time <strong className="text-red-600 text-md">*</strong></div>
+          <div className="text-sm">{t("sessions.startTime")} <strong className="text-red-600 text-md">*</strong></div>
           <input
             type="time"
             value={session.startTime}
@@ -68,7 +70,7 @@ const buildDateTime = (date, time) => {
         </label>
 
         <label>
-          <div className="text-sm">End Time <strong className="text-red-600 text-md">*</strong></div>
+          <div className="text-sm">{t("sessions.endTime")} <strong className="text-red-600 text-md">*</strong></div>
           <input
             type="time"
             value={session.endTime}
@@ -80,3 +82,4 @@ const buildDateTime = (date, time) => {
     </div>
   );
 }
+

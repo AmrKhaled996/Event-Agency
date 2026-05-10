@@ -1,10 +1,12 @@
 import { X } from "lucide-react";
 import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const MAX_TAGS = 10;
 const MAX_WORDS = 3;
 
 export default function TagInput({ tags = [], setTags }) {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
   const inputRef = useRef(null);
@@ -19,9 +21,18 @@ export default function TagInput({ tags = [], setTags }) {
     setError("");
     if (!val) return;
     const words = val.split(/\s+/).filter(Boolean);
-    if (words.length > MAX_WORDS) { setError("Tags can have at most 3 words."); return; }
-    if (activeTags.length >= MAX_TAGS) { setError("Maximum of 10 tags reached."); return; }
-    if (activeTags.map((t) => t.toLowerCase()).includes(val.toLowerCase())) { setError("This tag already exists."); return; }
+    if (words.length > MAX_WORDS) {
+      setError(t("ui.tags.errors.words", { count: MAX_WORDS }));
+      return;
+    }
+    if (activeTags.length >= MAX_TAGS) {
+      setError(t("ui.tags.errors.max", { count: MAX_TAGS }));
+      return;
+    }
+    if (activeTags.map((t) => t.toLowerCase()).includes(val.toLowerCase())) {
+      setError(t("ui.tags.errors.exists"));
+      return;
+    }
     setActiveTags([...activeTags, val]);
     setTags([...activeTags, val]);
     setInput("");
@@ -43,10 +54,10 @@ export default function TagInput({ tags = [], setTags }) {
       {/* Header */}
       <div className="flex items-center gap-2 mb-1">
   
-        <h2 className="text-base text-md font-medium w-fit" >Tags<strong className="text-red-600 text-lg">*</strong></h2>
+        <h2 className="text-base text-md font-medium w-fit" >{t("ui.tags.title")}<strong className="text-red-600 text-lg">*</strong></h2>
       </div>
       <p className="text-xs mb-4" style={{ color: "#a0a0a0" }}>
-        Add up to {MAX_TAGS} tags · max {MAX_WORDS} words each
+        {t("ui.tags.desc", { max: MAX_TAGS, words: MAX_WORDS })}
       </p>
 
       {/* Input row */}
@@ -57,7 +68,7 @@ export default function TagInput({ tags = [], setTags }) {
           value={input}
           onChange={(e) => { setInput(e.target.value); setError(""); }}
           onKeyDown={(e) => e.key === "Enter" && addTag()}
-          placeholder="e.g. machine learning …"
+          placeholder={t("ui.tags.placeholder")}
           maxLength={40}
           className="flex-1 h-10 rounded-xl px-4 text-sm outline-none border transition-all duration-150"
           style={{ borderColor: error ? "#FF49B5" : "#e4c6f5", background: "#fff", color: "#1a1a1a" }}
@@ -72,7 +83,7 @@ export default function TagInput({ tags = [], setTags }) {
           onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.filter = "brightness(0.88)")}
           onMouseLeave={(e) => (e.currentTarget.style.filter = "none")}
         >
-          Add tag
+          {t("ui.tags.addButton")}
         </button>
       </div>
 
@@ -106,9 +117,10 @@ export default function TagInput({ tags = [], setTags }) {
       {/* Counter */}
       {activeTags.length > 0 && (
         <p className="text-xs mt-3" style={{ color: "#a78bab" }}>
-          <span style={{ color: "#BB52E0", fontWeight: 600 }}>{activeTags.length}</span> / 10 tags used
+          <span style={{ color: "#BB52E0", fontWeight: 600 }}>{activeTags.length}</span> / {MAX_TAGS} {t("ui.tags.used")}
         </p>
       )}
     </div>
   );
 }
+

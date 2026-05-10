@@ -27,8 +27,8 @@ rejected:    { value: "rejected",     bg: "#ff080830", color: "#f87171", border:
 
 export default function StatusPill({ status = "" }) {
   const key = status.toLowerCase();
-  const s = COLORS[key] ?? { bg: "#1e293b", color: "#94a3b8", border: "#334155" };
-  const value = s.value.toLowerCase() ?? "active";
+  const s = COLORS[key] ?? { bg: "#05ff1630", color: "#4ad080", border: "#16b534" };
+  const value = s?.value?.toLowerCase() ?? "active";
   const {t}=useTranslation();
   console.log("first",value)
 

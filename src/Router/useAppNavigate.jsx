@@ -5,7 +5,7 @@ export default function useAppNavigate() {
   const { lang } = useParams();
 
   return (path, options) => {
-    // لو path already فيه lang سيبه
+    if(path==-1) return navigate(path, options);
     if (path.startsWith(`/${lang}`)) {
       return navigate(path, options);
     }

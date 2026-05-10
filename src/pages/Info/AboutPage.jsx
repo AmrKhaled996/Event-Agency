@@ -613,7 +613,7 @@ export default function AboutPage() {
             {
               name: "Mohammad Ashraf",
               role: "Backend developer ",
-              img: "https://avatars.githubusercontent.com/u/166527591?v=4",
+              img: `https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:91857588-d894-44f9-be42-4d604eb7763f/753761f2-58d4-46ec-ba41-9ee6f40c1936/48`,
             },
             {
               name: "Amr Mahanna",
@@ -644,6 +644,7 @@ export default function AboutPage() {
                     }}
                   />
                 </div>
+                
                 <p
                   className="font-semibold text-sm"
                   style={{ color: "#0d0d0d" }}

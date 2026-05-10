@@ -43,6 +43,7 @@ import useAppNavigate from "../../Router/useAppNavigate";
 import { RulesList } from "../../components/UI/RulesList";
 import { TagsList } from "../../components/UI/Tagslist";
 import { useTranslation } from "react-i18next";
+import { getAccessToken } from "../../services/cookieTokenService";
 
 const RESERVATION_DURATION = 10 * 60 * 1000;
 const SOCKET_SERVER_URL = "http://localhost:3000";
@@ -58,6 +59,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   const [isInterested, setisInterested] = useState(
     event?.isInterested || false,
   );
+  const token=getAccessToken();
   const navigate = useAppNavigate();
   const { t } = useTranslation();
   const { user } = useUser();
@@ -326,7 +328,10 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   useEffect(() => {
     if (!event?.id || !event?.hasSeatMap) return;
 
-    const socket = io(SOCKET_SERVER_URL);
+    const socket = io(SOCKET_SERVER_URL,{
+  auth: {
+    token: token
+  }});
     socket.on("connect", () => {
       socket.emit("join-event", event.id);
       loadAvailability(event.id, seatsRef.current);
@@ -545,7 +550,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
 
   return (
     <>
-      <Title>{event.title}</Title>
+      {review === "false" && <Title>{event.title}</Title>}
 
       <div className="w-full bg-white text-black p-4 max-w-350 mx-auto select-text">
         {/* Header Image */}
@@ -885,7 +890,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="overflow-x-auto pb-4">
+                      <div className="overflow-x-auto pb-4 flex flex-row-reverse">
                         <BuyerSeatMap
                           seats={seats}
                           rows={rows}

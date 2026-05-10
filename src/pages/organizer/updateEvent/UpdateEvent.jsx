@@ -11,8 +11,10 @@ import LocationPicker from "../../../components/Layout/LocationPicker";
 import { updateEvent } from "../../../APIs/organizerApis";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import useAppNavigate from "../../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 export default function UpdateEvent() {
+  const { t } = useTranslation();
   const navigate = useAppNavigate();
   const [event, setEvent] = useState({});
   const [loading, setloading] = useState(false);
@@ -39,16 +41,16 @@ export default function UpdateEvent() {
   const validate = () => {
     const newErrors = {};
 
-    if (!event?.title?.trim()) newErrors.title = "Event title is required.";
+    if (!event?.title?.trim()) newErrors.title = t("organizer.createEvent.validation.titleRequired");
     // if (!event.category) newErrors.category = "Please select a category.";
     if (!event?.description?.trim())
-      newErrors.description = "Event description is required.";
+      newErrors.description = t("organizer.createEvent.validation.descriptionRequired");
 
     // Location
-    if (!position) newErrors.location = "Location is required.";
+    if (!position) newErrors.location = t("organizer.createEvent.validation.locationRequired");
 
     if (!details) {
-      setErrors((s) => ({ ...s, location: "Location details are missing" }));
+      setErrors((s) => ({ ...s, location: t("organizer.createEvent.validation.locationDetailsMissing") }));
       return;
     }
     // // Sessions validation
@@ -160,7 +162,7 @@ export default function UpdateEvent() {
 
       navigate("/organizer/dashboard/overview");
     } catch (error) {
-      const message = error.response?.data?.message || "Error loading events";
+      const message = error.response?.data?.message || t("organizer.createEvent.errors.loadEvents");
       setDialogMessage(message);
       setopenDialog(true);
       console.error(error);
@@ -208,7 +210,7 @@ export default function UpdateEvent() {
       // console.log(event)
       setloading(false);
     } catch (error) {
-      const message = error.response?.data?.message || "Error loading events";
+      const message = error.response?.data?.message || t("organizer.createEvent.errors.loadEvents");
       setDialogMessage(message);
       setopenDialog(true);
       // console.log(error);
@@ -225,7 +227,7 @@ export default function UpdateEvent() {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <Title>Update Event - Basics</Title>
+      <Title>{t("organizer.createEvent.updateTitle")}</Title>
       {/* Header & Progress Bar */}
       <div className="flex  items-center-safe gap-6 mb-16">
         <button
@@ -234,19 +236,19 @@ export default function UpdateEvent() {
         >
           <ArrowLeft size={30} />
         </button>
-        <h1 className="text-5xl font-semibold ">Update New Event</h1>
+        <h1 className="text-5xl font-semibold ">{t("organizer.createEvent.updateHeader")}</h1>
       </div>
 
       {/* Event Title & Category */}
       <label className="mb-3 flex gap-3 items-center">
         <div className="text-md font-medium w-30 ">
-          Event Title <strong className="text-red-600 text-lg">*</strong>
+          {t("organizer.createEvent.eventTitle")} <strong className="text-red-600 text-lg">*</strong>
         </div>
         <input
           value={event.title}
           onChange={(e) => setEvent((s) => ({ ...s, title: e.target.value }))}
           className="w-full border rounded p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
-          placeholder="Enter the name of your event"
+          placeholder={t("organizer.createEvent.titlePlaceholder")}
         />
       </label>
       {errors.title && (
@@ -254,7 +256,7 @@ export default function UpdateEvent() {
       )}
       <label className="my-3 flex gap-3 items-center">
         <div className="text-md font-medium w-30">
-          Event Category <strong className="text-red-600 text-lg">*</strong>
+          {t("organizer.createEvent.category")} <strong className="text-red-600 text-lg">*</strong>
         </div>
         <select
           value={event.category}
@@ -263,7 +265,7 @@ export default function UpdateEvent() {
           }
           className="w-full border rounded p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
         >
-          <option value="">Select one</option>
+          <option value="">{t("organizer.createEvent.selectOne")}</option>
           {categories.map((category) => (
             <option key={category.name} value={category.name}>
               {category.name}
@@ -274,87 +276,9 @@ export default function UpdateEvent() {
       {errors.category && (
         <div className="text-red-600 text-sm">{errors.category}</div>
       )}
-      {/* Sessions
-      <h2 className="text-3xl font-semibold mb-4 mt-6 flex items-center justify-between">
-        Date & Time
-        {event.mode === "recurring" && (
-          <button
-            className="border-2 rounded-full w-8 h-8 flex items-center justify-center"
-            onClick={addSession}
-          >
-            <Plus size={16} />
-          </button>
-        )}
-      </h2>
-      <label className="mb-3 flex gap-6 items-center ">
-        <div className="text-md font-medium w-30">
-          Event mode <strong className="text-red-600 text-lg">*</strong>
-        </div>
-        <label name="single" className="flex items-center gap-4">
-          <input
-            type="radio"
-            name="mode"
-            value="single"
-            id="single"
-            onChange={(e) =>
-              setEvent((s) => ({
-                ...s,
-                mode: e.target.value,
-                sessions: [{ date: "", startTime: "", endTime: "" }],
-              }))
-            }
-          />
-          single session
-        </label>
-        <label name="recurring" className="flex items-center gap-4">
-          <input
-            type="radio"
-            name="mode"
-            value="recurring"
-            id="recurring"
-            onChange={(e) => {
-              setEvent((s) => ({ ...s, mode: e.target.value }));
-            }}
-          />
-          recurring sessions
-        </label>
-      </label>
-      <h3 className="text-xl font-semibold p-3">Sessions</h3> */}
-      {/* {event?.eventSessions && event?.eventSessions?.map((session, index) => (
-        <div key={index} className=" mb-4">
-          <SessionForm
-            key={index}
-            session={session}
-            index={index}
-            updateSession={updateSession}
-            removeSession={removeSession}
-            canRemove={event?.eventSessions?.length > 1}
-          />
-          {errors[`session_date_${index}`] && (
-            <div className="text-red-600 text-sm">
-              {errors[`session_date_${index}`]}
-            </div>
-          )}
-          {errors[`session_start_${index}`] && (
-            <div className="text-red-600 text-sm">
-              {errors[`session_start_${index}`]}
-            </div>
-          )}
-          {errors[`session_end_${index}`] && (
-            <div className="text-red-600 text-sm">
-              {errors[`session_end_${index}`]}
-            </div>
-          )}
-          {errors[`session_time_${index}`] && (
-            <div className="text-red-600 text-sm">
-              {errors[`session_time_${index}`]}
-            </div>
-          )}
-        </div>
-      ))} */}
 
       {/* Location */}
-      <h2 className="text-3xl font-semibold mb-4 mt-6">Location</h2>
+      <h2 className="text-3xl font-semibold mb-4 mt-6">{t("organizer.createEvent.location")}</h2>
       <LocationPicker
         event={event}
         setEvent={setEvent}
@@ -368,11 +292,11 @@ export default function UpdateEvent() {
       )}
       {/* Description */}
       <h2 className="text-3xl font-semibold mb-4 mt-6">
-        Additional Information
+        {t("organizer.createEvent.additionalInfo")}
       </h2>
       <label className="block mb-6">
         <div className="text-md font-medium w-30">
-          Event Description <strong className="text-red-600 text-lg">*</strong>
+          {t("organizer.createEvent.description")} <strong className="text-red-600 text-lg">*</strong>
         </div>
         <textarea
           value={event.description}
@@ -380,7 +304,7 @@ export default function UpdateEvent() {
             setEvent((s) => ({ ...s, description: e.target.value }))
           }
           className="w-full border rounded p-3 mt-1 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none h-40"
-          placeholder="Describe what's special about your event"
+          placeholder={t("organizer.createEvent.descriptionPlaceholder")}
         />
       </label>
       {errors.description && (
@@ -388,7 +312,7 @@ export default function UpdateEvent() {
       )}
 
       {/* Edit banner */}
-      <h2 className="text-xl font-semibold mb-4">Banner</h2>
+      <h2 className="text-xl font-semibold mb-4">{t("organizer.createEvent.bannerTitle")}</h2>
 
       <div className="mb-4">
         <input
@@ -398,8 +322,7 @@ export default function UpdateEvent() {
           className="bg-primary/10 w-1/2 h-20 text-center text-3xl font-bold border border-gray-300 rounded-lg p-5 "
         />
         <p className="text-xs text-gray-500 mt-2">
-          Feature image must be at least 1170px wide x 504px high. Valid
-          formats: JPG, GIF, PNG.
+          {t("organizer.createEvent.bannerHint")}
         </p>
       </div>
 
@@ -423,7 +346,7 @@ export default function UpdateEvent() {
           onClick={handleUpdate}
           className="bg-green-700 w-70 text-white px-10 py-4 rounded-xl"
         >
-          Update Event
+          {t("organizer.createEvent.updateEvent")}
         </button>
       </div>
       {openDialog && (

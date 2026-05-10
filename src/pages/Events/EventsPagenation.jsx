@@ -86,7 +86,7 @@ function EventsPagination() {
         <h1 className="text-3xl font-bold mb-5 ml-10">{title}</h1>
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-          {cards.map((card, index) => {
+          {cards?.map((card, index) => {
             return (
               <Card
                 key={index}
@@ -100,6 +100,7 @@ function EventsPagination() {
                 slug={card.slug}
                 sessions={card.eventSessions || []}
                 crossOrigin="anonymous"
+                interestedCount={card?.interestedCount}
               />
             );
           })}

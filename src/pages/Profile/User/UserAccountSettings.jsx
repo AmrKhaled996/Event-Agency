@@ -7,8 +7,11 @@ import DeleteAccountSection from "../../../components/UI/UserProfileUI/UserDelet
 import { useCategories } from "../../../Context/CategoriesProvider";
 import { getPreferences } from "../../../APIs/profileAPI";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Title } from "react-head";
 
 function UserAccountSettings() {
+  const { t } = useTranslation();
   const { categories, loading } = useCategories();
   const [preferences, setPreferences] = useState([]);
   const location = useLocation();
@@ -51,12 +54,13 @@ function UserAccountSettings() {
   }, [categories, accountData]);
   return (
     <UserSettings
-      title="Manage Account"
-      description="Update your security settings and personal preferences."
+      title={t("profile.settings.manage")}
+      description={t("profile.settings.manageDesc")}
     >
       {accountData?.authProvider === "LOCAL" && (
         <UserSettingsSecurity provider={accountData?.authProvider} />
       )}
+      <Title>{t("profile.settings.manage")}</Title>
 
       <PersonalInfoSection
         userLocation={accountData?.location}
@@ -77,3 +81,4 @@ function UserAccountSettings() {
 }
 
 export default UserAccountSettings;
+

@@ -2,6 +2,7 @@ import { Label } from "./../shadcn/label";
 import { Input } from "./../shadcn/input";
 import { Button } from "./../shadcn/button";
 import { Settings } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function VenueSettings({
   rows,
@@ -10,15 +11,16 @@ export function VenueSettings({
   onSeatsPerRowChange,
   onApply,
 }) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 mb-4">
         <Settings className="w-5 h-5" />
-        <h3 className="font-semibold">Venue Layout</h3>
+        <h3 className="font-semibold">{t("ui.venue.title")}</h3>
       </div>
 
       <div>
-        <Label htmlFor="rows">Number of Rows</Label>
+        <Label htmlFor="rows">{t("ui.venue.rowsLabel")}</Label>
         <Input
           id="rows"
           type="number"
@@ -30,7 +32,7 @@ export function VenueSettings({
       </div>
 
       <div>
-        <Label htmlFor="seatsPerRow">Seats Per Row</Label>
+        <Label htmlFor="seatsPerRow">{t("ui.venue.seatsLabel")}</Label>
         <Input
           id="seatsPerRow"
           type="number"
@@ -42,8 +44,9 @@ export function VenueSettings({
       </div>
 
       <Button onClick={onApply} className="w-full">
-        Apply Layout
+        {t("ui.venue.applyButton")}
       </Button>
     </div>
   );
 }
+

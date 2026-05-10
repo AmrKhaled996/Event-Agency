@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import ClickMarker from "./../../utils/ClickMarker";
 import L from "leaflet";
 import { useMap } from "react-leaflet";
+import { useTranslation } from "react-i18next";
 
 function FlyToPosition({ position }) {
   const map = useMap();
@@ -28,6 +29,7 @@ L.Icon.Default.mergeOptions({
 });
 
 export default function LocationPicker({ event, setEvent, position, setPosition, details, setDetails }) {
+  const { t } = useTranslation();
   const [searchText, setSearchText] = useState(event?.location?.displayName || "");
   const [markerPosition, setMarkerPosition] = useState(null);
   
@@ -36,7 +38,7 @@ export default function LocationPicker({ event, setEvent, position, setPosition,
 
     const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${searchText}`);
     const data = await res.json();
-    if (!data.length) return alert("this place is not exist");
+    if (!data.length) return alert(t("locationPicker.notFound"));
 
     const { lat, lon, display_name } = data[0];
     setMarkerPosition([parseFloat(lat), parseFloat(lon)]);
@@ -71,14 +73,14 @@ export default function LocationPicker({ event, setEvent, position, setPosition,
         <input
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
-          placeholder="Search location..."
+          placeholder={t("locationPicker.placeholder")}
           className="flex-1 border rounded p-3 border-gray-300 focus:ring-2 focus:ring-primary focus:outline-none"
         />
         <button
           onClick={handleLocationSearch}
           className="bg-blue-600 text-white px-4 py-2 rounded"
         >
-          Search
+          {t("locationPicker.search")}
         </button>
       </div>
 
@@ -92,7 +94,7 @@ export default function LocationPicker({ event, setEvent, position, setPosition,
               <Popup>
                 {details
                   ? `${details.city || details.town || details.village}, ${details.state}, ${details.country}`
-                  : "Loading..."}
+                  : t("common.feedback.loading")}
               </Popup>
             </Marker>
           )}
@@ -101,3 +103,4 @@ export default function LocationPicker({ event, setEvent, position, setPosition,
     </div>
   );
 }
+

@@ -10,55 +10,11 @@ import { Card, CardContent, CardHeader } from "../../components/shadcn/card";
 import CardSkeleton from "../../components/UI/CardSkeleton";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { getUserTickets } from "../../APIs/userAPIs";
-
-// const mockTickets = [
-//   {
-//     id: 1,
-//     eventName: "Music Concert",
-//     date: "2027-02-01T12:30:00.000Z",
-//     numberOfTickets: 5,
-//     qrValue: "Ticket ID: 12345, Event: Music Concert",
-//     location: "City Arena",
-//     status: "Valid",
-//     organizer: "ABC Events",
-//     seats: "A1, A2, A3, A4, A5",
-//   },
-//   {
-//     id: 2,
-//     eventName: "Art Exhibition",
-//     date: "2027-03-01T12:30:00.000Z",
-//     numberOfTickets: 3,
-//     qrValue: "Ticket ID: 67890, Event: Art Exhibition",
-//     location: "Downtown Gallery",
-//     status: "Valid",
-//     organizer: "XYZ Arts",
-//     seats: "B1, B2, B3",
-//   },
-//   {
-//     id: 3,
-//     eventName: "Tech Conference",
-//     date: "2026-03-15T12:30:00.000Z",
-//     numberOfTickets: 2,
-//     qrValue: "Ticket ID: 98765, Event: Tech Conference",
-//     location: "Convention Center",
-//     status: "Valid",
-//     organizer: "TechWorld",
-//     seats: "C1, C2",
-//   },
-//   {
-//     id: 4,
-//     eventName: "Sports Event",
-//     date: "2027-01-015T1:30:00.000Z",
-//     numberOfTickets: 1,
-//     qrValue: "Ticket ID: 54321, Event: Sports Event",
-//     location: "Stadium",
-//     status: "Valid",
-//     organizer: "Sports Inc.",
-//     seats: "D1",
-//   },
-// ];
+import { extractDateTime } from "../../utils/dateFormater";
+import { useTranslation } from "react-i18next";
 
 function DisplayUserTickets() {
+  const { t } = useTranslation();
   const [sortedMethod, setSortedMethod] = useState("Newest");
   const [openDialog, setopenDialog] = useState(false);
   const [tickets, setTickets] = useState([]);
@@ -69,7 +25,7 @@ function DisplayUserTickets() {
 
   const handleSortingChange = (method) => {
     setSortedMethod(method);
-    console.log(method);
+    // console.log(method);
 
     if (method === "Newest") {
       const newTickets = [...tickets].sort(
@@ -91,7 +47,7 @@ function DisplayUserTickets() {
     try {
       setLoading(true);
       const response = (await getUserTickets()).data.data.tickets;
-      console.log(response);
+      // console.log(response);
       const ticketsData = response;
 
       const groupedTickets = Object.values(
@@ -105,17 +61,16 @@ function DisplayUserTickets() {
             };
           }
 
-          acc[orderId].tickets.push(ticket);
+          acc[orderId]?.tickets?.push(ticket);
 
           return acc;
         }, {}),
       );
-      console.log("groupedTickets:", groupedTickets);
+      // console.log("groupedTickets:", groupedTickets);
       setTickets(groupedTickets);
     } catch (error) {
       const message =
-        error.response?.data?.error ||
-        "Something went wrong while fetching event data.";
+        error.response?.data?.error || t("tickets.details.fetchError");
       setDialogMessage(message);
       setopenErrorDialog(true);
       console.log(error);
@@ -131,22 +86,25 @@ function DisplayUserTickets() {
 
   return (
     <>
-      <Title>My Tickets</Title>
+      <Title>{t("tickets.title")}</Title>
 
       <div className="px-4 sm:px-6 lg:px-16 xl:px-24 my-6 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <h1 className="font-bold text-3xl sm:text-4xl lg:text-5xl font-serif text-shadow-md text-shadow-gray-400">
-            Tickets
+            {t("tickets.header")}
           </h1>
 
           {/* Sorting */}
           <div className="flex w-full md:w-auto border border-gray-300 rounded-lg overflow-hidden">
-            {["Newest", "Nearest"].map((method, i) => (
+            {[
+              { id: "Newest", label: t("tickets.sorting.newest") },
+              { id: "Nearest", label: t("tickets.sorting.nearest") },
+            ].map((method, i) => (
               <label
-                key={method}
+                key={method.id}
                 className={`flex-1 text-center px-4 py-2 font-mono cursor-pointer transition
                 ${
-                  sortedMethod === method
+                  sortedMethod === method.id
                     ? "bg-primary text-white cursor-not-allowed"
                     : "bg-white hover:bg-primary/10"
                 }
@@ -156,12 +114,12 @@ function DisplayUserTickets() {
                 <input
                   type="radio"
                   name="selected"
-                  value={method}
-                  checked={sortedMethod === method}
+                  value={method.id}
+                  checked={sortedMethod === method.id}
                   onChange={(e) => handleSortingChange(e.target.value)}
                   className="hidden"
                 />
-                {method}
+                {method.label}
               </label>
             ))}
           </div>
@@ -180,44 +138,45 @@ function DisplayUserTickets() {
 
         "
         >
-          {console.log(tickets.length)}
-          {Array(tickets)?.length >= 1
-            ? tickets?.map((order,index) => 
-                
-                  <div
-                    key={order?.tickets[0]?.id}
-                    onClick={() => {
-                      setopenDialog(true);
-                      setSelectedTicket(order?.tickets);
-                    }}
-                    className="border rounded-xl shadow-lg flex flex-col items-center text-center overflow-hidden hover:shadow-2xl hover:scale-103 transition duration-500 hover:bg-black/5"
-                  >
-                    {/* QR */}
-                    <div className="w-32 h-32 sm:w-40 sm:h-48 mt-8">
-                      <QRCode value={order?.tickets[0]?.id} className="w-full h-full" />
-                    </div>
-
-                    {/* Info */}
-                    <div className="py-4 px-4">
-                      <h3 className="text-lg sm:text-xl font-bold mb-2">
-                        {order?.tickets[0]?.ticketType.event.title}
-                      </h3>
-
-                      <p className="text-gray-500 text-sm sm:text-base">
-                        Date: {order?.tickets[0]?.date}
-                      </p>
-
-                      <p className="text-gray-500 text-sm sm:text-base">
-                        Number of tickets: {order?.tickets?.length}
-                      </p>
-                    </div>
-                    {/* Button */}
-                    <button className="w-full bg-primary text-white py-3 flex items-center justify-center gap-2 hover:bg-primary/80 transition">
-                      View Details <ArrowRight size={18} />
-                    </button>
+          {tickets?.length >= 1
+            ? tickets?.map((order, index) => (
+                <div
+                  key={order?.tickets[0]?.ticketId}
+                  onClick={() => {
+                    setopenDialog(true);
+                    setSelectedTicket(order?.tickets);
+                  }}
+                  className="border rounded-xl shadow-lg flex flex-col items-center text-center overflow-hidden hover:shadow-2xl hover:scale-103 transition duration-500 hover:bg-black/5"
+                >
+                  {/* QR */}
+                  <div className="w-32 h-32 sm:w-40 sm:h-48 mt-8">
+                    <QRCode
+                      value={order?.tickets[0]?.ticketId}
+                      className="w-full h-full"
+                    />
                   </div>
-               ,
-              )
+
+                  {/* Info */}
+                  <div className="py-4 px-4">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2">
+                      {order?.tickets[0]?.title}
+                    </h3>
+
+                    <p className="text-gray-500 text-sm sm:text-base">
+                      {t("tickets.details.date")}:{" "}
+                      {extractDateTime(order?.tickets[0]?.date).date}
+                    </p>
+
+                    <p className="text-gray-500 text-sm sm:text-base">
+                      {t("tickets.details.quantity")}: {order?.tickets?.length}
+                    </p>
+                  </div>
+                  {/* Button */}
+                  <button className="w-full bg-primary text-white py-3 flex items-center justify-center gap-2 hover:bg-primary/80 transition">
+                    {t("tickets.details.viewDetails")} <ArrowRight size={18} />
+                  </button>
+                </div>
+              ))
             : loading &&
               [1, 2, 3, 4, 5, 6].map((temp) => <CardSkeleton key={temp} />)}
           {openDialog && (
@@ -230,7 +189,7 @@ function DisplayUserTickets() {
         </div>
         {tickets?.length === 0 && !loading && (
           <p className="text-gray-500 text-center w-full min-h-[50vh] flex items-center justify-center">
-            No tickets found.
+            {t("tickets.details.noTickets")}
           </p>
         )}
       </div>

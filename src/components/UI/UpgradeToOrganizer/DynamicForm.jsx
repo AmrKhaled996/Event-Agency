@@ -2,6 +2,7 @@ import FormField from "./FormField";
 import PhotoUpload from "./PhotoUpload";
 import PdfUpload from "./PdfUpload";
 import SocialLinksField from "./SocialLinksField";
+import { useTranslation } from "react-i18next";
 
 /**
  * DynamicForm
@@ -37,12 +38,13 @@ export default function DynamicForm({
   onSocialChange,
   onSocialErrorChange,
 }) {
+  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="text-2xl font-medium text-gray-900">{title}</h1>
-        <p className="text-sm text-gray-400 mt-1">{subtitle}</p>
+        <p className="text-sm text-gray-400 mt-1">{t(subtitle)}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-5">
@@ -66,9 +68,9 @@ export default function DynamicForm({
             return (
               <div key={field.id} className="col-span-2">
                 <PhotoUpload
-                  label={field.label}
+                  label={t(field.label)}
                   required={field.required}
-                  error={error}
+                  error={error ? t(error) : null}
                   onFileChange={(file) => onFileChange(field.id, file)}
                 />
               </div>
@@ -79,9 +81,9 @@ export default function DynamicForm({
             return (
               <div key={field.id} className="col-span-2">
                 <PdfUpload
-                  label={field.label}
+                  label={t(field.label)}
                   required={field.required}
-                  error={error}
+                  error={error ? t(error) : null}
                   onFileChange={(file) => onFileChange(field.id, file)}
                 />
               </div>
@@ -92,12 +94,12 @@ export default function DynamicForm({
             <FormField
               key={field.id}
               id={field.id}
-              label={field.label}
+              label={t(field.label)}
               type={field.type}
-              placeholder={field.placeholder}
+              placeholder={t(field.placeholder)}
               value={value}
               required={field.required}
-              error={error}
+              error={error ? t(error) : null}
               half={field.half}
               onChange={onFieldChange}
               onBlur={onFieldBlur}
@@ -108,3 +110,4 @@ export default function DynamicForm({
     </div>
   );
 }
+

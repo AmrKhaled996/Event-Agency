@@ -1,5 +1,6 @@
 import { cn } from "./../shadcn/utils";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function SeatMap({
   seats,
@@ -10,6 +11,7 @@ export function SeatMap({
   onSeatClick,
   editMode,
 }) {
+  const { t } = useTranslation();
   const [isDragging, setIsDragging] = useState(false);
   const [draggedSeats, setDraggedSeats] = useState(new Set());
 
@@ -61,7 +63,7 @@ export function SeatMap({
       {/* Stage */}
       <div className="w-full max-w-4xl">
         <div className="bg-gray-800 text-white text-center py-3 rounded-t-lg">
-          STAGE
+          {t("ui.seatMap.stage")}
         </div>
       </div>
 
@@ -139,3 +141,4 @@ export function SeatMap({
     </div>
   );
 }
+

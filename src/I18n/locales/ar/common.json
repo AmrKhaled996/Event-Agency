@@ -81,8 +81,27 @@
       "english": "الإنجليزية",
       "arabic": "العربية",
       "emailSent": "تم إرسال البريد الإلكتروني",
-      "allRightsReserved": "جميع الحقوق محفوظة."
+      "allRightsReserved": "جميع الحقوق محفوظة.",
+      "validation": {
+        "emailRequired": "البريد الإلكتروني مطلوب",
+        "languageRequired": "اللغة مطلوبة",
+        "invalidFormat": "صيغة البريد الإلكتروني غير صحيحة (يجب أن تحتوي على حروف و @ و .)"
+      }
     }
+  },
+  "sessions": {
+    "session": "الجلسة",
+    "date": "تاريخ الجلسة",
+    "startTime": "وقت البدء",
+    "endTime": "وقت الانتهاء"
+  },
+  "locationPicker": {
+    "placeholder": "البحث عن موقع...",
+    "search": "بحث",
+    "notFound": "هذا المكان غير موجود"
+  },
+  "categoriesSection": {
+    "title": "استكشف التصنيفات"
   },
   "newsletter": {
     "success": {
@@ -193,7 +212,12 @@
       "nearby": "فعاليات بالقرب منك",
       "past": "فعاليات سابقة ولقطات مميزة",
       "discover": "اكتشف المزيد من الفعاليات",
-      "interested": "الفعاليات المهتم بها"
+      "interested": "الفعاليات المهتم بها",
+      "otherEvents": "فعاليات أخرى قد تعجبك",
+      "curatedForYou": "فعاليات مختارة خصيصًا لك!",
+      "curatedForYouDescription": "احصل على اقتراحات فعاليات تناسب اهتماماتك!\nلا تدع فعالياتك المفضلة تفوتك.",
+      "createEvent": "أنشئ فعالية مع فعاليات!",
+      "createEventDescription": "هل لديك عرض، فعالية، نشاط أو تجربة رائعة؟\nتعاون معنا وأضف فعاليتك على فعاليات."
     }
   },
   "events": {
@@ -277,17 +301,113 @@
   },
   "organizer": {
     "dashboard": {
+      "overview": "نظرة عامة",
       "totalEvents": "إجمالي الفعاليات",
       "activeEvents": "الفعاليات النشطة",
+      "upcomingEvents": "الفعاليات القادمة",
       "revenue": "إجمالي الإيرادات",
-      "sold": "التذاكر المباعة"
+      "sold": "التذاكر المباعة",
+      "remainingTickets": "التذاكر المتبقية",
+      "completedOrders": "الطلبات المكتملة",
+      "totalOrders": "إجمالي الطلبات",
+      "analytics": "التحليلات",
+      "attendees": "الحضور",
+      "myEvents": "فعالياتي",
+      "createEvent": "إنشاء فعالية جديدة",
+      "sellingTicketsStats": "إحصائيات بيع التذاكر",
+      "eventsStats": "إحصائيات الفعاليات",
+      "ordersStats": "إحصائيات الطلبات",
+      "totalTickets": "إجمالي التذاكر",
+      "soldTickets": "التذاكر المباعة",
+      "pendingOrders": "طلبات قيد الانتظار",
+      "cancelledOrders": "طلبات ملغاة",
+      "username": "اسم المستخدم",
+      "gender": "النوع",
+      "age": "العمر",
+      "location": "الموقع",
+      "event": "الفعالية",
+      "eventImage": "صورة الفعالية",
+      "eventName": "اسم الفعالية",
+      "options": "خيارات",
+      "noEventsFound": "لم يتم العثور على فعاليات."
     },
     "createEvent": {
       "basics": "إنشاء فعالية - الأساسيات",
       "eventTitle": "عنوان الفعالية",
       "category": "تصنيف الفعالية",
       "description": "وصف الفعالية",
-      "banner": "إنشاء فعالية - الغلاف"
+      "banner": "إنشاء فعالية - الغلاف",
+      "title": "إنشاء فعالية جديدة",
+      "titlePlaceholder": "أدخل اسم الفعالية الخاصة بك",
+      "selectOne": "اختر واحدة",
+      "dateTime": "التاريخ والوقت",
+      "eventMode": "وضع الفعالية",
+      "singleSession": "جلسة واحدة",
+      "recurringSessions": "جلسات متكررة",
+      "sessions": "الجلسات",
+      "location": "الموقع",
+      "additionalInfo": "معلومات إضافية",
+      "descriptionPlaceholder": "صف ما يميز فعاليتك",
+      "next": "التالي",
+      "back": "رجوع",
+      "editInfo": "العودة لتعديل معلومات الفعالية",
+      "review": "إنشاء فعالية - المراجعة",
+      "reviewTitle": "المراجعة",
+      "creating": "جاري الإنشاء...",
+      "createSuccess": "تم إنشاء الفعالية بنجاح!",
+      "editTickets": "تعديل التذاكر",
+      "ticketing": "إنشاء فعالية - التذاكر",
+      "ticketingTitle": "التذاكر",
+      "seatMap": "مخطط المقاعد",
+      "generalAdmission": "دخول عام",
+      "configureLayout": "قم بتهيئة مخطط المقاعد الخاص بك هنا.",
+      "seatMapTitle": "مخطط مقاعد الفعالية",
+      "seatMapDesc": "صمم مخطط المكان وحدد الأسعار لمناطق الجلوس المختلفة",
+      "controls": "التحكم",
+      "edit": "تعديل",
+      "preview": "معاينة",
+      "dragInstruction": "انقر واسحب فوق المقاعد لتعيينها للفئة المختارة",
+      "priceTiers": "فئات الأسعار",
+      "layout": "المخطط",
+      "statistics": "الإحصائيات",
+      "totalSeats": "إجمالي المقاعد",
+      "assignedSeats": "المقاعد المعينة",
+      "potentialRevenue": "الإيرادات المحتملة",
+      "venueMap": "خريطة مقاعد المكان",
+      "generalAdmissionDesc": "حدد كمية التذاكر والأسعار للدخول العام.",
+      "ticketedEvent": "فعالية بتذاكر",
+      "ticketedEventDesc": "فعاليتي تتطلب تذاكر للدخول",
+      "freeEvent": "فعالية مجانية",
+      "freeEventDesc": "أقوم بتنظيم فعالية مجانية",
+      "ticketNamePlaceholder": "اسم التذكرة، مثلاً: دخول عام",
+      "pricePlaceholder": "السعر",
+      "quantityPlaceholder": "الكمية",
+      "addTicket": "إضافة تذكرة",
+      "priceLabel": "السعر:",
+      "quantityLabel": "الكمية:",
+      "updateTitle": "تحديث الفعالية - الأساسيات",
+      "updateHeader": "تحديث الفعالية الجديدة",
+      "updateEvent": "تحديث الفعالية",
+      "bannerTitle": "الغلاف",
+      "bannerHint": "يجب أن يكون عرض الصورة المميزة 1170 بكسل على الأقل × 504 بكسل للارتفاع. التنسيقات الصالحة: JPG، GIF، PNG.",
+      "validation": {
+        "titleRequired": "عنوان الفعالية مطلوب.",
+        "categoryRequired": "يرجى اختيار تصنيف.",
+        "descriptionRequired": "وصف الفعالية مطلوب.",
+        "locationRequired": "الموقع مطلوب.",
+        "locationDetailsMissing": "تفاصيل الموقع مفقودة",
+        "dateRequired": "التاريخ مطلوب.",
+        "startTimeRequired": "وقت البدء مطلوب.",
+        "endTimeRequired": "وقت الانتهاء مطلوب.",
+        "timeSequence": "يجب أن يكون وقت الانتهاء بعد وقت البدء.",
+        "selectTier": "يرجى اختيار فئة سعر أولاً",
+        "tierAdded": "تم إضافة فئة {{name}}",
+        "tierDeleted": "تم حذف الفئة",
+        "layoutUpdated": "تم تحديث المخطط"
+      },
+      "errors": {
+        "loadEvents": "خطأ في تحميل الفعاليات"
+      }
     },
     "ticketing": {
       "priceTiers": "فئات الأسعار",
@@ -299,33 +419,198 @@
   "payment": {
     "checkout": {
       "title": "تأكيد التذاكر",
+      "subtotal": "المجموع الفرعي",
       "tax": "الضريبة (7%)",
-      "total": "الإجمالي:"
+      "total": "الإجمالي:",
+      "confirmAndPay": "تأكيد والدفع",
+      "errorConfirming": "خطأ في تأكيد الطلب"
+    },
+    "select": {
+      "title": "اختر تذاكرك",
+      "tickets": "التذاكر",
+      "price": "السعر",
+      "quantity": "الكمية",
+      "remaining": "المتبقي: {{count}}",
+      "payNow": "ادفع الآن"
     },
     "success": {
       "title": "تم الدفع بنجاح",
       "message": "تمت عملية الدفع بنجاح",
+      "bookedMessage": "تم حجز تذاكرك وإرسالها إلى بريدك الإلكتروني.",
       "viewTickets": "الذهاب إلى تذاكرك"
     },
     "cancel": {
       "title": "تم إلغاء الدفع",
-      "message": "تم إلغاء أو فشل عملية الدفع ❌"
+      "message": "تم إلغاء أو فشل عملية الدفع ❌",
+      "tryAgainMessage": "يمكنك المحاولة مرة أخرى أو العودة إلى الصفحة الرئيسية.",
+      "tryAgain": "حاول مرة أخرى"
+    },
+    "backToHome": "العودة إلى الصفحة الرئيسية"
+  },
+  "tickets": {
+    "title": "تذاكري",
+    "header": "التذاكر",
+    "sorting": {
+      "newest": "الأحدث",
+      "nearest": "الأقرب"
+    },
+    "details": {
+      "date": "التاريخ",
+      "quantity": "عدد التذاكر",
+      "viewDetails": "عرض التفاصيل",
+      "noTickets": "لم يتم العثور على تذاكر.",
+      "fetchError": "حدث خطأ ما أثناء جلب بيانات التذاكر.",
+      "seats": "المقاعد",
+      "price": "السعر",
+      "location": "الموقع",
+      "status": "حالة التذكرة",
+      "organizer": "المنظم",
+      "downloadPDF": "تحميل كملف PDF"
     }
   },
   "profile": {
     "user": {
+      "title": "فعاليات | الملف الشخصي",
       "personalInfo": "المعلومات الشخصية",
       "preferences": "التفضيلات والاهتمامات",
       "memberSince": "عضو منذ",
-      "myTickets": "تذاكري"
+      "myTickets": "تذاكري",
+      "age": "العمر",
+      "gender": "النوع",
+      "location": "الموقع",
+      "email": "البريد الإلكتروني",
+      "editAccount": "تعديل الحساب",
+      "userName": "اسم المستخدم",
+      "fetchError": "حدث خطأ ما أثناء جلب بيانات الفعالية."
     },
     "settings": {
       "manage": "إدارة الحساب",
-      "security": "تحديث إعدادات الأمان",
-      "changeEmail": "تغيير البريد الإلكتروني",
-      "deleteAccount": "حذف حسابي"
+      "security": {
+        "title": "الأمان",
+        "desc": "احمِ حسابك بكلمة مرور قوية.",
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "change": "تغيير",
+        "oldPassword": "كلمة المرور القديمة",
+        "newPassword": "كلمة المرور الجديدة",
+        "confirmPassword": "تأكيد كلمة المرور الجديدة",
+        "newEmail": "البريد الإلكتروني الجديد",
+        "confirmEmail": "تأكيد البريد الإلكتروني",
+        "passwordPlaceholder": "كلمة المرور",
+        "changePassword": "تغيير كلمة المرور",
+        "save": "حفظ",
+        "errors": {
+          "oldPasswordRequired": "كلمة المرور القديمة مطلوبة.",
+          "newPasswordRequired": "كلمة المرور الجديدة مطلوبة.",
+          "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب.",
+          "passwordMismatch": "كلمات المرور غير متطابقة.",
+          "emailMismatch": "عناوين البريد الإلكتروني غير متطابقة.",
+          "passwordForEmail": "كلمة المرور مطلوبة لتغيير البريد الإلكتروني.",
+          "genericError": "حدث خطأ ما."
+        }
+      },
+      "personalInfo": {
+        "title": "المعلومات الشخصية",
+        "desc": "قم بتحديث موقعك وإعداداتك الإقليمية.",
+        "location": "الموقع"
+      },
+      "preferences": {
+        "title": "التفضيلات",
+        "desc": "قم بتهيئة كيفية تفاعلك مع المنصة."
+      },
+      "deleteAccount": {
+        "title": "حذف الحساب",
+        "desc": "بمجرد حذف حسابك، لا يمكنك التراجع عن هذه الخطوة.",
+        "button": "حذف حسابي",
+        "success": "تم حذف حسابك بنجاح.",
+        "error": "فشل حذف الحساب. يرجى المحاولة مرة أخرى."
+      },
+      "changeEmail": "البريد الإلكتروني على وشك التغيير",
+      "deleteAccountLabel": "حذف حسابي",
+      "manageDesc": "قم بتحديث إعدادات الأمان والتفضيلات الشخصية الخاصة بك."
+    },
+    "confirmEmail": {
+      "title": "البريد الإلكتروني على وشك التغيير",
+      "step": "خطوة واحدة إضافية. فقط قم بتأكيد تغيير البريد الإلكتروني"
     }
   },
+"ui": {
+  "addPreference": {
+    "addNew": "+ إضافة جديد"
+  },
+
+  "seatMap": {
+    "stage": "المسرح",
+    "available": "متاح",
+    "sold": "مباع",
+    "reserved": "محجوز",
+    "selected": "محدد"
+  },
+
+  "card": {
+    "free": "مجاني"
+  },
+
+  "hero": {
+    "searchError": "يرجى إدخال كلمة بحث وموقع."
+  },
+
+  "passwordInput": {
+    "placeholder": "أدخل كلمة المرور"
+  },
+
+  "priceTier": {
+    "title": "فئات الأسعار",
+    "addNew": "إضافة فئة جديدة",
+    "nameLabel": "اسم الفئة",
+    "priceLabel": "السعر ($)",
+    "colorLabel": "اللون",
+    "addButton": "إضافة فئة",
+    "namePlaceholder": "مثل: VIP، بريميوم، عادي"
+  },
+
+  "rules": {
+    "title": "القيود والقوانين",
+    "desc": "قم بتحديد القواعد المطبقة",
+    "placeholder": "مثل: يمنع استخدام الألفاظ المسيئة …",
+    "addButton": "إضافة قاعدة",
+    "rule": "قاعدة",
+    "rules": "قواعد",
+    "added": "تمت الإضافة"
+  },
+
+  "tags": {
+    "title": "الوسوم",
+    "desc": "أضف حتى {{max}} وسوم · بحد أقصى {{words}} كلمات لكل وسم",
+    "placeholder": "مثل: تعلم الآلة …",
+    "addButton": "إضافة وسم",
+    "used": "وسوم مستخدمة",
+
+    "errors": {
+      "words": "يمكن أن يحتوي الوسم على {{count}} كلمات كحد أقصى.",
+      "max": "تم الوصول إلى الحد الأقصى وهو {{count}} وسوم.",
+      "exists": "هذا الوسم موجود بالفعل."
+    }
+  },
+
+  "venue": {
+    "title": "تصميم المكان",
+    "rowsLabel": "عدد الصفوف",
+    "seatsLabel": "عدد المقاعد لكل صف",
+    "applyButton": "تطبيق التصميم"
+  },
+
+  "location": {
+    "selectedPlace": "المكان المحدد"
+  },
+
+  "progressBar": {
+    "edit": "تعديل",
+    "banner": "الغلاف",
+    "ticketing": "التذاكر",
+    "review": "المراجعة"
+  }
+},
   "about": {
     "mission": "عن مهمتنا",
     "redefining": "إعادة تعريف طريقة تجربتك للعالم",
@@ -485,7 +770,6 @@
 
     "revenue": "الإيرادات"
   },
-
   "listorganizersTable": {
     "id": "الهوية",
     "name": "الاسم",
@@ -497,7 +781,6 @@
     "rejected": "مرفوض",
     "suspended": "موقوف"
   },
-
   "organizerFields": {
     "id": "الهوية",
     "userId": "معرف المستخدم",
@@ -508,7 +791,6 @@
     "createdAt": "تاريخ الإنشاء",
     "updatedAt": "تاريخ التحديث"
   },
-
   "userTable": {
     "id": "الهوية",
     "name": "الاسم",
@@ -518,7 +800,6 @@
     "completed": "مكتمل",
     "location": "الموقع"
   },
-
   "userFields": {
     "id": "الهوية",
     "phone": "الهاتف",
@@ -528,12 +809,10 @@
     "createdAt": "تاريخ الإنشاء",
     "updatedAt": "تاريخ التحديث"
   },
-
   "eventDialog": {
     "deletedSuccess": "تم حذف الفعالية في {{time}}",
     "restoredSuccess": "تم استعادة الفعالية في {{time}}",
     "title": "تفاصيل الفعالية",
-
     "fields": {
       "id": "الهوية",
       "organizerId": "معرف المنظم",
@@ -562,23 +841,121 @@
       "createdAt": "تاريخ الإنشاء",
       "updatedAt": "تاريخ التحديث"
     },
-
     "status": {
       "deleted": "محذوف",
       "active": "نشط",
       "approved": "مقبول",
       "reactivated": "تمت إعادة التفعيل",
       "published": "منشور",
-
       "inactive": "غير نشط",
       "pending": "قيد الانتظار",
       "draft": "مسودة",
       "under_review": "قيد المراجعة",
-
       "banned": "محظور",
       "suspended": "موقوف",
       "cancelled": "ملغي",
       "rejected": "مرفوض"
+    }
+  },
+  "upgradeToOrganizer": {
+    "success": {
+      "title": "تم تقديم طلب الترقية!",
+      "description": "تم استلام طلب ترقية {{category}} الخاص بك. سنقوم بمراجعته والرد عليك قريباً.",
+      "submitAnother": "تقديم طلب آخر"
+    },
+    "page": {
+      "personalInfo": "المعلومات الشخصية",
+      "submitUpgrade": "تقديم طلب الترقية",
+      "selectionCategory": "فئة الاختيار"
+    },
+    "categories": {
+      "hobbyist": {
+        "label": "منفرد",
+        "description": "منظمون أفراد وتجمعات غير رسمية"
+      },
+      "business": {
+        "label": "عمل تجاري",
+        "description": "رواد أعمال منفردون ووكالات صغيرة"
+      },
+      "company": {
+        "label": "شركة",
+        "description": "شركات مسجلة ومنظمات كبيرة"
+      }
+    },
+    "subtitles": {
+      "hobbyist": "التفاصيل المطلوبة للمنظمين من فئة المنفرد.",
+      "business": "التفاصيل المطلوبة للتحقق من مستوى العمل التجاري.",
+      "company": "التفاصيل المطلوبة لتسجيل مستوى الشركة."
+    },
+    "fields": {
+      "name": "الاسم الكامل",
+      "businessName": "اسم العمل التجاري",
+      "companyName": "الاسم القانوني للشركة",
+      "email": "عنوان البريد الإلكتروني",
+      "phone": "رقم الهاتف",
+      "contactPhone": "هاتف (شخص التواصل)",
+      "nationalId": "الرقم القومي / رقم جواز السفر",
+      "address": "العنوان",
+      "businessAddress": "عنوان العمل التجاري",
+      "companyAddress": "عنوان الشركة",
+      "commercialRegistration": "السجل التجاري",
+      "registrationNumber": "رقم التسجيل",
+      "taxId": "الرقم الضريبي",
+      "officialEmailDomain": "نطاق البريد الإلكتروني الرسمي",
+      "officialDocuments": "المستندات الرسمية",
+      "profilePhoto": "الصورة الشخصية",
+      "placeholders": {
+        "name": "مثال: محمد احمد",
+        "businessName": "اسم عملك التجاري",
+        "companyName": "الاسم المسجل بالكامل",
+        "email": "j.sterling@example.com",
+        "phone": "(+02)000-000-0000",
+        "nationalId": "رقم الهوية",
+        "address": "الشارع، المدينة، الدولة",
+        "registrationNumber": "رقم التسجيل",
+        "taxId": "رقم التعريف الضريبي",
+        "emailDomain": "@yourcompany.com",
+        "social": "الصق الرابط هنا"
+      }
+    },
+    "social": {
+      "label": "روابط التواصل الاجتماعي والموقع",
+      "optional": "كلها اختيارية - أضف ما ينطبق عليك",
+      "selectPlatform": "اختر المنصة",
+      "allAdded": "تم إضافة جميع المنصات",
+      "platforms": {
+        "websiteUrl": "الموقع الإلكتروني",
+        "instagramUrl": "إنستغرام",
+        "facebookUrl": "فيسبوك",
+        "twitterUrl": "إكس / تويتر",
+        "linkedinUrl": "لينكد إن",
+        "youtubeUrl": "يوتيوب"
+      }
+    },
+    "validation": {
+      "nameRequired": "الاسم الكامل مطلوب",
+      "businessNameRequired": "اسم العمل التجاري مطلوب",
+      "companyNameRequired": "اسم الشركة مطلوب",
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "invalidEmail": "أدخل بريدًا إلكترونيًا صالحًا",
+      "phoneRequired": "رقم الهاتف مطلوب",
+      "invalidPhone": "أدخل رقم هاتف صالحًا",
+      "idRequired": "رقم الهوية مطلوب",
+      "addressRequired": "العنوان مطلوب",
+      "registrationRequired": "رقم التسجيل مطلوب",
+      "taxIdRequired": "الرقم الضريبي مطلوب",
+      "invalidDomain": "أدخل نطاقًا صالحًا (مثال: @company.com)",
+      "photoRequired": "الصورة الشخصية مطلوبة",
+      "documentRequired": "تحميل المستند مطلوب",
+      "selectPlatform": "يرجى اختيار منصة",
+      "enterUrl": "يرجى إدخال رابط",
+      "invalidUrl": "أدخل رابطًا صالحًا (https://...)",
+      "genericRequired": "هذا الحقل مطلوب"
+    },
+    "upload": {
+      "clickOrDrag": "انقر للتحميل أو اسحب وأفلت",
+      "photoHint": "PNG, JPG حتى 10 ميجابايت",
+      "pdfHint": "PDF فقط، حتى 20 ميجابايت"
     }
   }
 }

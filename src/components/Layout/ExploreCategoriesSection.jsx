@@ -4,9 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { useCategories } from "../../Context/CategoriesProvider";
 import CategoriesSkeleton from "../UI/CategoriesSkeleton";
 import CardSkeleton from "../UI/CardSkeleton";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 function ExploreCategories() {
+  const { t } = useTranslation();
   const { categories, loading} = useCategories();
+  const {lang}=useParams();
   
   
   const scrollRef = useRef(null);
@@ -27,10 +31,10 @@ function ExploreCategories() {
       <div className="max-w-350 mx-auto px-6">
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
-            Explore Categories
+            {t("categoriesSection.title")}
           </h2>
           <div >
-
+          <div className={`flex  ${lang === "ar" ? "flex-row-reverse": "flex-row"}`}>
           <button
             onClick={slideleft}
             className="p-3 mr-5 rounded-full border border-gray-300 hover:bg-gray-100 transition"
@@ -45,7 +49,7 @@ function ExploreCategories() {
           </button>
             </div>
         </div>
-
+        </div>
         <div
           ref={scrollRef}
           className="flex  overflow-x-auto lg:gap-10 md:gap-4 sm:gap-2 gap-0 no-scrollbar scroll-smooth space-x-2"
@@ -69,6 +73,13 @@ function ExploreCategories() {
               </p>
             </div>
           ))) : ([1, 2, 3, 4, 5, 6].map((temp,index) => <CategoriesSkeleton key={index} />))}
+          <CategoriesSkeleton />
+          <CategoriesSkeleton />
+          <CategoriesSkeleton />
+          <CategoriesSkeleton />
+          <CategoriesSkeleton />
+          <CategoriesSkeleton />
+          <CategoriesSkeleton />
         </div>
       </div>
       

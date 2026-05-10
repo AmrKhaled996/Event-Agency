@@ -6,62 +6,64 @@ import ProfitsLineChart from "../../../components/Charts/ProfitsLineChart";
 import DoughnutChart from "../../../components/Charts/DoughnutChart";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import Loading from "../../../components/Layout/LoadingLayout";
+import { useTranslation } from "react-i18next";
 
 
 export default function OrganizerAnalyticsPage() {
+  const { t } = useTranslation();
   const [analyticsData, setanalyticsData] = useState({});
-    const [openDialog, setopenDialog] = useState(false);
+  const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setloading] = useState(false);
-    const getAnalyticsData = async () => {
-      try {
-          setloading(true);
-          const response= await getAnalyticsOrgainzerDashboard();
-          // console.log("data",response);
-          setanalyticsData(response.data.data.data);
-      } catch (error) {
-             const message =
-        error.response?.data?.message || "Something went wrong";
+  const getAnalyticsData = async () => {
+    try {
+      setloading(true);
+      const response = await getAnalyticsOrgainzerDashboard();
+      // console.log("data",response);
+      setanalyticsData(response.data.data.data);
+    } catch (error) {
+      const message =
+        error.response?.data?.message || t("common.feedback.error");
       setDialogMessage(message);
       setopenDialog(true);
-      }
-      finally{
-        setloading(false);
-      }
     }
-    useEffect(() => {
-      getAnalyticsData();
-    }, []);
+    finally {
+      setloading(false);
+    }
+  }
+  useEffect(() => {
+    getAnalyticsData();
+  }, []);
 
   return (<>
-      <h2 className="text-3xl font-bold mb-6">Analytics</h2>
+    <h2 className="text-3xl font-bold mb-6">{t("organizer.dashboard.analytics")}</h2>
     <div className=" grid grid-cols-1 md:grid-cols-2 overflow-y-auto max-h-140 h-full gap-6">
 
 
       {/* tickets Statistics */}
       <div className="bg-white p-6 rounded-xl shadow grid">
-        <p className="text-gray-500 mb-2"> selling tickets Statistics </p>
+        <p className="text-gray-500 mb-2"> {t("organizer.dashboard.sellingTicketsStats")} </p>
         <div className="h-45 flex items-center justify-center text-gray-400">
-          <BarChart  data={analyticsData?.ticket?.data||[]} labels={['Total Tickets', 'Sold Tickets', 'Remaining Tickets']} />
+          <BarChart data={analyticsData?.ticket?.data || []} labels={[t("organizer.dashboard.totalTickets"), t("organizer.dashboard.soldTickets"), t("organizer.dashboard.remainingTickets")]} />
         </div>
       </div>
       {/* Events Statistics */}
       <div className="bg-white p-6 rounded-xl shadow grid">
-        <p className="text-gray-500 mb-2">Events Statistics</p>
+        <p className="text-gray-500 mb-2">{t("organizer.dashboard.eventsStats")}</p>
         <div className="h-45 flex items-center justify-center text-gray-400">
-          <DoughnutChart data={analyticsData?.event?.data||[]} />
+          <DoughnutChart data={analyticsData?.event?.data || []} />
         </div>
       </div>
       {/* orders Statistics */}
       <div className="bg-white p-6 rounded-xl shadow-[5px_2px_15px_-10px] col-span-2">
-        <p className="text-gray-500 mb-2">Orders Statistics</p>
+        <p className="text-gray-500 mb-2">{t("organizer.dashboard.ordersStats")}</p>
         <div className="h-45 flex items-center justify-center text-gray-400">
           {/* <ProfitsLineChart  /> */}
-          <BarChart data={analyticsData?.order?.data||[]} labels={['Total Orders', 'Completed Orders', 'Pending Orders', 'Cancelled Orders']} />
+          <BarChart data={analyticsData?.order?.data || []} labels={[t("organizer.dashboard.totalOrders"), t("organizer.dashboard.completedOrders"), t("organizer.dashboard.pendingOrders"), t("organizer.dashboard.cancelledOrders")]} />
         </div>
       </div>
       {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
-        {loading && <Loading />}
+      {loading && <Loading />}
     </div>
   </>
   );

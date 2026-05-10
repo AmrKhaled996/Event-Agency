@@ -4,13 +4,16 @@ import CreateEventProgressBar from "../../components/UI/CreateEventProgressBar";
 import { Link } from "react-router-dom";
 import { createEvent } from "../../APIs/organizerApis";
 import EventPage from "../Events/EventPage";
-import { Title } from "react-head";
+
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import Loading from "../../components/Layout/LoadingLayout";
 import LocalLink from "../../Router/LocalLink";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
+import { Title } from "react-head";
 
 function CreateEventReview() {
+  const { t } = useTranslation();
   const { formData } = useEventForm();
   const [submitting, setSubmitting] = useState(false);
   const [openDialog, setopenDialog] = useState(false);
@@ -101,10 +104,10 @@ function CreateEventReview() {
       setLoading(true);
       const response = await createEvent(fd, true); // send formData
 
-      alert("Event created successfully!");
+      alert(t("organizer.createEvent.createSuccess"));
       navigate(`/organizer/dashboard/overview`);
     } catch (error) {
-      const message = error.response?.data?.message || "Something went wrong";
+      const message = error.response?.data?.message || t("common.feedback.error");
       console.log(error.response);
       setDialogMessage(message);
       setopenDialog(true);
@@ -115,51 +118,10 @@ function CreateEventReview() {
   };
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <Title>Create Event - Review</Title>
+      <Title>{t("organizer.createEvent.review")}</Title>
       <CreateEventProgressBar step={4} />
-      <h2 className="text-xl font-semibold mb-4">Review</h2>
-      {/* 
-      <div className="space-y-4">
-        <div className="border rounded p-4">
-          <div className="text-sm text-gray-500">Title</div>
-          <div className="font-medium">{formData.basicInfo.title || "-"}</div>
-        </div>
+      <h2 className="text-xl font-semibold mb-4">{t("organizer.createEvent.reviewTitle")}</h2>
 
-        <div className="border rounded p-4">
-          <div className="text-sm text-gray-500">Category</div>
-          <div className="font-medium">
-            {formData.basicInfo.category || "-"}
-          </div>
-        </div>
-
-        <div className="border rounded p-4">
-          <div className="text-sm text-gray-500">Schedule</div>
-          <div className="font-medium">
-            {formData.basicInfo.startDate} {formData.basicInfo.startTime}
-          </div>
-        </div>
-
-        <div className="border rounded p-4">
-          <div className="text-sm text-gray-500">Banner</div>
-          {formData.banner.preview ? (
-            <img
-              src={formData.banner.preview}
-              alt="banner"
-              className="w-full h-44 object-cover rounded"
-            />
-          ) : (
-            <div className="text-sm text-gray-500">No banner uploaded</div>
-          )}
-        </div>
-
-        <div className="border rounded p-4">
-          <div className="text-sm text-gray-500">Tickets</div>
-          <div className="font-medium">
-            {formData.tickets.tickets.length} ticket(s) <br />
-
-          </div>
-        </div>
-      </div> */}
       <div className="border-6 rounded-2xl p-3 relative">
         <EventPage
           eventinfo={{
@@ -174,14 +136,14 @@ function CreateEventReview() {
 
       <div className="flex justify-between mt-6">
         <LocalLink to="/organizer/create-event/ticket" className="text-gray-600">
-          Edit Tickets
+          {t("organizer.createEvent.editTickets")}
         </LocalLink>
         <button
           onClick={submit}
           disabled={submitting}
           className="bg-green-600 text-white px-6 py-2 rounded"
         >
-          {submitting ? "Creating..." : "Create Event"}
+          {submitting ? t("organizer.createEvent.creating") : t("organizer.dashboard.createEvent")}
         </button>
       </div>
       {openDialog && (
@@ -197,3 +159,4 @@ function CreateEventReview() {
 }
 
 export default CreateEventReview;
+

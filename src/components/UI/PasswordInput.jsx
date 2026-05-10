@@ -1,8 +1,12 @@
 import { useState } from "react";
 import EyeTrager from "../Icons/Eyetrager";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 function PasswordInput({ content, id, password, setPassword, errors }) {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  const {lang}= useParams();
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -12,7 +16,7 @@ function PasswordInput({ content, id, password, setPassword, errors }) {
       <div className="relative">
         <input
           type={showPassword ? `text` : `password`}
-          placeholder="Enter password"
+          placeholder={t("ui.passwordInput.placeholder")}
           name={password}
           id={id}
           value={password}
@@ -24,7 +28,7 @@ function PasswordInput({ content, id, password, setPassword, errors }) {
         />
 
         <span
-          className="absolute right-6 top-5 text-gray-400 cursor-pointer"
+          className={`absolute ${lang === "en" ? "right-6":"left-6"} top-5 text-gray-400 cursor-pointer`}
           onClick={handleShowPassword}
         >
           <EyeTrager />

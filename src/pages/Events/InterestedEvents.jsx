@@ -56,7 +56,7 @@ function InterestedEventsPage() {
                 {cards}
               </div>
             ) : (
-              cards.map((card, index) => {
+              cards?.map((card, index) => {
                 return (
                   <Card
                     key={index}
@@ -71,6 +71,7 @@ function InterestedEventsPage() {
                     sessions={card?.eventSessions || []}
                     crossOrigin="anonymous"
                     isInterested={card?.isInterested}
+                    interestedCount={card?.interestedCount}
                   />
                 );
               })

@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 function CuratedEventsSection() {
+    const {t}= useTranslation();
   const {lang} = useParams();
   return (
     <div
@@ -44,12 +46,12 @@ function CuratedEventsSection() {
         ></div>
 
         <h2 className="text-3xl font-bold mb-3">
-          Events specially curated for you!
+          {t("homePage.sections.curatedForYou")}
         </h2>
 
         <p className="text-lg mb-6 text-white/90">
-          Get event suggestions tailored to your interests! Don&apos;t let your
-          favorite events slip away.
+          {t("homePage.sections.curatedForYouDescription")}
+          
         </p>
 
         <button

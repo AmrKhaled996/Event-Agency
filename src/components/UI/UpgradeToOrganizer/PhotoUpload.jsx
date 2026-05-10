@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 /**
  * PhotoUpload
@@ -14,6 +15,7 @@ export default function PhotoUpload({ label, required, error, onFileChange }) {
   const inputRef = useRef(null);
   const [preview, setPreview] = useState(null);
   const [dragging, setDragging] = useState(false);
+  const { t } = useTranslation();
 
   const handleFile = (file) => {
     if (!file) return;
@@ -66,8 +68,8 @@ export default function PhotoUpload({ label, required, error, onFileChange }) {
                 <line x1="12" y1="3" x2="12" y2="15"/>
               </svg>
             </div>
-            <p className="text-sm text-gray-500">Click to upload or drag and drop</p>
-            <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
+            <p className="text-sm text-gray-500">{t("upgradeToOrganizer.upload.clickOrDrag")}</p>
+            <p className="text-xs text-gray-400">{t("upgradeToOrganizer.upload.photoHint")}</p>
           </>
         )}
 
@@ -88,3 +90,4 @@ export default function PhotoUpload({ label, required, error, onFileChange }) {
     </div>
   );
 }
+

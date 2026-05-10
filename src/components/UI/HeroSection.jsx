@@ -35,11 +35,11 @@ export default function HeroSection() {
     if (location) params.set("location", location);
 
     if (!location || !trimmed) {
-      toast.error("Please enter a search term and location.", {
+      toast.error(t("ui.hero.searchError"), {
         duration: 3000,
       });
       setopenDialog(true);
-      setDialogMessage("Please enter a search term and location.");
+      setDialogMessage(t("ui.hero.searchError"));
       return;
     } else {
       setSearchPramas(params);

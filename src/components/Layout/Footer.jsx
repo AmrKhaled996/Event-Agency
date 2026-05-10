@@ -43,18 +43,18 @@ export default function Footer() {
   const handleSubscribe = async (e) => {
     e.preventDefault();
     if (!newsletterEmail) {
-      setNewsletterError("Email is required");
+      setNewsletterError(t("layout.footer.validation.emailRequired"));
       return;
     }
     if (!newsLetterLanguage) {
-      setNewsletterError("Language is required");
+      setNewsletterError(t("layout.footer.validation.languageRequired"));
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(newsletterEmail)) {
       setNewsletterError(
-        "Invalid email format email should contain latters And  @ And . ",
+        t("layout.footer.validation.invalidFormat"),
       );
       return;
     }
@@ -69,7 +69,7 @@ export default function Footer() {
       setValidSubscribe(true);
     } catch (err) {
       console.error("Error:", err);
-      const message = err.response?.data?.error || "Something went wrong";
+      const message = err.response?.data?.error || t("common.feedback.error");
       setNewsletterError(message);
     } finally {
       setloading(false);
@@ -87,7 +87,7 @@ export default function Footer() {
 
       <ul className="space-y-2 text-white/90">
         <li>
-          <LocalLink to="" className="hover:text-white">
+          <LocalLink to="/about" className="hover:text-white">
             {t("layout.footer.about")}
           </LocalLink>
         </li>

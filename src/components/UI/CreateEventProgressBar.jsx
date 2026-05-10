@@ -1,10 +1,19 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function CreateEventProgressBar({step}) {
+  const { t } = useTranslation();
   const currentStep=step;
   const totalSteps = 4;
 
   const progressWidth = ((currentStep - 1) / (totalSteps - 1)) * 100;
+
+  const stepLabels = [
+    { id: "edit", label: t("ui.progressBar.edit") },
+    { id: "banner", label: t("ui.progressBar.banner") },
+    { id: "ticketing", label: t("ui.progressBar.ticketing") },
+    { id: "review", label: t("ui.progressBar.review") },
+  ];
   
   return (
     <div className="flex flex-col items-center mt-10 transition-all">
@@ -20,8 +29,8 @@ function CreateEventProgressBar({step}) {
         ></div>
 
         {/* Circles */}
-        {["Edit", "Banner", "Ticketing", "Review"].map((step, index) => (
-          <div key={step} className="z-10 flex flex-col gap-2.5 h-10 items-center justify-center ">
+        {stepLabels.map((s, index) => (
+          <div key={s.id} className="z-10 flex flex-col gap-2.5 h-10 items-center justify-center ">
             <div
               className={`w-7.5 h-7.5 rounded-full bg-white flex items-center justify-center border-[3px] transition-all duration-300 z-10000 ${
                 index < currentStep
@@ -38,7 +47,7 @@ function CreateEventProgressBar({step}) {
                   : "border-gray-300 text-gray-400"
               } `}
             >
-              {step}
+              {s.label}
             </h3>
           </div>
         ))}
@@ -48,3 +57,4 @@ function CreateEventProgressBar({step}) {
 }
 
 export default CreateEventProgressBar;
+

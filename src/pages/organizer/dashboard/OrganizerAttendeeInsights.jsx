@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 export default function OrganizerAttendeeInsightsPage() {
+  const { t } = useTranslation();
   // Mock data (بعد كده هتيجي من API)
   const attendees = [
     {
@@ -45,17 +48,17 @@ export default function OrganizerAttendeeInsightsPage() {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-6">Attendees</h2>
+      <h2 className="text-3xl font-bold mb-6">{t("organizer.dashboard.attendees")}</h2>
 
       <div className="overflow-x-auto bg-white rounded-xl shadow">
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-100  text-center">
-              <th className="p-4">Username</th>
-              <th className="p-4">Gender</th>
-              <th className="p-4">Age</th>
-              <th className="p-4">Location</th>
-              <th className="p-4">Event</th>
+              <th className="p-4">{t("organizer.dashboard.username")}</th>
+              <th className="p-4">{t("organizer.dashboard.gender")}</th>
+              <th className="p-4">{t("organizer.dashboard.age")}</th>
+              <th className="p-4">{t("organizer.dashboard.location")}</th>
+              <th className="p-4">{t("organizer.dashboard.event")}</th>
             </tr>
           </thead>
 

@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 /**
  * PdfUpload
@@ -14,6 +15,7 @@ export default function PdfUpload({ label, required, error, onFileChange }) {
   const inputRef = useRef(null);
   const [fileName, setFileName] = useState(null);
   const [dragging, setDragging] = useState(false);
+  const { t } = useTranslation();
 
   const handleFile = (file) => {
     if (!file) return;
@@ -62,8 +64,8 @@ export default function PdfUpload({ label, required, error, onFileChange }) {
           <p className="text-sm text-primary font-medium">{fileName}</p>
         ) : (
           <>
-            <p className="text-sm text-gray-500">Click to upload or drag and drop</p>
-            <p className="text-xs text-gray-400">PDF only, up to 20MB</p>
+            <p className="text-sm text-gray-500">{t("upgradeToOrganizer.upload.clickOrDrag")}</p>
+            <p className="text-xs text-gray-400">{t("upgradeToOrganizer.upload.pdfHint")}</p>
           </>
         )}
 
@@ -84,3 +86,4 @@ export default function PdfUpload({ label, required, error, onFileChange }) {
     </div>
   );
 }
+

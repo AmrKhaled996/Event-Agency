@@ -7,7 +7,8 @@ import { updatePreferences } from "../../../APIs/profileAPI";
 import { refreshToken } from "../../../APIs/authAPIs";
 import { refreshAccessToken } from "../../../services/cookieTokenService";
 // @ts-ignore
-import { useBeforeUnload } from "react-router-dom";
+import { useBeforeUnload, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 /**
  * A component that displays a user's preferences and allows them to add or remove preferences.
@@ -42,7 +43,8 @@ function UserSettingsAddPreference({
   const [loading, setLoading] = useState(false);
   const [preferencesBeforeChanged, setPreferencesBeforeChanged] =
     useState(null);
-
+  const { t } = useTranslation();
+  const { lang } = useParams();
   // @ts-ignore
   const handlePreferenceChange = (preference) => {
     if (preferences.includes(preference)) {
@@ -105,9 +107,9 @@ function UserSettingsAddPreference({
   return (
     <section className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
       <div className="p-6 border-b border-slate-200">
-        <h2 className="text-lg font-bold text-slate-900">Preferences</h2>
+        <h2 className="text-lg font-bold text-slate-900">{t("profile.settings.preferences.title")}</h2>
         <p className="text-sm text-slate-500">
-          Configure how you interact with the platform.
+          {t("profile.settings.preferences.desc")}
         </p>
       </div>
 
@@ -137,7 +139,7 @@ function UserSettingsAddPreference({
             onClick={handleUpdatePreferences}
             className={`px-6 py-2 text-sm font-bold rounded-lg ${preferencesBeforeChanged !== preferences ? ` bg-primary text-white  hover:bg-primary/90 shadow-md shadow-primary/20` : `bg-slate-200 text-slate-400 `}  transition-all`}
           >
-            {t("common.action.save")}
+            {t("common.actions.save")}
           </button>
         </div>
       </div>

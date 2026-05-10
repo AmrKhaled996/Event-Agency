@@ -17,8 +17,11 @@ import Loading from "../../../components/Layout/LoadingLayout";
 import { DateToAge } from "../../../utils/dateFormater";
 import useAppNavigate from "../../../Router/useAppNavigate";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Title } from "react-head";
 
 function UserProfilePage() {
+  const { t } = useTranslation();
   const navigate = useAppNavigate();
   const { user } = useUser();
   const [accountData, setAccountData] = useState();
@@ -48,8 +51,7 @@ function UserProfilePage() {
       setAccountData(fullData);
     } catch (error) {
       const message =
-        error.response?.data?.error ||
-        "Something went wrong while fetching event data.";
+        error.response?.data?.error || t("profile.user.fetchError");
       setDialogMessage(message);
       setopenDialog(true);
       console.log(error);
@@ -70,8 +72,9 @@ function UserProfilePage() {
       setopenDialog={setopenDialog}
     >
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <Title>{t("profile.user.title")}</Title>
         <UserProfileHeader
-          name={accountData?.name || "User Name"}
+          name={accountData?.name || t("profile.user.userName")}
           memberSince="2026"
           eventsAttended={accountData?.attendedEvents || 0}
         />
@@ -79,26 +82,26 @@ function UserProfilePage() {
         <div className="p-8 px-10">
           <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
             <IdCard color="#BB52E0" size={28} />
-            Personal Information
+            {t("profile.user.personalInfo")}
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-12">
-            <UserProfileInfoItem label="Age">
+            <UserProfileInfoItem label={t("profile.user.age")}>
               {accountData?.age}
             </UserProfileInfoItem>
 
-            <UserProfileInfoItem label="Gender">
+            <UserProfileInfoItem label={t("profile.user.gender")}>
               {accountData?.gender}
             </UserProfileInfoItem>
 
-            <UserProfileInfoItem label="Location">
+            <UserProfileInfoItem label={t("profile.user.location")}>
               <div className="flex items-center gap-1.5">
                 <FlagTriangleLeft color="#BB52E0" size={24} />
                 {accountData?.location}
               </div>
             </UserProfileInfoItem>
 
-            <UserProfileInfoItem label="Email Address">
+            <UserProfileInfoItem label={t("profile.user.email")}>
               {accountData?.email}
             </UserProfileInfoItem>
           </div>
@@ -106,7 +109,7 @@ function UserProfilePage() {
           <div className="mt-12">
             <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
               <Stars color="#BB52E0" />
-              Preferences & Interests
+              {t("profile.user.preferences")}
             </h3>
 
             <div className="flex flex-wrap gap-2 pl-4">
@@ -132,7 +135,7 @@ function UserProfilePage() {
               }
               className="px-6 py-2.5 rounded-lg text-md font-bold bg-primary text-white shadow-md shadow-primary/25 hover:opacity-90 transition-opacity flex items-center gap-2"
             >
-              <Settings color="white" size={24} /> Edit Account
+              <Settings color="white" size={24} /> {t("profile.user.editAccount")}
             </button>
           </div>
         )}
@@ -142,3 +145,4 @@ function UserProfilePage() {
 }
 
 export default UserProfilePage;
+

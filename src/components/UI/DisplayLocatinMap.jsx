@@ -1,5 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+import { useTranslation } from "react-i18next";
 
 // Fix Leaflet marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -13,6 +14,7 @@ L.Icon.Default.mergeOptions({
 });
 
 export default function DisplayLocatinMap({ lat, lon, name }) {
+  const { t } = useTranslation();
   if (!lat || !lon) return null; 
 
   return (
@@ -28,9 +30,10 @@ export default function DisplayLocatinMap({ lat, lon, name }) {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Marker position={[lat, lon]}>
-          <Popup>{name || "Selected Place"}</Popup>
+          <Popup>{name || t("ui.location.selectedPlace")}</Popup>
         </Marker>
       </MapContainer>
     </div>
   );
 }
+

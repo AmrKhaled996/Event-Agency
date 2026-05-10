@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SOCIAL_PLATFORMS } from "../../../constants/upgradeConfig";
 import { validateUrl } from "../../../utils/UpgradeValidation";
+import { useTranslation } from "react-i18next";
 
 
 /**
@@ -18,13 +19,14 @@ export default function SocialLinksField({ value = {}, onChange, errors = {}, on
   const [selectedPlatform, setSelectedPlatform] = useState("");
   const [inputUrl, setInputUrl] = useState("");
   const [addError, setAddError] = useState("");
+  const { t } = useTranslation();
 
   const usedPlatformIds = rows.map((r) => r.platformId);
   const availablePlatforms = SOCIAL_PLATFORMS.filter((p) => !usedPlatformIds.includes(p.id));
 
   const handleAdd = () => {
-    if (!selectedPlatform) { setAddError("Please select a platform"); return; }
-    if (!inputUrl.trim())   { setAddError("Please enter a URL"); return; }
+    if (!selectedPlatform) { setAddError("upgradeToOrganizer.validation.selectPlatform"); return; }
+    if (!inputUrl.trim())   { setAddError("upgradeToOrganizer.validation.enterUrl"); return; }
     const urlErr = validateUrl(inputUrl);
     if (urlErr) { setAddError(urlErr); return; }
 
@@ -61,8 +63,8 @@ export default function SocialLinksField({ value = {}, onChange, errors = {}, on
   return (
     <div className="col-span-2 flex flex-col gap-3">
       <div>
-        <label className="text-sm font-medium text-gray-700">Social &amp; Web Links</label>
-        <p className="text-xs text-gray-400 mt-0.5">All optional — add whichever apply</p>
+        <label className="text-sm font-medium text-gray-700">{t("upgradeToOrganizer.social.label")}</label>
+        <p className="text-xs text-gray-400 mt-0.5">{t("upgradeToOrganizer.social.optional")}</p>
       </div>
 
       {/* Existing rows */}
@@ -77,14 +79,14 @@ export default function SocialLinksField({ value = {}, onChange, errors = {}, on
                   {/* Platform badge */}
                   <div className="flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium rounded-lg border border-gray-200 bg-gray-50 text-gray-600 whitespace-nowrap min-w-[120px]">
                     <span className="text-primary">{platform?.icon}</span>
-                    {platform?.label}
+                    {t(platform?.label)}
                   </div>
 
                   {/* URL input */}
                   <input
                     type="url"
                     value={url}
-                    placeholder={platform?.placeholder}
+                    placeholder={t(platform?.placeholder)}
                     onChange={(e) => handleRowChange(platformId, e.target.value)}
                     onBlur={(e) => handleRowBlur(platformId, e.target.value)}
                     className={`flex-1 px-3 py-2.5 text-sm border rounded-lg bg-white text-gray-800 placeholder-gray-400 outline-none transition-all ${
@@ -108,7 +110,7 @@ export default function SocialLinksField({ value = {}, onChange, errors = {}, on
 
                 {rowError && (
                   <p className="text-xs text-red-500 flex items-center gap-1 pl-1">
-                    <span>⚠</span>{rowError}
+                    <span>⚠</span>{t(rowError)}
                   </p>
                 )}
               </div>
@@ -132,9 +134,9 @@ export default function SocialLinksField({ value = {}, onChange, errors = {}, on
                     : "border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20"
                 }`}
               >
-                <option value="">Select platform</option>
+                <option value="">{t("upgradeToOrganizer.social.selectPlatform")}</option>
                 {availablePlatforms.map((p) => (
-                  <option key={p.id} value={p.id}>{p.label}</option>
+                  <option key={p.id} value={p.id}>{t(p.label)}</option>
                 ))}
               </select>
               <div className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400">
@@ -150,8 +152,8 @@ export default function SocialLinksField({ value = {}, onChange, errors = {}, on
               value={inputUrl}
               placeholder={
                 selectedPlatform
-                  ? SOCIAL_PLATFORMS.find((p) => p.id === selectedPlatform)?.placeholder
-                  : "Paste your URL here"
+                  ? t(SOCIAL_PLATFORMS.find((p) => p.id === selectedPlatform)?.placeholder)
+                  : t("upgradeToOrganizer.fields.placeholders.social")
               }
               onChange={(e) => { setInputUrl(e.target.value); setAddError(""); }}
               onKeyDown={(e) => e.key === "Enter" && handleAdd()}
@@ -176,7 +178,7 @@ export default function SocialLinksField({ value = {}, onChange, errors = {}, on
 
           {addError && (
             <p className="text-xs text-red-500 flex items-center gap-1 pl-1">
-              <span>⚠</span>{addError}
+              <span>⚠</span>{t(addError)}
             </p>
           )}
         </div>
@@ -188,9 +190,10 @@ export default function SocialLinksField({ value = {}, onChange, errors = {}, on
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#BB52E0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
-          All platforms added
+          {t("upgradeToOrganizer.social.allAdded")}
         </p>
       )}
     </div>
   );
 }
+

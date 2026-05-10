@@ -6,7 +6,7 @@ export const URL_REGEX = /^https?:\/\/.+\..+/;
  */
 export function validateUrl(val) {
   if (!val || !val.trim()) return null;
-  return !URL_REGEX.test(val.trim()) ? "Enter a valid URL (https://...)" : null;
+  return !URL_REGEX.test(val.trim()) ? "upgradeToOrganizer.validation.invalidUrl" : null;
 }
 
 /**
@@ -25,14 +25,14 @@ export function validateFields({ selectedCategory, fields, formData, fileData, s
     if (field.type === "photo" || field.type === "pdf") {
       if (field.required && !files[field.id]) {
         newErrors[field.id] =
-          field.type === "photo" ? "Profile photo is required" : "Document upload is required";
+          field.type === "photo" ? "upgradeToOrganizer.validation.photoRequired" : "upgradeToOrganizer.validation.documentRequired";
       }
       return;
     }
 
     const value = data[field.id] || "";
     if (field.required && !value.trim()) {
-      newErrors[field.id] = field.validate?.(value) || `${field.label} is required`;
+      newErrors[field.id] = field.validate?.(value) || "upgradeToOrganizer.validation.genericRequired";
       return;
     }
     if (value && field.validate) {
