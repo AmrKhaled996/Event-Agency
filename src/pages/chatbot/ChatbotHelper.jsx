@@ -53,7 +53,7 @@ function Message({ msg }) {
         {msg.content}
       </div>
       {isUser && (
-        <div className="w-8 h-8 rounded-full flex-shrink-0 ml-2 flex items-center justify-center text-white text-sm bg-slate-600">
+        <div className="w-8 h-8 rounded-full shrink-0 ml-2 flex items-center justify-center text-white text-sm bg-slate-600">
           <User />  
         </div>
       )}
@@ -163,7 +163,7 @@ export default function ChatbotHelper() {
           {loading && (
             <div className="flex justify-start mb-3">
               <div
-                className="w-8 h-8 rounded-full flex-shrink-0 mr-2 flex items-center justify-center text-white text-sm"
+                className="w-8 h-8 rounded-full shrink-0 mr-2 flex items-center justify-center text-white text-sm"
                 style={{
                   background: "linear-gradient(135deg, #BB52E0, #FF49B5)",
                 }}
@@ -206,7 +206,7 @@ export default function ChatbotHelper() {
           <button
             onClick={sendMessage}
             disabled={loading || !input.trim()}
-            className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 flex-shrink-0"
+            className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110 disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 shrink-0"
             style={{ background: "linear-gradient(135deg, #BB52E0, #FF49B5)" }}
           >
             <svg

@@ -1,81 +1,21 @@
-import { Info, Pencil, RefreshCcw, Trash } from "lucide-react";
+import { DeleteIcon, Info, Pencil, RefreshCcw, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import InfoDialog from "../../../components/Dialogs/InfoDialog";
 import UpdateDialog from "../../../components/Dialogs/UpdateDialog";
 import DeleteDialog from "../../../components/Dialogs/DeleteDialog";
 import { getStatsOrgainzerDashboard } from "../../../APIs/organizerDashboardAPIs";
-import { deleteEvent, getAllEvents } from "../../../APIs/organizerApis";
+import { cancelEvent, deleteEvent, getAllEvents } from "../../../APIs/organizerApis";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import Loading from "../../../components/Layout/LoadingLayout";
 import useAppNavigate from "../../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
+import CancelDialog from "../../../components/Dialogs/CancelDialog";
 
-const mockCards = [
-  {
-    id: 1,
-    bannerUrl: "/images/login.jpg",
-    title: "Earthen Bott4444le",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-    status: "Active",
-    date: "2024-10-12",
-  },
-  {
-    id: 2,
-    bannerUrl: "/images/login.jpg",
-    title: "Earthen Bott333le4",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-    status: "Pending",
-    date: "2024-10-12",
-  },
-  {
-    id: 3,
-    bannerUrl: "/images/login.jpg",
-    title: "Earthen Bottl214e4",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-    status: "Active",
-    date: "2024-10-12",
-  },
-  {
-    id: 4,
-    bannerUrl: "/images/login.jpg",
-    title: "Earthen Bottl11e3",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-    status: "Canceled",
-    date: "2024-10-12",
-  },
-  {
-    id: 5,
-    bannerUrl: "/images/login.jpg",
-    title: "Earthen Bottl11e",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-    status: "Ended",
-    date: "2024-10-12",
-  },
-  {
-    id: 6,
-    bannerUrl: "/images/login.jpg",
-    title: "Earthen Bottl11e2",
-    description: "Adventure Geek - Explore the Unexplored, Mumbai",
-    time: "8:30 AM - 7:30 PM",
-    viwes: "14 interested",
-    status: "Active",
-    date: "2024-10-12",
-  },
-];
 
 export default function OrganizerEventsPage() {
   const { t } = useTranslation();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [cancelDialogOpen, setcancelDialogOpen] = useState(false);
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
   const [events, setEvents] = useState({});
@@ -101,6 +41,24 @@ export default function OrganizerEventsPage() {
         prevEvents.filter((event) => event.id !== eventId),
       );
       setDeleteDialogOpen(false);
+      // console.log(`Deleting event with ID: ${eventId}`);
+    } catch (error) {
+      console.error("Error deleting event:", error);
+    }
+  };
+  const handleCancel = async () => {
+    try {
+      // Call API to cancel event
+      const eventId = selectedEvent.id;
+      // console.log(eventId);
+
+      const response = await cancelEvent(eventId);
+      // console.log(response.data);
+
+      setEvents((prevEvents) =>
+        prevEvents.filter((event) => event.id !== eventId),
+      );
+      setcancelDialogOpen(false);
       // console.log(`Deleting event with ID: ${eventId}`);
     } catch (error) {
       console.error("Error deleting event:", error);
@@ -214,6 +172,16 @@ export default function OrganizerEventsPage() {
                     }}
                     className=" rounded-full hover:bg-gray-200 p-2  h-12 flex-1 hover:cursor-pointer "
                   />{" "}
+                  <DeleteIcon
+                    size={60}
+                    fill="red"
+                    color="red"
+                    onClick={() => {
+                      setcancelDialogOpen(true);
+                      setSelectedEvent(event);
+                    }}
+                    className=" rounded-full hover:bg-gray-200 p-2 h-12 flex-1 hover:cursor-pointer"
+                  />{" "}
                 </p>
               </div>
             ))
@@ -230,6 +198,13 @@ export default function OrganizerEventsPage() {
           open={deleteDialogOpen}
           onClose={() => setDeleteDialogOpen(false)}
           onConfirm={handleDelete}
+        />
+      )}
+      {cancelDialogOpen && (
+        <CancelDialog
+          open={cancelDialogOpen}
+          onClose={() => setcancelDialogOpen(false)}
+          onConfirm={handleCancel}
         />
       )}
       {updateDialogOpen && (

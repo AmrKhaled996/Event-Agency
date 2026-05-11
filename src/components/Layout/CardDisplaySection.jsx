@@ -47,7 +47,7 @@ function CardDisplaySection({ title, endpoint }) {
       <h1 className=" text-3xl  font-bold mb-5 ml-10 ">{title}</h1>
       <div className="grid grid-cols-1 gap-x-6 gap-y-10 items-center sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8 ">
         {cards && cards?.length > 0 ? (
-          cards === "No events found" ? (
+           typeof cards=== "string" ? (
             <div className="col-span-full text-center text-gray-500 pt-10 pb-2">
               {cards}
             </div>

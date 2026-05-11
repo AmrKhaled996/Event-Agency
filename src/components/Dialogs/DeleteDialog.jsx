@@ -15,7 +15,7 @@ export default function DeleteDialog({ open, onClose, onConfirm }) {
           onClick={onClose}
           className="bg-gray-400 text-white px-4 py-2 rounded"
         >
-          {t("common.action.cancel")}
+          {t("common.actions.cancel")}
         </button>
         <button
           onClick={onConfirm}

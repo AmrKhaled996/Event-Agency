@@ -21,7 +21,7 @@ const Pagination = ({ page, total, limit, onChange }) => {
             onClick={() => onChange(p)}
             className={`w-7 h-7 rounded-md text-xs font-semibold transition ${
               p === page
-                ? "bg-gradient-to-br from-[#BB52E0] to-[#FF49B5] text-white"
+                ? "bg-linear-to-br from-primary to-secandry text-white"
                 : "bg-gray-900 text-gray-500"
             }`}
           >
