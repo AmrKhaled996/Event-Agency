@@ -28,15 +28,16 @@ function DisplayUserTickets() {
     // console.log(method);
 
     if (method === "Newest") {
+      tickets.map((tick)=>console.log("tic:",tick, "dates:",tick?.tickets[0]?.date))
       const newTickets = [...tickets].sort(
-        (a, b) => new Date(b.date) - new Date(a.date),
+        (a, b) => new Date(b.tickets[0]?.date) - new Date(a.tickets[0]?.date),
       );
       setTickets(newTickets);
     } else if (method === "Nearest") {
       const now = new Date();
       const newTickets = [...tickets].sort((a, b) => {
-        const aDiff = Math.abs(new Date(a.date) - now);
-        const bDiff = Math.abs(new Date(b.date) - now);
+        const aDiff = Math.abs(new Date(a.tickets[0]?.date) - now);
+        const bDiff = Math.abs(new Date(b.tickets[0]?.date) - now);
         return aDiff - bDiff;
       });
       setTickets(newTickets);

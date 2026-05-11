@@ -9,6 +9,7 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { latestEvents } from "../../APIs/homeApis";
 import { getSearchEvents } from "../../APIs/search";
 import { useTranslation } from "react-i18next";
+import Pagination from "../../components/UI/AdminDashboard/Pagination";
 
 function SearchEventsPage() {
   const [cards, setCards] = useState();
@@ -16,14 +17,16 @@ function SearchEventsPage() {
   const [priceMin, setPriceMin] = useState(0);
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("Today");
-  const [activeTags, setActiveTags] = useState({ date: "Today", category: "" });
+  const [activeTags, setActiveTags] = useState({ date: "", category: "" });
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const { categories, loading } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
   const location = searchParams.get("location") || "";
+  const [pagination, setpagination] = useState();
+  const [page, setPage] = useState(1);
   // const [searchval, setsearchval] = useState<string>(search);
-    const {t}=useTranslation();
+  const { t } = useTranslation();
   const handleSearch = async () => {
     const params = new URLSearchParams(searchParams); // clone current params
 
@@ -33,21 +36,23 @@ function SearchEventsPage() {
       // setloading(true);
       const response = await getSearchEvents({
         q: search,
-        limit: 10,
-        page: 1,
+        limit: 12,
+        page: page,
         organizerId: "",
         minPrice: priceMin,
         maxPrice: priceMax,
         categoryId: category?.id,
         location: location,
       });
-      const newcards = response.data.data;
-      if (newcards.events.length === 0) {
-        setCards("No events found");
-        return;
-      }
-      console.log("    ", response.data.data);
-      setCards(newcards.events);
+      const newcards = response.data.data.data;
+      // if (newcards?.events?.length === 0) {
+      //   setCards("No events found");
+      //   return;
+      // }
+      console.log("    ", response.data.data.data);
+      setCards(newcards);
+      console.log("pagination", response.data.data.pagination);
+      setpagination(response?.data?.data?.pagination);
       // setloading(false);
     } catch (error) {
       console.log("error", error);
@@ -55,7 +60,7 @@ function SearchEventsPage() {
   };
   useEffect(() => {
     handleSearch();
-  }, [search]);
+  }, [search, date, category, priceMax, priceMin, page]);
 
   useEffect(() => {}, []);
 
@@ -63,12 +68,12 @@ function SearchEventsPage() {
 
   const handleCategoryChange = (val) => {
     setCategory(val);
-    setActiveTags((prev) => ({ ...prev, category: val }));
+    setActiveTags((prev) => ({ ...prev, categor: val }));
   };
 
   const handleDateChange = (val) => {
     setDate(val);
-    setActiveTags((prev) => ({ ...prev, date: val }));
+    setActiveTags((prev) => ({ ...prev, dat: val }));
   };
 
   const removeTag = (type) => {
@@ -94,7 +99,9 @@ function SearchEventsPage() {
         {isOpenFilter && (
           <aside className="md:w-64 w-full md:border-r border-gray-200 px-5 py-6 flex flex-col  gap-7 border-b md:border-b-0 ">
             <div className="flex  justify-between">
-              <h2 className="text-lg font-medium text-gray-900">{t("events.search.filter")}</h2>
+              <h2 className="text-lg font-medium text-gray-900">
+                {t("events.search.filter")}
+              </h2>
               <button
                 onClick={() => setIsOpenFilter(false)}
                 className="flex justify-center w-8 h-8 text-center items-center text-sm font-medium text-slate-900 rounded-lg bg-white accent-white border border-gray-200  hover:bg-gray-100 transition-all duration-300"
@@ -122,7 +129,8 @@ function SearchEventsPage() {
                   className="w-full  accent-secandry cursor-pointer"
                 />
                 <p className="text-xs text-gray-400">
-                  {t("events.search.upTo")} {priceMax.toLocaleString()} {t("common.actions.currncy")}
+                  {t("events.search.upTo")} {priceMax.toLocaleString()}{" "}
+                  {t("common.actions.currncy")}
                 </p>
                 <div className="flex items-center gap-2">
                   <input
@@ -131,7 +139,6 @@ function SearchEventsPage() {
                     value={priceMin || ""}
                     onChange={(e) => setPriceMin(Number(e.target.value))}
                     step={100}
-                    defaultValue={0}
                     className="w-20 px-2 py-1.5 text-sm border border-gray-200 rounded-lg outline-none focus:border-primary focus:ring-1 focus:ring-primary/20"
                   />
                   <span className="text-sm text-gray-400">—</span>
@@ -207,7 +214,7 @@ function SearchEventsPage() {
                 onClick={applyFilters}
                 className=" flex justify-center w-64 py-2.5 text-sm font-medium text-white rounded-lg bg-primary accent-primary hover:opacity-90 transition-opacity"
               >
-               {t("events.search.apply")}
+                {t("events.search.apply")}
               </button>
             </div>
           </aside>
@@ -234,14 +241,17 @@ function SearchEventsPage() {
               </div>
             )}
             <p className="text-sm text-gray-500 m-3">
-              <span className="font-medium text-gray-900">24</span> {t("events.search.eventsFound")}
+              <span className="font-medium text-gray-900">
+                {cards?.length || 0}
+              </span>{" "}
+              {t("events.search.eventsFound")}
             </p>
-            <select className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-white text-gray-800 outline-none  focus:ring-2 focus:ring-primary/20 cursor-pointer sm:ml-auto ">
+            {/* <select className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-white text-gray-800 outline-none  focus:ring-2 focus:ring-primary/20 cursor-pointer sm:ml-auto ">
               <option>Relevance</option>
               <option>Date: soonest</option>
               <option>Price: low to high</option>
               <option>Price: high to low</option>
-            </select>
+            </select> */}
           </div>
 
           {/* Active Filter Tags */}
@@ -277,6 +287,19 @@ function SearchEventsPage() {
             {/* cards */}
             {cards?.length > 0
               ? cards?.map((card, index) => {
+                  const price = [
+                    {
+                      createdAt: "2026-05-07T09:20:08.511Z",
+                      eventId: 12,
+                      id: 4,
+                      name: "عادي",
+                      price: card?.priceStartsFrom,
+                      quantity: 100,
+                      sold: 2,
+                      updatedAt: "2026-05-07T09:23:16.019Z",
+                    },
+                  ];
+
                   return (
                     <Card
                       key={index}
@@ -284,7 +307,7 @@ function SearchEventsPage() {
                       title={card?.title}
                       description={card?.description}
                       date={card?.date}
-                      price={card?.ticketTypes || []}
+                      price={price || []}
                       views={card?.viwes}
                       id={card?.id}
                       slug={card?.slug}
@@ -300,6 +323,14 @@ function SearchEventsPage() {
                 ))}
           </div>
         </main>
+      </div>
+      <div className="w-full flex justify-center mb-8">
+        <Pagination
+          page={page}
+          total={pagination?.total || 10}
+          limit={pagination?.limit || 8}
+          onChange={setPage}
+        />
       </div>
     </div>
   );

@@ -3,53 +3,9 @@ import { useTranslation } from "react-i18next";
 
 import Pagination from "../../../components/UI/AdminDashboard/Pagination";
 import { deleteEvent, getEvents, restoreEvent } from "../../../APIs/adminDashboardApis";
+import Loading from "../../../components/Layout/LoadingLayout";
+import { Title } from "react-head";
 
-const MOCK_RESPONSE = {
-  events: [
-    {
-      id: 1,
-      organizerId: "fc340da4-ac01-4426-a1c9-a3f307a6099d",
-      venueId: 1,
-      categoryId: 1,
-      title: "Seed Music Night",
-      slug: "seed-music-night",
-      description: "Deletable event used for admin moderation testing.",
-      bannerUrl: "http://127.0.0.1:8000/seed/events/music-night.png",
-      type: "ticketed",
-      mode: "single",
-      hasSeatMap: false,
-      deletedAt: null,
-      createdAt: "2026-04-25T23:36:07.153Z",
-      updatedAt: "2026-04-25T23:36:07.153Z",
-    },
-    {
-      id: 2,
-      organizerId: "abc12345-0000-0000-0000-000000000001",
-      venueId: 3,
-      categoryId: 2,
-      title: "Urban Tech Conference",
-      slug: "urban-tech-conference",
-      description: "Annual gathering for tech enthusiasts and professionals.",
-      bannerUrl: "http://127.0.0.1:8000/seed/events/tech-conf.png",
-      type: "free",
-      mode: "recurring",
-      hasSeatMap: true,
-      deletedAt: "2026-04-28T10:00:00.000Z",
-      createdAt: "2026-04-20T10:00:00.000Z",
-      updatedAt: "2026-04-28T10:00:00.000Z",
-    },
-  ],
-  pagination: {
-    total: 2,
-    page: 1,
-    limit: 10,
-    totalPages: 1,
-    hasNext: false,
-    hasPrev: false,
-    nextPage: null,
-    prevPage: null,
-  },
-};
 
 function Badge({ label, className }) {
   return (
@@ -92,7 +48,7 @@ const fmtDate = (d) =>
       })
     : "—";
 
-  const isDeleted = !!event.deletedAt;
+  const [isDeleted, setisDeleted] = useState(!!event?.deletedAt);
 
   const handleConfirm = async() => {
     if (!confirm) return;
@@ -137,7 +93,7 @@ const fmtDate = (d) =>
 
       const handleRestore=async()=>{
         try {
-          console.log("before action:")
+          console.log("before action:",isDeleted,"at:",event?.deletedAt ,"format:",fmtDate(event?.deletedAt))
           const response = await restoreEvent(event.id);
           console.log("action:", response.data)
         } catch (error) {
@@ -227,7 +183,7 @@ const fmtDate = (d) =>
 
               ["createdAt", fmtDate(event.createdAt)],
               ["updatedAt", fmtDate(event.updatedAt)],
-              ["deletedAt", fmtDate(event.deletedAt)],
+              ["deletedAt", fmtDate(event?.deletedAt)],
             ].map(([key, val]) => (
               <div key={key} className="flex gap-2">
                 <span className=" font-semibold">
@@ -331,9 +287,11 @@ export default function ListEventsPanel() {
   const [selected, setSelected] = useState(null);
   const [eventsList, setEventsList] = useState();
   const [pagination, setpagination] = useState();
+    const [loading, setloading] = useState(false);
   // const { users, pagination } = MOCK_RESPONSE;
      const handleGetData =async()=>{
         try {
+          setloading(true)
           // await adminDashboardauth.refreshtoken();
           const response = await getEvents(page);
           console.log("data",response.data.data)
@@ -341,7 +299,9 @@ export default function ListEventsPanel() {
           setpagination(response.data.data.pagination);
         } catch (error) {
           console.error(error);
-        }
+        }finally{
+      setloading(false)
+    }
       }
     
       useEffect(() => {
@@ -363,6 +323,7 @@ export default function ListEventsPanel() {
   return (
     <>
       <div className="flex flex-col gap-4">
+        <Title>{t("actions.listEvents")}</Title>
         <div
           className="rounded-xl border border-gray-700 overflow-hidden"
         >
@@ -432,7 +393,7 @@ export default function ListEventsPanel() {
         onChange={ setPage}
       />
       </div>
-
+      {loading && <Loading />}
       {/* ── dialog ── */}
       {selected && (
         <EventDialog event={selected} onClose={() => setSelected(null)} t={t} />

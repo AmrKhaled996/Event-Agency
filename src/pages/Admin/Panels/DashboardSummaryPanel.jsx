@@ -2,11 +2,13 @@ import { useTranslation } from "react-i18next";
 import { adminDashboardauth, getDashboardSummary } from "../../../APIs/adminDashboardApis";
 import { useEffect, useState } from "react";
 import { refreshAccessToken } from "../../../services/cookieTokenService";
+import { Title } from "react-head";
+import Loading from "../../../components/Layout/LoadingLayout";
 const MOCK_DATA = {
-  users:      { total: 48320, deleted: 312,  activeInPeriod: 8432 },
-  organizers: { total: 384,   pendingReview: 7 },
-  events:     { total: 1204 },
-  orders:     { total: 9840, completed: 8210, pending: 986, cancelled: 644, revenue: 284920 },
+  users:      { total: "-", deleted: "-",  activeInPeriod: "-" },
+  organizers: { total: "-",   pendingReview: "-" },
+  events:     { total: "-" },
+  orders:     { total: "-", completed: "-", pending: "-", cancelled: "-", revenue: "-" },
 };
 
 function Section({ title, children }) {
@@ -31,8 +33,8 @@ function StatCard({ label, value, accent }) {
   const isRevenue = label.toLowerCase().includes("revenue");
 
   const display = isRevenue
-    ? `$${Number(value).toLocaleString()}`
-    : Number(value).toLocaleString();
+    ? `$${(value).toLocaleString()}`
+    : (value).toLocaleString();
 
   return (
     <div
@@ -54,9 +56,11 @@ export default function DashboardSummaryPanel() {
   const { t } = useTranslation();
   const d = MOCK_DATA;
   const [summaryData, setsummaryData] = useState(d);
+    const [loading, setloading] = useState(false);
 
   const handleGetData =async()=>{
     try {
+      setloading(true)
     //   const token =await adminDashboardauth.refreshtoken();
     //   console.log("token", token.data.data)
     //   refreshAccessToken(token);
@@ -67,6 +71,9 @@ export default function DashboardSummaryPanel() {
     } catch (error) {
       console.error(error);
     }
+    finally{
+      setloading(false)
+    }
   }
 
   useEffect(() => {
@@ -75,6 +82,7 @@ export default function DashboardSummaryPanel() {
 
   return (
     <div className="pt-1">
+      <Title>{t("actions.dashboardSummary")}</Title>
       <Section title="dashboardSummary.users">
         <StatCard label="dashboardSummary.total" value={summaryData?.users?.total} accent={"#BB52E0"} />
         <StatCard
@@ -125,6 +133,7 @@ export default function DashboardSummaryPanel() {
           accent={"silver"}
         />
       </Section>
+           {loading && <Loading />}
     </div>
   );
 }

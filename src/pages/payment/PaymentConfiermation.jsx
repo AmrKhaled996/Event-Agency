@@ -27,7 +27,7 @@ function ConfirmTicketsPage() {
         tickets: tickets.map((ticket) => ({
           name: ticket.name,
           quantity: ticket.count,
-          seatInfo: ticket.seatInfo || [],
+          seatInfo: ticket?.seatInfo || null,
         })),
       };
       // console.log(payload)

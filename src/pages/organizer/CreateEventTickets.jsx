@@ -543,15 +543,15 @@ function CreateEventTickets() {
               </div>
 
               <div className="mt-4 space-y-2">
-                {tickets.map((t, i) => (
+                {tickets.map((tic, i) => (
                   <div
                     key={i}
                     className="flex items-center justify-between border rounded p-3"
                   >
                     <div>
-                      <div className="font-medium">{t.name}</div>
+                      <div className="font-medium">{tic.name}</div>
                       <div className="text-sm text-gray-500">
-                        {t("organizer.createEvent.priceLabel")} {t.price}
+                        {t("organizer.createEvent.priceLabel")} {tic.price}
                       </div>
                     </div>
                     <button

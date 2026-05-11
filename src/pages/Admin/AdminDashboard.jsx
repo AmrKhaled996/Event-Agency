@@ -9,10 +9,10 @@ import DashboardSummaryPanel  from "./panels/DashboardSummaryPanel";
 import ReviewQueuePanel       from "./panels/ReviewQueuePanel";
 import ListUsersPanel         from "./panels/ListUsersPanel";
 import ListOrganizersPanel    from "./panels/ListOrganizersPanel";
-import AnalyticsPanel         from "./panels/AnalyticsPanel";
+// import AnalyticsPanel         from "./panels/AnalyticsPanel";
 import ActiveUsersPanel       from "./panels/ActiveUsersPanel";
-import FinanceSummaryPanel    from "./panels/FinanceSummaryPanel";
-import ProcessPayoutsPanel    from "./panels/ProcessPayoutsPanel";
+// import FinanceSummaryPanel    from "./panels/FinanceSummaryPanel";
+// import ProcessPayoutsPanel    from "./panels/ProcessPayoutsPanel";
 import ListEventsPanel        from "./panels/ListEventsPanel";
 
 
@@ -24,10 +24,10 @@ const NAV = buildNav({
   ReviewQueuePanel,
   ListUsersPanel,
   ListOrganizersPanel,
-  AnalyticsPanel,
+  // AnalyticsPanel,
   ActiveUsersPanel,
-  FinanceSummaryPanel,
-  ProcessPayoutsPanel,
+  // FinanceSummaryPanel,
+  // ProcessPayoutsPanel,
   ListEventsPanel,
 });
 

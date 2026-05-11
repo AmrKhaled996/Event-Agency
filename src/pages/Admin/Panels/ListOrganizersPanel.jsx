@@ -3,353 +3,9 @@ import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/UI/AdminDashboard/Pagination";
 import StatusPill from "../../../components/UI/AdminDashboard/StatusPill";
 import { getOrganizers } from "../../../APIs/adminDashboardApis";
+import Loading from "../../../components/Layout/LoadingLayout";
+import { Title } from "react-head";
 
-
-// const MOCK_RESPONSE = {
-//   organizers: [
-//     {
-//       id: "53f94247-766e-4445-9033-ad560343a4b7",
-//       userId: "aad08eb5-2132-4fbe-819b-6bc24e3cba75",
-//       name: "Rejected Seed Organizer",
-//       type: "HOBBYIST",
-//       contactEmail: "contact3@seed.fa3liat.test",
-//       contactPhone: "+201100000003",
-//       status: "SUSPENDED",
-//       verificationStatus: "REJECTED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: "Missing legal documents",
-//       suspendReason: "Pending compliance review",
-//       createdAt: "2026-04-25T22:41:21.718Z",
-//       updatedAt: "2026-04-25T22:41:21.718Z",
-//     },
-//     {
-//       id: "7c558835-c92c-462d-bdc3-8f888cc6fb35",
-//       userId: "ee1a8fd4-1ec9-4df7-aebd-c8f43b3e6687",
-//       name: "Approved Seed Organizer",
-//       type: "BUSINESS",
-//       contactEmail: "contact2@seed.fa3liat.test",
-//       contactPhone: "+201100000002",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.715Z",
-//       updatedAt: "2026-04-25T22:41:21.715Z",
-//     },
-//     {
-//       id: "0de37a57-4fcd-435e-ad0c-dd5716859892",
-//       userId: "bfa1f613-ac4c-404e-8df1-f6b491e79ba1",
-//       name: "Seed Events Co",
-//       type: "COMPANY",
-//       contactEmail: "contact1@seed.fa3liat.test",
-//       contactPhone: "+201100000001",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: null,
-//       reviewedAt: "2026-04-25T23:01:28.679Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.712Z",
-//       updatedAt: "2026-04-25T23:01:28.680Z",
-//     },
-//     {
-//       id: "53f94247-766e-4445-9033-ad560343a4b7",
-//       userId: "aad08eb5-2132-4fbe-819b-6bc24e3cba75",
-//       name: "Rejected Seed Organizer",
-//       type: "HOBBYIST",
-//       contactEmail: "contact3@seed.fa3liat.test",
-//       contactPhone: "+201100000003",
-//       status: "SUSPENDED",
-//       verificationStatus: "REJECTED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: "Missing legal documents",
-//       suspendReason: "Pending compliance review",
-//       createdAt: "2026-04-25T22:41:21.718Z",
-//       updatedAt: "2026-04-25T22:41:21.718Z",
-//     },
-//     {
-//       id: "7c558835-c92c-462d-bdc3-8f888cc6fb35",
-//       userId: "ee1a8fd4-1ec9-4df7-aebd-c8f43b3e6687",
-//       name: "Approved Seed Organizer",
-//       type: "BUSINESS",
-//       contactEmail: "contact2@seed.fa3liat.test",
-//       contactPhone: "+201100000002",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.715Z",
-//       updatedAt: "2026-04-25T22:41:21.715Z",
-//     },
-//     {
-//       id: "0de37a57-4fcd-435e-ad0c-dd5716859892",
-//       userId: "bfa1f613-ac4c-404e-8df1-f6b491e79ba1",
-//       name: "Seed Events Co",
-//       type: "COMPANY",
-//       contactEmail: "contact1@seed.fa3liat.test",
-//       contactPhone: "+201100000001",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: null,
-//       reviewedAt: "2026-04-25T23:01:28.679Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.712Z",
-//       updatedAt: "2026-04-25T23:01:28.680Z",
-//     },
-//     {
-//       id: "53f94247-766e-4445-9033-ad560343a4b7",
-//       userId: "aad08eb5-2132-4fbe-819b-6bc24e3cba75",
-//       name: "Rejected Seed Organizer",
-//       type: "HOBBYIST",
-//       contactEmail: "contact3@seed.fa3liat.test",
-//       contactPhone: "+201100000003",
-//       status: "SUSPENDED",
-//       verificationStatus: "REJECTED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: "Missing legal documents",
-//       suspendReason: "Pending compliance review",
-//       createdAt: "2026-04-25T22:41:21.718Z",
-//       updatedAt: "2026-04-25T22:41:21.718Z",
-//     },
-//     {
-//       id: "7c558835-c92c-462d-bdc3-8f888cc6fb35",
-//       userId: "ee1a8fd4-1ec9-4df7-aebd-c8f43b3e6687",
-//       name: "Approved Seed Organizer",
-//       type: "BUSINESS",
-//       contactEmail: "contact2@seed.fa3liat.test",
-//       contactPhone: "+201100000002",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.715Z",
-//       updatedAt: "2026-04-25T22:41:21.715Z",
-//     },
-//     {
-//       id: "0de37a57-4fcd-435e-ad0c-dd5716859892",
-//       userId: "bfa1f613-ac4c-404e-8df1-f6b491e79ba1",
-//       name: "Seed Events Co",
-//       type: "COMPANY",
-//       contactEmail: "contact1@seed.fa3liat.test",
-//       contactPhone: "+201100000001",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: null,
-//       reviewedAt: "2026-04-25T23:01:28.679Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.712Z",
-//       updatedAt: "2026-04-25T23:01:28.680Z",
-//     },
-//     {
-//       id: "53f94247-766e-4445-9033-ad560343a4b7",
-//       userId: "aad08eb5-2132-4fbe-819b-6bc24e3cba75",
-//       name: "Rejected Seed Organizer",
-//       type: "HOBBYIST",
-//       contactEmail: "contact3@seed.fa3liat.test",
-//       contactPhone: "+201100000003",
-//       status: "SUSPENDED",
-//       verificationStatus: "REJECTED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: "Missing legal documents",
-//       suspendReason: "Pending compliance review",
-//       createdAt: "2026-04-25T22:41:21.718Z",
-//       updatedAt: "2026-04-25T22:41:21.718Z",
-//     },
-//     {
-//       id: "7c558835-c92c-462d-bdc3-8f888cc6fb35",
-//       userId: "ee1a8fd4-1ec9-4df7-aebd-c8f43b3e6687",
-//       name: "Approved Seed Organizer",
-//       type: "BUSINESS",
-//       contactEmail: "contact2@seed.fa3liat.test",
-//       contactPhone: "+201100000002",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.715Z",
-//       updatedAt: "2026-04-25T22:41:21.715Z",
-//     },
-//     {
-//       id: "0de37a57-4fcd-435e-ad0c-dd5716859892",
-//       userId: "bfa1f613-ac4c-404e-8df1-f6b491e79ba1",
-//       name: "Seed Events Co",
-//       type: "COMPANY",
-//       contactEmail: "contact1@seed.fa3liat.test",
-//       contactPhone: "+201100000001",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: null,
-//       reviewedAt: "2026-04-25T23:01:28.679Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.712Z",
-//       updatedAt: "2026-04-25T23:01:28.680Z",
-//     },
-//     {
-//       id: "53f94247-766e-4445-9033-ad560343a4b7",
-//       userId: "aad08eb5-2132-4fbe-819b-6bc24e3cba75",
-//       name: "Rejected Seed Organizer",
-//       type: "HOBBYIST",
-//       contactEmail: "contact3@seed.fa3liat.test",
-//       contactPhone: "+201100000003",
-//       status: "SUSPENDED",
-//       verificationStatus: "REJECTED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: "Missing legal documents",
-//       suspendReason: "Pending compliance review",
-//       createdAt: "2026-04-25T22:41:21.718Z",
-//       updatedAt: "2026-04-25T22:41:21.718Z",
-//     },
-//     {
-//       id: "7c558835-c92c-462d-bdc3-8f888cc6fb35",
-//       userId: "ee1a8fd4-1ec9-4df7-aebd-c8f43b3e6687",
-//       name: "Approved Seed Organizer",
-//       type: "BUSINESS",
-//       contactEmail: "contact2@seed.fa3liat.test",
-//       contactPhone: "+201100000002",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.715Z",
-//       updatedAt: "2026-04-25T22:41:21.715Z",
-//     },
-//     {
-//       id: "0de37a57-4fcd-435e-ad0c-dd5716859892",
-//       userId: "bfa1f613-ac4c-404e-8df1-f6b491e79ba1",
-//       name: "Seed Events Co",
-//       type: "COMPANY",
-//       contactEmail: "contact1@seed.fa3liat.test",
-//       contactPhone: "+201100000001",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: null,
-//       reviewedAt: "2026-04-25T23:01:28.679Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.712Z",
-//       updatedAt: "2026-04-25T23:01:28.680Z",
-//     },
-//     {
-//       id: "53f94247-766e-4445-9033-ad560343a4b7",
-//       userId: "aad08eb5-2132-4fbe-819b-6bc24e3cba75",
-//       name: "Rejected Seed Organizer",
-//       type: "HOBBYIST",
-//       contactEmail: "contact3@seed.fa3liat.test",
-//       contactPhone: "+201100000003",
-//       status: "SUSPENDED",
-//       verificationStatus: "REJECTED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: "Missing legal documents",
-//       suspendReason: "Pending compliance review",
-//       createdAt: "2026-04-25T22:41:21.718Z",
-//       updatedAt: "2026-04-25T22:41:21.718Z",
-//     },
-//     {
-//       id: "7c558835-c92c-462d-bdc3-8f888cc6fb35",
-//       userId: "ee1a8fd4-1ec9-4df7-aebd-c8f43b3e6687",
-//       name: "Approved Seed Organizer",
-//       type: "BUSINESS",
-//       contactEmail: "contact2@seed.fa3liat.test",
-//       contactPhone: "+201100000002",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.715Z",
-//       updatedAt: "2026-04-25T22:41:21.715Z",
-//     },
-//     {
-//       id: "0de37a57-4fcd-435e-ad0c-dd5716859892",
-//       userId: "bfa1f613-ac4c-404e-8df1-f6b491e79ba1",
-//       name: "Seed Events Co",
-//       type: "COMPANY",
-//       contactEmail: "contact1@seed.fa3liat.test",
-//       contactPhone: "+201100000001",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: null,
-//       reviewedAt: "2026-04-25T23:01:28.679Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.712Z",
-//       updatedAt: "2026-04-25T23:01:28.680Z",
-//     },
-//     {
-//       id: "53f94247-766e-4445-9033-ad560343a4b7",
-//       userId: "aad08eb5-2132-4fbe-819b-6bc24e3cba75",
-//       name: "Rejected Seed Organizer",
-//       type: "HOBBYIST",
-//       contactEmail: "contact3@seed.fa3liat.test",
-//       contactPhone: "+201100000003",
-//       status: "SUSPENDED",
-//       verificationStatus: "REJECTED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: "Missing legal documents",
-//       suspendReason: "Pending compliance review",
-//       createdAt: "2026-04-25T22:41:21.718Z",
-//       updatedAt: "2026-04-25T22:41:21.718Z",
-//     },
-//     {
-//       id: "7c558835-c92c-462d-bdc3-8f888cc6fb35",
-//       userId: "ee1a8fd4-1ec9-4df7-aebd-c8f43b3e6687",
-//       name: "Approved Seed Organizer",
-//       type: "BUSINESS",
-//       contactEmail: "contact2@seed.fa3liat.test",
-//       contactPhone: "+201100000002",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: "1e56e276-6144-4435-b12b-8d9d48b88b98",
-//       reviewedAt: "2026-04-25T22:41:21.711Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.715Z",
-//       updatedAt: "2026-04-25T22:41:21.715Z",
-//     },
-//     {
-//       id: "0de37a57-4fcd-435e-ad0c-dd5716859892",
-//       userId: "bfa1f613-ac4c-404e-8df1-f6b491e79ba1",
-//       name: "Seed Events Co",
-//       type: "COMPANY",
-//       contactEmail: "contact1@seed.fa3liat.test",
-//       contactPhone: "+201100000001",
-//       status: "ACTIVE",
-//       verificationStatus: "APPROVED",
-//       reviewedBy: null,
-//       reviewedAt: "2026-04-25T23:01:28.679Z",
-//       rejectionReason: null,
-//       suspendReason: null,
-//       createdAt: "2026-04-25T22:41:21.712Z",
-//       updatedAt: "2026-04-25T23:01:28.680Z",
-//     },
-//   ],
-//   pagination: {
-//     total: 3, page: 1, limit: 3,
-//     totalPages: 1, hasNext: false, hasPrev: false,
-//     nextPage: null, prevPage: null,
-//   },
-// };
 
 /* ── Type badge (Tailwind) ───────────────────────────── */
 const TYPE_STYLES = {
@@ -504,6 +160,7 @@ function OrganizerRow({ org, t }) {
 export default function ListOrganizersPanel() {
   const { t } = useTranslation();
     const [page, setPage] = useState(1);
+      const [loading, setloading] = useState(false);
       const [organizersList, setOrganizersList] = useState();
   const [pagination, setpagination] = useState();
   // const { organizers, pagination } = MOCK_RESPONSE;
@@ -513,14 +170,16 @@ export default function ListOrganizersPanel() {
    const handleGetData =async()=>{
       try {
         // await adminDashboardauth.refreshtoken();
-
+        setloading(true)
         const response = await getOrganizers(page);
         console.log("data",response.data.data)
         setOrganizersList(response.data.data.organizers);
         setpagination(response.data.data.pagination);
       } catch (error) {
         console.error(error);
-      }
+      }finally{
+      setloading(false)
+    }
     }
   
     useEffect(() => {
@@ -532,7 +191,9 @@ export default function ListOrganizersPanel() {
 
   return (
     <div className="flex flex-col gap-4">
+      <Title>{t("actions.listOrganizers")}</Title>
       {/* table wrapper */}
+
       <div className="rounded-xl border border-gray-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse">
@@ -573,6 +234,7 @@ export default function ListOrganizersPanel() {
         limit={pagination?.limit}
         onChange={ setPage}
       />
+      {loading && <Loading />}
     </div>
   );
 }

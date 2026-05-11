@@ -204,7 +204,7 @@
       "titleVar": "الفعاليات النابضة بالحياة ",
       "title2": "التي تلهمك.",
       "searchPlaceholder": "ابحث عن فعاليات، تصنيفات، مواقع...",
-      "locationPlaceholder": "الموقع"
+      "locationPlaceholder": "كل الاماكن"
     },
     "sections": {
       "curated": "فعاليات مخصصة لك",
@@ -861,7 +861,7 @@
     "success": {
       "title": "تم تقديم طلب الترقية!",
       "description": "تم استلام طلب ترقية {{category}} الخاص بك. سنقوم بمراجعته والرد عليك قريباً.",
-      "submitAnother": "تقديم طلب آخر"
+      "submitAnother": "الى الرئيسية"
     },
     "page": {
       "personalInfo": "المعلومات الشخصية",

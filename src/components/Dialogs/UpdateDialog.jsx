@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import Dialog from "../UI/Dialog";
 
 export default function UpdateDialog({ open, onClose, onConfirm, event }) {
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onClose={onClose}>
       <h3 className="text-xl font-semibold mb-4">Update Event</h3>

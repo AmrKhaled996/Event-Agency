@@ -64,6 +64,7 @@ function AppRouter() {
         <Routes>
           {/* redirect root */}
           <Route path="/" element={<Navigate to={`/${savedLang}`} />} />
+          <Route path="/confirm-email" element={<Navigate to={`/${savedLang}/confirm-email`} />} />
 
           {/* كل الموقع تحت اللغة */}
           <Route path="/:lang" element={<LocalRoutes />}>

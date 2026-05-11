@@ -3,7 +3,7 @@ import { Calendar, Clock, Heart, Share2 } from "lucide-react";
 import NavigationBar from "../../components/Layout/NavigationBar";
 import Footer from "../../components/Layout/Footer";
 import OtherEventsSlider from "../../components/Layout/OtherEventsSlider";
-import { Title } from "react-head";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   addToInterested,
@@ -44,6 +44,7 @@ import { RulesList } from "../../components/UI/RulesList";
 import { TagsList } from "../../components/UI/Tagslist";
 import { useTranslation } from "react-i18next";
 import { getAccessToken } from "../../services/cookieTokenService";
+import { Title } from "react-head";
 
 const RESERVATION_DURATION = 10 * 60 * 1000;
 const SOCKET_SERVER_URL = "http://localhost:3000";
@@ -548,9 +549,24 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
 
   const stats = getAvailabilityStats();
 
+
+  const handleShare = async () => {
+    try {
+      await navigator.share({
+        title: "Fa3liat",
+        text: "Check out this event!",
+        url: window.location.href,
+      });
+
+      console.log("Shared successfully");
+    } catch (error) {
+      console.log("Error sharing:", error);
+    }
+  };
+
   return (
     <>
-      {review === "false" && <Title>{event.title}</Title>}
+      {event?.title && <Title>{event?.title}</Title>}
 
       <div className="w-full bg-white text-black p-4 max-w-350 mx-auto select-text">
         {/* Header Image */}
@@ -564,10 +580,12 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
         {/* Title + Icons */}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold select-text">
-            {event.title || eventinfo?.title || "Sound Of Christmas 2023"}
+            {event.title || eventinfo?.title || "Sound Of Hart 2026"}
           </h1>
           <div className="flex flex-col md:flex-row gap-8 text-2xl">
-            <button className="cursor-pointer">
+            <button 
+            onClick={handleShare}
+            className="cursor-pointer">
               <Share2 size={30} />
             </button>
             <button

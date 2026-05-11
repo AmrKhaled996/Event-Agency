@@ -7,50 +7,6 @@ import CardSkeleton from "../UI/CardSkeleton";
 import useAppNavigate from "../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 
-// const mockCards = [
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bott4444le",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bott333le",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bottl21e",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bottl11e",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     image: "'/images/login.jpg'",
-//     title: "Earthen Bottl11e",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-//   {
-//     bannerUrl: "'/images/login.jpg'",
-//     title: "Earthen Bottl11e",
-//     description: "Adventure Geek - Explore the Unexplored, Mumbai",
-//     time: "8:30 AM - 7:30 PM",
-//     viwes: "14 interested",
-//   },
-// ];
 
 function CardDisplaySection({ title, endpoint }) {
   const [cards, setcards] = useState([]);
@@ -68,7 +24,7 @@ function CardDisplaySection({ title, endpoint }) {
         setcards(t("common.feedback.noResults"));
         return;
       }
-      console.log(title, "    ", response.data.data);
+      console.log(title, "    ", response.data.data.events);
       setcards(newcards.events);
       // setloading(false);
     } catch (error) {
@@ -90,13 +46,13 @@ function CardDisplaySection({ title, endpoint }) {
     <div className="  md:ml-10 md:mr-10 md:px-10 px-2 mt-20">
       <h1 className=" text-3xl  font-bold mb-5 ml-10 ">{title}</h1>
       <div className="grid grid-cols-1 gap-x-6 gap-y-10 items-center sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8 ">
-        {cards?.length > 0 ? (
+        {cards && cards?.length > 0 ? (
           cards === "No events found" ? (
             <div className="col-span-full text-center text-gray-500 pt-10 pb-2">
               {cards}
             </div>
           ) : (
-            cards?.map((card, index) => {
+              cards?.map((card, index) => {
               return (
                 <Card
                   key={index}

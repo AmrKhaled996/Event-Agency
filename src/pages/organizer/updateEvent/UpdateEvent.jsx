@@ -12,6 +12,7 @@ import { updateEvent } from "../../../APIs/organizerApis";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import useAppNavigate from "../../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
+import Loading from "../../../components/Layout/LoadingLayout";
 
 export default function UpdateEvent() {
   const { t } = useTranslation();
@@ -156,6 +157,7 @@ export default function UpdateEvent() {
       for (let pair of fd.entries()) {
         // console.log(pair[0], pair[1]);
       }
+      setloading(true);
       console.log(fd);
       const response = await updateEvent(fd, eventData.id);
       // console.log("update response", response);
@@ -356,6 +358,7 @@ export default function UpdateEvent() {
           message={dialogMessage}
         />
       )}
+      {loading && <Loading />}
     </div>
   );
 }

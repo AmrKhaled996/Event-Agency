@@ -1,67 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../../components/UI/AdminDashboard/Pagination";
-import { deleteUser, getUsers, restoreUser } from "../../../APIs/adminDashboardApis";
-
-const MOCK_RESPONSE = {
-  users: [
-    {
-      id: "93f24500-6691-448f-92b7-9e97004475fd",
-      name: "Seed Organizer User Three",
-      email: "organizer3@seed.fa3liat.test",
-      gender: "male",
-      phone: "+201000000005",
-      role: "organizer",
-      location: "Tanta",
-      languagePreference: "en",
-      isVerified: false,
-      isCompleted: true,
-      birthDate: null,
-      createdAt: "2026-04-25T23:36:06.320Z",
-      updatedAt: "2026-04-25T23:36:06.320Z",
-    },
-    {
-      id: "276efbc7-ccf5-4ab4-bfc8-45df43f8fcc0",
-      name: "Seed Organizer User One",
-      email: "organizer1@seed.fa3liat.test",
-      gender: "male",
-      phone: "+201000000003",
-      role: "organizer",
-      location: "Giza",
-      languagePreference: "en",
-      isVerified: true,
-      isCompleted: true,
-      birthDate: null,
-      createdAt: "2026-04-25T23:36:06.148Z",
-      updatedAt: "2026-04-25T23:36:06.148Z",
-    },
-    {
-      id: "276efbc7-ccf5-4ab4-bfc8-45df43f8fcc0",
-      name: "Seed Organizer User One",
-      email: "organizer1@seed.fa3liat.test",
-      gender: "male",
-      phone: "+201000000003",
-      role: "admin",
-      location: "Giza",
-      languagePreference: "en",
-      isVerified: true,
-      isCompleted: true,
-      birthDate: null,
-      createdAt: "2026-04-25T23:36:06.148Z",
-      updatedAt: "2026-04-25T23:36:06.148Z",
-    },
-  ],
-  pagination: {
-    total: 3,
-    page: 1,
-    limit: 2,
-    totalPages: 2,
-    hasNext: true,
-    hasPrev: false,
-    nextPage: 2,
-    prevPage: null,
-  },
-};
+import {
+  deleteUser,
+  getUsers,
+  restoreUser,
+} from "../../../APIs/adminDashboardApis";
+import Loading from "../../../components/Layout/LoadingLayout";
+import { Title } from "react-head";
 
 /* ── Role badge ───────────────────────────── */
 const ROLE_STYLES = {
@@ -112,29 +58,28 @@ function UserRow({ user, t }) {
           year: "numeric",
         })
       : "—";
-        const [isDeleted, setisDeleted] = useState(!!user?.deletedAt);
+  const [isDeleted, setisDeleted] = useState(!!user?.deletedAt);
 
-
-    const handleDelete=async()=>{
-      try {
-        console.log("before action:")
-        const response = await deleteUser(user.id);
-        setisDeleted(true);
-        console.log("action:", response.data)
-      } catch (error) {
-        console.error(error)
-      }
+  const handleDelete = async () => {
+    try {
+      console.log("before action:");
+      const response = await deleteUser(user.id);
+      setisDeleted(true);
+      console.log("action:", response.data);
+    } catch (error) {
+      console.error(error);
     }
-    const handleRestore=async()=>{
-      try {
-        console.log("before action:")
-        const response = await restoreUser(user.id);
-        setisDeleted(false);
-        console.log("action:", response.data)
-      } catch (error) {
-        console.error(error)
-      }
+  };
+  const handleRestore = async () => {
+    try {
+      console.log("before action:");
+      const response = await restoreUser(user.id);
+      setisDeleted(false);
+      console.log("action:", response.data);
+    } catch (error) {
+      console.error(error);
     }
+  };
 
   return (
     <>
@@ -161,7 +106,6 @@ function UserRow({ user, t }) {
           <BoolPill value={user?.isCompleted} t={t} />
         </td>
 
-  
         <td className="px-4 py-3 text-center">
           <BoolPill value={isDeleted} t={t} />
         </td>
@@ -212,7 +156,7 @@ function UserRow({ user, t }) {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                      handleDelete();
+                    handleDelete();
                     console.log("DELETE USER", user?.id);
                   }}
                   className="px-4 py-2 text-sm font-semibold rounded border 
@@ -224,7 +168,7 @@ function UserRow({ user, t }) {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                      handleRestore();
+                    handleRestore();
                     console.log("RESTORE USER", user?.id);
                   }}
                   className="px-4 py-2 text-sm font-semibold rounded border 
@@ -243,27 +187,31 @@ function UserRow({ user, t }) {
 /* ── Main panel ───────────────────────────── */
 export default function ListUsersPanel({ data }) {
   const { t } = useTranslation();
-      const [page, setPage] = useState(1);
-      const [usersList, setUsersList] = useState();
+  const [page, setPage] = useState(1);
+  const [usersList, setUsersList] = useState();
+  const [loading, setloading] = useState(false);
   const [pagination, setpagination] = useState();
   // const { users, pagination } = MOCK_RESPONSE;
-     const handleGetData =async()=>{
-        try {
-          // await adminDashboardauth.refreshtoken();
-          const response = await getUsers(page);
-          console.log("data",response.data.data)
-          setUsersList(response.data.data.users);
-          setpagination(response.data.data.pagination);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    
-      useEffect(() => {
-        handleGetData();
-      }, [page]);
+  const handleGetData = async () => {
+    try {
+      // await adminDashboardauth.refreshtoken();
+      const response = await getUsers(page);
+      console.log("data", response.data.data);
+      setUsersList(response.data.data.users);
+      setpagination(response.data.data.pagination);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setloading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetData();
+  }, [page]);
   return (
     <div className="flex flex-col gap-4">
+      <Title>{t("actions.listUsers")}</Title>
       {/* table */}
       <div className="rounded-xl border border-gray-700 overflow-hidden">
         <div className="overflow-x-auto">
@@ -306,8 +254,9 @@ export default function ListUsersPanel({ data }) {
         page={page}
         total={pagination?.total}
         limit={pagination?.limit}
-        onChange={ setPage}
+        onChange={setPage}
       />
+      {loading && <Loading />}
     </div>
   );
 }

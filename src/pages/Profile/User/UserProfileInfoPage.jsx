@@ -97,7 +97,7 @@ function UserProfilePage() {
             <UserProfileInfoItem label={t("profile.user.location")}>
               <div className="flex items-center gap-1.5">
                 <FlagTriangleLeft color="#BB52E0" size={24} />
-                {accountData?.location}
+                {accountData?.governorate?.toLowerCase()}
               </div>
             </UserProfileInfoItem>
 

@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import useAppNavigate from "../../../Router/useAppNavigate";
 
 /**
  * SuccessScreen
@@ -10,6 +11,7 @@ import { useTranslation } from "react-i18next";
  */
 export default function SuccessScreen({ category, onReset }) {
   const { t } = useTranslation();
+  const navigation =useAppNavigate();
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-16 flex flex-col items-center gap-4 text-center">
@@ -32,7 +34,7 @@ export default function SuccessScreen({ category, onReset }) {
       </p>
 
       <button
-        onClick={onReset}
+        onClick={()=>{navigation("/")}}
         className="mt-4 px-6 py-2.5 text-sm font-medium text-white rounded-xl bg-primary hover:bg-secandry transition-colors"
       >
         {t("upgradeToOrganizer.success.submitAnother")}

@@ -23,6 +23,13 @@ export function useUpgradeForm() {
   const [errors, setErrors]               = useState({});
   const [socialErrors, setSocialErrors]   = useState({});
   const [submitted, setSubmitted]         = useState(false);
+    const [openDialog, setopenDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+
+  const closeDialog = () => {
+    setopenDialog(false);
+    setDialogMessage("");
+  };
 
   const handleCategorySelect = (id) => {
     setSelected(id);
@@ -98,10 +105,13 @@ export function useUpgradeForm() {
         console.log("Submitted form data:", formData);
         console.log("Submitted file data:", fileData);
         console.log("Submitted social data:", socialData);
+        
         const response = await becomeOrganizer(fd);
         setSubmitted(true);
 
       } catch (error) {
+        setopenDialog(true);
+        setDialogMessage(error.response.data.data.message||"Something went wrong");
         console.error("Error submitting form:", error);
       }
     }
@@ -125,6 +135,8 @@ export function useUpgradeForm() {
     errors,
     socialErrors,
     submitted,
+    openDialog,
+    dialogMessage,
     handleCategorySelect,
     handleFieldChange,
     handleFieldBlur,
@@ -133,5 +145,6 @@ export function useUpgradeForm() {
     handleSocialErrorChange,
     handleSubmit,
     handleReset,
+    closeDialog,
   };
 }

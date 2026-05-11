@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import Dialog from "../UI/Dialog";
 
 export default function DeleteDialog({ open, onClose, onConfirm }) {
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onClose={onClose}>
       <h3 className="text-xl font-semibold mb-4">Confirm Deletion</h3>

@@ -1,14 +1,20 @@
 import { Title } from "react-head";
 import { confirmEmail } from "../../../APIs/profileAPI";
 import { useTranslation } from "react-i18next";
+import useAppNavigate from "../../../Router/useAppNavigate";
 
 function ConfirmEmail() {
   const { t } = useTranslation();
-  let token = window.location.search.split("=")[1];
+    const navigate = useAppNavigate();
+  // let token = window.location.search.split("=")[1];
   const handleConfirmation = async () => {
     try {
+      const params = new URLSearchParams(window.location.search);
+
+      const token = params.get("token");
       const response = await confirmEmail(token);
       console.log(response);
+      navigate("/otp-verification");
       window.close();
     } catch (error) {
       console.error(error);

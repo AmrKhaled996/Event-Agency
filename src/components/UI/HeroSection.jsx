@@ -1,7 +1,7 @@
 import { Search, MapPin, ChevronDown } from "lucide-react";
 import {locationOptions, locationOptionsAr} from "../../utils/LocationOptions";
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import ErrorDialog from "../Dialogs/ErrorDialog";
 import { toast } from "sonner";
 import useAppNavigate from "../../Router/useAppNavigate";
@@ -15,7 +15,7 @@ export default function HeroSection() {
   const [location, setlocation] = useState(locationParam);
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-  const { lang } = useTranslation();
+  const { lang } = useParams();
   const {t}=useTranslation();
   const navigate = useAppNavigate();
 
@@ -27,26 +27,26 @@ export default function HeroSection() {
     const trimmed = searchVal.trim();
 
     if (trimmed) {
-      params.set("q", encodeURIComponent(trimmed));
-      params.set("location", location);
+      params.set("q", trimmed);
+      // params.set("location", location);
     } else {
       params.delete("q");
     }
     if (location) params.set("location", location);
 
-    if (!location || !trimmed) {
-      toast.error(t("ui.hero.searchError"), {
-        duration: 3000,
-      });
-      setopenDialog(true);
-      setDialogMessage(t("ui.hero.searchError"));
-      return;
-    } else {
+    // if (!location || !trimmed) {
+    //   toast.error(t("ui.hero.searchError"), {
+    //     duration: 3000,
+    //   });
+      // setopenDialog(true);
+      // setDialogMessage(t("ui.hero.searchError"));
+      // return;
+    // } else {
       setSearchPramas(params);
       navigate(
         `/search-events${params.toString() ? `?${params.toString()}` : ""}`,
       );
-    }
+    // }
   };
 
   return (

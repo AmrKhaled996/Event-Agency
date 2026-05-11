@@ -211,7 +211,7 @@
       "titleVar": "vibrant events ",
       "title2": " that inspire you.",
       "searchPlaceholder": "Search Events, Categories, Location,...",
-      "locationPlaceholder": " Location"
+      "locationPlaceholder": " all locations"
     },
     "sections": {
       "curated": "Events Just for You",
@@ -862,7 +862,7 @@
     "success": {
       "title": "Upgrade submitted!",
       "description": "Your {{category}} upgrade request has been received. We'll review and get back to you shortly.",
-      "submitAnother": "Submit another"
+      "submitAnother": "Go to home"
     },
     "page": {
       "personalInfo": "Personal Information",

@@ -11,6 +11,7 @@ import {
 } from "../../../constants/upgradeConfig";
 import { useUpgradeForm } from "../../../Hooks/useUpgradeForm";
 import useAppNavigate from "../../../Router/useAppNavigate";
+import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 
 export default function UpgradePage() {
   const navigate = useAppNavigate();
@@ -24,6 +25,8 @@ export default function UpgradePage() {
     errors,
     socialErrors,
     submitted,
+    openDialog,
+    dialogMessage,
     handleCategorySelect,
     handleFieldChange,
     handleFieldBlur,
@@ -32,6 +35,7 @@ export default function UpgradePage() {
     handleSocialErrorChange,
     handleSubmit,
     handleReset,
+    closeDialog,
   } = useUpgradeForm();
 
   if (submitted) {
@@ -81,6 +85,13 @@ export default function UpgradePage() {
           {t("upgradeToOrganizer.page.submitUpgrade")}
         </button>
       </div>
+      {openDialog && (
+        <ErrorDialog
+          open={openDialog}
+          message={dialogMessage}
+          onClose={closeDialog}
+        />
+      )}
     </div>
   );
 }

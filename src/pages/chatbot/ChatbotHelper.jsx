@@ -1,34 +1,11 @@
 import { User } from "lucide-react";
 import socket from "../../services/socket";
 
-// function ChatbotHelper() {
-
-//   useEffect(() => {
-//     // Listen للـ event اللي في Postman (chatbot-reply)
-//     socket.on("chatbot-reply", (data) => {
-//       console.log("Server:", data);
-//     });
-
-//     return () => {
-//       socket.off("chatbot-reply");
-//     };
-//   }, []);
-
-//   const sendMessage = () => {
-//     socket.emit("chatbot-message", {
-//       message: "ايه اخر الفعاليات دلوقتي"
-//     });
-//   };
-
-//   return (
-//     <button onClick={sendMessage}>Send</button>
-//   );
-// }
-
-// export default ChatbotHelper;
 
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Title } from "react-head";
+import { useParams } from "react-router-dom";
 
 const SYSTEM_PROMPT = `You are a helpful assistant for an event ticketing website. 
 Help users find events, buy tickets, check seat availability, understand refund policies, 
@@ -51,9 +28,10 @@ function TypingDots() {
 }
 
 function Message({ msg }) {
+  const {lang}=useParams();
   const isUser = msg.role === "user";
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-3`}>
+    <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-3 gap-2`}>
       {!isUser && (
         <div
           className="w-8 h-8 rounded-full shrink-0 mr-2 flex items-center justify-center text-white text-sm font-bold"
@@ -68,7 +46,7 @@ function Message({ msg }) {
       )}
       <div
         className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
-          isUser ? "text-white rounded-br-sm bg-slate-600" : "text-gray-100 rounded-bl-sm bg-primary"
+          isUser ? `text-white ${lang=="en"?"rounded-br-sm":"rounded-bl-sm"} bg-slate-600` : `text-gray-100 ${lang=="ar"?"rounded-br-sm":"rounded-bl-sm"} bg-primary`
         }`}
         
       >
@@ -101,7 +79,8 @@ export default function ChatbotHelper() {
     // Listen for AI reply from server
     socket.on("chatbot-reply", (data) => {
       console.log("Server:", data);
-      if(!data.message && (data.isTyping === true || data.isTyping === false)) return setLoading(true);
+      if(!data?.message) return ;
+
       setMessages((prev) => [
         ...prev,
         {
@@ -145,6 +124,7 @@ export default function ChatbotHelper() {
   return (
     <div className="flex flex-col items-center justify-center px-4 py-10">
       {/* Header */}
+      <Title>{t("chatbot.title")}</Title>
       <div className="w-full max-w-2xl mb-4 flex items-center gap-3">
         <div className="w-11 h-11 rounded-xl flex items-center justify-center border border-primary/90 text-xl shadow-lg bg-linear-to-br from-primary/60 to-secandry/60">
           <img

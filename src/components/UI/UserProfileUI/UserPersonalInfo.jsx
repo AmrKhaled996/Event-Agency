@@ -25,7 +25,7 @@ function PersonalInfoSection({ userLocation, accountData }) {
       // console.log(Location);
       const response = await updateMyProfile({
         name: accountData.name,
-        phone: accountData.phone,
+        // phone: accountData.phone,
         gender: accountData.gender,
         location: location,
         languagePreference: accountData.languagePreference,

@@ -4,11 +4,13 @@ import PasswordInput from "../UI/PasswordInput";
 import { deleteMyProfile } from "../../APIs/profileAPI";
 import { removeTokens } from "../../services/cookieTokenService";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { useTranslation } from "react-i18next";
 
 export default function DeleteAccountDialog({ open, onClose }) {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const navigate = useAppNavigate();
 

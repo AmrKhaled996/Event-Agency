@@ -15,11 +15,11 @@ export function buildNav(panels) {
     ReviewQueuePanel,
     ListUsersPanel,
     ListOrganizersPanel,
-    AnalyticsPanel,
     ActiveUsersPanel,
-    FinanceSummaryPanel,
-    ProcessPayoutsPanel,
     ListEventsPanel,
+    // AnalyticsPanel,
+    // FinanceSummaryPanel,
+    // ProcessPayoutsPanel,
     // GetUserPanel,
     // DeleteUserPanel,
     // RestoreUserPanel,
@@ -77,24 +77,24 @@ export function buildNav(panels) {
       // { id: "restore-event",  labelKey: "actions.restoreEvent",  method: "PATCH",  panel: RestoreEventPanel },
     ],
   },
-    {
-      id: "analytics",
-      labelKey: "nav.analytics",
-      icon: <ChartColumn />,
-      actions: [
-        { id: "tickets-by-event", labelKey: "actions.ticketsByEvent", method: "GET", panel: () => <AnalyticsPanel type="tickets" /> },
-        { id: "revenue-by-event", labelKey: "actions.revenueByEvent", method: "GET", panel: () => <AnalyticsPanel type="revenue" /> },
-        { id: "active-users",     labelKey: "actions.activeUsers",    method: "GET", panel: ActiveUsersPanel },
-      ],
-    },
-    {
-      id: "finance",
-      labelKey: "nav.finance",
-      icon: <BadgeDollarSign />,
-      actions: [
-        { id: "finance-summary", labelKey: "actions.financeSummary", method: "GET",  panel: FinanceSummaryPanel },
-        { id: "process-payouts", labelKey: "actions.processPayouts", method: "POST", panel: ProcessPayoutsPanel },
-      ],
-    },
+    // {
+    //   id: "analytics",
+    //   labelKey: "nav.analytics",
+    //   icon: <ChartColumn />,
+    //   actions: [
+    //     { id: "tickets-by-event", labelKey: "actions.ticketsByEvent", method: "GET", panel: () => <AnalyticsPanel type="tickets" /> },
+    //     { id: "revenue-by-event", labelKey: "actions.revenueByEvent", method: "GET", panel: () => <AnalyticsPanel type="revenue" /> },
+    //     { id: "active-users",     labelKey: "actions.activeUsers",    method: "GET", panel: ActiveUsersPanel },
+    //   ],
+    // },
+    // {
+    //   id: "finance",
+    //   labelKey: "nav.finance",
+    //   icon: <BadgeDollarSign />,
+    //   actions: [
+    //     { id: "finance-summary", labelKey: "actions.financeSummary", method: "GET",  panel: FinanceSummaryPanel },
+    //     { id: "process-payouts", labelKey: "actions.processPayouts", method: "POST", panel: ProcessPayoutsPanel },
+    //   ],
+    // },
   ];
 }
