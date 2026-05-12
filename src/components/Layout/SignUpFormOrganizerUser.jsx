@@ -37,11 +37,11 @@ function SignUpFormOrganizerUser({ submitedData }) {
     } else if (formData.Password.trim().length < 6) {
       newErrors.password = t("validation.passwordMin", { length: 6 });
     }
-    console.log(newErrors);
+
 
     setErrors(newErrors);
 
-    console.log(errors);
+
     return Object.keys(newErrors).length === 0; // true if no errors
   };
 
@@ -59,7 +59,6 @@ function SignUpFormOrganizerUser({ submitedData }) {
     if (validateForm(formData)) {
       submitedData(formData);
     }
-    console.log(userName.value, Email.value, Password.value);
   };
   return (
     <>

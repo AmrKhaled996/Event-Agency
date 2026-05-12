@@ -14,6 +14,7 @@ import ActiveUsersPanel       from "./panels/ActiveUsersPanel";
 // import FinanceSummaryPanel    from "./panels/FinanceSummaryPanel";
 // import ProcessPayoutsPanel    from "./panels/ProcessPayoutsPanel";
 import ListEventsPanel        from "./panels/ListEventsPanel";
+import { ListCategoriesPanel } from "./Panels";
 
 
 
@@ -29,6 +30,7 @@ const NAV = buildNav({
   // FinanceSummaryPanel,
   // ProcessPayoutsPanel,
   ListEventsPanel,
+  ListCategoriesPanel
 });
 
 /* ── Page ────────────────────────────────────────────────────────────────── */

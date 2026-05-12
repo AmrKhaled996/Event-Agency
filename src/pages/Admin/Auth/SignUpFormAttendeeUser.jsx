@@ -45,12 +45,11 @@ function SignUpFormAttendeeUser({ loadingpage }) {
       const response = await getGoogleAuth();
 
       const googleAuthUrl = response.data.data.url;
-      //  console.log(googleAuthUrl);
 
       window.location.href = googleAuthUrl;
       loadingpage(false);
     } catch (error) {
-      console.log(error.response.data || "something go wrong");
+      console.error(error.response.data || "something go wrong");
     }
   };
   return (

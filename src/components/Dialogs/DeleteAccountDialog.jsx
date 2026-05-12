@@ -15,7 +15,7 @@ export default function DeleteAccountDialog({ open, onClose }) {
   const navigate = useAppNavigate();
 
   const handleDeleteAccount = async () => {
-    // ✅ validate password input
+    
     if (!inputValue) {
       setError("Password is required.");
       return;
@@ -26,7 +26,6 @@ export default function DeleteAccountDialog({ open, onClose }) {
       setError("");
 
       const response = await deleteMyProfile(inputValue);
-      console.log(response);
 
       removeTokens();
 

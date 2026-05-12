@@ -7,7 +7,7 @@ import {
 } from "../services/cookieTokenService";
 
 export const axiosInstance = axios.create({
-  baseURL: "", // ✅ important (with Vite proxy)
+  baseURL: "",
   headers: {
     "Content-Type": "application/json",
   },
@@ -19,7 +19,6 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // ✅ only retry once
     if (
       (error.response?.status === 401 || error.response.status === 403) &&
       !originalRequest._retry
@@ -27,11 +26,8 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        console.log("Trying to refresh token...");
         const refreshToken = getRefreshToken();
-        console.log("refreshToken", refreshToken);
         const token = getAccessToken();
-        console.log("in token", token);
         const response = await axios.post(
           `/api/v1/auth/refresh-token`,
           { refreshToken },
@@ -45,7 +41,6 @@ axiosInstance.interceptors.response.use(
         );
         refreshAccessToken(response.data);
 
-        // ✅ retry original request
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Refresh token failed", refreshError);
@@ -60,7 +55,7 @@ axiosInstance.interceptors.response.use(
 );
 
 export const adminAxiosInstance = axios.create({
-  baseURL: "", // ✅ important (with Vite proxy)
+  baseURL: "", 
   headers: {
     "Content-Type": "application/json",
   },
@@ -72,7 +67,7 @@ adminAxiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // ✅ only retry once
+      
     if (
       (error.response?.status === 401 || error.response.status === 403) &&
       !originalRequest._retry
@@ -80,11 +75,8 @@ adminAxiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        console.log("Trying to refresh token...");
         const refreshToken = getRefreshToken();
-        console.log("refreshToken", refreshToken);
         const token = getAccessToken();
-        console.log("in token", token);
         const response = await axios.post(
           `/api/v1/admin/auth/refresh`,
           { refreshToken },
@@ -97,12 +89,12 @@ adminAxiosInstance.interceptors.response.use(
         );
         adminRefreshAccessToken(response.data);
 
-        // ✅ retry original request
+        
         return adminAxiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Refresh token failed", refreshError);
 
-        // window.location.href = "/login";
+      
         return Promise.reject(refreshError);
       }
     }

@@ -8,4 +8,4 @@ export { default as ActiveUsersPanel      } from "./ActiveUsersPanel";
 export { default as FinanceSummaryPanel   } from "./FinanceSummaryPanel";
 export { default as ProcessPayoutsPanel   } from "./ProcessPayoutsPanel";
 export { default as ListEventsPanel       } from "./ListEventsPanel";
-
+export { default as ListCategoriesPanel   } from "./ListCategorizePanel";

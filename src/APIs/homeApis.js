@@ -2,7 +2,7 @@ import { axiosInstance } from "./axiosInstence";
 import { getAccessToken } from "../services/cookieTokenService";
 
 export async function categories() {
-  return axiosInstance.get("/api/v1/home/categories", {});
+  return axiosInstance.get("/api/v1/category", {});
 }
 export async function latestEvents() {
   return axiosInstance.get(

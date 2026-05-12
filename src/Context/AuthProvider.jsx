@@ -26,9 +26,8 @@ export function AuthProvider({ children }) {
       setUser(decoded);
       if(decoded?.languagePreference)
       localStorage.setItem("lang", decoded?.languagePreference );
-      console.log("user:", decoded);
     } catch (error) {
-      console.log("invalid token:", error);
+      console.error("invalid token:", error);
       setUser(null);
     }
   }, []);
@@ -36,20 +35,18 @@ export function AuthProvider({ children }) {
   useEffect(() => {
       
       const interval = setInterval(async () => {
-          // console.log("Token refreshing...");
           
       try {
         const response = await refreshToken();
 
         refreshAccessToken(response.data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
 
         if (
           error.response?.data?.status === 401 ||
           error.response?.data?.status === 403
         ) {
-          // console.log("Refresh token expired, logging out...");
           window.location.href = "/login";
         }
       }

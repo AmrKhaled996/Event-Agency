@@ -8,12 +8,12 @@ const options = {
   plugins: {
     legend: {
       labels: {
-        color: "#374151", // gray-700
+        color: "#374151", 
         font: { size: 12 ,weight: 'bold' },
       },
     },
-    tooltip: { // Customize tooltip appearance
-      backgroundColor: "#111827", // gray-900
+    tooltip: { 
+      backgroundColor: "#111827", 
       titleColor: "#fff",
       bodyColor: "#d1d5db",
     },

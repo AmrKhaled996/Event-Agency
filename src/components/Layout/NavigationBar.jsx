@@ -33,28 +33,27 @@ function NavigationBar({ backGround = "primary" }) {
   const handlelogout = async () => {
     try {
       const response = await logout();
-      // console.log("Success:", response.data);
+     
       updateUser({});
-      // console.log(user)
+
       removeTokens();
 
       navigate("/");
     } catch (error) {
-      console.log("error", error);
+      console.error("error", error);
     }
   };
   useEffect(() => {
     try {
 
-      // console.log(user);
-      // console.log(user)
+;
       const accessToken = getAccessToken();
       if (!accessToken) return;
 
       const decoded = jwtDecode(accessToken);
       updateUser(decoded);
     } catch (error) {
-      // console.log("invalid token:", error);
+      console.error("invalid token:", error);
       updateUser({});
     }
   }, []);
@@ -64,18 +63,13 @@ function NavigationBar({ backGround = "primary" }) {
   //     const response = await becomeOrganizer();
   //     const newUser = { ...user, role: "organizer" };
   //     updateUser(newUser);
-  //     // console.log(user);
   //     // const newtoken = await refreshToken();
   //     // refreshAccessToken(newtoken.data);
   //     // window.location.reload();
-  //     // console.log("response", response);
   //   } catch (error) {
-  //     console.log("error", error);
   //   }
   // };
   const handleChangeLanguage = (language) => {
-    console.log(language)
-    console.log("now",i18n.language)
     i18n.changeLanguage(language);
     localStorage.setItem("lang", language);
    const newPath = location.pathname.replace(`/${lang}`, "");
@@ -86,18 +80,16 @@ function NavigationBar({ backGround = "primary" }) {
       hash: location.hash
     },{replace: true});
     // window.location.reload();
-    console.log("after",i18n.language)
 
   };
   const getUserWalletBalance = async() => {
     if(!user?.id) return;
   try {
    const response = await getWalletBalance().then((res) => res.data.data);
-   console.log("userBalance:",response?.balance);
    setUserBalance(response?.balance);
 
   } catch (error) {
-    console.log(error.response)
+    console.error(error.response)
   }
 };
   useEffect(() => {
@@ -179,7 +171,7 @@ function NavigationBar({ backGround = "primary" }) {
 
 {/* === 1/4: Auth Buttons === */}
 
-{user.role === "user" || user.role === "organizer" ? (
+{user?.role === "user" || user?.role === "organizer" ? (
   <div className="text-white flex items-center gap-6">
     <button
       onClick={() => navigate(`/tickets`)}
@@ -243,7 +235,7 @@ function NavigationBar({ backGround = "primary" }) {
             {t("layout.nav.logout")}
           </button>
 
-          {user.role === "user" ? (
+          {user?.role === "user" ? (
             <button
               onClick={() => navigate("/organizer/upgrade")}
               className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
@@ -331,7 +323,7 @@ function NavigationBar({ backGround = "primary" }) {
               >
                 {t("layout.nav.calendar")}
               </a>
-              {user.role === "user" || user.role === "organizer" ? (
+              {user?.role === "user" || user?.role === "organizer" ? (
                 <div className="flex space-x-2 items-center justify-center text-white  gap-10">
                   <div
                     onClick={() => navigate(`/tickets`)}

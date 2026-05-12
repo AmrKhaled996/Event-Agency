@@ -64,7 +64,7 @@ export default function Footer() {
         newsletterEmail,
         newsLetterLanguage,
       );
-      // console.log("Success:", response.data);
+      
       setNewsletterError(null);
       setValidSubscribe(true);
     } catch (err) {

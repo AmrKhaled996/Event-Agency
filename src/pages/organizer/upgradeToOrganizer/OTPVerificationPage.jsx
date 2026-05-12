@@ -9,8 +9,9 @@ import { verify, resendOtps } from "../../../APIs/authAPIs";
 import Loading from "../../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import { useTranslation } from "react-i18next";
+import { verifyOrganizer } from "../../../APIs/userAPIs";
 
-function OTPVerificationPageAdmin() {
+function OTPVerificationPageOrganizer() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timeLeft, setTimeLeft] = useState(600);
   const inputsRef = useRef([]);
@@ -28,8 +29,8 @@ function OTPVerificationPageAdmin() {
   } = useAuth({
     initialValues: { otp: "" },
     validator: validateOTP,
-    onSubmit: verify,
-    redirectTo: "/onboarding/personality-info",
+    onSubmit: verifyOrganizer,
+    redirectTo: "/",
     redirectFrom: "/otp-verification",
     openDialog,
     dialogMessage,
@@ -73,6 +74,7 @@ function OTPVerificationPageAdmin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const otpCode = otp.join("");
+
     submitOTP(otpCode);
   };
   const resendHandler = (e) => {
@@ -140,4 +142,4 @@ function OTPVerificationPageAdmin() {
   );
 }
 
-export default OTPVerificationPageAdmin;
+export default OTPVerificationPageOrganizer;

@@ -32,7 +32,6 @@ export default function UpdateEvent() {
 
   const onFile = (e) => {
     const file = e.target.files[0];
-    // console.log(file)
     if (!file) return;
     const preview = URL.createObjectURL(file);
 
@@ -70,7 +69,6 @@ export default function UpdateEvent() {
     //     newErrors[`session_time_${i}`] = "End time must be after start time.";
     //   }
     // });
-    // console.log(newErrors);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -96,8 +94,6 @@ export default function UpdateEvent() {
 
       const locationName = locationKey ? details[locationKey] : "name";
 
-      // console.log("details111", details);
-      // console.log("event111", event);
       const newLocation = {
         name: locationName || "name",
         address: details.address || "address",
@@ -110,7 +106,6 @@ export default function UpdateEvent() {
 
       const newevent = { ...event, venue: newLocation };
 
-      // console.log("newevent", newevent);
 
       setEvent(newevent);
 
@@ -133,7 +128,6 @@ export default function UpdateEvent() {
 
       // === BANNER FILE ===
       if (event?.bannerUrl) {
-        // console.log(event?.bannerUrl);
         fd.append("banner", event?.bannerUrl);
       }
 
@@ -155,12 +149,9 @@ export default function UpdateEvent() {
 
       // Debug: Show form data
       for (let pair of fd.entries()) {
-        // console.log(pair[0], pair[1]);
       }
       setloading(true);
-      console.log(fd);
       const response = await updateEvent(fd, eventData.id);
-      // console.log("update response", response);
 
       navigate("/organizer/dashboard/overview");
     } catch (error) {
@@ -185,7 +176,6 @@ export default function UpdateEvent() {
       const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get("id");
       const response = await getEvents({ id: id });
-      // console.log("cat ID:",response.data.data.event.categoryId );
 
       const cat = findCategoryById(response.data.data.event.categoryId);
       const oldFile = await urlToFile(
@@ -193,15 +183,12 @@ export default function UpdateEvent() {
         "no-updatedImage.png",
       );
       const preview = URL.createObjectURL(oldFile);
-      // console.log(oldFile)
-      // console.log("category", cat);
       const eventPos = [
         response.data.data.event.venue?.latitude || 0,
         response.data.data.event.venue?.longitude || 0,
       ];
       setPosition(eventPos);
       setDetails(response.data.data.event.venue);
-      // console.log(response.data.data);
       setEvent(response.data.data.event);
       setEvent((s) => ({
         ...s,
@@ -209,13 +196,12 @@ export default function UpdateEvent() {
         bannerUrl: oldFile,
         preview: preview,
       }));
-      // console.log(event)
       setloading(false);
     } catch (error) {
       const message = error.response?.data?.message || t("organizer.createEvent.errors.loadEvents");
       setDialogMessage(message);
       setopenDialog(true);
-      // console.log(error);
+      console.error(error);
     } finally {
       setloading(false);
     }

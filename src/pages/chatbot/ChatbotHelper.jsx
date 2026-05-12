@@ -76,9 +76,9 @@ export default function ChatbotHelper() {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    // Listen for AI reply from server
+  
     socket.on("chatbot-reply", (data) => {
-      console.log("Server:", data);
+
       if(!data?.message) return ;
 
       setMessages((prev) => [
@@ -105,12 +105,10 @@ export default function ChatbotHelper() {
     const userText = input.trim();
     if (!userText || loading) return;
 
-    // Add user message to UI
     setMessages((prev) => [...prev, { role: "user", content: userText }]);
     setInput("");
     setLoading(true);
 
-    // Emit to server — same shape as your existing code
     socket.emit("chatbot-message", { message: userText });
   }
 

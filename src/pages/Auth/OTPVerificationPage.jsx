@@ -51,7 +51,7 @@ function OTPVerificationPage() {
   const seconds = (timeLeft % 60).toString().padStart(2, 0);
 
   const handleChange = (value, index) => {
-    // console.log(location);
+
     const newValue = value.replace(/[^0-9A-Z]/g, "");
     if (!newValue) return;
 
@@ -74,7 +74,7 @@ function OTPVerificationPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const otpCode = otp.join("");
-    // console.log(otpCode, typeof otpCode);
+
     submitOTP(otpCode);
   };
   const resendHandler = (e) => {

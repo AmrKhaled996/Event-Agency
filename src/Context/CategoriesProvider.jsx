@@ -7,7 +7,6 @@ export const CategoriesProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const findCategoryById = (id) => {
-    // console.log("the id:",id ,"and Cats",Categories)
    return Categories.findLast(category => {
   return category.id === id;
 });
@@ -21,7 +20,6 @@ export const CategoriesProvider = ({ children }) => {
         const response = await categories()
         const data = response.data?.data?.categories
 
-        // console.log("cats : ",data)
         
 
         setCategories(data);

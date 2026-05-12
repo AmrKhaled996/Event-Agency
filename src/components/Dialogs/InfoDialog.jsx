@@ -3,7 +3,6 @@ import Dialog from "../UI/Dialog";
 
 export default function InfoDialog({ open, onClose, data, labels }) {
   if (!data) return null;
-  console.log("first",data)
   const {t} = useTranslation();
   return (
     <Dialog open={open} onClose={onClose}>

@@ -54,7 +54,6 @@ function UserSettingsAddPreference({
         pref.id,
         pref.name,
       ]);
-      // console.log("new", newpreferncesIdName);
       setPreferences(newprefrences);
       setAvailablePreferences([...availablePreferences, preference]);
     } else {
@@ -66,8 +65,6 @@ function UserSettingsAddPreference({
         // @ts-ignore
         (p) => p.id !== preference.id,
       );
-      // console.log("new available preferences", newavailableprfrences);
-      // console.log("new preference", newpreferncesIdName);
       setPreferences(newpreferncesIdName);
       setAvailablePreferences(newavailableprfrences);
     }
@@ -78,9 +75,7 @@ function UserSettingsAddPreference({
       setLoading(true);
       // @ts-ignore
       const preferenceIds = preferences.map((pref) => pref.id);
-      // console.log(preferenceIds)
       const response = await updatePreferences({ categoryIds: preferenceIds });
-      // console.log("Success:", response.data);
 
       const newtoken = await refreshToken();
       refreshAccessToken(newtoken.data);
@@ -90,17 +85,15 @@ function UserSettingsAddPreference({
       const message = error.response?.data?.message || "Something went wrong";
       setDialogMessage(message);
       setopenDialog(true);
-      console.log("error", error);
+      console.error("error", error);
     } finally {
       setLoading(false);
     }
   };
   useEffect(() => {
-    // console.log("preferences",preferences)
     if (preferences.length > 0 && !preferencesBeforeChanged) {
       let before = [...preferences];
       setPreferencesBeforeChanged(before);
-      // console.log("current:" , preferences,"before:",before)
     }
   }, [preferences]);
 

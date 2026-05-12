@@ -61,11 +61,9 @@ export default function DashboardSummaryPanel() {
   const handleGetData =async()=>{
     try {
       setloading(true)
-    //   const token =await adminDashboardauth.refreshtoken();
-    //   console.log("token", token.data.data)
-    //   refreshAccessToken(token);
+
       const response = await getDashboardSummary();
-      console.log("data",response.data.data)
+
       setsummaryData(response.data.data);
       
     } catch (error) {

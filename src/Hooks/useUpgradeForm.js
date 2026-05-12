@@ -2,6 +2,7 @@ import { useState } from "react";
 import { fields } from "../constants/upgradeConfig";
 import { validateFields } from "../utils/UpgradeValidation";
 import { becomeOrganizer } from "../APIs/userAPIs";
+import useAppNavigate from "../Router/useAppNavigate";
 
 /**
  * useUpgradeForm
@@ -25,6 +26,7 @@ export function useUpgradeForm() {
   const [submitted, setSubmitted]         = useState(false);
     const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
+  const navigator = useAppNavigate();
 
   const closeDialog = () => {
     setopenDialog(false);
@@ -83,35 +85,36 @@ export function useUpgradeForm() {
     if (Object.keys(newErrors).length === 0 && Object.keys(socialErrors).length === 0) {
       try {
         const fd= new FormData();
-        fd.append('organizerType',selected)
+        fd.append('type',selected)
         fd.append('cityId',1)
         fd.append('countryId',1)
         fd.append('stateId',1)
         for (const key in formData[selected]) {
           fd.append(key, formData[selected][key]);
-          console.log("key",key , "formdata:",formData[selected][key])
+
         }
         for (const key in fileData[selected]) {
           fd.append(key, fileData[selected][key].file);
-          console.log("fileData:",key,"  data:", fileData[selected][key])
+  
         }
         if(fileData?.photo?.file)
-          console.log("fileData.photo:",fileData.photo)
+
           fd.append('photo',fileData?.photo?.file)
         for (const key in socialData[selected]) {
           fd.append(key, socialData[selected][key]);
         }
 
-        console.log("Submitted form data:", formData);
-        console.log("Submitted file data:", fileData);
-        console.log("Submitted social data:", socialData);
+        // console.log("Submitted form data:", formData);
+        // console.log("Submitted file data:", fileData);
+        // console.log("Submitted social data:", socialData);
         
         const response = await becomeOrganizer(fd);
         setSubmitted(true);
+        navigator("/organizer/otp-verification") 
 
       } catch (error) {
         setopenDialog(true);
-        setDialogMessage(error.response.data.data.message||"Something went wrong");
+        setDialogMessage(error?.response?.data?.data?.dialogMessage||"Something went wrong");
         console.error("Error submitting form:", error);
       }
     }

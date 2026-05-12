@@ -17,7 +17,6 @@ function InterestedEventsPage() {
       // setloading(true);
       const response = await getInterestedEvents();
       const newcards = response.data.data;
-      console.log(newcards)
       if (newcards.events.length === 0) {
         setcards("No events found");
         return;
@@ -27,7 +26,7 @@ function InterestedEventsPage() {
       // setloading(false);
     } catch (error) {
       setopenDialog(true);
-      console.log("error", error?.response);
+      console.error("error", error?.response);
       setDialogMessage(error?.response?.data?.message);
     }
   };

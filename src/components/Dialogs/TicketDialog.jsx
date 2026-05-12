@@ -8,7 +8,7 @@ import { axiosInstance } from "../../APIs/axiosInstence";
 import { extractDateParts, extractDateTime } from "../../utils/dateFormater";
 import { getTicketById } from "../../APIs/ticketsApis";
 import { useTranslation } from "react-i18next";
-//ticket = [ticket] = [{id: -- ,}]
+
 function TicketDialog({ open, onClose, tickets }) {
   const { t } = useTranslation();
   const inputRefs = useRef([]);
@@ -21,7 +21,6 @@ function TicketDialog({ open, onClose, tickets }) {
       inputRefs.current.push(el);
     }
   };
-  // console.log("tic:", tickets);
 
   const handleDownloadPDF = async () => {
     const pdf = new jsPDF({
@@ -50,16 +49,13 @@ function TicketDialog({ open, onClose, tickets }) {
 
   const handleGetTicketsData = async () => {
   try {
-    // console.log("ticlen:", tickets.length);
       setticketsData([]);
     for (const element of currentTicket) {
-      // console.log("ticketsIDs",element.ticketId)
       const response = await getTicketById(element.ticketId);
-      // console.log(response.data.data)
       setticketsData((prev) => [...prev, response.data.data]);
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
   useEffect(() => {

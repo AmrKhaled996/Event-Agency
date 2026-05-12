@@ -98,10 +98,7 @@ export const formatEventSessionDate = (eventSessions = []) => {
 
 
 
-  // const startTime = start.toTimeString().slice(0, 5); // HH:mm
-  // const endTime = end.toTimeString().slice(0, 5);     // HH:mm
-  // console.log("startTime", startTime);
-  // console.log("endTime", endTime);
+
   let dateText;
 
   if (

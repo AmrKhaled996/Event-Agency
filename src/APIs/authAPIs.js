@@ -46,7 +46,6 @@ export async function resendOtps() {
 }
 export async function refreshToken() {
   const refreshToken = getRefreshToken();
-  console.log("ref:",refreshToken)
   const token = getAccessToken();
 
   return axiosInstance.post(

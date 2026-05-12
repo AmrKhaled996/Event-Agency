@@ -16,11 +16,12 @@ export default function OrganizerOverviewPage() {
     try {
       setloading(true);
       const response = await getStatsOrgainzerDashboard();
-      // console.log(response.data.data.data);
+   
       setOverviewData(response.data.data.data);
     } catch (error) {
       const message =
-        error.response?.data?.message || t("common.feedback.error");
+        error.response?.data?.data[0]?.message || t("common.feedback.error");
+        console.error(error.response?.data?.data[0]?.message)
       setDialogMessage(message);
       setopenDialog(true);
     }

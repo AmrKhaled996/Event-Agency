@@ -77,11 +77,9 @@ function CreateEventReview() {
       }
       for (let i = 0; i < formData.basicInfo.tags.length; i++) {
         fd.append(`tags[${i}]`, formData.basicInfo.tags[i]);
-        console.log("tag", formData.basicInfo.tags[i]);
       }
       const rules = (formData.basicInfo.rules).map((rule) => ({rule}));
       for (let i = 0; i < formData.basicInfo.rules.length; i++) {
-        console.log("rules", rules[i]);
         fd.append(`eventRules[${i}][rule]`, rules[i].rule);
       }
       // === EVENT TYPE ===
@@ -91,7 +89,6 @@ function CreateEventReview() {
       // === SEATS ===
       if (formData.tickets.eventType === "seatmap") {
         fd.append("seatsData", JSON.stringify(formData.tickets.seats));
-        console.log(JSON.stringify(formData.tickets.seats));
         fd.append("numberOfRows", String(formData.tickets.rows));
         fd.append("numberOfColumns", String(formData.tickets.seatsPerRow));
         fd.append("priceTiers", JSON.stringify(formData.tickets.priceTiers));
@@ -99,7 +96,6 @@ function CreateEventReview() {
 
       // Debug: Show form data
       // for (let pair of fd.entries()) {
-      //   console.log(pair[0], pair[1]);
       // }
       setLoading(true);
       const response = await createEvent(fd, true); // send formData
@@ -108,7 +104,6 @@ function CreateEventReview() {
       navigate(`/organizer/dashboard/overview`);
     } catch (error) {
       const message = error.response?.data?.message || t("common.feedback.error");
-      console.log(error.response);
       setDialogMessage(message);
       setopenDialog(true);
     } finally {

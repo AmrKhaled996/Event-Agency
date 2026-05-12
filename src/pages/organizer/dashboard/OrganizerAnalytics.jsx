@@ -19,11 +19,11 @@ export default function OrganizerAnalyticsPage() {
     try {
       setloading(true);
       const response = await getAnalyticsOrgainzerDashboard();
-      // console.log("data",response);
+
       setanalyticsData(response.data.data.data);
     } catch (error) {
       const message =
-        error.response?.data?.message || t("common.feedback.error");
+        error.response?.data?.data?.message || t("common.feedback.error");
       setDialogMessage(message);
       setopenDialog(true);
     }

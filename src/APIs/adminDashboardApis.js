@@ -19,7 +19,11 @@
  * get api/v1/admin/events/:eventId
  * delete api/v1/admin/events/:eventId
  * patch api/v1/admin/events/:eventId/restore
- *
+ * 
+ * get api/v1/admin/categories
+ * post api/v1/admin/categories
+ * put api/v1/admin/categories/:categoryId
+ * delete api/v1/admin/categories/:categoryId
  */
 
 import {
@@ -35,7 +39,6 @@ import { adminAxiosInstance } from "./axiosInstence";
 const token = getAccessToken();
 // GET /api/v1/admin/dashboard/summary
 export const getDashboardSummary = () => {
-  console.log("in token", token);
   return adminAxiosInstance.get("/api/v1/admin/dashboard/summary", {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -46,7 +49,6 @@ export const getDashboardSummary = () => {
 
 // GET /api/v1/admin/dashboard/review-queue?page=&limit=
 export const getReviewQueue = () => {
-  console.log("in token", token);
   return adminAxiosInstance.get("/api/v1/admin/dashboard/review-queue", {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -143,7 +145,6 @@ export const rejectOrganizer = (id,reason) =>
   });
 
 export const approveOrganizer = (id) => {
-  console.log("in token1", token);
   return adminAxiosInstance.patch(`/api/v1/admin/organizers/${id}/approve`,{}, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -251,7 +252,45 @@ export const restoreEvent = (eventId) =>
      formData,
    );
  }
- */  
+ */
+
+ /* =========================
+   CATEGORIES
+========================= */
+
+// GET /api/v1/admin/categories
+export const getCategories = () =>
+  adminAxiosInstance.get("/api/v1/admin/categories", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+// GET /api/v1/admin/categories/:categoryId
+export const addCategory = (formData) =>
+  adminAxiosInstance.post("/api/v1/admin/categories", formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  export const deleteCategory = (id) =>
+  adminAxiosInstance.delete(`/api/v1/admin/categories/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  export const editCategory = (id,formData) =>
+  adminAxiosInstance.put(`/api/v1/admin/categories/${id}`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
 
 export const adminDashboardauth = {

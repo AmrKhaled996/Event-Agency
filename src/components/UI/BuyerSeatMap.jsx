@@ -40,16 +40,16 @@ export function BuyerSeatMap({
       return { backgroundColor: getTierColor(seat.tierId) || "#d1d5db" };
     }
 
-    // Availability mode
+    
     switch (seat.status) {
       case "available":
-        return { backgroundColor: "#22c55e" }; // green
+        return { backgroundColor: "#22c55e" }; 
       case "sold":
-        return { backgroundColor: "#ef4444" }; // red
+        return { backgroundColor: "#ef4444" }; 
       case "reserved":
-        return { backgroundColor: "#f59e0b" }; // amber
+        return { backgroundColor: "#f59e0b" }; 
       case "selected":
-        return { backgroundColor: "#3b82f6" }; // blue
+        return { backgroundColor: "#3b82f6" }; 
       default:
         return {};
     }
@@ -70,7 +70,7 @@ export function BuyerSeatMap({
       return "border-gray-400 hover:ring-2 hover:ring-green-400 cursor-pointer";
     }
 
-    // Pricing mode
+    
     if (selected) {
       return "border-gray-900 ring-2 ring-gray-400";
     }
@@ -90,7 +90,7 @@ export function BuyerSeatMap({
       return `${tierInfo.name} - $${tierInfo.price}`;
     }
 
-    // Availability mode
+    
     const statusText = t(`ui.seatMap.${seat.status}`);
     return `${statusText} - ${tierInfo.name} ($${tierInfo.price})`;
   };

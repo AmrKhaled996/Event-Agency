@@ -37,7 +37,7 @@ function EventsPagination() {
 
     try {
       const page = Number(urlParams.get("page")) || 1;
-      console.log(page);
+
       setEventsPage(page);
 
       setLoading(true);
@@ -54,18 +54,15 @@ function EventsPagination() {
           break;
         case "Events Just for You":
           response = await personalizedEvents(page);
-          console.log(response);
           break;
         default:
           setDialogMessage("Error confirming order");
           break;
       }
-      // console.log("first")
-      // console.log(response.data);
 
       setCards(response?.data?.data?.events || []);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setDialogMessage(
         error.response?.data?.message || "Error confirming order",
       );
@@ -108,7 +105,6 @@ function EventsPagination() {
         <div className="w-full flex justify-center my-10 gap-20">
           <button
             onClick={() => {
-              // console.log("page ", eventsPage);
               if (eventsPage <= 1) return;
               const nextPage = eventsPage - 1;
               const newUrlParams = new URLSearchParams(location.search);
@@ -130,7 +126,6 @@ function EventsPagination() {
           <button
             onClick={() => {
               if (cards.length < 12) return;
-              // console.log("page ", eventsPage);
               const nextPage = eventsPage + 1;
               const newUrlParams = new URLSearchParams(location.search);
               newUrlParams.set("page", nextPage);

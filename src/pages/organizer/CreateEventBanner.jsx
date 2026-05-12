@@ -24,8 +24,6 @@ function CreateEventBanner() {
   };
 
   const handleNext = () => {
-    // console.log(fileInfo);
-    // console.log(formData)
     updateForm("banner", { file: fileInfo.file, preview: fileInfo.preview });
     navigate("/organizer/create-event/ticket");
   };

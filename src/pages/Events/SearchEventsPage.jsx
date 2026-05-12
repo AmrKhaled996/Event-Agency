@@ -31,7 +31,6 @@ function SearchEventsPage() {
     const params = new URLSearchParams(searchParams); // clone current params
 
     setSearchParams(params);
-    console.log("params:", params.toString());
     try {
       // setloading(true);
       const response = await getSearchEvents({
@@ -49,13 +48,11 @@ function SearchEventsPage() {
       //   setCards("No events found");
       //   return;
       // }
-      console.log("    ", response.data.data.data);
       setCards(newcards);
-      console.log("pagination", response.data.data.pagination);
       setpagination(response?.data?.data?.pagination);
       // setloading(false);
     } catch (error) {
-      console.log("error", error);
+      console.error("error", error);
     }
   };
   useEffect(() => {
@@ -83,11 +80,6 @@ function SearchEventsPage() {
   };
 
   const applyFilters = () => {
-    // console.log(activeTags);
-    console.log("price:", priceMax);
-    console.log("category:", category);
-    console.log("date:", date);
-    console.log("activeTags:", activeTags);
   };
 
   return (

@@ -74,8 +74,6 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
       const response = await getEvents({ id: id });
 
       setEvent(response.data.data.event);
-      // console.log(response.data.data.event)
-      // console.log("Oid",event ,"user  ",user)
       const eventSessions =
         response.data.data.event?.eventSessions || eventinfo?.sessions;
 
@@ -130,6 +128,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
         setSeatsPerRow(parseInt(storedSeatsPerRow));
         setSeats(storedSeats);
         await loadAvailability(response.data.data.event.id, storedSeats);
+
       }
     } catch (error) {
       const message =
@@ -137,7 +136,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
         "Something went wrong while fetching event data.";
       setDialogMessage(message);
       setopenDialog(true);
-      console.log(error);
+      console.error(error);
     } finally {
       setloading(false);
     }
@@ -151,17 +150,14 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   const handleInterested = async (e) => {
     e.preventDefault();
     try {
-      console.log(event);
       setisInterested((prv) => !prv);
       if (isInterested) {
         const response = await removeFromInterested(event.id);
-        console.log("action:", response);
       } else {
         const response = await addToInterested(event.id);
-        console.log("action:", response);
       }
     } catch (error) {
-      console.log(error?.response || error);
+      console.error(error?.response || error);
       setisInterested((prv) => !prv);
     }
     e.stopPropagation();
@@ -250,7 +246,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
         );
         setSeats(mappedSeats);
       } catch (error) {
-        console.log("Failed to load seat availability", error);
+        console.error("Failed to load seat availability", error);
       }
     },
     [mapAvailabilityToSeats],
@@ -439,7 +435,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
             error.response?.data?.message ||
             "Failed to reserve selected seats you are banned";
           // TODO: show error dialog
-          console.log(message);
+          console.error(message);
           setopenDialog(true);
           setDialogMessage(message);
           throw new Error(message);
@@ -558,9 +554,8 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
         url: window.location.href,
       });
 
-      console.log("Shared successfully");
     } catch (error) {
-      console.log("Error sharing:", error);
+      console.error("Error sharing:", error);
     }
   };
 

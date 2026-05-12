@@ -42,7 +42,6 @@ export default function TagInput({ tags = [], setTags }) {
   function removeTag(i) {
     setActiveTags(activeTags.filter((_, idx) => idx !== i));
     setTags(activeTags.filter((_, idx) => idx !== i));
-    console.log(activeTags)
     setError("");
   }
 

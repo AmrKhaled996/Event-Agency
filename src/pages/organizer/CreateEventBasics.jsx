@@ -117,8 +117,6 @@ export default function CreateEventBasics() {
       return;
     }
 
-    // console.log("details111", details);
-    // console.log("local111", local);
     const newLocation = {
       name:
         details[possibleNames.filter((item) => details[item])?.[0]] || "name",
@@ -137,7 +135,6 @@ export default function CreateEventBasics() {
       rules: rules,
     };
 
-    console.log("newLocal", newLocal);
 
     updateForm("basicInfo", newLocal);
     setLocal(newLocal);

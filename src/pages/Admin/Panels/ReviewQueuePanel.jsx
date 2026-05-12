@@ -121,36 +121,28 @@ function OrganizerRow({ org, t ,selectedData,setSelectedData,setInfoDialogOpen,i
 
   const handleApprove=async()=>{
     try {
-      console.log("before action:")
       const response = await approveOrganizer(org.id);
-      console.log("action:", response.data)
     } catch (error) {
       console.error(error)
     }
   }
   const handleReactivate=async()=>{
     try {
-      console.log("before action:")
       const response = await reactivateOrganizer(org.id);
-      console.log("action:", response.data)
     } catch (error) {
       console.error(error)
     }
   }
   const handleReject=async()=>{
     try {
-      console.log("before action:")
       const response = await rejectOrganizer(org.id, reason);
-      console.log("action:", response.data)
     } catch (error) {
       console.error(error)
     }
   }
   const handleSuspend=async()=>{
     try {
-      console.log("before action:")
       const response = await suspendOrganizer(org.id, reason);
-      console.log("action:", response.data)
     } catch (error) {
       console.error(error)
     }
@@ -282,7 +274,6 @@ export default function ReviewQueuePanel() {
         // await adminDashboardauth.refreshtoken();
 
         const response = await getReviewQueue();
-        console.log("data",response.data.data)
         setOrganizersList(response.data.data.organizers);
         setpagination(response.data.data.pagination);
       } catch (error) {

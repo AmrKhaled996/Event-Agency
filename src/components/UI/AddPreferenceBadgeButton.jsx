@@ -29,7 +29,7 @@ function AddPreferencePopover({
       >
         <div className="h-48 overflow-auto w-full bg-slate-100 rounded-lg text-md p-2">
 
-          {console.log(availablePreferences, "this")}
+        
           {availablePreferences.map((interest) => (
             <div
               key={interest.id}

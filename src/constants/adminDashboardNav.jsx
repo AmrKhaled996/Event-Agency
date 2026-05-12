@@ -7,7 +7,7 @@
  *   const NAV = buildNav(panels);
  */
 
-import { BadgeDollarSign, ChartColumn, LayoutDashboardIcon, TicketSlash, User } from "lucide-react";
+import { BadgeDollarSign, ChartColumn, LayoutDashboardIcon, TicketSlash, TvMinimalPlayIcon, User } from "lucide-react";
 
 export function buildNav(panels) {
   const {
@@ -17,6 +17,7 @@ export function buildNav(panels) {
     ListOrganizersPanel,
     ActiveUsersPanel,
     ListEventsPanel,
+    ListCategoriesPanel,
     // AnalyticsPanel,
     // FinanceSummaryPanel,
     // ProcessPayoutsPanel,
@@ -76,6 +77,13 @@ export function buildNav(panels) {
       // { id: "delete-event",   labelKey: "actions.deleteEvent",   method: "DELETE", panel: DeleteEventPanel },
       // { id: "restore-event",  labelKey: "actions.restoreEvent",  method: "PATCH",  panel: RestoreEventPanel },
     ],
+  },
+  {
+    id: "categories",
+    labelKey: "nav.categories",
+    icon: <TvMinimalPlayIcon />,
+    actions: [
+      { id: "list-categories", labelKey: "actions.listCategories", method: "GET", panel: ListCategoriesPanel },],
   },
     // {
     //   id: "analytics",

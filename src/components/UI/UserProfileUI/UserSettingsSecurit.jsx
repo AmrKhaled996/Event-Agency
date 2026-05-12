@@ -84,7 +84,7 @@ function UserSettingsSecurity({ provider }) {
         newErrors.confirmEmail = t("profile.settings.security.errors.emailMismatch");
       }
       setErrorsEmail(newErrors);
-      console.log("in handle", newErrors);
+
       if (Object.keys(newErrors).length === 0) {
         setLoading(true);
         // Call API to change email

@@ -83,9 +83,7 @@ const fmtDate = (d) =>
 
     const handleDelete=async()=>{
       try {
-        console.log("before action:")
         const response = await deleteEvent(event.id);
-        console.log("action:", response.data)
       } catch (error) {
         console.error(error)
       }
@@ -93,9 +91,7 @@ const fmtDate = (d) =>
 
       const handleRestore=async()=>{
         try {
-          console.log("before action:",isDeleted,"at:",event?.deletedAt ,"format:",fmtDate(event?.deletedAt))
           const response = await restoreEvent(event.id);
-          console.log("action:", response.data)
         } catch (error) {
           console.error(error)
         }
@@ -294,7 +290,6 @@ export default function ListEventsPanel() {
           setloading(true)
           // await adminDashboardauth.refreshtoken();
           const response = await getEvents(page);
-          console.log("data",response.data.data)
           setEventsList(response.data.data.events);
           setpagination(response.data.data.pagination);
         } catch (error) {

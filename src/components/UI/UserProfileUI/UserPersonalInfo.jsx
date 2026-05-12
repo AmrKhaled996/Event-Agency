@@ -22,7 +22,6 @@ function PersonalInfoSection({ userLocation, accountData }) {
 
     try {
       setLoading(true);
-      // console.log(Location);
       const response = await updateMyProfile({
         name: accountData.name,
         // phone: accountData.phone,
@@ -31,14 +30,11 @@ function PersonalInfoSection({ userLocation, accountData }) {
         languagePreference: accountData.languagePreference,
         birthDate: accountData.birthDate,
       });
-      // console.log("Success:", response.data);
-      // console.log(user);
       const newtoken = await refreshToken();
       refreshAccessToken(newtoken.data);
       window.location.reload();
-      // console.log("response", response);
     } catch (error) {
-      console.log("error", error);
+      console.error("error", error);
     } finally {
       setLoading(false);
     }
@@ -62,7 +58,6 @@ function PersonalInfoSection({ userLocation, accountData }) {
             <label className="text-sm font-semibold text-slate-700">
               {t("profile.settings.personalInfo.location")}
             </label>
-            {/* {console.log(userLocation)} */}
             <select
               className="form-select w-full bg-slate-100 h-12 rounded-lg text-md p-2 pr-10"
               value={location}

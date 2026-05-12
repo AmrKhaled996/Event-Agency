@@ -39,11 +39,11 @@ function LoginPageAdmin() {
       const response = await getGoogleAuth();
 
       const googleAuthUrl = response?.data?.data?.url;
-      console.log(googleAuthUrl);
+
 
       window.location.href = googleAuthUrl;
     } catch (error) {
-      console.log(error.response?.data || "something go wrong");
+      console.error(error.response?.data || "something go wrong");
     }
   };
   return (

@@ -677,7 +677,8 @@
     "organizers": "المنظمون",
     "analytics": "التحليلات",
     "finance": "المالية",
-    "events": "الفعاليات"
+    "events": "الفعاليات",
+    "categories": "التصنيفات"
   },
   "actions": {
     "dashboardSummary": "ملخص لوحة المعلومات",
@@ -700,7 +701,8 @@
     "listEvents": "عرض الفعاليات",
     "getEvent": "عرض فعالية",
     "deleteEvent": "حذف فعالية",
-    "restoreEvent": "استعادة فعالية"
+    "restoreEvent": "استعادة فعالية",
+    "listCategories": "عرض التصنيفات"
   },
   "table": {
     "id": "الهوية",
@@ -744,7 +746,12 @@
     "processPayouts": "معالجة المدفوعات",
     "deleteEvent": "حذف",
     "restoreEvent": "استعادة",
-    "confirm": "تأكيد"
+    "confirm": "تأكيد",
+    "update": "تحديث",
+    "deleteCategory": "حذف التصنيف",
+    "saveChanges": "حفظ التغييرات",
+    "cancel": "إلغاء",
+    "addCategory": "إضافة تصنيف"
   },
   "confirm": {
     "deleteUser": "تأكيد الحذف النهائي",
@@ -959,3 +966,5 @@
     }
   }
 }
+
+  

@@ -450,7 +450,7 @@ function CreateEventTickets() {
             <div className="flex gap-3 ">
               <button
                 onClick={() => {
-                  // console.log(tickets)
+
                   setTickets([]);
                   setType("ticketed");
                 }}

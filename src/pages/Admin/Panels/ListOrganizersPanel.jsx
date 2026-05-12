@@ -172,7 +172,7 @@ export default function ListOrganizersPanel() {
         // await adminDashboardauth.refreshtoken();
         setloading(true)
         const response = await getOrganizers(page);
-        console.log("data",response.data.data)
+
         setOrganizersList(response.data.data.organizers);
         setpagination(response.data.data.pagination);
       } catch (error) {

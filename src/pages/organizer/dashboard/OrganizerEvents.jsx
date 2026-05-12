@@ -32,36 +32,34 @@ export default function OrganizerEventsPage() {
     try {
       // Call API to delete event
       const eventId = selectedEvent.id;
-      // console.log(eventId);
 
       const response = await deleteEvent(eventId);
-      // console.log(response.data);
 
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.id !== eventId),
       );
       setDeleteDialogOpen(false);
-      // console.log(`Deleting event with ID: ${eventId}`);
     } catch (error) {
-      console.error("Error deleting event:", error);
+       const message = error.response?.data?.data[0]?.message || t("common.feedback.error");
+      setDialogMessage(message);
+      setopenDialog(true);
     }
   };
   const handleCancel = async () => {
     try {
       // Call API to cancel event
       const eventId = selectedEvent.id;
-      // console.log(eventId);
 
       const response = await cancelEvent(eventId);
-      // console.log(response.data);
 
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.id !== eventId),
       );
       setcancelDialogOpen(false);
-      // console.log(`Deleting event with ID: ${eventId}`);
     } catch (error) {
-      console.error("Error deleting event:", error);
+       const message = error.response?.data?.data[0]?.message || t("common.feedback.error");
+      setDialogMessage(message);
+      setopenDialog(true);
     }
   };
 
@@ -69,14 +67,15 @@ export default function OrganizerEventsPage() {
     // Implement update logic here
     try {
       const eventId = selectedEvent.id;
-      // console.log(`Updating event with ID: ${eventId}`);
       // Call API to update event details
 
       navigate(`/organizer/update-event?id=${eventId}`, {
         state: { event: selectedEvent, id: eventId },
       });
     } catch (error) {
-      console.error("Error updating event:", error);
+       const message = error.response?.data?.data[0]?.message || t("common.feedback.error");
+      setDialogMessage(message);
+      setopenDialog(true);
     } finally {
       setUpdateDialogOpen(false);
     }
@@ -85,10 +84,9 @@ export default function OrganizerEventsPage() {
     try {
       setloading(true);
       const response = await getAllEvents();
-      // console.log(response.data.data.result);
       setEvents(response.data.data.result);
     } catch (error) {
-      const message = error.response?.data?.message || t("common.feedback.error");
+      const message = error.response?.data?.data[0]?.message || t("common.feedback.error");
       setDialogMessage(message);
       setopenDialog(true);
     } finally {

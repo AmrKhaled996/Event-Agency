@@ -22,7 +22,6 @@ export default function HeroSection() {
   const handleSearch = () => {
     // setSearchValue(searchVal); // to sent in api reques
     const params = new URLSearchParams(searchPramas);
-    console.log("search:", searchVal, "location:", location);
 
     const trimmed = searchVal.trim();
 

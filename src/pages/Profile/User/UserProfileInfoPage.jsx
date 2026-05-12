@@ -32,7 +32,7 @@ function UserProfilePage() {
   // url : http://localhost:5173/profile/:userId
   const { userId } = useParams();
   const accountId = userId;
-  // console.log("accountId" , accountId)
+ 
   const handleLoadProfile = async () => {
     try {
       setLoading(true);
@@ -47,14 +47,14 @@ function UserProfilePage() {
         preferences: preferences,
         attendedEvents,
       };
-      // console.log("user: ",fullData)
+   
       setAccountData(fullData);
     } catch (error) {
       const message =
         error.response?.data?.error || t("profile.user.fetchError");
       setDialogMessage(message);
       setopenDialog(true);
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }

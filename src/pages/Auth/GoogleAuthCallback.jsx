@@ -12,14 +12,12 @@ function GoogleCallback() {
 
   const handleCallback = async () => {
     try {
-      console.log("in callback");
 
       const params = new URLSearchParams(window.location.search);
 
       const token = params.get("token");
       const expiresIn = params.get("expiresIn");
       const refreshToken = params.get("refreshToken");
-      console.log("params ", params, "token ", token);
       const data = {
         accessToken: { token, expiresIn },
         refreshToken,
@@ -30,7 +28,6 @@ function GoogleCallback() {
 
       const response = await getStatus();
 
-      console.log(response.data.data);
       const status = response.data.data;
 
       if (status.isComplete) {

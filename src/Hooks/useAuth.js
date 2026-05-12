@@ -52,14 +52,13 @@ export function useAuth({
 
       const response = await onSubmit(formData);
 
-      // console.log("token:  ", response.data.data);
       setTokens(response.data.data);
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
       const message =
         error.response?.data?.data?.error || "Something went wrong";
-      console.log("message", message);
+      console.error("message", message);
       setDialogMessage(message);
       setopenDialog(true);
     } finally {
@@ -78,7 +77,6 @@ export function useAuth({
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
       const message = error.response?.data?.data?.otp || "Something went wrong";
-      console.log("message", message);
       setDialogMessage(message);
       setopenDialog(true);
     }

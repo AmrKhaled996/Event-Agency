@@ -673,7 +673,8 @@
     "organizers": "Organizers",
     "analytics": "Analytics",
     "finance": "Finance",
-    "events": "Events"
+    "events": "Events",
+    "categories": "Categories"
   },
   "actions": {
     "dashboardSummary": "Dashboard Summary",
@@ -696,7 +697,8 @@
     "listEvents": "List Events",
     "getEvent": "Get Event",
     "deleteEvent": "Delete Event",
-    "restoreEvent": "Restore Event"
+    "restoreEvent": "Restore Event",
+    "listCategories": "List Categories"
   },
   "table": {
     "id": "ID",
@@ -746,7 +748,18 @@
     "deleteUser": "Confirm permanent deletion",
     "deleteEvent": "Confirm permanent deletion",
     "processPayouts": "Confirm — process all 14 pending payouts ($18,340)",
-    "restoreEvent": "Confirm restore event"
+    "restoreEvent": "Confirm restore event",
+    "deleteCategory": "I understand, delete this category"
+  },
+  "admin": {
+    "categories": {
+      "noCategories": "No categories yet. Add one above."
+    },
+    "categoryDialog": {
+      "subtitle": "ID: {{id}} · Created {{date}}",
+      "updateSuccess": "✓ Category \"{{name}}\" updated successfully",
+      "deleteWarning": "This will remove {{name}} and its associated image. This action cannot be undone."
+    }
   },
   "dashboardSummary": {
     "users": "Users",

@@ -12,7 +12,6 @@ function DeleteAccountSection() {
   const handleDeleteAccount = async () => {
     try {
       const response = await deleteMyProfile();
-      console.log(response);
       alert(t("profile.settings.deleteAccount.success"));
       navigate("/");
     } catch (error) {

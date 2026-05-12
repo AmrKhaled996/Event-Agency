@@ -24,22 +24,15 @@ function LocationSelection() {
   const navigator = useAppNavigate();
   const submitLocation = async (e) => {
     e.preventDefault();
-    // console.log(Location);
-    //sending data to Backend
+
     try {
       setLoading(true);
-      // console.log(Location);
-      const response = await location({ governorate: Location });
 
-      // console.log(
-      //   "Success:",
-      //   response.data,
-      //   response?.data?.accessToken?.token
-      // );
+      const response = await location({ governorate: Location });
 
       navigator("/onboarding/preference-selection");
     } catch (error) {
-      console.log("error", error);
+      console.error("error", error);
 
       const message = error.response?.data?.message || "Something went wrong";
       setDialogMessage(message);

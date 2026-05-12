@@ -32,21 +32,16 @@ function PersonlityinfoQ() {
 
     try {
       setLoading(true);
-      // console.log(gender)
+
       const response = await basic({
         birthDate: formattedDate,
         gender: gender,
       });
 
-      // console.log(
-      //   "Success:",
-      //   response.data,
-      //   response?.data?.accessToken?.token
-      // );
 
       navigator("/onboarding/location-selection");
     } catch (error) {
-      console.log("error", error);
+      console.error("error", error);
       const message = error.response?.data?.message || "Something went wrong";
       setDialogMessage(message);
       setopenDialog(true);

@@ -32,7 +32,7 @@ function OtherEventsSlider() {
       const response = await personalizedEvents();
       setcards(response.data.data.events);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

@@ -31,7 +31,7 @@ import UnauthorizedPage from "../pages/Unauthorized";
 import OrganizerOverviewPage from "../pages/organizer/dashboard/OrganizerOverview";
 import OrganizerAnalyticsPage from "../pages/organizer/dashboard/OrganizerAnalytics";
 import OrganizerEventsPage from "../pages/organizer/dashboard/OrganizerEvents";
-import OrganizerAttendeeInsightsPage from "../pages/organizer/dashboard/OrganizerAttendeeInsights";
+// import OrganizerAttendeeInsightsPage from "../pages/organizer/dashboard/OrganizerAttendeeInsights";
 import UpdateEvent from "../pages/organizer/updateEvent/UpdateEvent";
 import ConfermNewsletter from "../pages/newsletter/ConfermationNewsletter";
 import AlreadySubscribedNewsletter from "../pages/newsletter/AlreadySubscribedNewsletter";
@@ -54,6 +54,7 @@ import { useTranslation } from "react-i18next";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import LoginPageAdmin from "../pages/Admin/Auth/LoginPage";
 import SignUpPageAdmin from "../pages/Admin/Auth/SignUpPage";
+import OTPVerificationPageOrganizer from "../pages/organizer/upgradeToOrganizer/OTPVerificationPage";
 
 function AppRouter() {
   const { t } = useTranslation();
@@ -191,7 +192,7 @@ function AppRouter() {
               }
             />
 
-            <Route
+            {/* <Route
               path="organizer/dashboard/attendee-insights"
               element={
                 <ProtectedRoutes Roles={["organizer"]}>
@@ -203,7 +204,7 @@ function AppRouter() {
                   </OrganizerDashboard>
                 </ProtectedRoutes>
               }
-            />
+            /> */}
 
 
             {/* CREATE EVENT */}
@@ -263,6 +264,7 @@ function AppRouter() {
             />
 
             <Route path="organizer/upgrade" element={<UpgradePage />} />
+            <Route path="organizer/otp-verification" element={<OTPVerificationPageOrganizer />} />
 
             {/* NEWSLETTER */}
             <Route

@@ -44,13 +44,11 @@ function Card({
       setInterested((prv) => !prv);
       if (interested) {
         const response = await removeFromInterested(id);
-        console.log("action:", response);
       } else {
         const response = await addToInterested(id);
-        console.log("action:", response);
       }
     } catch (error) {
-      console.log(error?.response || error);
+      console.error(error?.response || error);
       setInterested((prv) => !prv);
     }
     e.stopPropagation();

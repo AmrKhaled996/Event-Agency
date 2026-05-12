@@ -11,24 +11,24 @@ import { useTranslation } from "react-i18next";
 function CardDisplaySection({ title, endpoint }) {
   const [cards, setcards] = useState([]);
   const { user } = useUser();
-  // const [loading, setloading] = useState(false);
+  
   const navigate = useAppNavigate();
   const { t } = useTranslation();
 
   const handleEndpoint = async () => {
     try {
-      // setloading(true);
+      
       const response = await endpoint();
       const newcards = response.data.data;
       if (newcards.events.length === 0) {
         setcards(t("common.feedback.noResults"));
         return;
       }
-      console.log(title, "    ", response.data.data.events);
+     
       setcards(newcards.events);
-      // setloading(false);
+      
     } catch (error) {
-      console.log("error", error.response);
+      console.error("error", error.response);
     }
   };
 

@@ -13,7 +13,7 @@ function ConfirmEmail() {
 
       const token = params.get("token");
       const response = await confirmEmail(token);
-      console.log(response);
+
       navigate("/otp-verification");
       window.close();
     } catch (error) {

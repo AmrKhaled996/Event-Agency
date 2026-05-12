@@ -25,10 +25,10 @@ function DisplayUserTickets() {
 
   const handleSortingChange = (method) => {
     setSortedMethod(method);
-    // console.log(method);
+
 
     if (method === "Newest") {
-      tickets.map((tick)=>console.log("tic:",tick, "dates:",tick?.tickets[0]?.date))
+
       const newTickets = [...tickets].sort(
         (a, b) => new Date(b.tickets[0]?.date) - new Date(a.tickets[0]?.date),
       );
@@ -48,7 +48,7 @@ function DisplayUserTickets() {
     try {
       setLoading(true);
       const response = (await getUserTickets()).data.data.tickets;
-      // console.log(response);
+
       const ticketsData = response;
 
       const groupedTickets = Object.values(
@@ -67,14 +67,14 @@ function DisplayUserTickets() {
           return acc;
         }, {}),
       );
-      // console.log("groupedTickets:", groupedTickets);
+
       setTickets(groupedTickets);
     } catch (error) {
       const message =
         error.response?.data?.error || t("tickets.details.fetchError");
       setDialogMessage(message);
       setopenErrorDialog(true);
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }

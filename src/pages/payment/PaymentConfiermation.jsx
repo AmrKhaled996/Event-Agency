@@ -30,15 +30,15 @@ function ConfirmTicketsPage() {
           seatInfo: ticket?.seatInfo || null,
         })),
       };
-      // console.log(payload)
-      // console.log("first ", id);
+
       const response = await checkoutEvent(payload, parseInt(id));
 
-      // console.log(response);
+
       window.location.href = response.data.data.stripeUrl;
     } catch (error) {
-      console.log(error)
-      setDialogMessage(error.response?.data?.message || t("payment.checkout.errorConfirming"));
+      console.error(error)
+      console.error("errrr",error.response?.data.data.message ," ", error?.response?.data?.code)
+      setDialogMessage(error?.response?.data?.code||error.response?.data.data.message || t("payment.checkout.errorConfirming"));
       setopenDialog(true);
       // console.error("Error confirming order:", error);
     } finally {

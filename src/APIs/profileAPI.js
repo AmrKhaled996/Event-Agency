@@ -14,7 +14,6 @@ export async function getMyProfile() {
 }
 export async function updateMyProfile(data) {
   const token = getAccessToken();
-  console.log("changing");
   return axiosInstance.patch(
     `/api/v1/profile`,
     data,

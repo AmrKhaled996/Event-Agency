@@ -62,20 +62,16 @@ function UserRow({ user, t }) {
 
   const handleDelete = async () => {
     try {
-      console.log("before action:");
       const response = await deleteUser(user.id);
       setisDeleted(true);
-      console.log("action:", response.data);
     } catch (error) {
       console.error(error);
     }
   };
   const handleRestore = async () => {
     try {
-      console.log("before action:");
       const response = await restoreUser(user.id);
       setisDeleted(false);
-      console.log("action:", response.data);
     } catch (error) {
       console.error(error);
     }
@@ -157,7 +153,6 @@ function UserRow({ user, t }) {
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDelete();
-                    console.log("DELETE USER", user?.id);
                   }}
                   className="px-4 py-2 text-sm font-semibold rounded border 
                   bg-red-600/80 text-white border-red-400 hover:bg-red-700/80 hover:cursor-pointer transition"
@@ -169,7 +164,6 @@ function UserRow({ user, t }) {
                   onClick={(e) => {
                     e.stopPropagation();
                     handleRestore();
-                    console.log("RESTORE USER", user?.id);
                   }}
                   className="px-4 py-2 text-sm font-semibold rounded border 
                   bg-blue-600/80 text-white border-blue-400 hover:bg-blue-700/80 hover:cursor-pointer transition"
@@ -196,7 +190,6 @@ export default function ListUsersPanel({ data }) {
     try {
       // await adminDashboardauth.refreshtoken();
       const response = await getUsers(page);
-      console.log("data", response.data.data);
       setUsersList(response.data.data.users);
       setpagination(response.data.data.pagination);
     } catch (error) {

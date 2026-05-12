@@ -9,7 +9,6 @@ export async function getStatus() {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    // withCredentials: true, // 🔥 required to receive cookies!
   });
 }
 
@@ -23,7 +22,6 @@ export async function basic({ birthDate, gender }) {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      // withCredentials: true, // 🔥 required to receive cookies!
     },
   );
 }
@@ -38,7 +36,6 @@ export async function preferences({ preferences }) {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      // withCredentials: true, // 🔥 required to receive cookies!
     },
   );
 }
@@ -53,7 +50,7 @@ export async function location({ governorate }) {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      // withCredentials: true, // 🔥 required to receive cookies!
+      
     },
   );
 }

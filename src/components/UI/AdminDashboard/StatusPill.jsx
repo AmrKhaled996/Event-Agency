@@ -30,7 +30,6 @@ export default function StatusPill({ status = "" }) {
   const s = COLORS[key] ?? { bg: "#05ff1630", color: "#4ad080", border: "#16b534" };
   const value = s?.value?.toLowerCase() ?? "active";
   const {t}=useTranslation();
-  console.log("first",value)
 
   return (
     <span

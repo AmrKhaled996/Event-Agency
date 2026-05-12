@@ -17,11 +17,6 @@ function SignUpPage() {
 
   const navigator = useAppNavigate();
 
-  // const handleSubmitedData = (data) => {
-  //   const { userName, Email, Password } = data;
-  //   console.log(userName, Email, Password + "  data:  " + data);
-  //   navigator("/otp-verification");
-  // };
 
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">

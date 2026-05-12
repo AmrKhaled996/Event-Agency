@@ -20,8 +20,8 @@ export function setTokens(data) {
   });
 }
 export const refreshAccessToken = async (data) => {
-  const accessToken = data.data.accessToken;
-  const expiresIn = data.data.expiresIn;
+  const accessToken = data.data.data.accessToken;
+  const expiresIn = data.data.data.expiresIn;
 
   Cookies.remove("accessToken");
   const ref= Cookies.get("refreshToken");
@@ -51,8 +51,8 @@ export function getAccessToken() {
 }
 
 export function getRefreshToken() {
+  const token=getAccessToken();
   const ref=Cookies.get("refreshToken");
-  console.log("ref",ref)
   return ref
 }
 

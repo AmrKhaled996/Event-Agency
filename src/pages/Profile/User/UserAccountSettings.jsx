@@ -17,7 +17,7 @@ function UserAccountSettings() {
   const location = useLocation();
   const [authProvider, setAuthProvider] = useState("");
   const { accountData } = location.state || {};
-  // console.log(accountData)
+
 
   const [availablePreferences, setAvailablePreferences] = useState([]);
 
@@ -31,25 +31,21 @@ function UserAccountSettings() {
     try {
       const userpreferences = (await getPreferences()).data.data.preferences;
       setPreferences(userpreferences);
-      console.log(userpreferences);
       const notuserpreferences = categories.filter(
         (cat) => !userpreferences.some((pref) => pref.id === cat.id),
       );
-      console.log("not ", notuserpreferences);
       setAvailablePreferences(notuserpreferences);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   useEffect(() => {
     setAuthProvider(accountData?.authProvider);
-    // console.log(authProvider)
     try {
       if (categories.length === 0) return;
       handleGetUserPreferences();
     } catch (error) {
-      console.log(error);
     }
   }, [categories, accountData]);
   return (
