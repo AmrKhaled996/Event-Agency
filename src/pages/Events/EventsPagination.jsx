@@ -9,7 +9,7 @@ import {
   newEventsThisWeek,
   pastEvents,
   personalizedEvents,
-} from "../../APIs/eventsPagenation";
+} from "../../APIs/eventsPagination";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import useAppNavigate from "../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";

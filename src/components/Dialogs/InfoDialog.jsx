@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 import Dialog from "../UI/Dialog";
 
 export default function InfoDialog({ open, onClose, data, labels }) {
-  if (!data) return null;
   const {t} = useTranslation();
+  if (!data) return null;
   return (
     <Dialog open={open} onClose={onClose}>
       

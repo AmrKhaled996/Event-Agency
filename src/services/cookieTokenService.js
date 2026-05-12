@@ -1,49 +1,67 @@
 import Cookies from "js-cookie";
 
+/**
+ * Sets initial tokens after login or signup.
+ * @param {Object} data - The response data containing accessToken and refreshToken.
+ */
 export function setTokens(data) {
-  const accessToken = data.accessToken.token;
-  const expiresIn = data.accessToken.expiresIn;
+  // Defensive extraction based on observed structures
+  const accessToken = data.accessToken?.token || data.accessToken;
+  const expiresIn = data.accessToken?.expiresIn || data.expiresIn || 3600;
   const refreshToken = data.refreshToken;
 
   const expires = expiresIn / 86400; // convert seconds → days
 
   Cookies.set("accessToken", accessToken, {
     expires,
-    secure: false,
+    secure: true,
     sameSite: "strict",
   });
 
-  Cookies.set("refreshToken", refreshToken, {
-    expires: 7,
-    secure: false,
-    sameSite: "strict",
-  });
+  if (refreshToken) {
+    Cookies.set("refreshToken", refreshToken, {
+      expires: 7,
+      secure: true,
+      sameSite: "strict",
+    });
+  }
 }
+
+/**
+ * Refreshes the access token for regular users.
+ * @param {Object} data - The API response data.
+ */
 export const refreshAccessToken = async (data) => {
-  const accessToken = data.data.data.accessToken;
-  const expiresIn = data.data.data.expiresIn;
+  // Handle various nested structures observed in the codebase
+  const tokenData = data.data?.data || data.data || data;
+  const accessToken = tokenData.accessToken;
+  const expiresIn = tokenData.expiresIn || 3600;
 
-  Cookies.remove("accessToken");
-  const ref= Cookies.get("refreshToken");
-  
-  Cookies.set("accessToken", accessToken, {
-    expires: expiresIn / 86400,
-    secure: true,
-    sameSite: "strict",
-  });
+  if (accessToken) {
+    Cookies.set("accessToken", accessToken, {
+      expires: expiresIn / 86400,
+      secure: true,
+      sameSite: "strict",
+    });
+  }
 };
-export const adminRefreshAccessToken = async (data) => {
-  const accessToken = data.data.accessToken.token
-  const expiresIn = data.data.accessToken.expiresIn;
 
-  Cookies.remove("accessToken");
-  const ref= Cookies.get("refreshToken");
-  
-  Cookies.set("accessToken", accessToken, {
-    expires: expiresIn / 86400,
-    secure: true,
-    sameSite: "strict",
-  });
+/**
+ * Refreshes the access token for admin users.
+ * @param {Object} data - The API response data.
+ */
+export const adminRefreshAccessToken = async (data) => {
+  const tokenData = data.data || data;
+  const accessToken = tokenData.accessToken?.token || tokenData.accessToken;
+  const expiresIn = tokenData.accessToken?.expiresIn || tokenData.expiresIn || 3600;
+
+  if (accessToken) {
+    Cookies.set("accessToken", accessToken, {
+      expires: expiresIn / 86400,
+      secure: true,
+      sameSite: "strict",
+    });
+  }
 };
 
 export function getAccessToken() {
@@ -51,9 +69,7 @@ export function getAccessToken() {
 }
 
 export function getRefreshToken() {
-  const token=getAccessToken();
-  const ref=Cookies.get("refreshToken");
-  return ref
+  return Cookies.get("refreshToken");
 }
 
 export function removeTokens() {

@@ -47,7 +47,7 @@ import { getAccessToken } from "../../services/cookieTokenService";
 import { Title } from "react-head";
 
 const RESERVATION_DURATION = 10 * 60 * 1000;
-const SOCKET_SERVER_URL = "http://localhost:3000";
+const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:3000";
 const RESERVATION_STORAGE_PREFIX = "event-seat-reservation";
 
 export default function EventPage({ organizer, eventinfo, review = false }) {
@@ -325,10 +325,12 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   useEffect(() => {
     if (!event?.id || !event?.hasSeatMap) return;
 
-    const socket = io(SOCKET_SERVER_URL,{
-  auth: {
-    token: token
-  }});
+    const currentToken = getAccessToken();
+    const socket = io(SOCKET_SERVER_URL, {
+      auth: {
+        token: currentToken
+      }
+    });
     socket.on("connect", () => {
       socket.emit("join-event", event.id);
       loadAvailability(event.id, seatsRef.current);

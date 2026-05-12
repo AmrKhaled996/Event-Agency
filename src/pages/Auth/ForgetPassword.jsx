@@ -7,6 +7,7 @@ import Loading from "../../components/Layout/LoadingLayout";
 import LocalLink from "../../Router/LocalLink";
 import { useTranslation } from "react-i18next";
 import { Title } from "react-head";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function ForgetPassword() {
   const [email, setemail] = useState("");
@@ -18,7 +19,7 @@ function ForgetPassword() {
   const [loading, setloading] = useState(false);
     const {t} =useTranslation();
   const closeDialog = () => {
-    setShowDialog(false);
+    setopenDialog(false);
     setDialogMessage("");
   };
   const navigator = useAppNavigate();
