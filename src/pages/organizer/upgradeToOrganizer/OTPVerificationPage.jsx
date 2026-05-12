@@ -104,8 +104,8 @@ function OTPVerificationPageOrganizer() {
         />
 
         {/* Timer */}
-        <div className="text-3xl font-bold mb-6">
-          {minutes} : {seconds}
+        <div className={`flex text-3xl font-bold mb-6 flex-row-reverse`}>
+         {(minutes +":" +seconds)}
         </div>
 
         {/* Resend */}

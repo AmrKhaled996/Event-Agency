@@ -851,7 +851,7 @@
     "status": {
       "deleted": "محذوف",
       "active": "نشط",
-      "approved": "مقبول",
+      "approve": "مقبول",
       "reactivated": "تمت إعادة التفعيل",
       "published": "منشور",
       "inactive": "غير نشط",
