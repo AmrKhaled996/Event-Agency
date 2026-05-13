@@ -5,6 +5,7 @@ import { resendOtps, logout } from "../APIs/authAPIs";
 import { useUser } from "../Context/AuthProvider";
 import useAppNavigate from "../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
+import { handleError } from "../utils/errorHandler";
 
 export function useAuth({
   initialValues = {},
@@ -25,7 +26,7 @@ export function useAuth({
   // const [dialogMessage, setDialogMessage] = useState("");
   const navigate = useAppNavigate();
   const [loading, setLoading] = useState(false);
-  const {t}=useTranslation();
+  const { t } = useTranslation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +42,7 @@ export function useAuth({
 
     const formData = Object.fromEntries(new FormData(e.target).entries());
 
-    const validationErr = validator(formData,t);
+    const validationErr = validator(formData, t);
 
     setErrors(validationErr);
 
@@ -50,47 +51,58 @@ export function useAuth({
     try {
       setLoading(true);
 
-      const response = await onSubmit(formData);
+      // Pass _silentError: true to prevent global interceptor toast
+      const response = await onSubmit(formData, { _silentError: true });
 
       setTokens(response.data.data);
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
-      const message =
-        error.response?.data?.data?.error || "Something went wrong";
-      console.error("message", message);
-      setDialogMessage(message);
-      setopenDialog(true);
+      // Use global handler but siliently (no toast) to use the dialog instead
+      const message = handleError(error, { 
+        silent: true,
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
+      console.error("Auth submit error:", message);
     } finally {
       setLoading(false);
     }
   };
   const submitOTP = async (otp) => {
-    const validationErr = validator(otp,t);
+    const validationErr = validator(otp, t);
 
     setErrors(validationErr);
 
     // if (Object.keys(validationErr).length > 0) return;
     try {
-      const response = await onSubmit(otp);
+      const response = await onSubmit(otp, { _silentError: true });
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
-      const message = error.response?.data?.data?.otp || "Something went wrong";
-      setDialogMessage(message);
-      setopenDialog(true);
+      handleError(error, { 
+        silent: true,
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
     }
   };
 
   const resendOtp = async () => {
     try {
-      const response = await resendOtps();
+      await resendOtps({ _silentError: true });
     } catch (error) {
-      const message =
-        error.response?.data?.data?.error ||
-        "Something went wrong resending OTP";
-      setDialogMessage(message);
-      setopenDialog(true);
+      handleError(error, { 
+        silent: true,
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
     }
   };
 

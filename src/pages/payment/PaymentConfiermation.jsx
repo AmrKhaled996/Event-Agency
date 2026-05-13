@@ -6,9 +6,12 @@ import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Title } from "react-head";
+import { handleError } from "../../utils/errorHandler";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function ConfirmTicketsPage() {
   const { t } = useTranslation();
+  const navigate = useAppNavigate();
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setloading] = useState(false);
@@ -31,16 +34,22 @@ function ConfirmTicketsPage() {
         })),
       };
 
-      const response = await checkoutEvent(payload, parseInt(id));
+      const response = await checkoutEvent(payload, parseInt(id), { _silentError: true });
 
-
-      window.location.href = response.data.data.stripeUrl;
+      const stripeUrl = response?.data?.data?.stripeUrl;
+      if (stripeUrl) {
+        window.location.href = stripeUrl;
+      } else {
+        navigate("/payment/success");
+      }
     } catch (error) {
-      console.error(error)
-      console.error("errrr",error.response?.data.data.message ," ", error?.response?.data?.code)
-      setDialogMessage(error?.response?.data?.code||error.response?.data.data.message || t("payment.checkout.errorConfirming"));
-      setopenDialog(true);
-      // console.error("Error confirming order:", error);
+      handleError(error, {
+        silent: true,
+        onMapped: (message) => {
+          setDialogMessage(message);
+          setopenDialog(true);
+        }
+      });
     } finally {
       setloading(false);
     }

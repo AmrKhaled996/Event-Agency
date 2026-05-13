@@ -4,10 +4,20 @@ import {
   getAccessToken,
   getRefreshToken,
   refreshAccessToken,
+  removeTokens,
 } from "../services/cookieTokenService";
+import { handleError } from "../utils/errorHandler";
+
+const baseURL = import.meta.env.VITE_API_URL || "";
+
+// Custom event to signal forced logout to AuthProvider
+const triggerForcedLogout = () => {
+  removeTokens();
+  window.dispatchEvent(new CustomEvent("auth:forced-logout"));
+};
 
 export const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "",
+  baseURL: baseURL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -23,7 +33,7 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 axiosInstance.interceptors.response.use(
@@ -40,24 +50,25 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = getRefreshToken();
-        const token = getAccessToken();
+        const refreshTokenValue = getRefreshToken();
+        if (!refreshTokenValue) {
+          triggerForcedLogout();
+          return Promise.reject(error);
+        }
+
         const response = await axios.post(
-          `/api/v1/auth/refresh-token`,
-          { refreshToken },
+          `${baseURL}/api/v1/auth/refresh-token`,
+          { refreshToken: refreshTokenValue },
           {
             headers: {
-              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
             withCredentials: true,
           },
         );
-        
-        // Pass the response data to refreshAccessToken
+
         await refreshAccessToken(response.data);
 
-        // Update the original request header with new token
         const newToken = getAccessToken();
         if (newToken) {
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
@@ -65,17 +76,23 @@ axiosInstance.interceptors.response.use(
 
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        console.error("Refresh token failed", refreshError);
+        console.error("Refresh token failed, logging out...", refreshError);
+        triggerForcedLogout();
         return Promise.reject(refreshError);
       }
+    }
+
+    if (!originalRequest._silentError) {
+      handleError(error, { silent: false });
     }
 
     return Promise.reject(error);
   },
 );
 
+
 export const adminAxiosInstance = axios.create({
-  baseURL: "", 
+  baseURL: baseURL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -91,7 +108,7 @@ adminAxiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 adminAxiosInstance.interceptors.response.use(
@@ -108,31 +125,39 @@ adminAxiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = getRefreshToken();
-        const token = getAccessToken();
+        const refreshTokenValue = getRefreshToken();
+        if (!refreshTokenValue) {
+          triggerForcedLogout();
+          return Promise.reject(error);
+        }
+
         const response = await axios.post(
-          `/api/v1/admin/auth/refresh`,
-          { refreshToken },
+          `${baseURL}/api/v1/admin/auth/refresh`,
+          { refreshToken: refreshTokenValue },
           {
             headers: {
-              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           },
         );
-        
+
         await adminRefreshAccessToken(response.data);
 
         const newToken = getAccessToken();
         if (newToken) {
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
         }
-        
+
         return adminAxiosInstance(originalRequest);
       } catch (refreshError) {
-        console.error("Refresh token failed", refreshError);
+        console.error("Admin refresh token failed, logging out...", refreshError);
+        triggerForcedLogout();
         return Promise.reject(refreshError);
       }
+    }
+
+    if (!originalRequest._silentError) {
+      handleError(error, { silent: false });
     }
 
     return Promise.reject(error);

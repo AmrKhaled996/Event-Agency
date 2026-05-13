@@ -10,7 +10,7 @@ import Loading from "../../../components/Layout/LoadingLayout";
 import useAppNavigate from "../../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 import CancelDialog from "../../../components/Dialogs/CancelDialog";
-
+import { handleError } from "../../../utils/errorHandler";
 
 export default function OrganizerEventsPage() {
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ export default function OrganizerEventsPage() {
   const [cancelDialogOpen, setcancelDialogOpen] = useState(false);
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
-  const [events, setEvents] = useState({});
+  const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const [openDialog, setopenDialog] = useState(false);
@@ -30,52 +30,53 @@ export default function OrganizerEventsPage() {
 
   const handleDelete = async () => {
     try {
-      // Call API to delete event
       const eventId = selectedEvent.id;
-
-      const response = await deleteEvent(eventId);
+      await deleteEvent(eventId, { _silentError: true });
 
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.id !== eventId),
       );
       setDeleteDialogOpen(false);
     } catch (error) {
-       const message = error.response?.data?.data[0]?.message || t("common.feedback.error");
-      setDialogMessage(message);
-      setopenDialog(true);
+      handleError(error, {
+        silent: true,
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
     }
   };
   const handleCancel = async () => {
     try {
-      // Call API to cancel event
       const eventId = selectedEvent.id;
-
-      const response = await cancelEvent(eventId);
+      await cancelEvent(eventId, { _silentError: true });
 
       setEvents((prevEvents) =>
-        prevEvents.filter((event) => event.id !== eventId),
+        prevEvents.map((event) => 
+          event.id === eventId ? { ...event, status: "Canceled" } : event
+        ),
       );
       setcancelDialogOpen(false);
     } catch (error) {
-       const message = error.response?.data?.data[0]?.message || t("common.feedback.error");
-      setDialogMessage(message);
-      setopenDialog(true);
+      handleError(error, {
+        silent: true,
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
     }
   };
 
   const handleUpdate = () => {
-    // Implement update logic here
     try {
       const eventId = selectedEvent.id;
-      // Call API to update event details
-
       navigate(`/organizer/update-event?id=${eventId}`, {
         state: { event: selectedEvent, id: eventId },
       });
     } catch (error) {
-       const message = error.response?.data?.data[0]?.message || t("common.feedback.error");
-      setDialogMessage(message);
-      setopenDialog(true);
+      handleError(error);
     } finally {
       setUpdateDialogOpen(false);
     }
@@ -83,12 +84,16 @@ export default function OrganizerEventsPage() {
   const getEvents = async () => {
     try {
       setloading(true);
-      const response = await getAllEvents();
-      setEvents(response.data.data.result);
+      const response = await getAllEvents({ _silentError: true });
+      setEvents(response.data.data.result || []);
     } catch (error) {
-      const message = error.response?.data?.data[0]?.message || t("common.feedback.error");
-      setDialogMessage(message);
-      setopenDialog(true);
+      handleError(error, {
+        silent: true,
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
     } finally {
       setloading(false);
     }

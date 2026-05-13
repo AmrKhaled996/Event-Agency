@@ -14,6 +14,7 @@ import LocalLink from "../../Router/LocalLink";
 import useAppNavigate from "../../Router/useAppNavigate";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { handleError } from "../../utils/errorHandler";
 
 function LoginPage() {
   const navigate = useAppNavigate();
@@ -42,7 +43,12 @@ function LoginPage() {
 
       window.location.href = googleAuthUrl;
     } catch (error) {
-      console.error(error.response?.data || "something go wrong");
+      handleError(error, {
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
     }
   };
   return (

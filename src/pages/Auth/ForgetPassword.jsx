@@ -1,4 +1,4 @@
-import { Mail, X, XCircle } from "lucide-react";
+import { Mail, XCircle } from "lucide-react";
 import { useState } from "react";
 import { validateForgetPassword } from "../../utils/FormVaildators";
 import { frogetPassword } from "../../APIs/authAPIs";
@@ -8,20 +8,21 @@ import LocalLink from "../../Router/LocalLink";
 import { useTranslation } from "react-i18next";
 import { Title } from "react-head";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { mapApiError } from "../../utils/apiErrorMapper";
 
 function ForgetPassword() {
   const [email, setemail] = useState("");
   const [error, setError] = useState({});
-  // const [showDialog, setShowDialog] = useState(false);
-  // const [dialogMessage, setDialogMessage] = useState("");
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setloading] = useState(false);
-    const {t} =useTranslation();
+  const { t } = useTranslation();
+  
   const closeDialog = () => {
     setopenDialog(false);
     setDialogMessage("");
   };
+  
   const navigator = useAppNavigate();
 
   const submit = async (e) => {
@@ -34,17 +35,17 @@ function ForgetPassword() {
 
     try {
       setloading(true);
-      const response = await frogetPassword(email);
-
+      await frogetPassword(email);
       navigator("/forget-password/back");
     } catch (err) {
-      const message = error.response?.data?.message || "Something went wrong";
+      const message = mapApiError(err);
       setDialogMessage(message);
       setopenDialog(true);
     } finally {
       setloading(false);
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen ">
       <Title>{t("auth.forgetPassword.title")}</Title>
@@ -118,20 +119,6 @@ function ForgetPassword() {
           </div>
         </div>
       </div>
-      {/* {showDialog && (
-        <div className="fixed inset-0 bg-white/40 flex items-center justify-center z-50">
-          <div className="bg-white  rounded-lg shadow-lg p-6 w-120 h-50 max-w-sm flex flex-col justify-center items-center ">
-            <p className="text-gray-800 text-xl">{dialogMessage}</p>
-
-            <button
-              onClick={closeDialog}
-              className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 px-4 rounded-md transition mt-10"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )} */}
 
       {openDialog && (
         <ErrorDialog

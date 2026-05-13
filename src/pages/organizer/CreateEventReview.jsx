@@ -11,6 +11,7 @@ import LocalLink from "../../Router/LocalLink";
 import useAppNavigate from "../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 import { Title } from "react-head";
+import { mapApiError } from "../../utils/apiErrorMapper";
 
 function CreateEventReview() {
   const { t } = useTranslation();
@@ -103,7 +104,7 @@ function CreateEventReview() {
       alert(t("organizer.createEvent.createSuccess"));
       navigate(`/organizer/dashboard/overview`);
     } catch (error) {
-      const message = error.response?.data?.message || t("common.feedback.error");
+      const message = mapApiError(error);
       setDialogMessage(message);
       setopenDialog(true);
     } finally {

@@ -9,6 +9,7 @@ import { getGoogleAuth, signup } from "../../APIs/authAPIs";
 import Loading from "./LoadingLayout";
 import ErrorDialog from "../Dialogs/ErrorDialog";
 import { useTranslation } from "react-i18next";
+import { handleError } from "../../utils/errorHandler";
 
 function SignUpFormAttendeeUser({ loadingpage }) {
   const [openDialog, setopenDialog] = useState(false);
@@ -49,7 +50,13 @@ function SignUpFormAttendeeUser({ loadingpage }) {
       window.location.href = googleAuthUrl;
       loadingpage(false);
     } catch (error) {
-      console.error(error.response.data || "something go wrong");
+      handleError(error, {
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
+      loadingpage(false);
     }
   };
   return (

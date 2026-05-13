@@ -47,6 +47,19 @@ export function AuthProvider({ children }) {
     }
   }, [syncUserFromToken]);
 
+  // Listen for forced logout events from axios interceptors
+  useEffect(() => {
+    const handleForcedLogout = () => {
+      console.warn("Forced logout triggered");
+      setUser(null);
+      // We don't need to call removeTokens() here as triggerForcedLogout in axiosInstance already did it,
+      // but it doesn't hurt to be safe.
+    };
+
+    window.addEventListener("auth:forced-logout", handleForcedLogout);
+    return () => window.removeEventListener("auth:forced-logout", handleForcedLogout);
+  }, []);
+
   // Proactive token refresh interval (every 14 minutes)
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -61,9 +74,10 @@ export function AuthProvider({ children }) {
       } catch (error) {
         console.error("Proactive refresh failed:", error);
         if (error.response?.status === 401 || error.response?.status === 403) {
-          // If refresh fails due to invalid/expired refresh token, we should probably logout
-          // setUser(null);
-          // removeTokens();
+          // If refresh fails due to invalid/expired refresh token, we logout
+          setUser(null);
+          // removeTokens() is called by the axios interceptor if the API call triggers it,
+          // but we ensure consistency here.
         }
       }
     }, 14 * 60 * 1000);

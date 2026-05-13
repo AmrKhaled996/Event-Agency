@@ -45,6 +45,7 @@ import { TagsList } from "../../components/UI/Tagslist";
 import { useTranslation } from "react-i18next";
 import { getAccessToken } from "../../services/cookieTokenService";
 import { Title } from "react-head";
+import { handleError } from "../../utils/errorHandler";
 
 const RESERVATION_DURATION = 10 * 60 * 1000;
 const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:8000";
@@ -149,18 +150,26 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
 
   const handleInterested = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      toast.error(t("apiErrors.UNAUTHORIZED"));
+      return;
+    }
+
     try {
-      setisInterested((prv) => !prv);
+      const targetState = !isInterested;
+      setisInterested(targetState);
+      
       if (isInterested) {
-        const response = await removeFromInterested(event.id);
+        await removeFromInterested(event.id, { _silentError: true });
       } else {
-        const response = await addToInterested(event.id);
+        await addToInterested(event.id, { _silentError: true });
       }
     } catch (error) {
-      console.error(error?.response || error);
       setisInterested((prv) => !prv);
+      handleError(error);
     }
-    e.stopPropagation();
   };
 
   const [seats, setSeats] = useState([]);
@@ -236,7 +245,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
       if (!eventId) return;
 
       try {
-        const availabilityResponse = await getEventAvailability(eventId);
+        const availabilityResponse = await getEventAvailability(eventId, { _silentError: true });
         const availability = availabilityResponse.data?.data?.availability;
         if (!availability?.seats) return;
 
@@ -429,22 +438,9 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
     try {
       isReservingRef.current = true;
       setIsReserving(true);
-      try {
-        await reserveEventSeats(event.id, tickets);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          const message =
-            error.response?.data?.message ||
-            "Failed to reserve selected seats you are banned";
-          // TODO: show error dialog
-          console.error(message);
-          setopenDialog(true);
-          setDialogMessage(message);
-          throw new Error(message);
-        }
-
-        throw error;
-      }
+      
+      await reserveEventSeats(event.id, tickets, { _silentError: true });
+      
       const localExpiry = Date.now() + RESERVATION_DURATION;
       setReservationExpiry(localExpiry);
       setSelectedSeats(
@@ -453,11 +449,13 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
       setShowReservationDialog(true);
       saveStoredReservation(event.id, localExpiry, uniqueSelectedSeats);
     } catch (error) {
-      const message =
-        error.response?.data?.data?.message ||
-        error.response?.data?.message ||
-        "Failed to reserve selected seats";
-      toast.error(message);
+      handleError(error, {
+        silent: true,
+        onMapped: (message) => {
+          setDialogMessage(message);
+          setopenDialog(true);
+        }
+      });
       await loadAvailability(event.id, seatsRef.current);
     } finally {
       isReservingRef.current = false;
@@ -503,8 +501,8 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
     const tickets = selectedSnapshot.map((seat) => {
       const tier = priceTiers.find((t) => t.id === seat.tierId);
       return {
-        name: `Row ${String.fromCharCode(65 + seat.row)}, Seat ${seat.number + 1} (${tier?.name || "General"})`,
-        price: tier?.price || 0,
+        name: tier?.name,
+        price: parseFloat(tier?.price) || 0,
         count: 1,
         seatInfo: {
           row: seat.row,
@@ -608,7 +606,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
 
           {dateFormat.length > 0 ? (
             dateFormat.map((dateItem, index) => (
-              <div key={index} className="mb-4 space-y-2">
+              <div key={`event-session-date-${index}`} className="mb-4 space-y-2">
                 {/* Date */}
                 <p className="flex gap-4 items-center">
                   <Calendar />
@@ -721,7 +719,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
                         <>
                           {priceTiers.map((tier) => (
                             <div
-                              key={tier.id}
+                              key={`tier-legend-${tier.id || tier.name}`}
                               className="flex items-center gap-3"
                             >
                               <div
@@ -1030,7 +1028,9 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
           <div className="flex items-center gap-3">
             <img src="/images/Charity.jpg" className="w-12 h-12 rounded-full" />
             <div>
-              <p className="font-semibold">City Youth Movement{organizer}</p>
+              <p className="font-semibold">
+                {event.organizer?.name || organizer?.name || (typeof organizer === 'string' ? organizer : "") || "Fa3liat Organizer"}
+              </p>
               <div className="flex gap-2 mt-1">
                 <button className="border px-2 py-1 rounded cursor-pointer">
                   {t("events.details.contact")}

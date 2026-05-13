@@ -29,7 +29,7 @@ function SignUpPage() {
       <div
         className="w-full lg:w-[40%]  text-white flex flex-col justify-start gap-2.5 items-center lg:items-start lg:p-10 p-3 "
         style={{
-          background: ` linear-gradient(to bottom, #BB52E0 20%, rgba(0,0,0,0.36)) , url('/public/images/login.jpg')`,
+          background: ` linear-gradient(to bottom, #BB52E0 20%, rgba(0,0,0,0.36)) , url('/images/login.jpg')`,
           backgroundSize: `cover`,
         }}
       >

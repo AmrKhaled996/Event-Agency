@@ -2,8 +2,10 @@ import { useState } from "react";
 import { fields } from "../constants/upgradeConfig";
 import { validateFields } from "../utils/UpgradeValidation";
 import { becomeOrganizer } from "../APIs/userAPIs";
+import { refreshToken } from "../APIs/authAPIs";
 import useAppNavigate from "../Router/useAppNavigate";
 import { refreshAccessToken } from "../services/cookieTokenService";
+import { handleError } from "../utils/errorHandler";
 
 /**
  * useUpgradeForm
@@ -25,7 +27,7 @@ export function useUpgradeForm() {
   const [errors, setErrors]               = useState({});
   const [socialErrors, setSocialErrors]   = useState({});
   const [submitted, setSubmitted]         = useState(false);
-    const [openDialog, setopenDialog] = useState(false);
+  const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigator = useAppNavigate();
@@ -87,7 +89,7 @@ export function useUpgradeForm() {
     if (Object.keys(newErrors).length === 0 && Object.keys(socialErrors).length === 0) {
       try {
         const fd= new FormData();
-        fd.append('type',selected)
+        fd.append('type',selected.toUpperCase())
         fd.append('cityId',1)
         fd.append('countryId',1)
         fd.append('stateId',1)
@@ -106,20 +108,23 @@ export function useUpgradeForm() {
           fd.append(key, socialData[selected][key]);
         }
 
-        // console.log("Submitted form data:", formData);
-        // console.log("Submitted file data:", fileData);
-        // console.log("Submitted social data:", socialData);
         setLoading(true);
-        const response = await becomeOrganizer(fd);
-        const token = await refreshToken()
-        refreshAccessToken(token.data)
-        navigator("/organizer/otp-verification") 
+        const response = await becomeOrganizer(fd, { _silentError: true });
+        
+        const token = await refreshToken();
+        refreshAccessToken(token.data);
+        
         setSubmitted(true);
+        navigator("/organizer/otp-verification");
 
       } catch (error) {
-        setopenDialog(true);
-        setDialogMessage(error?.response?.data?.data?.dialogMessage||"Something went wrong");
-        console.error("Error submitting form:", error);
+        handleError(error, {
+          silent: true,
+          onMapped: (msg) => {
+            setDialogMessage(msg);
+            setopenDialog(true);
+          }
+        });
       }
       finally {
         setLoading(false);
@@ -129,7 +134,7 @@ export function useUpgradeForm() {
 
   const handleReset = () => {
     setSubmitted(false);
-    setSelected("hobbies");
+    setSelected("hobbyist");
     setFormData({});
     setFileData({});
     setSocialData({});
