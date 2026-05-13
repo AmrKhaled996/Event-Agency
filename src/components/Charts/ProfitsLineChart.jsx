@@ -1,5 +1,5 @@
 import{Chart as ChartJS} from'chart.js/auto';
-import { point } from 'leaflet';
+
 import { Weight } from 'lucide-react';
 
 import{Line} from'react-chartjs-2';

@@ -16,13 +16,12 @@ function ForgetPassword() {
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setloading] = useState(false);
-  const { t } = useTranslation();
-  
-  const closeDialog = () => {
-    setopenDialog(false);
-    setDialogMessage("");
-  };
-  
+    const { t } = useTranslation();
+
+  // const closeDialog = () => {
+  //   setopenDialog(false);
+  //   setDialogMessage("");
+  // };
   const navigator = useAppNavigate();
 
   const submit = async (e) => {
@@ -35,7 +34,8 @@ function ForgetPassword() {
 
     try {
       setloading(true);
-      await frogetPassword(email);
+       await frogetPassword(email);
+
       navigator("/forget-password/back");
     } catch (err) {
       const message = mapApiError(err);

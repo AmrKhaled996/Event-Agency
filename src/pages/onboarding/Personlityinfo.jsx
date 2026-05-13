@@ -33,7 +33,7 @@ function PersonlityinfoQ() {
     try {
       setLoading(true);
 
-      const response = await basic({
+       await basic({
         birthDate: formattedDate,
         gender: gender,
       });

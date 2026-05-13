@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import Card from "../UI/Card";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
-  latestEvents,
-  nearbyEvents,
   personalizedEvents,
 } from "../../APIs/homeApis";
 import { useLocation, useParams } from "react-router-dom";

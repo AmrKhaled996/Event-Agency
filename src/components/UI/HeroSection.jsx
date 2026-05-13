@@ -3,7 +3,7 @@ import {locationOptions, locationOptionsAr} from "../../utils/LocationOptions";
 import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import ErrorDialog from "../Dialogs/ErrorDialog";
-import { toast } from "sonner";
+
 import useAppNavigate from "../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +19,7 @@ export default function HeroSection() {
   const {t}=useTranslation();
   const navigate = useAppNavigate();
 
+
   const handleSearch = () => {
     // setSearchValue(searchVal); // to sent in api reques
     const params = new URLSearchParams(searchPramas);
@@ -33,19 +34,16 @@ export default function HeroSection() {
     }
     if (location) params.set("location", location);
 
-    // if (!location || !trimmed) {
-    //   toast.error(t("ui.hero.searchError"), {
-    //     duration: 3000,
-    //   });
-      // setopenDialog(true);
-      // setDialogMessage(t("ui.hero.searchError"));
-      // return;
-    // } else {
+    if (!trimmed) {
+      setopenDialog(true);
+      setDialogMessage(t("ui.hero.searchError"));
+      return;
+    } else {
       setSearchPramas(params);
       navigate(
         `/search-events${params.toString() ? `?${params.toString()}` : ""}`,
       );
-    // }
+    }
   };
 
   return (

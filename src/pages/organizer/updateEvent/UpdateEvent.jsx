@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import { ArrowLeft, Plus } from "lucide-react";
 import { getEvents } from "../../../APIs/eventApis";
 import { Title } from "react-head";
-import { useEventForm } from "../../../Context/EventPovider";
 import { useCategories } from "../../../Context/CategoriesProvider";
 import CreateEventProgressBar from "../../../components/UI/CreateEventProgressBar";
 import SessionForm from "../../../components/Layout/CreateEventSessionForm";
@@ -147,11 +146,10 @@ export default function UpdateEvent() {
         fd.append(`tickets[${i}][quantity]`, event?.ticketTypes[i].quantity);
       }
 
-      // Debug: Show form data
-      for (let pair of fd.entries()) {
-      }
+
+
       setloading(true);
-      const response = await updateEvent(fd, eventData.id);
+       await updateEvent(fd, eventData.id);
 
       navigate("/organizer/dashboard/overview");
     } catch (error) {

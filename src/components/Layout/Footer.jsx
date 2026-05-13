@@ -60,7 +60,7 @@ export default function Footer() {
     }
     try {
       setloading(true);
-      const response = await subscribeToNewsletter(
+     await subscribeToNewsletter(
         newsletterEmail,
         newsLetterLanguage,
       );

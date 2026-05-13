@@ -61,7 +61,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   const [isInterested, setisInterested] = useState(
     event?.isInterested || false,
   );
-  const token=getAccessToken();
+
   const navigate = useAppNavigate();
   const { t } = useTranslation();
   const { user } = useUser();

@@ -7,20 +7,20 @@ import CreateEventHomePageSection from "../components/Layout/CreateEventHomePage
 import { Title } from "react-head";
 import {
   categories,
-  latestEvents,
+  // latestEvents,
   nearbyEvents,
   newEventsThisWeek,
   pastEvents,
   personalizedEvents,
 } from "../APIs/homeApis";
 import Loading from "../components/Layout/LoadingLayout";
-import { useState } from "react";
+
 import HomeHeader from "../components/Layout/HomeHeader";
 import { useTranslation } from "react-i18next";
 
 function HomePage() {
   // const {user} = useAuth();
-  const [loading, setloading] = useState(false);
+
   const { t } = useTranslation();
 
   return (
@@ -47,7 +47,7 @@ function HomePage() {
       />
       <CreateEventHomePageSection />
       <Footer />
-      {loading && <Loading />}
+
     </>
   );
 }

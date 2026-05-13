@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import { getOrderStatus } from "../../APIs/orderApis";
 import { checkoutEvent } from "../../APIs/eventApis";
 import Loading from "../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";

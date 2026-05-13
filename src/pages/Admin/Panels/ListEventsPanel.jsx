@@ -48,7 +48,7 @@ const fmtDate = (d) =>
       })
     : "—";
 
-  const [isDeleted, setisDeleted] = useState(!!event?.deletedAt);
+  const [isDeleted, setisDeleted] = (!!event?.deletedAt);
 
   const handleConfirm = async() => {
     if (!confirm) return;
@@ -83,7 +83,8 @@ const fmtDate = (d) =>
 
     const handleDelete=async()=>{
       try {
-        const response = await deleteEvent(event.id);
+         await deleteEvent(event.id);
+        setisDeleted(true);
       } catch (error) {
         console.error(error)
       }
@@ -91,7 +92,7 @@ const fmtDate = (d) =>
 
       const handleRestore=async()=>{
         try {
-          const response = await restoreEvent(event.id);
+           await restoreEvent(event.id);
         } catch (error) {
           console.error(error)
         }

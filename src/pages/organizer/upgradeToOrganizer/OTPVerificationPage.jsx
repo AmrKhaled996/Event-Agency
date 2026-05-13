@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Title } from "react-head";
-import { useLocation } from "react-router-dom";
 
 import { useAuth } from "../../../Hooks/useAuth";
 import { validateOTP } from "../../../utils/FormVaildators";
 import OTPInput from "../../../components/UI/OTPInput";
-import { verify, resendOtps } from "../../../APIs/authAPIs";
 import Loading from "../../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import { useTranslation } from "react-i18next";
@@ -15,7 +13,6 @@ function OTPVerificationPageOrganizer() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timeLeft, setTimeLeft] = useState(600);
   const inputsRef = useRef([]);
-  const location = useLocation();
     const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const {t} = useTranslation();
@@ -77,13 +74,13 @@ function OTPVerificationPageOrganizer() {
 
     submitOTP(otpCode);
   };
-  const resendHandler = (e) => {
-    e.preventDefault();
+  // const resendHandler = (e) => {
+  //   e.preventDefault();
 
-    resendOtps();
+  //   resendOtps();
 
-    // use axios with backend to resend the OTP code
-  };
+  //   // use axios with backend to resend the OTP code
+  // };
 
   return (
     <div className=" font-display min-h-screen flex flex-col items-center justify-center  sm:px-8 md:px-20 lg:px-20">
@@ -112,7 +109,7 @@ function OTPVerificationPageOrganizer() {
         <p className=" mb-8">
           {t("auth.otp.notReceived")}{" "}
           <button
-            onClick={resendHandler}
+            onClick={resendOtp}
             className="text-pink-500 hover:underline font-semibold cursor-pointer"
           >
             {t("auth.otp.resend")}

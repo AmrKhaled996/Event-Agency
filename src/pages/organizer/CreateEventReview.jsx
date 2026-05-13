@@ -99,7 +99,7 @@ function CreateEventReview() {
       // for (let pair of fd.entries()) {
       // }
       setLoading(true);
-      const response = await createEvent(fd, true); // send formData
+       await createEvent(fd, true); // send formData
 
       alert(t("organizer.createEvent.createSuccess"));
       navigate(`/organizer/dashboard/overview`);

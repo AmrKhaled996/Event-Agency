@@ -7,7 +7,7 @@ import { updatePreferences } from "../../../APIs/profileAPI";
 import { refreshToken } from "../../../APIs/authAPIs";
 import { refreshAccessToken } from "../../../services/cookieTokenService";
 // @ts-ignore
-import { useBeforeUnload, useParams } from "react-router-dom";
+
 import { useTranslation } from "react-i18next";
 
 /**
@@ -44,16 +44,16 @@ function UserSettingsAddPreference({
   const [preferencesBeforeChanged, setPreferencesBeforeChanged] =
     useState(null);
   const { t } = useTranslation();
-  const { lang } = useParams();
+
   // @ts-ignore
   const handlePreferenceChange = (preference) => {
     if (preferences.includes(preference)) {
       // @ts-ignore
       const newprefrences = preferences.filter((p) => p.id !== preference.id);
-      const newpreferncesIdName = newprefrences.map((pref) => [
-        pref.id,
-        pref.name,
-      ]);
+      // const newpreferncesIdName = newprefrences.map((pref) => [
+      //   pref.id,
+      //   pref.name,
+      // ]);
       setPreferences(newprefrences);
       setAvailablePreferences([...availablePreferences, preference]);
     } else {
@@ -75,7 +75,7 @@ function UserSettingsAddPreference({
       setLoading(true);
       // @ts-ignore
       const preferenceIds = preferences.map((pref) => pref.id);
-      const response = await updatePreferences({ categoryIds: preferenceIds });
+      await updatePreferences({ categoryIds: preferenceIds });
 
       const newtoken = await refreshToken();
       refreshAccessToken(newtoken.data);

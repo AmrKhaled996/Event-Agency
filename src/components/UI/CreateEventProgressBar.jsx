@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { useTranslation } from "react-i18next";
 
 function CreateEventProgressBar({step}) {

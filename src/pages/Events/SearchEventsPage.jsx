@@ -5,8 +5,8 @@ import { useCategories } from "../../Context/CategoriesProvider";
 import { Title } from "react-head";
 import { FilterIcon, X } from "lucide-react";
 import CardSkeleton from "../../components/UI/CardSkeleton";
-import { useLocation, useSearchParams } from "react-router-dom";
-import { latestEvents } from "../../APIs/homeApis";
+import {  useSearchParams } from "react-router-dom";
+
 import { getSearchEvents } from "../../APIs/search";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/UI/AdminDashboard/Pagination";

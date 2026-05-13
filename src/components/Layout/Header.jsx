@@ -1,6 +1,6 @@
 import MethodBadge from "../UI/AdminDashboard/MethodBadge";
 
-const Header = ({ currentAction, activeAction, t }) => {
+const Header = ({ currentAction,  t }) => {
   return (
     <div className="mb-6 pb-4 border-b border-gray-800 ">
       <div className="flex items-center gap-2">

@@ -1,13 +1,11 @@
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import axios from "axios";
 import { getStatus } from "../../APIs/onboardingAPIs";
 import { setTokens } from "../../services/cookieTokenService";
 import useAppNavigate from "../../Router/useAppNavigate";
 
 function GoogleCallback() {
-  const [searchParams] = useSearchParams();
-  const code = searchParams.get("code");
+
+
   const navigate = useAppNavigate();
 
   const handleCallback = async () => {

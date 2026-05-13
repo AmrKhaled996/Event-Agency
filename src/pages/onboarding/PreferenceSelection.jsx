@@ -6,7 +6,7 @@ import { Title } from "react-head";
 import ButtonOnBoarding from "../../components/UI/ButtonOnBoarding";
 import { preferences } from "../../APIs/onboardingAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
-import { categories } from "../../APIs/homeApis";
+
 import { useCategories } from "../../Context/CategoriesProvider";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import useAppNavigate from "../../Router/useAppNavigate";
@@ -40,7 +40,7 @@ function PreferenceSelection() {
     try {
       setLoading(true);
 
-      const response = await preferences({ preferences: selected });
+       await preferences({ preferences: selected });
 
   
 

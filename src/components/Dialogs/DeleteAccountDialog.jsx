@@ -25,7 +25,7 @@ export default function DeleteAccountDialog({ open, onClose }) {
       setLoading(true);
       setError("");
 
-      const response = await deleteMyProfile(inputValue);
+      await deleteMyProfile(inputValue);
 
       removeTokens();
 

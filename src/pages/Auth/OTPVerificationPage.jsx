@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Title } from "react-head";
-import { useLocation, useParams } from "react-router-dom";
+
 
 import { useAuth } from "../../Hooks/useAuth";
 import { validateOTP } from "../../utils/FormVaildators";
 import OTPInput from "../../components/UI/OTPInput";
-import { verify, resendOtps } from "../../APIs/authAPIs";
+import { verify } from "../../APIs/authAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { useTranslation } from "react-i18next";
@@ -14,17 +14,17 @@ function OTPVerificationPage() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timeLeft, setTimeLeft] = useState(600);
   const inputsRef = useRef([]);
-  const location = useLocation();
+
     const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const {t} = useTranslation();
-  const {lang} =useParams();
+
   const {
     submitOTP,
     // showDialog,
     // dialogMessage,
     // closeDialog,
-    resendOtp,
+    // resendOtp,
     loading,
   } = useAuth({
     initialValues: { otp: "" },

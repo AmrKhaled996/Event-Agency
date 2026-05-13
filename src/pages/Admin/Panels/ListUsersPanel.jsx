@@ -62,7 +62,7 @@ function UserRow({ user, t }) {
 
   const handleDelete = async () => {
     try {
-      const response = await deleteUser(user.id);
+      await deleteUser(user.id);
       setisDeleted(true);
     } catch (error) {
       console.error(error);
@@ -70,7 +70,7 @@ function UserRow({ user, t }) {
   };
   const handleRestore = async () => {
     try {
-      const response = await restoreUser(user.id);
+       await restoreUser(user.id);
       setisDeleted(false);
     } catch (error) {
       console.error(error);
@@ -179,7 +179,7 @@ function UserRow({ user, t }) {
   );
 }
 /* ── Main panel ───────────────────────────── */
-export default function ListUsersPanel({ data }) {
+export default function ListUsersPanel() {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [usersList, setUsersList] = useState();

@@ -13,14 +13,15 @@ function CompleteResister() {
   const goToHome = async () => {
     try {
       setLoading(true);
-      const response = await getStatus();
+      await getStatus();
 ;
       navigator("/");
     } catch (error) {
-      console.error("error", error);
 
       const message =
-        error.response?.data?.data?.error || "Something went wrong";
+        error.response?.data?.data[0]?.message ;
+        console.error(message||error|| "Something went wrong");
+        
     } finally {
       setLoading(false);
     }

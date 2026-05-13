@@ -34,7 +34,7 @@ function LoginPage() {
     },
   );
   const { lang } = useParams();
-  const handleGoogleAuth = async (e) => {
+  const handleGoogleAuth = async () => {
     try {
       const response = await getGoogleAuth();
 

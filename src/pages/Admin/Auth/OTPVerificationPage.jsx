@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Title } from "react-head";
-import { useLocation } from "react-router-dom";
 
 import { useAuth } from "../../../Hooks/useAuth";
 import { validateOTP } from "../../../utils/FormVaildators";
@@ -14,7 +13,7 @@ function OTPVerificationPageAdmin() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timeLeft, setTimeLeft] = useState(600);
   const inputsRef = useRef([]);
-  const location = useLocation();
+
     const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const {t} = useTranslation();
@@ -23,7 +22,6 @@ function OTPVerificationPageAdmin() {
     // showDialog,
     // dialogMessage,
     // closeDialog,
-    resendOtp,
     loading,
   } = useAuth({
     initialValues: { otp: "" },

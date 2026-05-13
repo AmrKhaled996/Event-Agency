@@ -109,11 +109,10 @@ export function useUpgradeForm() {
         }
 
         setLoading(true);
-        const response = await becomeOrganizer(fd, { _silentError: true });
-        
-        const token = await refreshToken();
-        refreshAccessToken(token.data);
-        
+         await becomeOrganizer(fd);
+        const token = await refreshToken()
+        refreshAccessToken(token.data)
+        navigator("/organizer/otp-verification") 
         setSubmitted(true);
         navigator("/organizer/otp-verification");
 

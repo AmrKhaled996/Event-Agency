@@ -1,41 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { addCategory, editCategory, getCategories } from "../../../APIs/adminDashboardApis";
+import { addCategory, deleteCategory, editCategory, getCategories } from "../../../APIs/adminDashboardApis";
 import Loading from "../../../components/Layout/LoadingLayout";
 
-/* ── Mock data ─────────────────────────────────────────────────────────── */
-const INITIAL_CATEGORIES = [
-  {
-    id: 10,
-    name: "Beauty",
-    imageUrl: "https://picsum.photos/seed/lZPll/400/300",
-    createdAt: "2026-05-10T23:18:03.238Z",
-  },
-  {
-    id: 12,
-    name: "Category",
-    imageUrl: "https://picsum.photos/seed/cat12/400/300",
-    createdAt: "2026-05-11T08:47:58.221Z",
-  },
-  {
-    id: 3,
-    name: "Clothing",
-    imageUrl: "https://picsum.photos/seed/fgNBL/400/300",
-    createdAt: "2026-05-10T23:18:03.212Z",
-  },
-  {
-    id: 8,
-    name: "Computers",
-    imageUrl: "https://picsum.photos/seed/EaBznNNxmS/400/300",
-    createdAt: "2026-05-10T23:18:03.230Z",
-  },
-  {
-    id: 7,
-    name: "Electronics",
-    imageUrl: "https://picsum.photos/seed/rBv2wTt/400/300",
-    createdAt: "2026-05-10T23:18:03.228Z",
-  },
-];
 
 /* ── Shared dialog backdrop ─────────────────────────────────────────────── */
 function Backdrop({ onClose, children }) {
@@ -94,7 +61,7 @@ const inputStyle =
   "w-full box-border rounded-[7px] border border-secandry  px-[11px] py-[7px] text-[13px]  outline-none";
 
 /* ── Detail / Edit / Delete dialog ─────────────────────────────────────── */
-function CategoryDetailDialog({ category, onClose, onDelete, onUpdate }) {
+function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
   const { t } = useTranslation();
   const fileRef = useRef(null);
 
@@ -151,9 +118,10 @@ function CategoryDetailDialog({ category, onClose, onDelete, onUpdate }) {
       */
       const response = await editCategory(category.id, formData);
 
-      if (!response.data.data) {
-        throw new Error("Failed to update category");
-      }
+      /*
+        update parent state with REAL backend data
+      */
+      onUpdate(response.data.data.category);
 
       /*
         update parent state with REAL backend data
@@ -180,19 +148,9 @@ function CategoryDetailDialog({ category, onClose, onDelete, onUpdate }) {
       /*
         Replace later with your real endpoint
       */
-      const response = await fetch(`/api/categories/${category.id}`, {
-        method: "DELETE",
+     console.log(category.id)
+       await deleteCategory(category.id);
 
-        /*
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          */
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete category");
-      }
 
       /*
         remove from UI only AFTER backend success
@@ -459,7 +417,7 @@ function AddCategoryDialog({ onClose, onAdd }) {
 
 
     onAdd({
-      id: Date.now(),
+      id: response.data.data.category.id||10,
       name: name.trim(),
       imageUrl: preview,
       createdAt: new Date().toISOString(),

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import InfoDialog from "../../../components/Dialogs/InfoDialog";
 import UpdateDialog from "../../../components/Dialogs/UpdateDialog";
 import DeleteDialog from "../../../components/Dialogs/DeleteDialog";
-import { getStatsOrgainzerDashboard } from "../../../APIs/organizerDashboardAPIs";
 import { cancelEvent, deleteEvent, getAllEvents } from "../../../APIs/organizerApis";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import Loading from "../../../components/Layout/LoadingLayout";

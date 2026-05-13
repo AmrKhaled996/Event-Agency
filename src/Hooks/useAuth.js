@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { getAccessToken, removeTokens, setTokens } from "../services/cookieTokenService";
-import { resendOtps, logout } from "../APIs/authAPIs";
+import { getAccessToken,  setTokens } from "../services/cookieTokenService";
+import { resendOtps } from "../APIs/authAPIs";
 import { useUser } from "../Context/AuthProvider";
 import useAppNavigate from "../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
@@ -21,7 +21,7 @@ export function useAuth({
   inAdmin=false
 
 }) {
-  const { user, setUser, updateUser } = useUser();
+  const {   updateUser } = useUser();
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -112,7 +112,7 @@ export function useAuth({
         }
       });
       setLoading(true);
-      const response = await onSubmit(otp);
+       await onSubmit(otp);
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     // } catch (error) {

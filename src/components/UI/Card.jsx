@@ -13,9 +13,9 @@ import { toast } from "sonner";
 function Card({
   bannerUrl,
   title,
-  date,
+
   price,
-  views,
+
   description,
   slug,
   id,

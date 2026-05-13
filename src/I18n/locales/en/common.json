@@ -588,7 +588,7 @@
       "free": "Free"
     },
     "hero": {
-      "searchError": "Please enter a search term and location."
+      "searchError": "Please enter a search term "
     },
     "passwordInput": {
       "placeholder": "Enter password"
