@@ -5,6 +5,7 @@ import { useState } from "react";
 import { changeEmail, changePassword } from "../../../APIs/profileAPI";
 import Loading from "../../Layout/LoadingLayout";
 import ErrorDialog from "../../Dialogs/ErrorDialog";
+import InfoDialog from "../../Dialogs/InfoDialog";
 import { validateForgetPassword } from "../../../utils/FormVaildators";
 import { refreshToken } from "../../../APIs/authAPIs";
 import {
@@ -31,6 +32,7 @@ function UserSettingsSecurity({ provider }) {
   const [errorsEmail, setErrorsEmail] = useState({});
 
   const [openDialog, setopenDialog] = useState(false);
+  const [openSuccessDialog, setopenSuccessDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -93,8 +95,12 @@ function UserSettingsSecurity({ provider }) {
           confirmEmail,
           password: emailPassword,
         });
-        removeTokens();
-        navigate("/otp-verification");
+        setDialogMessage(t("Verification email sent successfully"));
+        setopenSuccessDialog(true);
+        setEmailChanging(false);
+        setNewEmail("");
+        setConfirmEmail("");
+        setEmailPassword("");
       }
     } catch (error) {
       console.error("Error changing email:", error);
@@ -251,6 +257,13 @@ function UserSettingsSecurity({ provider }) {
           open={openDialog}
           message={dialogMessage}
           onClose={() => setopenDialog(false)}
+        />
+      )}
+      {openSuccessDialog && (
+        <InfoDialog
+          open={openSuccessDialog}
+          onClose={() => setopenSuccessDialog(false)}
+          data={{ message: dialogMessage }}
         />
       )}
       {loading && <Loading />}

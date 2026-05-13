@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import CreateEventBasics from "../pages/organizer/CreateEventBasics";
 import CreateEventBanner from "../pages/organizer/CreateEventBanner";
@@ -45,6 +45,7 @@ import UserAccountSettings from "../pages/Profile/User/UserAccountSettings";
 import ConfirmEmail from "../pages/Profile/User/ConfirmEmail";
 import InterestedEventsPage from "../pages/Events/InterestedEvents";
 import SearchEventsPage from "../pages/Events/SearchEventsPage";
+import CategoriesPage from "../pages/Categories/CategoriesPage";
 import UpgradePage from "../pages/organizer/upgradeToOrganizer/UpgradePage";
 import LocalRoutes from "../I18n/LocalRoutes";
 import AboutPage from "../pages/Info/AboutPage";
@@ -56,6 +57,11 @@ import LoginPageAdmin from "../pages/Admin/Auth/LoginPage";
 import SignUpPageAdmin from "../pages/Admin/Auth/SignUpPage";
 import OTPVerificationPageOrganizer from "../pages/organizer/upgradeToOrganizer/OTPVerificationPage";
 
+const RedirectWithSearch = ({ to }) => {
+  const { search } = useLocation();
+  return <Navigate to={to + search} replace />;
+};
+
 function AppRouter() {
   const { t } = useTranslation();
   const savedLang = localStorage.getItem("lang") || "ar";
@@ -64,8 +70,8 @@ function AppRouter() {
       <BrowserRouter>
         <Routes>
           {/* redirect root */}
-          <Route path="/" element={<Navigate to={`/${savedLang}`} />} />
-          <Route path="/confirm-email" element={<Navigate to={`/${savedLang}/confirm-email`} />} />
+          <Route path="/" element={<RedirectWithSearch to={`/${savedLang}`} />} />
+          <Route path="/confirm-email" element={<RedirectWithSearch to={`/${savedLang}/confirm-email`} />} />
 
           {/* كل الموقع تحت اللغة */}
           <Route path="/:lang" element={<LocalRoutes />}>
@@ -157,6 +163,7 @@ function AppRouter() {
             />
 
             <Route path="search-events" element={<SearchEventsPage />} />
+            <Route path="categories" element={<CategoriesPage />} />
 
             {/* ORGANIZER */}
             <Route
@@ -338,11 +345,13 @@ function AppRouter() {
             <Route
               path="interested"
               element={
-                <>
+                <div className="flex flex-col min-h-screen">
                   <NavigationBar />
-                  <InterestedEventsPage />
+                  <main className="flex-grow">
+                    <InterestedEventsPage />
+                  </main>
                   <Footer />
-                </>
+                </div>
               }
             />
 

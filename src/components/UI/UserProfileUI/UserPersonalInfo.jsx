@@ -26,7 +26,7 @@ function PersonalInfoSection({ userLocation, accountData }) {
         name: accountData.name,
         // phone: accountData.phone,
         gender: accountData.gender,
-        location: location,
+        governorate: location,
         languagePreference: accountData.languagePreference,
         birthDate: accountData.birthDate,
       });

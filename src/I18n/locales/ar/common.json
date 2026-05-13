@@ -152,7 +152,7 @@
       "nameLabel": "الاسم",
       "emailLabel": "البريد الإلكتروني",
       "passwordLabel": "كلمة المرور",
-      "passwordPlaceholder": "أدخل كلمة المرور",
+      "passwordPlaceholder": "كلمة المرور (8 أحرف على الأقل، حرف صغير، رقم، ورمز)",
       "namePlaceholder": "أدخل الاسم",
       "emailPlaceholder": "أدخل البريد الإلكتروني",
       "confirmPassword": "تأكيد كلمة المرور",
