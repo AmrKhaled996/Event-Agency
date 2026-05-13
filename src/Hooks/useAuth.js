@@ -83,12 +83,12 @@ export function useAuth({
         }
       });
       console.error("Auth submit error:", message);
-      const message =
-        error.response?.data?.data[0]?.message || "Something went wrong";
-      // console.error("message", message);
-      // console.error("message", error.response?.data?.data[0]?.message);
-      setDialogMessage(message);
-      setopenDialog(true);
+      // const message =
+      //   error.response?.data?.data[0]?.message || "Something went wrong";
+      // // console.error("message", message);
+      // // console.error("message", error.response?.data?.data[0]?.message);
+      // setDialogMessage(message);
+      // setopenDialog(true);
     } finally {
       setLoading(false);
     }
@@ -115,10 +115,10 @@ export function useAuth({
       const response = await onSubmit(otp);
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
-    } catch (error) {
-      const message = error.response?.data?.data?.otp || "Something went wrong";
-      setDialogMessage(message);
-      setopenDialog(true);
+    // } catch (error) {
+    //   const message = error.response?.data?.data?.otp || "Something went wrong";
+    //   setDialogMessage(message);
+    //   setopenDialog(true);
     } finally {
       setLoading(false);
     }
