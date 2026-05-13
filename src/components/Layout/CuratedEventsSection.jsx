@@ -1,9 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import useAppNavigate from "../../Router/useAppNavigate";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 function CuratedEventsSection() {
     const {t}= useTranslation();
   const {lang} = useParams();
+  const navigate = useAppNavigate();
   return (
     <div
       className={`w-full flex justify-center z-20 px-4 my-10 relative
@@ -55,14 +58,15 @@ function CuratedEventsSection() {
         </p>
 
         <button
+        onClick={()=>{navigate(`/events-pagenation?page=1&title=${t(`homePage.sections.curated`)}`)}}
           className="
             bg-white text-purple-600 font-semibold 
             px-8 py-3 rounded-xl shadow 
             hover:bg-white/90 transition flex items-center gap-2 mx-auto
           "
         >
-          Get Started
-          <span className="text-xl">→</span>
+          {t("homePage.sections.curatedForYouButton")}
+          <span className="text-xl">{lang === "ar" ? <ArrowLeft size={20} className="text-purple-600" /> : <ArrowRight size={20} className="text-purple-600" />}</span>
         </button>
       </div>
     </div>

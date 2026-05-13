@@ -67,7 +67,7 @@ function PreferenceSelection() {
   //     }
 
   useEffect(() => {
-    console.log(categories);
+
     // handleGetCategories();
   }, []);
 

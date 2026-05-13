@@ -1,6 +1,8 @@
 import WarningIcon from "../components/Icons/WarningIcon";
+import useAppNavigate from "../Router/useAppNavigate";
 
 function NotFoundPage() {
+    const navigator = useAppNavigate();
     return ( 
         
                 <div className="w-full flex flex-col items-center justify-center min-h-140 h-[60vh]">

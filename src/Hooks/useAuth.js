@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-import { setTokens } from "../services/cookieTokenService";
+import { getAccessToken, removeTokens, setTokens } from "../services/cookieTokenService";
 import { resendOtps, logout } from "../APIs/authAPIs";
 import { useUser } from "../Context/AuthProvider";
 import useAppNavigate from "../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 import { handleError } from "../utils/errorHandler";
+import { jwtDecode } from "jwt-decode";
 
 export function useAuth({
   initialValues = {},
@@ -17,8 +18,10 @@ export function useAuth({
   dialogMessage,
   setDialogMessage,
   setopenDialog,
+  inAdmin=false
+
 }) {
-  const { user, setUser } = useUser();
+  const { user, setUser, updateUser } = useUser();
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -55,6 +58,19 @@ export function useAuth({
       const response = await onSubmit(formData, { _silentError: true });
 
       setTokens(response.data.data);
+      if(inAdmin){
+       const accessToken = getAccessToken();
+       console.log("acces:",accessToken)
+            if (!accessToken) 
+            throw new Error("Access token not found");     
+            const decoded = jwtDecode(accessToken);
+            decoded.role="admin"
+            console.log("de",decoded)
+            updateUser(decoded);
+      }
+      
+      // const response2 = await refreshToken();
+      // await refreshAccessToken(response2.data);
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
@@ -67,6 +83,12 @@ export function useAuth({
         }
       });
       console.error("Auth submit error:", message);
+      const message =
+        error.response?.data?.data[0]?.message || "Something went wrong";
+      // console.error("message", message);
+      // console.error("message", error.response?.data?.data[0]?.message);
+      setDialogMessage(message);
+      setopenDialog(true);
     } finally {
       setLoading(false);
     }
@@ -89,6 +111,16 @@ export function useAuth({
           setopenDialog(true);
         }
       });
+      setLoading(true);
+      const response = await onSubmit(otp);
+
+      navigate(redirectTo, { state: { origin: redirectFrom } });
+    } catch (error) {
+      const message = error.response?.data?.data?.otp || "Something went wrong";
+      setDialogMessage(message);
+      setopenDialog(true);
+    } finally {
+      setLoading(false);
     }
   };
 

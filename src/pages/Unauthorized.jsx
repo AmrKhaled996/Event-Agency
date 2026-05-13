@@ -1,8 +1,10 @@
 import WarningIcon from "../components/Icons/WarningIcon";
+import useAppNavigate from "../Router/useAppNavigate";
 
 function UnauthorizedPage() {
+        const navigator = useAppNavigate();
     return ( 
-        <div className="w-full flex flex-col items-center justify-center min-h-140 h-[60vh">
+        <div className="w-full flex flex-col items-center justify-center min-h-140 h-[60vh]">
             {/* icon */}
             <WarningIcon />
             <h1 className="text-4xl font-bold mb-6  ">Unauthorized</h1>
