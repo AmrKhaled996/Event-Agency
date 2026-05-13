@@ -32,28 +32,23 @@ function NavigationBar({ backGround = "primary" }) {
 
   const handlelogout = async () => {
     try {
-      const response = await logout();
-     
+      await logout({ _silentError: true });
       updateUser({});
-
       removeTokens();
-
       navigate("/");
     } catch (error) {
-      console.error("error", error);
+      handleError(error);
     }
   };
   useEffect(() => {
     try {
-
-;
       const accessToken = getAccessToken();
       if (!accessToken) return;
 
       const decoded = jwtDecode(accessToken);
       updateUser(decoded);
     } catch (error) {
-      console.error("invalid token:", error);
+      console.warn("Invalid token:", error.message);
       updateUser({});
     }
   }, []);
@@ -83,15 +78,14 @@ function NavigationBar({ backGround = "primary" }) {
 
   };
   const getUserWalletBalance = async() => {
-    if(!user?.id) return;
-  try {
-   const response = await getWalletBalance().then((res) => res.data.data);
-   setUserBalance(response?.balance);
-
-  } catch (error) {
-    console.error(error.response)
-  }
-};
+    if (!user?.id) return;
+    try {
+      const response = await getWalletBalance().then((res) => res.data.data);
+      setUserBalance(response?.balance);
+    } catch (error) {
+      console.debug("Wallet balance fetch failed", error.message);
+    }
+  };
   useEffect(() => {
     getUserWalletBalance();
   }, []);
@@ -108,11 +102,10 @@ function NavigationBar({ backGround = "primary" }) {
             <div className="w-3/4 flex items-center md:w-1/6">
               <LocalLink to="/" className="h-full w-full flex items-center">
                 <img
-                  src={"/public/Fa3liatLogo.png"}
+                  src={"/Fa3liatLogo.png"}
                   alt="Fa3liat Logo"
                   className="md:h-20 h-16 w-fit pb-2"
-                />
-              </LocalLink>
+                />              </LocalLink>
             </div>
 
             {/* === 1/4: Menu Items === */}

@@ -77,12 +77,16 @@ function OTPVerificationPage() {
 
     submitOTP(otpCode);
   };
-  const resendHandler = (e) => {
+  const resendHandler = async (e) => {
     e.preventDefault();
-
-    resendOtps();
-
-    // use axios with backend to resend the OTP code
+    try {
+      await resendOtps();
+      toast.success(t("auth.otp.resentSuccess") || "OTP has been resent to your email.");
+    } catch (error) {
+      const message = mapApiError(error);
+      setDialogMessage(message);
+      setopenDialog(true);
+    }
   };
 
   return (

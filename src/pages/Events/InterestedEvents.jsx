@@ -1,33 +1,43 @@
 import { Title } from "react-head";
 import { getInterestedEvents } from "../../APIs/userAPIs";
-import CardDisplaySection from "../../components/Layout/CardDisplaySection";
-import ErrorDialog from "../../components/Dialogs/ErrorDialog";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../../components/UI/Card";
 import CardSkeleton from "../../components/UI/CardSkeleton";
 import { useTranslation } from "react-i18next";
+import { handleError } from "../../utils/errorHandler";
+import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 
 function InterestedEventsPage() {
   const [cards, setcards] = useState([]);
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  const [loading, setloading] = useState(false);
+  const [isEmpty, setisEmpty] = useState(false);
+
   const handleGetInterested = async () => {
     try {
-      // setloading(true);
+      setloading(true);
+      setisEmpty(false);
       const response = await getInterestedEvents();
-      const newcards = response.data.data;
-      if (newcards.events.length === 0) {
-        setcards("No events found");
+      const events = response.data.data.events || [];
+
+      if (events.length === 0) {
+        setisEmpty(true);
+        setcards([]);
         return;
       }
 
-      setcards(newcards.events);
-      // setloading(false);
+      setcards(events);
     } catch (error) {
-      setopenDialog(true);
-      console.error("error", error?.response);
-      setDialogMessage(error?.response?.data?.message);
+      handleError(error, {
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        },
+      });
+    } finally {
+      setloading(false);
     }
   };
 
@@ -49,36 +59,32 @@ function InterestedEventsPage() {
         <hr className="my-4 text-gray-300" />
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 items-center sm:grid-cols-2 lg:grid-cols-3  xl:gap-x-8 ">
-          {cards.length > 0 ? (
-            cards === "No events found" ? (
-              <div className="col-span-full text-center text-gray-500 pt-10 pb-2">
-                {cards}
-              </div>
-            ) : (
-              cards?.map((card, index) => {
-                return (
-                  <Card
-                    key={index}
-                    bannerUrl={`${card?.bannerUrl}`}
-                    title={card?.title}
-                    description={card?.description}
-                    date={card?.date}
-                    price={card?.ticketTypes || []}
-                    views={card?.viwes}
-                    id={card?.id}
-                    slug={card?.slug}
-                    sessions={card?.eventSessions || []}
-                    crossOrigin="anonymous"
-                    isInterested={card?.isInterested}
-                    interestedCount={card?.interestedCount}
-                  />
-                );
-              })
-            )
+          {loading ? (
+            [1, 2, 3, 4, 5, 6].map((_, index) => <CardSkeleton key={index} />)
+          ) : isEmpty ? (
+            <div className="col-span-full text-center text-gray-500 pt-10 pb-2">
+              {t("common.feedback.noResults")}
+            </div>
           ) : (
-            [1, 2, 3, 4, 5, 6].map((temp, index) => (
-              <CardSkeleton key={index} />
-            ))
+            cards?.map((card, index) => {
+              return (
+                <Card
+                  key={card.id || index}
+                  bannerUrl={`${card?.bannerUrl}`}
+                  title={card?.title}
+                  description={card?.description}
+                  date={card?.date}
+                  price={card?.ticketTypes || []}
+                  views={card?.viwes}
+                  id={card?.id}
+                  slug={card?.slug}
+                  sessions={card?.eventSessions || []}
+                  crossOrigin="anonymous"
+                  isInterested={true}
+                  interestedCount={card?.interestedCount}
+                />
+              );
+            })
           )}
         </div>
       </div>

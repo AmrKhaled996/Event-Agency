@@ -8,6 +8,7 @@ import Loading from "../../components/Layout/LoadingLayout";
 import useAppNavigate from "../../Router/useAppNavigate";
 import { Title } from "react-head";
 import { useTranslation } from "react-i18next";
+import { mapApiError } from "../../utils/apiErrorMapper";
 
 function ResetPassword() {
   const [errors, setErrors] = useState({});
@@ -49,7 +50,7 @@ function ResetPassword() {
       await resetPassword(values.password, email, token);
       navigator("/login");
     } catch (error) {
-      const message = error.response?.data?.error || "Something went wrong";
+      const message = mapApiError(error);
       setDialogMessage(message);
       setopenDialog(true);
     } finally {

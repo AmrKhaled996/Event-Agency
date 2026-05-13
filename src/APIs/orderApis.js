@@ -1,10 +1,7 @@
 import { axiosInstance } from "./axiosInstance";
 
-export async function getOrderStatus(tickets) {
+export async function getOrderStatus(orderId) {
   return axiosInstance.get(
-    "/api/v1/orders/96219e91-2485-46c8-b3b2-b9f51b2750f4/status",
-    {
-      params: { tickets }
-    },
+    `/api/v1/orders/${orderId}/status`
   );
 }

@@ -5,6 +5,7 @@ import { resendOtps, logout } from "../APIs/authAPIs";
 import { useUser } from "../Context/AuthProvider";
 import useAppNavigate from "../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
+import { handleError } from "../utils/errorHandler";
 import { jwtDecode } from "jwt-decode";
 
 export function useAuth({
@@ -53,7 +54,8 @@ export function useAuth({
     try {
       setLoading(true);
 
-      const response = await onSubmit(formData);
+      // Pass _silentError: true to prevent global interceptor toast
+      const response = await onSubmit(formData, { _silentError: true });
 
       setTokens(response.data.data);
       if(inAdmin){
@@ -72,6 +74,15 @@ export function useAuth({
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
+      // Use global handler but siliently (no toast) to use the dialog instead
+      const message = handleError(error, { 
+        silent: true,
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
+      console.error("Auth submit error:", message);
       const message =
         error.response?.data?.data[0]?.message || "Something went wrong";
       // console.error("message", message);
@@ -89,6 +100,17 @@ export function useAuth({
 
     // if (Object.keys(validationErr).length > 0) return;
     try {
+      const response = await onSubmit(otp, { _silentError: true });
+
+      navigate(redirectTo, { state: { origin: redirectFrom } });
+    } catch (error) {
+      handleError(error, { 
+        silent: true,
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
       setLoading(true);
       const response = await onSubmit(otp);
 
@@ -104,16 +126,15 @@ export function useAuth({
 
   const resendOtp = async () => {
     try {
-      setLoading(true);
-      const response = await resendOtps();
+      await resendOtps({ _silentError: true });
     } catch (error) {
-      const message =
-        error.response?.data?.data?.error ||
-        "Something went wrong resending OTP";
-      setDialogMessage(message);
-      setopenDialog(true);
-    } finally {
-      setLoading(false);
+      handleError(error, { 
+        silent: true,
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenDialog(true);
+        }
+      });
     }
   };
 

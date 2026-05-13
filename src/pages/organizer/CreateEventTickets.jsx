@@ -34,17 +34,25 @@ function CreateEventTickets() {
   const [ticketQuantity, setTicketQuantity] = useState(0);
   const [eventType, setEventType] = useState("general");
   const addTicket = () => {
-    if (!ticketName) return;
+    if (!ticketName) {
+      toast.error(t("organizer.createEvent.validation.titleRequired"));
+      return;
+    }
+    
+    const price = Math.max(0, parseFloat(ticketPrice) || 0);
+    const quantity = Math.max(1, parseInt(ticketQuantity) || 0);
+    
     const newticket = {
       name: ticketName,
-      price: ticketPrice || 0,
-      quantity: ticketQuantity || 0,
+      price: price,
+      quantity: quantity,
     };
     const next = [...tickets, newticket];
     setTickets(next);
     updateForm("tickets", { type, tickets: next });
     setTicketName("");
     setTicketPrice("");
+    setTicketQuantity(0);
   };
 
   const removeTicket = (i) => {

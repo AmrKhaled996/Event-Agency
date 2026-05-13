@@ -42,7 +42,9 @@ function EventsPagination() {
 
       setLoading(true);
       let response;
-      switch (title) {
+      const normalizedTitle = title.replace(/['’]/g, "'").trim();
+
+      switch (normalizedTitle) {
         case t(`homePage.sections.past`):
           response = await pastEvents(page);
           break;
@@ -56,8 +58,10 @@ function EventsPagination() {
           response = await personalizedEvents(page);
           break;
         default:
-          setDialogMessage("Error confirming order");
-          break;
+          setDialogMessage(t("apiErrors.NOT_FOUND"));
+          setopenDialog(true);
+          setLoading(false);
+          return;
       }
 
       setCards(response?.data?.data?.events || []);

@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import HomeHeader from "../../components/Layout/HomeHeader";
 import Card from "../../components/UI/Card";
 import { useCategories } from "../../Context/CategoriesProvider";
@@ -10,29 +10,33 @@ import { latestEvents } from "../../APIs/homeApis";
 import { getSearchEvents } from "../../APIs/search";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/UI/AdminDashboard/Pagination";
+import { handleError } from "../../utils/errorHandler";
+import { toast } from "sonner";
 
 function SearchEventsPage() {
-  const [cards, setCards] = useState();
+  const [cards, setCards] = useState(null);
   const [priceMax, setPriceMax] = useState(3000);
   const [priceMin, setPriceMin] = useState(0);
   const [category, setCategory] = useState("");
   const [date, setDate] = useState("Today");
   const [activeTags, setActiveTags] = useState({ date: "", category: "" });
   const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const { categories, loading } = useCategories();
+  const { categories, loading: categoriesLoading } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
   const location = searchParams.get("location") || "";
   const [pagination, setpagination] = useState();
   const [page, setPage] = useState(1);
-  // const [searchval, setsearchval] = useState<string>(search);
+  const [isFetching, setIsFetching] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  
   const { t } = useTranslation();
+  
   const handleSearch = async () => {
-    const params = new URLSearchParams(searchParams); // clone current params
-
-    setSearchParams(params);
     try {
-      // setloading(true);
+      setIsFetching(true);
+      setErrorMessage(null);
+      
       const response = await getSearchEvents({
         q: search,
         limit: 12,
@@ -42,17 +46,19 @@ function SearchEventsPage() {
         maxPrice: priceMax,
         categoryId: category?.id,
         location: location,
-      });
-      const newcards = response.data.data.data;
-      // if (newcards?.events?.length === 0) {
-      //   setCards("No events found");
-      //   return;
-      // }
+      }, { _silentError: true });
+      
+      const newcards = response.data.data.data || [];
       setCards(newcards);
       setpagination(response?.data?.data?.pagination);
-      // setloading(false);
     } catch (error) {
-      console.error("error", error);
+      const message = handleError(error, { 
+        silent: true,
+        onMapped: (msg) => setErrorMessage(msg)
+      });
+      setCards([]); // Clear cards on error
+    } finally {
+      setIsFetching(false);
     }
   };
   useEffect(() => {
@@ -65,12 +71,12 @@ function SearchEventsPage() {
 
   const handleCategoryChange = (val) => {
     setCategory(val);
-    setActiveTags((prev) => ({ ...prev, categor: val }));
+    setActiveTags((prev) => ({ ...prev, category: val }));
   };
 
   const handleDateChange = (val) => {
     setDate(val);
-    setActiveTags((prev) => ({ ...prev, dat: val }));
+    setActiveTags((prev) => ({ ...prev, date: val }));
   };
 
   const removeTag = (type) => {
@@ -276,43 +282,60 @@ function SearchEventsPage() {
 
           {/* Cards Grid */}
           <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] lg:grid-cols-[repeat(3,minmax(240px,1fr))] gap-4">
-            {/* cards */}
-            {cards?.length > 0
-              ? cards?.map((card, index) => {
-                  const price = [
-                    {
-                      createdAt: "2026-05-07T09:20:08.511Z",
-                      eventId: 12,
-                      id: 4,
-                      name: "عادي",
-                      price: card?.priceStartsFrom,
-                      quantity: 100,
-                      sold: 2,
-                      updatedAt: "2026-05-07T09:23:16.019Z",
-                    },
-                  ];
+            {isFetching ? (
+              Array.from({ length: 6 }).map((_, i) => (
+                <CardSkeleton key={i} />
+              ))
+            ) : errorMessage ? (
+              <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
+                <p className="text-red-500 text-lg font-medium">{errorMessage}</p>
+                <button 
+                  onClick={handleSearch}
+                  className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
+                >
+                  {t("common.actions.tryAgain")}
+                </button>
+              </div>
+            ) : cards?.length > 0 ? (
+              cards.map((card, index) => {
+                const price = [
+                  {
+                    createdAt: "2026-05-07T09:20:08.511Z",
+                    eventId: 12,
+                    id: 4,
+                    name: "عادي",
+                    price: card?.priceStartsFrom,
+                    quantity: 100,
+                    sold: 2,
+                    updatedAt: "2026-05-07T09:23:16.019Z",
+                  },
+                ];
 
-                  return (
-                    <Card
-                      key={index}
-                      bannerUrl={`${card?.bannerUrl}`}
-                      title={card?.title}
-                      description={card?.description}
-                      date={card?.date}
-                      price={price || []}
-                      views={card?.viwes}
-                      id={card?.id}
-                      slug={card?.slug}
-                      sessions={card?.eventSessions || []}
-                      isInterested={card?.isInterested}
-                      crossOrigin="anonymous"
-                      interestedCount={card?.interestedCount}
-                    />
-                  );
-                })
-              : Array.from({ length: 6 }).map((card, i) => (
-                  <CardSkeleton key={i} />
-                ))}
+                return (
+                  <Card
+                    key={index}
+                    bannerUrl={`${card?.bannerUrl}`}
+                    title={card?.title}
+                    description={card?.description}
+                    date={card?.date}
+                    price={price || []}
+                    views={card?.viwes}
+                    id={card?.id}
+                    slug={card?.slug}
+                    sessions={card?.eventSessions || []}
+                    isInterested={card?.isInterested}
+                    crossOrigin="anonymous"
+                    interestedCount={card?.interestedCount}
+                  />
+                );
+              })
+            ) : (
+              <div className="col-span-full flex flex-col items-center justify-center py-20 text-center text-gray-500">
+                <Search size={48} className="mb-4 opacity-20" />
+                <p className="text-lg font-medium">{t("common.feedback.noResults")}</p>
+                <p className="text-sm opacity-60 mt-1">{t("events.search.tryDifferent") || "Try adjusting your filters or search query"}</p>
+              </div>
+            )}
           </div>
         </main>
       </div>

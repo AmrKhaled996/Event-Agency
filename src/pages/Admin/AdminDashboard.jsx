@@ -5,15 +5,15 @@ import Header from "../../components/Layout/Header";
 import { buildNav } from "../../constants/adminDashboardNav";
 
 /* ── Panels ─────────────────────────────────────────────────────────────── */
-import DashboardSummaryPanel from "./panels/DashboardSummaryPanel";
-import ReviewQueuePanel from "./panels/ReviewQueuePanel";
-import ListUsersPanel from "./panels/ListUsersPanel";
-import ListOrganizersPanel from "./panels/ListOrganizersPanel";
-// import AnalyticsPanel         from "./panels/AnalyticsPanel";
-import ActiveUsersPanel from "./panels/ActiveUsersPanel";
-// import FinanceSummaryPanel    from "./panels/FinanceSummaryPanel";
-// import ProcessPayoutsPanel    from "./panels/ProcessPayoutsPanel";
-import ListEventsPanel from "./panels/ListEventsPanel";
+import DashboardSummaryPanel  from "./Panels/DashboardSummaryPanel";
+import ReviewQueuePanel       from "./Panels/ReviewQueuePanel";
+import ListUsersPanel         from "./Panels/ListUsersPanel";
+import ListOrganizersPanel    from "./Panels/ListOrganizersPanel";
+// import AnalyticsPanel         from "./Panels/AnalyticsPanel";
+import ActiveUsersPanel       from "./Panels/ActiveUsersPanel";
+// import FinanceSummaryPanel    from "./Panels/FinanceSummaryPanel";
+// import ProcessPayoutsPanel    from "./Panels/ProcessPayoutsPanel";
+import ListEventsPanel        from "./Panels/ListEventsPanel";
 import { ListCategoriesPanel } from "./Panels";
 import { adminDashboardauth } from "../../APIs/adminDashboardApis";
 import { adminRefreshAccessToken } from "../../services/cookieTokenService";

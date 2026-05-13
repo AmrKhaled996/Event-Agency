@@ -1,13 +1,14 @@
-import { Children, lazy, useState } from "react";
+import { useState } from "react";
 import ActiveInterestedHart from "../Icons/ActiveInterestedHart.jsx";
-
 import UnactiveInterestedHart from "../Icons/UnactiveInterestedHart.jsx";
 import { Heart, Ticket } from "lucide-react";
-import { Link } from "react-router-dom";
 import { formatEventSessionDate } from "../../utils/dateFormater.js";
 import { addToInterested, removeFromInterested } from "../../APIs/eventApis.js";
 import LocalLink from "../../Router/LocalLink.jsx";
 import { useTranslation } from "react-i18next";
+import { useUser } from "../../Context/AuthProvider.jsx";
+import { handleError } from "../../utils/errorHandler.js";
+import { toast } from "sonner";
 
 function Card({
   bannerUrl,
@@ -24,34 +25,49 @@ function Card({
 }) {
   const [interested, setInterested] = useState(isInterested);
   const sessionssInfo = formatEventSessionDate(sessions);
+  const { user } = useUser();
   const { t } = useTranslation();
-  const priceRange = () => {
-    if (price.length == 0) return "0";
 
-    if (Number(price[0].price) === 0 && price.length === 1) {
+  const priceRange = () => {
+    if (!price || price.length === 0) return "0";
+
+    const numericPrices = price.map((ticket) => parseFloat(ticket.price) || 0);
+
+    if (numericPrices.length === 1 && numericPrices[0] === 0) {
       return t("ui.card.free");
     }
-    if (price[0].price != 0 && price?.length === 1) {
-      return `${price[0].price} ${t("common.actions.currncy")}`;
+    
+    if (numericPrices.length === 1) {
+      return `${numericPrices[0]} ${t("common.actions.currncy")}`;
     }
-    const minprice = Math.min(...price.map((ticket) => ticket.price));
-    const maxprice = Math.max(...price.map((ticket) => ticket.price));
+    
+    const minprice = Math.min(...numericPrices);
+    const maxprice = Math.max(...numericPrices);
     return `${minprice} - ${maxprice} ${t("common.actions.currncy")}`;
   };
+
   const handleInterested = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      toast.error(t("apiErrors.UNAUTHORIZED"));
+      return;
+    }
+
     try {
-      setInterested((prv) => !prv);
+      const targetState = !interested;
+      setInterested(targetState);
+      
       if (interested) {
-        const response = await removeFromInterested(id);
+        await removeFromInterested(id, { _silentError: true });
       } else {
-        const response = await addToInterested(id);
+        await addToInterested(id, { _silentError: true });
       }
     } catch (error) {
-      console.error(error?.response || error);
       setInterested((prv) => !prv);
+      handleError(error);
     }
-    e.stopPropagation();
   };
 
   return (
