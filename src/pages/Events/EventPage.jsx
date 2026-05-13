@@ -47,7 +47,7 @@ import { getAccessToken } from "../../services/cookieTokenService";
 import { Title } from "react-head";
 
 const RESERVATION_DURATION = 10 * 60 * 1000;
-const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:3000";
+const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:8000";
 const RESERVATION_STORAGE_PREFIX = "event-seat-reservation";
 
 export default function EventPage({ organizer, eventinfo, review = false }) {

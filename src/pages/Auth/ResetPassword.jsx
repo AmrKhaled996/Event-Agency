@@ -15,37 +15,45 @@ function ResetPassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-  const [loading, setloading] = useState();
+  const [loading, setLoading] = useState(false);
   const navigator = useAppNavigate();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const urlPrams = new URLSearchParams(window.location.search);
   const email = urlPrams.get("email");
   const token = urlPrams.get("token");
+
   const submitResetForm = async (e) => {
     e.preventDefault();
+
+    if (!email || !token) {
+      setDialogMessage("Invalid reset link. Please request a new one.");
+      setopenDialog(true);
+      return;
+    }
 
     const values = { password, confirmPassword };
     const validationErrors = validateResetPassword(values);
     if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       setDialogMessage(
         validationErrors.password || validationErrors.confirmPassword,
       );
 
       setopenDialog(true);
       return;
-    } else {
-      try {
-        setloading(true);
-        await resetPassword(values.password, email, token);
-        navigator("/login");
-      } catch (error) {
-        const message = error.response?.data?.message || "Something went wrong";
-        setDialogMessage(message);
-        setopenDialog(true);
-      } finally {
-        setloading(false);
-      }
+    }
+
+    try {
+      setLoading(true);
+      await resetPassword(values.password, email, token);
+      navigator("/login");
+    } catch (error) {
+      const message = error.response?.data?.error || "Something went wrong";
+      setDialogMessage(message);
+      setopenDialog(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,51 +69,43 @@ function ResetPassword() {
       </div>
       <div className="w-full max-w-md bg-white border-gray-200 rounded-xl shadow-lg p-8">
         <h1 className="text-slate-900 text-3xl font-bold leading-tight pb-3 text-center">
-          {t("resetPassword.header")}
+          {t("Reset your Password")}
         </h1>
         <p className="text-gray-600 text-base font-normal leading-normal pb-6 text-center">
-          {t("resetPassword.instruction")}
+          {}
         </p>
 
-        <div className="flex flex-col gap-y-6">
+        <form onSubmit={submitResetForm} className="flex flex-col gap-y-6">
           <div className="flex flex-col gap-4">
             <PasswordInput
-              content={"password"}
+              content={"New Password"}
               id="password"
               password={password}
               setPassword={setPassword}
-              errors={errors}
+              errors={errors.password}
+              placeholder={t("auth.signup.passwordPlaceholder")}
             />
             <PasswordInput
-              content={"Confirm Password"}
+              content={
+                 "Confirm Password"
+              }
               id="confirmPassword"
               password={confirmPassword}
               setPassword={setConfirmPassword}
-              errors={errors}
+              errors={errors.confirmPassword}
             />
           </div>
 
-          {errors.password && (
-            <div
-              className={` items-start gap-3 rounded-lg border border-error/30 bg-error/10 p-3 text-sm text-red-800  flex  
-            `}
-            >
-              <span className="material-symbols-outlined mt-0.5 text-error">
-                <XCircle size={16} />
-              </span>
-              <p>{errors.password ?? errors.confirmPassword}</p>
-            </div>
-          )}
-
           <div className="flex flex-col gap-4">
             <button
-              onClick={submitResetForm}
-              className="  w-full cursor-pointer  rounded-lg h-12 px-5 bg-primary text-white  font-bold  hover:bg-primary/90  focus:ring-2 "
+              type="submit"
+              disabled={loading}
+              className={`w-full cursor-pointer rounded-lg h-12 px-5 bg-primary text-white font-bold hover:bg-primary/90 focus:ring-2 ${loading ? "opacity-50" : ""}`}
             >
-              <span className="">{t("auth.resetPassword.header")}</span>
+              <span className="">{t("Reset Password")}</span>
             </button>
           </div>
-        </div>
+        </form>
       </div>
       {openDialog && (
         <ErrorDialog

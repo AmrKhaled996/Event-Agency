@@ -118,154 +118,159 @@ function NavigationBar({ backGround = "primary" }) {
             {/* === 1/4: Menu Items === */}
             <div className="hidden lg:flex w-2/4 justify-center font-semibold text-lg">
               <ul className="flex justify-between w-full text-white">
-  <li
-    className={`text-center hover:text-gray-300 cursor-pointer ${
-      lang === "ar" ? "" : "border-r border-gray-400"
-    } flex-1`}
-  >
-    <a href="#">{t("layout.nav.events")}</a>
-  </li>
+                <li
+                  className={`text-center hover:text-gray-300 cursor-pointer ${
+                    lang === "ar" ? "" : "border-r border-gray-400"
+                  } flex-1`}
+                >
+                  <LocalLink to="/events-pagenation?page=1&title=Happening%20Near%20You">
+                    {t("layout.nav.events")}
+                  </LocalLink>
+                </li>
 
-  <li className="text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1">
-    <a href="#">{t("layout.nav.categories")}</a>
-  </li>
+                <li className="text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1">
+                  <LocalLink to="/categories">
+                    {t("layout.nav.categories")}
+                  </LocalLink>
+                </li>
 
-  <li
-    className={`text-center hover:text-gray-300 cursor-pointer ${
-      lang === "en" ? "" : "border-r border-gray-400"
-    } flex-1`}
-  >
-    <a href="#">{t("layout.nav.calendar")}</a>
-  </li>
-</ul>
-</div>
+                <li
+                  className={`text-center hover:text-gray-300 cursor-pointer ${
+                    lang === "en" ? "" : "border-r border-gray-400"
+                  } flex-1`}
+                >
+                  <a href="#">{t("layout.nav.calendar")}</a>
+                </li>
+              </ul>
+            </div>
 
-{/* === 1/4: Language Buttons === */}
-<div className="hidden lg:flex w-1/8 justify-center items-center space-x-4">
-  <button
-    disabled={lang === "ar"}
-    onClick={() => handleChangeLanguage("ar")}
-    className={`text-white ${
-      lang === "ar"
-        ? "font-extrabold underline text-xl hover:cursor-not-allowed"
-        : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"
-    } `}
-  >
-    AR
-  </button>
+            {/* === 1/4: Language Buttons === */}
+            <div className="hidden lg:flex w-1/8 justify-center items-center space-x-4">
+              <button
+                disabled={lang === "ar"}
+                onClick={() => handleChangeLanguage("ar")}
+                className={`text-white ${
+                  lang === "ar"
+                    ? "font-extrabold underline text-xl hover:cursor-not-allowed"
+                    : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"
+                } `}
+              >
+                AR
+              </button>
 
-  <span className="text-white text-2xl">|</span>
+              <span className="text-white text-2xl">|</span>
 
-  <button
-    disabled={lang === "en"}
-    onClick={() => handleChangeLanguage("en")}
-    className={`text-white ${
-      lang === "en"
-        ? "font-extrabold underline text-xl hover:cursor-not-allowed"
-        : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"
-    } mr-2`}
-  >
-    EN
-  </button>
-</div>
+              <button
+                disabled={lang === "en"}
+                onClick={() => handleChangeLanguage("en")}
+                className={`text-white ${
+                  lang === "en"
+                    ? "font-extrabold underline text-xl hover:cursor-not-allowed"
+                    : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"
+                } mr-2`}
+              >
+                EN
+              </button>
+            </div>
 
-{/* === 1/4: Auth Buttons === */}
+            {/* === 1/4: Auth Buttons === */}
 
-{user?.role === "user" || user?.role === "organizer" ? (
-  <div className="text-white flex items-center gap-6">
-    <button
-      onClick={() => navigate(`/tickets`)}
-      className="hidden md:flex flex-col items-center text-sm cursor-pointer"
-    >
-      <TicketIcon />
+            {user?.role === "user" || user?.role === "organizer" ? (
+              <div className="text-white flex items-center gap-6">
+                <button
+                  onClick={() => navigate(`/tickets`)}
+                  className="hidden md:flex flex-col items-center text-sm cursor-pointer"
+                >
+                  <TicketIcon />
 
-      <span>{t("layout.nav.tickets")}</span>
-    </button>
+                  <span>{t("layout.nav.tickets")}</span>
+                </button>
 
-    <button
-      onClick={() => navigate(`/interested`)}
-      className="hidden md:flex flex-col items-center text-sm cursor-pointer"
-    >
-      <Heart size={30} />
+                <button
+                  onClick={() => navigate(`/interested`)}
+                  className="hidden md:flex flex-col items-center text-sm cursor-pointer"
+                >
+                  <Heart size={30} />
 
-      <span>{t("layout.nav.interest")}</span>
-    </button>
+                  <span>{t("layout.nav.interest")}</span>
+                </button>
 
-    <div className="relative">
-      <button
-        onClick={() => setOpenProfile(!openProfile)}
-        className="flex items-center gap-1 cursor-pointer"
-      >
-        <div className="flex flex-col items-center text-sm">
-          <ProfileIcon />
+                <div className="relative">
+                  <button
+                    onClick={() => setOpenProfile(!openProfile)}
+                    className="flex items-center gap-1 cursor-pointer"
+                  >
+                    <div className="flex flex-col items-center text-sm">
+                      <ProfileIcon />
 
-          <span>{t("layout.nav.profile")}</span>
-        </div>
+                      <span>{t("layout.nav.profile")}</span>
+                    </div>
 
-        <ChevronDown size={20} />
-      </button>
+                    <ChevronDown size={20} />
+                  </button>
 
-      {openProfile && (
-        <div
-          className={`absolute ${
-            lang === "ar" ? "left-0 " : "right-0"
-          } mt-2 bg-white text-black shadow-lg  rounded-lg w-48 z-20`}
-        >
-          <button className="w-full flex justify-between text-left px-4 py-3 border-b border-gray-200 rounded-t-lg ">
-            <span>{t("layout.nav.wallet")}</span>
+                  {openProfile && (
+                    <div
+                      className={`absolute ${
+                        lang === "ar" ? "left-0 " : "right-0"
+                      } mt-2 bg-white text-black shadow-lg  rounded-lg w-48 z-20`}
+                    >
+                      <button className="w-full flex justify-between text-left px-4 py-3 border-b border-gray-200 rounded-t-lg ">
+                        <span>{t("layout.nav.wallet")}</span>
 
-            <span>{UserBalance || 0} EGP</span>
-          </button>
+                        <span>{UserBalance || 0} EGP</span>
+                      </button>
 
-          <button
-            onClick={() => {
-              navigate(`/profile/${user.id}`);
-            }}
-            className="w-full text-left px-4 py-3 hover:bg-gray-200 transition duration-300 cursor-pointer"
-          >
-            {t("layout.nav.profile")}
-          </button>
+                      <button
+                        onClick={() => {
+                          navigate(`/profile/${user.id}`);
+                        }}
+                        className="w-full text-left px-4 py-3 hover:bg-gray-200 transition duration-300 cursor-pointer"
+                      >
+                        {t("layout.nav.profile")}
+                      </button>
 
-          <button
-            onClick={handlelogout}
-            className={`w-full text-left px-4 py-3 transition duration-300 flex ${lang ==="ar" ? "flex-row-reverse" : ""} gap-2 items-center text-red-700 hover:text-white hover:bg-red-600 cursor-pointer`}
-          >
-            <DoorOpen size={20} />
+                      <button
+                        onClick={handlelogout}
+                        className={`w-full text-left px-4 py-3 transition duration-300 flex ${lang === "ar" ? "flex-row-reverse" : ""} gap-2 items-center text-red-700 hover:text-white hover:bg-red-600 cursor-pointer`}
+                      >
+                        <DoorOpen size={20} />
 
-            {t("layout.nav.logout")}
-          </button>
+                        {t("layout.nav.logout")}
+                      </button>
 
-          {user?.role === "user" ? (
-            <button
-              onClick={() => navigate("/organizer/upgrade")}
-              className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
-            >
-              {t("layout.nav.upgrade")}
-            </button>
-          ) : (
-            <button
-              onClick={() =>
-                navigate("/organizer/dashboard/overview")
-              }
-              className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
-            >
-              {t("layout.nav.dashboard")}
-            </button>
-          )}
-        </div>
-      )}
-    </div>
-  </div>
-) : (
-  <div className="hidden lg:flex w-1/5 justify-end space-x-4">
-    <button
-      onClick={() => {
-        navigate("/login");
-      }}
-      className="px-6 py-2 bg-secandry text-white rounded-md hover:bg-[#FF8370] transition w-3/5"
-    >
-      {t("layout.nav.join")}
-    </button>        </div>
+                      {user?.role === "user" ? (
+                        <button
+                          onClick={() => navigate("/organizer/upgrade")}
+                          className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
+                        >
+                          {t("layout.nav.upgrade")}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() =>
+                            navigate("/organizer/dashboard/overview")
+                          }
+                          className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
+                        >
+                          {t("layout.nav.dashboard")}
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="hidden lg:flex w-1/5 justify-end space-x-4">
+                <button
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                  className="px-6 py-2 bg-secandry text-white rounded-md hover:bg-[#FF8370] transition w-3/5"
+                >
+                  {t("layout.nav.join")}
+                </button>{" "}
+              </div>
             )}
 
             {/* === Mobile Menu Button === */}
@@ -304,21 +309,20 @@ function NavigationBar({ backGround = "primary" }) {
           {/* === Mobile Dropdown === */}
           {isOpen && (
             <div className="lg:hidden px-4 pb-4 space-y-2">
-             
-              <a
-                href="#"
+              <LocalLink
+                to="/events-pagenation?page=1&title=Happening%20Near%20You"
                 className="block text-white font-semibold hover:text-gray-300 mb-2 border-b py-3 border-white/30"
               >
                 {t("layout.nav.events")}
-              </a>
-              <a
-                href="#"
+              </LocalLink>
+              <LocalLink
+                to="/categories"
                 className="block text-white font-semibold hover:text-gray-300 mb-2 border-b py-3 border-white/30"
               >
                 {t("layout.nav.categories")}
-              </a>
+              </LocalLink>
               <a
-                href="#"
+                to="#"
                 className="block text-white font-semibold hover:text-gray-300 mb-5"
               >
                 {t("layout.nav.calendar")}
@@ -352,28 +356,26 @@ function NavigationBar({ backGround = "primary" }) {
                   >
                     {t("layout.nav.join")}
                   </button>
-                  
                 </div>
               )}
               <div className="flex lg:flex justify-center w-full items-center space-x-4 mt-4  ">
-              <button
-                disabled={lang === "ar"}
-                onClick={() => handleChangeLanguage("ar")}
-                className={`text-white  ${lang === 'ar' ? 'font-extrabold underline text-xl hover:cursor-not-allowed': 'font-bold text-xl hover:cursor-pointer hover:text-gray-300'} `}
-              >
-                AR
-              </button>
-              <span className="text-white text-2xl">|</span>
-              <button
-              disabled={lang === "en"}
-                onClick={() => handleChangeLanguage("en")}
-                className={`text-white ${lang === 'en' ? 'font-extrabold underline text-xl hover:cursor-not-allowed': 'font-bold text-xl hover:cursor-pointer hover:text-gray-300'}  mr-2`}
-              >
-                EN
-              </button>
+                <button
+                  disabled={lang === "ar"}
+                  onClick={() => handleChangeLanguage("ar")}
+                  className={`text-white  ${lang === "ar" ? "font-extrabold underline text-xl hover:cursor-not-allowed" : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"} `}
+                >
+                  AR
+                </button>
+                <span className="text-white text-2xl">|</span>
+                <button
+                  disabled={lang === "en"}
+                  onClick={() => handleChangeLanguage("en")}
+                  className={`text-white ${lang === "en" ? "font-extrabold underline text-xl hover:cursor-not-allowed" : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"}  mr-2`}
+                >
+                  EN
+                </button>
+              </div>
             </div>
-            </div>
-            
           )}
         </div>
       </nav>

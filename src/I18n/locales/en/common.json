@@ -153,7 +153,7 @@
       "nameLabel": "Name",
       "emailLabel": "E-mail Address",
       "passwordLabel": "Password",
-      "passwordPlaceholder": "Enter Password",
+      "passwordPlaceholder": "Password (min. 8 characters, 1 lowercase, 1 number, 1 symbol)",
       "namePlaceholder": "Enter Name",
       "emailPlaceholder": "Enter E-mail Address",
       "confirmPassword": "Confirm Password",

@@ -77,7 +77,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#B84DD6] text-white pt-14 pb-8  px-6 mt-5 align-bottom">
+    <footer className="bg-[#B84DD6] text-white pt-14 pb-8  px-6 align-bottom">
   <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-10">
     {/* Company Info */}
     <div>
@@ -164,12 +164,12 @@ export default function Footer() {
           ))
         ) : (
           <li>
-            <Link
+            <LocalLink
               to="/categories"
               className="hover:text-white font-semibold text-xl "
             >
               {t("layout.footer.allCategories")}
-            </Link>
+            </LocalLink>
           </li>
         )}
       </ul>

@@ -8,9 +8,11 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss()],
     server: {
+      port: 3000,
+      strictPort: true,
       proxy: {
         "/api": {
-          target: env.VITE_API_URL || "http://localhost:3000",
+          target: env.VITE_API_URL || "http://localhost:8000",
           changeOrigin: true,
           secure: false,
         },

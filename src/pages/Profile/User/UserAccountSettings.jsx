@@ -59,7 +59,7 @@ function UserAccountSettings() {
       <Title>{t("profile.settings.manage")}</Title>
 
       <PersonalInfoSection
-        userLocation={accountData?.location}
+        userLocation={accountData?.governorate}
         accountData={accountData}
       />
 

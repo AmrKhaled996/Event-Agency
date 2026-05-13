@@ -77,7 +77,7 @@ export default function DeleteAccountDialog({ open, onClose }) {
           disabled={loading}
           className="bg-gray-400 text-white px-4 py-2 rounded"
         >
-          {t("common.action.cancel")}
+          {t("cancel")}
         </button>
 
         <button
