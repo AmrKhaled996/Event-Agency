@@ -5,10 +5,12 @@ import { Title } from "react-head";
 import { useAuth } from "../../Hooks/useAuth";
 import { validateOTP } from "../../utils/FormVaildators";
 import OTPInput from "../../components/UI/OTPInput";
-import { verify } from "../../APIs/authAPIs";
+import { resendOtps, verify } from "../../APIs/authAPIs";
 import Loading from "../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { useTranslation } from "react-i18next";
+import { mapApiError } from "../../utils/apiErrorMapper";
+import { toast } from "sonner";
 
 function OTPVerificationPage() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -83,6 +85,7 @@ function OTPVerificationPage() {
       await resendOtps();
       toast.success(t("auth.otp.resentSuccess") || "OTP has been resent to your email.");
     } catch (error) {
+      console.log(error)
       const message = mapApiError(error);
       setDialogMessage(message);
       setopenDialog(true);

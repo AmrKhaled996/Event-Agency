@@ -82,6 +82,8 @@ export function AuthProvider({ children }) {
         const newToken = getAccessToken();
         syncUserFromToken(newToken);
       } catch (error) {
+        console.error("stat:",error.response);
+        
         console.error("Proactive refresh failed:", error);
         if (error.response?.status === 401 || error.response?.status === 403) {
           // If refresh fails due to invalid/expired refresh token, we logout

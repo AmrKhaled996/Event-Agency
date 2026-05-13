@@ -42,6 +42,6 @@ export async function reserveEventSeats(id, tickets, config = {}) {
   );
 }
 
-export async function SearchEvents({ search , filter}, config = {}) {
-  return axiosInstance.get(`/api/v1/events/search?search=${search}`, config);
-}
+// export async function SearchEvents({ search , filter}, config = {}) {
+//   return axiosInstance.get(`/api/v1/events/search?search=${search}`, config);
+// }

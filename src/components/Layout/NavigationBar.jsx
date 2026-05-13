@@ -18,6 +18,7 @@ import {  getWalletBalance } from "../../APIs/userAPIs";
 import { useTranslation } from "react-i18next";
 import useAppNavigate from "../../Router/useAppNavigate";
 import LocalLink from "../../Router/LocalLink";
+import { handleError } from "../../utils/errorHandler";
 function NavigationBar({ backGround = "primary" }) {
   const [isOpen, setIsOpen] = useState(false);
   const [UserBalance, setUserBalance] = useState(null);

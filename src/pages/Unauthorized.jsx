@@ -9,7 +9,7 @@ function UnauthorizedPage() {
             <WarningIcon />
             <h1 className="text-4xl font-bold mb-6  ">Unauthorized</h1>
             <p className="text-2xl text-center">You are not authorized to access this page.</p>
-            <button className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all" onClick={() => window.location.href = "/"}>
+            <button className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all" onClick={() => navigator("/")}>
                 Go Back Home
             </button>
 

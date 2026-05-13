@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Calendar, Clock, Heart, Share2 } from "lucide-react";
 import NavigationBar from "../../components/Layout/NavigationBar";
 import Footer from "../../components/Layout/Footer";

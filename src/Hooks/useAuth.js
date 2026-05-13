@@ -100,7 +100,7 @@ export function useAuth({
 
     // if (Object.keys(validationErr).length > 0) return;
     try {
-      const response = await onSubmit(otp, { _silentError: true });
+       await onSubmit(otp, { _silentError: true });
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {

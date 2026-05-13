@@ -3,7 +3,7 @@ import HomeHeader from "../../components/Layout/HomeHeader";
 import Card from "../../components/UI/Card";
 import { useCategories } from "../../Context/CategoriesProvider";
 import { Title } from "react-head";
-import { FilterIcon, X } from "lucide-react";
+import { FilterIcon, Search, X } from "lucide-react";
 import CardSkeleton from "../../components/UI/CardSkeleton";
 import {  useSearchParams } from "react-router-dom";
 
@@ -11,7 +11,7 @@ import { getSearchEvents } from "../../APIs/search";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/UI/AdminDashboard/Pagination";
 import { handleError } from "../../utils/errorHandler";
-import { toast } from "sonner";
+
 
 function SearchEventsPage() {
   const [cards, setCards] = useState(null);
@@ -21,7 +21,7 @@ function SearchEventsPage() {
   const [date, setDate] = useState("Today");
   const [activeTags, setActiveTags] = useState({ date: "", category: "" });
   const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const { categories, loading: categoriesLoading } = useCategories();
+  const { categories } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
   const location = searchParams.get("location") || "";
@@ -56,6 +56,8 @@ function SearchEventsPage() {
         silent: true,
         onMapped: (msg) => setErrorMessage(msg)
       });
+      console.error(message||error);
+      
       setCards([]); // Clear cards on error
     } finally {
       setIsFetching(false);
