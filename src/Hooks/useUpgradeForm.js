@@ -3,6 +3,7 @@ import { fields } from "../constants/upgradeConfig";
 import { validateFields } from "../utils/UpgradeValidation";
 import { becomeOrganizer } from "../APIs/userAPIs";
 import useAppNavigate from "../Router/useAppNavigate";
+import { refreshAccessToken } from "../services/cookieTokenService";
 
 /**
  * useUpgradeForm
@@ -26,6 +27,7 @@ export function useUpgradeForm() {
   const [submitted, setSubmitted]         = useState(false);
     const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigator = useAppNavigate();
 
   const closeDialog = () => {
@@ -94,12 +96,12 @@ export function useUpgradeForm() {
 
         }
         for (const key in fileData[selected]) {
-          fd.append(key, fileData[selected][key].file);
+          if(key !== 'photo')
+          fd.append(key, fileData[selected][key]);
   
         }
-        if(fileData?.photo?.file)
-
-          fd.append('photo',fileData?.photo?.file)
+        // if(fileData?.photo?.file)
+        //   fd.append('photo',fileData?.photo?.file)
         for (const key in socialData[selected]) {
           fd.append(key, socialData[selected][key]);
         }
@@ -107,15 +109,20 @@ export function useUpgradeForm() {
         // console.log("Submitted form data:", formData);
         // console.log("Submitted file data:", fileData);
         // console.log("Submitted social data:", socialData);
-        
+        setLoading(true);
         const response = await becomeOrganizer(fd);
-        setSubmitted(true);
+        const token = await refreshToken()
+        refreshAccessToken(token.data)
         navigator("/organizer/otp-verification") 
+        setSubmitted(true);
 
       } catch (error) {
         setopenDialog(true);
         setDialogMessage(error?.response?.data?.data?.dialogMessage||"Something went wrong");
         console.error("Error submitting form:", error);
+      }
+      finally {
+        setLoading(false);
       }
     }
   };
@@ -140,6 +147,7 @@ export function useUpgradeForm() {
     submitted,
     openDialog,
     dialogMessage,
+    loading,
     handleCategorySelect,
     handleFieldChange,
     handleFieldBlur,
