@@ -6,7 +6,7 @@ import { validateLogin } from "../../../utils/FormVaildators";
 
 import { useAuth } from "../../../Hooks/useAuth";
 import EyeTrager from "../../../components/Icons/Eyetrager";
-import { getGoogleAuth } from "../../../APIs/authAPIs";
+
 import Loading from "../../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import { useState } from "react";

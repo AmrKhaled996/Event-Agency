@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { adminDashboardauth, getDashboardSummary } from "../../../APIs/adminDashboardApis";
+import {  getDashboardSummary } from "../../../APIs/adminDashboardApis";
 import { useEffect, useState } from "react";
-import { refreshAccessToken } from "../../../services/cookieTokenService";
 import { Title } from "react-head";
 import Loading from "../../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
@@ -58,8 +57,8 @@ export default function DashboardSummaryPanel() {
   const d = MOCK_DATA;
   const [summaryData, setsummaryData] = useState(d);
   const [loading, setloading] = useState(false);
-  const [openDialog, setopenDialog] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState("");
+  // const [openDialog, setopenDialog] = useState(false);
+  // const [dialogMessage, setDialogMessage] = useState("");
 
   const handleGetData =async()=>{
     try {
@@ -71,8 +70,8 @@ export default function DashboardSummaryPanel() {
       
     } catch (error) {
       const message =
-        error.response?.data?.data?.message || "Something went wrong";
-      console.error(error);
+        error.response?.data?.data[0]?.message || "Something went wrong";
+      console.error(message || error);
       // setDialogMessage(message);
       // setopenDialog(true);
     }
@@ -139,13 +138,13 @@ export default function DashboardSummaryPanel() {
         />
       </Section>
            {loading && <Loading />}
-                 {openDialog && (
+                 {/* {openDialog && (
         <ErrorDialog
           open={openDialog}
           message={dialogMessage}
           onClose={() => setopenDialog(false)}
         />
-      )}
+      )} */}
     </div>
   );
 }

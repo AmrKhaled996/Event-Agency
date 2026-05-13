@@ -34,19 +34,16 @@ export default function HeroSection() {
     }
     if (location) params.set("location", location);
 
-    // if (!location || !trimmed) {
-    //   toast.error(t("ui.hero.searchError"), {
-    //     duration: 3000,
-    //   });
-      // setopenDialog(true);
-      // setDialogMessage(t("ui.hero.searchError"));
-      // return;
-    // } else {
+    if (!trimmed) {
+      setopenDialog(true);
+      setDialogMessage(t("ui.hero.searchError"));
+      return;
+    } else {
       setSearchPramas(params);
       navigate(
         `/search-events${params.toString() ? `?${params.toString()}` : ""}`,
       );
-    // }
+    }
   };
 
   return (

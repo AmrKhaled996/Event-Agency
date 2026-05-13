@@ -60,7 +60,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   const [isInterested, setisInterested] = useState(
     event?.isInterested || false,
   );
-  const token=getAccessToken();
+
   const navigate = useAppNavigate();
   const { t } = useTranslation();
   const { user } = useUser();
@@ -152,9 +152,9 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
     try {
       setisInterested((prv) => !prv);
       if (isInterested) {
-        const response = await removeFromInterested(event.id);
+         await removeFromInterested(event.id);
       } else {
-        const response = await addToInterested(event.id);
+         await addToInterested(event.id);
       }
     } catch (error) {
       console.error(error?.response || error);

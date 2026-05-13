@@ -1,9 +1,8 @@
 import { ArrowRight, Ticket } from "lucide-react";
-import { use, useEffect, useRef, useState } from "react";
+import {  useEffect,  useState } from "react";
 import { Title } from "react-head";
 import QRCode from "react-qr-code";
-import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
+
 import TicketDialog from "../../components/Dialogs/TicketDialog";
 import { Skeleton } from "../../components/shadcn/skeleton";
 import { Card, CardContent, CardHeader } from "../../components/shadcn/card";
@@ -140,7 +139,7 @@ function DisplayUserTickets() {
         "
         >
           {tickets?.length >= 1
-            ? tickets?.map((order, index) => (
+            ? tickets?.map((order) => (
                 <div
                   key={order?.tickets[0]?.ticketId}
                   onClick={() => {

@@ -1,12 +1,12 @@
-import { use, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import HomeHeader from "../../components/Layout/HomeHeader";
 import Card from "../../components/UI/Card";
 import { useCategories } from "../../Context/CategoriesProvider";
 import { Title } from "react-head";
 import { FilterIcon, X } from "lucide-react";
 import CardSkeleton from "../../components/UI/CardSkeleton";
-import { useLocation, useSearchParams } from "react-router-dom";
-import { latestEvents } from "../../APIs/homeApis";
+import {  useSearchParams } from "react-router-dom";
+
 import { getSearchEvents } from "../../APIs/search";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/UI/AdminDashboard/Pagination";
@@ -19,7 +19,7 @@ function SearchEventsPage() {
   const [date, setDate] = useState("Today");
   const [activeTags, setActiveTags] = useState({ date: "", category: "" });
   const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const { categories, loading } = useCategories();
+  const { categories } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
   const location = searchParams.get("location") || "";

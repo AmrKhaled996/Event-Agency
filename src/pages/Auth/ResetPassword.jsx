@@ -28,6 +28,7 @@ function ResetPassword() {
     const values = { password, confirmPassword };
     const validationErrors = validateResetPassword(values);
     if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       setDialogMessage(
         validationErrors.password || validationErrors.confirmPassword,
       );

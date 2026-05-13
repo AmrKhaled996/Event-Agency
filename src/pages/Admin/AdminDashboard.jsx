@@ -5,16 +5,16 @@ import Header from "../../components/Layout/Header";
 import { buildNav } from "../../constants/adminDashboardNav";
 
 /* ── Panels ─────────────────────────────────────────────────────────────── */
-import DashboardSummaryPanel from "./panels/DashboardSummaryPanel";
-import ReviewQueuePanel from "./panels/ReviewQueuePanel";
-import ListUsersPanel from "./panels/ListUsersPanel";
-import ListOrganizersPanel from "./panels/ListOrganizersPanel";
+import {DashboardSummaryPanel} from "./Panels"; 
+import {ReviewQueuePanel} from "./Panels"; 
+import {ListUsersPanel} from "./Panels"; 
+import {ListOrganizersPanel} from "./Panels"; 
 // import AnalyticsPanel         from "./panels/AnalyticsPanel";
-import ActiveUsersPanel from "./panels/ActiveUsersPanel";
+import {ActiveUsersPanel} from "./Panels"; 
 // import FinanceSummaryPanel    from "./panels/FinanceSummaryPanel";
 // import ProcessPayoutsPanel    from "./panels/ProcessPayoutsPanel";
-import ListEventsPanel from "./panels/ListEventsPanel";
-import { ListCategoriesPanel } from "./Panels";
+import {ListEventsPanel} from "./Panels"; 
+import  {ListCategoriesPanel}  from "./Panels";
 import { adminDashboardauth } from "../../APIs/adminDashboardApis";
 import { adminRefreshAccessToken } from "../../services/cookieTokenService";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";

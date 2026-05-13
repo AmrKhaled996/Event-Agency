@@ -7,7 +7,7 @@ import { updatePreferences } from "../../../APIs/profileAPI";
 import { refreshToken } from "../../../APIs/authAPIs";
 import { refreshAccessToken } from "../../../services/cookieTokenService";
 // @ts-ignore
-import {  useParams } from "react-router-dom";
+
 import { useTranslation } from "react-i18next";
 
 /**

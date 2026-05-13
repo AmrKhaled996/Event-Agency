@@ -1,4 +1,4 @@
-import { Outlet, useParams, useNavigate } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 

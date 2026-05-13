@@ -5,13 +5,12 @@ import {  useParams } from "react-router-dom";
 import { useAuth } from "../../../Hooks/useAuth";
 import { validateSignup } from "../../../utils/FormVaildators";
 import EyeTrager from "../../../components/Icons/Eyetrager";
-import { getGoogleAuth } from "../../../APIs/authAPIs";
 import Loading from "../../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import { useTranslation } from "react-i18next";
 import { adminDashboardauth } from "../../../APIs/adminDashboardApis";
 
-function SignUpFormAttendeeUser({ loadingpage }) {
+function SignUpFormAttendeeUser() {
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const {t}=useTranslation();

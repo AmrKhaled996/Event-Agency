@@ -1,4 +1,4 @@
-import { adminDashboardauth, approveOrganizer, getOrganizers, getReviewQueue, reactivateOrganizer, rejectOrganizer, suspendOrganizer } from "../../../APIs/adminDashboardApis";
+import {  approveOrganizer,  getReviewQueue, reactivateOrganizer, rejectOrganizer, suspendOrganizer } from "../../../APIs/adminDashboardApis";
 import InfoDialog from "../../../components/Dialogs/InfoDialog";
 import Pagination from "../../../components/UI/AdminDashboard/Pagination";
 import StatusPill from "../../../components/UI/AdminDashboard/StatusPill";
@@ -82,7 +82,7 @@ function ActionBtn({ actionKey, label, onClick, active }) {
 }
 
 /* ── Row ── */
-function OrganizerRow({ org, t ,selectedData,setSelectedData,setInfoDialogOpen,infoDialogOpen}) {
+function OrganizerRow({ org, t ,setSelectedData,setInfoDialogOpen}) {
   const [activeAction, setActiveAction] = useState(null);
   const [reason, setReason] = useState("");
   const [result, setResult] = useState(null);
@@ -121,28 +121,28 @@ function OrganizerRow({ org, t ,selectedData,setSelectedData,setInfoDialogOpen,i
 
   const handleApprove=async()=>{
     try {
-      const response = await approveOrganizer(org.id);
+       await approveOrganizer(org.id);
     } catch (error) {
       console.error(error)
     }
   }
   const handleReactivate=async()=>{
     try {
-      const response = await reactivateOrganizer(org.id);
+       await reactivateOrganizer(org.id);
     } catch (error) {
       console.error(error)
     }
   }
   const handleReject=async()=>{
     try {
-      const response = await rejectOrganizer(org.id, reason);
+       await rejectOrganizer(org.id, reason);
     } catch (error) {
       console.error(error)
     }
   }
   const handleSuspend=async()=>{
     try {
-      const response = await suspendOrganizer(org.id, reason);
+      await suspendOrganizer(org.id, reason);
     } catch (error) {
       console.error(error)
     }
@@ -305,7 +305,7 @@ export default function ReviewQueuePanel() {
 
             <tbody>
               {organizersList?.map((org) => (
-                <OrganizerRow key={org.id} org={org} t={t} selectedData={setSelectedData} setSelectedData={setSelectedData} setInfoDialogOpen={setInfoDialogOpen} infoDialogOpen={infoDialogOpen}  />
+                <OrganizerRow key={org.id} org={org} t={t}  setSelectedData={setSelectedData} setInfoDialogOpen={setInfoDialogOpen}   />
               ))}
             </tbody>
           </table>

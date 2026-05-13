@@ -109,7 +109,7 @@ function EventsPagination() {
               const nextPage = eventsPage - 1;
               const newUrlParams = new URLSearchParams(location.search);
               newUrlParams.set("page", nextPage);
-              const newUrl = `${location.pathname}?${newUrlParams.toString()}`;
+              // const newUrl = `${location.pathname}?${newUrlParams.toString()}`;
               navigate(`${location.pathname}?${newUrlParams.toString()}`);
               setEventsPage(nextPage);
               scrollTo(0, 0);
@@ -129,9 +129,9 @@ function EventsPagination() {
               const nextPage = eventsPage + 1;
               const newUrlParams = new URLSearchParams(location.search);
               newUrlParams.set("page", nextPage);
-              const newUrl = `${
-                window.location.pathname
-              }?${newUrlParams.toString()}`;
+              // const newUrl = `${
+              //   window.location.pathname
+              // }?${newUrlParams.toString()}`;
               navigate(`${location.pathname}?${newUrlParams.toString()}`);
               setEventsPage(nextPage);
               scrollTo(0, 0);

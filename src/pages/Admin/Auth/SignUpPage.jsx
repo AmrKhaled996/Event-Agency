@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import GoogleLogo from "../../../components/Icons/GoogleLogo";
 import FacebookLogo from "../../../components/Icons/FacebookLogo";
 
@@ -13,7 +13,7 @@ import SignUpFormAttendeeUser from "./SignUpFormAttendeeUser";
 
 function SignUpPageAdmin() {
   // const [userRole, setUserRole] = useState("attendee");
-  const [loading, setLoading] = useState(null);
+  // const [loading, setLoading] = useState(null);
   const {t}=useTranslation()
 
   const navigator = useAppNavigate();
@@ -45,7 +45,9 @@ function SignUpPageAdmin() {
       {/* RIGHT SIDE */}
       <div className="lg:w-[60%] w-full bg-white flex flex-col justify-center px-3 lg:px-10 md:px-6  relative lg:rounded-l-3xl rounded-t-3xl  outline-white outline-10 shadow-[0_-25px_50px_2px] shadow-black ">
         {/* Close Button (optional) */}
-        <button className="absolute top-3 right-3 lg:top-6 lg:right-6 text-gray-400 text-4xl hover:text-gray-600 ">
+        <button 
+        onClick={()=>navigator("/")}
+        className="absolute top-3 right-3 lg:top-6 lg:right-6 text-gray-400 text-4xl hover:text-gray-600 ">
           &times;
         </button>
 
@@ -53,7 +55,9 @@ function SignUpPageAdmin() {
           {t("auth.signup.createAccount")}
         </h2>
 
-        <SignUpFormAttendeeUser loadingpage={setLoading} />
+        <SignUpFormAttendeeUser 
+        // loadingpage={setLoading}
+         />
 
         <p className="mt-2 mb-6 text-gray-600 text-center">
           {t("auth.signup.alreadyHaveAccount")} &nbsp;
@@ -65,7 +69,7 @@ function SignUpPageAdmin() {
           </LocalLink>
         </p>
       </div>
-      {loading && <Loading />}
+      {/* {loading && <Loading />} */}
     </div>
   );
 }

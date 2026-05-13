@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import InfoDialog from "../../../components/Dialogs/InfoDialog";
 import UpdateDialog from "../../../components/Dialogs/UpdateDialog";
 import DeleteDialog from "../../../components/Dialogs/DeleteDialog";
-import { getStatsOrgainzerDashboard } from "../../../APIs/organizerDashboardAPIs";
 import { cancelEvent, deleteEvent, getAllEvents } from "../../../APIs/organizerApis";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import Loading from "../../../components/Layout/LoadingLayout";
@@ -33,7 +32,7 @@ export default function OrganizerEventsPage() {
       // Call API to delete event
       const eventId = selectedEvent.id;
 
-      const response = await deleteEvent(eventId);
+       await deleteEvent(eventId);
 
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.id !== eventId),
@@ -50,7 +49,7 @@ export default function OrganizerEventsPage() {
       // Call API to cancel event
       const eventId = selectedEvent.id;
 
-      const response = await cancelEvent(eventId);
+       await cancelEvent(eventId);
 
       setEvents((prevEvents) =>
         prevEvents.filter((event) => event.id !== eventId),

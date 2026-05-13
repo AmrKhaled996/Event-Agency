@@ -2,7 +2,7 @@ import { Title } from "react-head";
 import { getInterestedEvents } from "../../APIs/userAPIs";
 import CardDisplaySection from "../../components/Layout/CardDisplaySection";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../../components/UI/Card";
 import CardSkeleton from "../../components/UI/CardSkeleton";
 import { useTranslation } from "react-i18next";

@@ -12,10 +12,10 @@ import { Title } from "react-head";
 
 function UserAccountSettings() {
   const { t } = useTranslation();
-  const { categories, loading } = useCategories();
+  const { categories } = useCategories();
   const [preferences, setPreferences] = useState([]);
   const location = useLocation();
-  const [authProvider, setAuthProvider] = useState("");
+
   const { accountData } = location.state || {};
 
 
@@ -41,11 +41,11 @@ function UserAccountSettings() {
   };
 
   useEffect(() => {
-    setAuthProvider(accountData?.authProvider);
     try {
       if (categories.length === 0) return;
       handleGetUserPreferences();
     } catch (error) {
+      console.error(error);
     }
   }, [categories, accountData]);
   return (

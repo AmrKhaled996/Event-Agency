@@ -28,7 +28,7 @@ function LocationSelection() {
     try {
       setLoading(true);
 
-      const response = await location({ governorate: Location });
+      await location({ governorate: Location });
 
       navigator("/onboarding/preference-selection");
     } catch (error) {
