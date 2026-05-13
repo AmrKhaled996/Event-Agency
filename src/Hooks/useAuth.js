@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-import { setTokens } from "../services/cookieTokenService";
+import { getAccessToken, removeTokens, setTokens } from "../services/cookieTokenService";
 import { resendOtps, logout } from "../APIs/authAPIs";
 import { useUser } from "../Context/AuthProvider";
 import useAppNavigate from "../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
+import { jwtDecode } from "jwt-decode";
 
 export function useAuth({
   initialValues = {},
@@ -16,8 +17,10 @@ export function useAuth({
   dialogMessage,
   setDialogMessage,
   setopenDialog,
+  inAdmin=false
+
 }) {
-  const { user, setUser } = useUser();
+  const { user, setUser, updateUser } = useUser();
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -25,7 +28,7 @@ export function useAuth({
   // const [dialogMessage, setDialogMessage] = useState("");
   const navigate = useAppNavigate();
   const [loading, setLoading] = useState(false);
-  const {t}=useTranslation();
+  const { t } = useTranslation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +44,7 @@ export function useAuth({
 
     const formData = Object.fromEntries(new FormData(e.target).entries());
 
-    const validationErr = validator(formData,t);
+    const validationErr = validator(formData, t);
 
     setErrors(validationErr);
 
@@ -53,12 +56,26 @@ export function useAuth({
       const response = await onSubmit(formData);
 
       setTokens(response.data.data);
+      if(inAdmin){
+       const accessToken = getAccessToken();
+       console.log("acces:",accessToken)
+            if (!accessToken) 
+            throw new Error("Access token not found");     
+            const decoded = jwtDecode(accessToken);
+            decoded.role="admin"
+            console.log("de",decoded)
+            updateUser(decoded);
+      }
+      
+      // const response2 = await refreshToken();
+      // await refreshAccessToken(response2.data);
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
       const message =
-        error.response?.data?.data?.error || "Something went wrong";
-      console.error("message", message);
+        error.response?.data?.data[0]?.message || "Something went wrong";
+      // console.error("message", message);
+      // console.error("message", error.response?.data?.data[0]?.message);
       setDialogMessage(message);
       setopenDialog(true);
     } finally {
@@ -66,12 +83,13 @@ export function useAuth({
     }
   };
   const submitOTP = async (otp) => {
-    const validationErr = validator(otp,t);
+    const validationErr = validator(otp, t);
 
     setErrors(validationErr);
 
     // if (Object.keys(validationErr).length > 0) return;
     try {
+      setLoading(true);
       const response = await onSubmit(otp);
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
@@ -79,11 +97,14 @@ export function useAuth({
       const message = error.response?.data?.data?.otp || "Something went wrong";
       setDialogMessage(message);
       setopenDialog(true);
+    } finally {
+      setLoading(false);
     }
   };
 
   const resendOtp = async () => {
     try {
+      setLoading(true);
       const response = await resendOtps();
     } catch (error) {
       const message =
@@ -91,6 +112,8 @@ export function useAuth({
         "Something went wrong resending OTP";
       setDialogMessage(message);
       setopenDialog(true);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -7,12 +7,12 @@ function ProtectedRoutes({ children, Roles }) {
 
   // If user is not logged in
   if (!user || Object.keys(user).length === 0) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/en/login" state={{ from: location }} replace />;
   }
 
   // If user doesn't have the required role
   if (Roles && !Roles.includes(user.role)) {
-    return <Navigate to="/unauthorized" replace />;
+    return <Navigate to="/en/unauthorized" replace />;
   }
 
   return children;

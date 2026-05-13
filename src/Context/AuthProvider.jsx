@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { getAccessToken, refreshAccessToken } from "../services/cookieTokenService";
+import { adminRefreshAccessToken, getAccessToken, refreshAccessToken } from "../services/cookieTokenService";
 import { jwtDecode } from "jwt-decode";
 import { refreshToken as refreshTokenAPI } from "../APIs/authAPIs";
+import { adminDashboardauth } from "../APIs/adminDashboardApis";
 
 const AuthContext = createContext();
 
@@ -30,12 +31,21 @@ export function AuthProvider({ children }) {
     // Token refresh will be handled automatically by interceptors if needed,
     // or we can manually refresh here if we want to ensure latest session.
     try {
-      const response = await refreshTokenAPI();
-      await refreshAccessToken(response.data);
+      if(userData?.role === "admin") {
+        const response = await adminDashboardauth.refreshtoken();
+        await adminRefreshAccessToken(response.data);
+      }else{
+        const response = await refreshTokenAPI();
+        await refreshAccessToken(response.data);
+      }
       const newToken = getAccessToken();
       syncUserFromToken(newToken);
     } catch (error) {
       console.error("Failed to refresh token during updateUser:", error);
+      console.error(
+        error.response?.data?.data[0]?.message || "Something went wrong"
+      );
+      
     }
   }, [syncUserFromToken]);
 

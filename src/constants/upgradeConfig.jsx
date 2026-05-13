@@ -117,6 +117,7 @@ export const fields = {
   ],
   business: [
     { id: "name",   label: "upgradeToOrganizer.fields.businessName",           placeholder: "upgradeToOrganizer.fields.placeholders.businessName",        type: "text", half: true,  required: true, validate: (v) => v.trim().length < 2 ? "upgradeToOrganizer.validation.businessNameRequired" : null },
+    { id: "ownerName",   label: "upgradeToOrganizer.fields.businessName",           placeholder: "upgradeToOrganizer.fields.placeholders.businessName",        type: "text", half: true,  required: true, validate: (v) => v.trim().length < 2 ? "upgradeToOrganizer.validation.businessNameRequired" : null },
     { id: "contactEmail",      label: "upgradeToOrganizer.fields.email",              placeholder: "upgradeToOrganizer.fields.placeholders.email",  type: "email", half: true,  required: true,  validate: (v) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "upgradeToOrganizer.validation.invalidEmail" : null },
     { id: "contactPhone",         label: "upgradeToOrganizer.fields.phone",            placeholder: "upgradeToOrganizer.fields.placeholders.phone",         type: "tel",  half: true,  required: true, validate: (v) => !/^\+?[\d\s\-(]{7,20}$/.test(v) ? "upgradeToOrganizer.validation.invalidPhone" : null },
     { id: "address",       label: "upgradeToOrganizer.fields.businessAddress",        placeholder: "upgradeToOrganizer.fields.placeholders.address",     type: "text", half: true,  required: true, validate: (v) => v.trim().length < 5 ? "upgradeToOrganizer.validation.addressRequired" : null },

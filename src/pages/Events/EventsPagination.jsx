@@ -59,7 +59,7 @@ function EventsPagination() {
           setDialogMessage("Error confirming order");
           break;
       }
-      console.log("first",response?.data?.data?.events)
+
       setCards(response?.data?.data?.events || []);
     } catch (error) {
       console.error(error);

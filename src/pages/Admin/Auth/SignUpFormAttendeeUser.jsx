@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FacebookLogo from "../../../components/Icons/FacebookLogo";
 import GoogleLogo from "../../../components/Icons/GoogleLogo";
-import { redirect } from "react-router-dom";
+import { redirect, useParams } from "react-router-dom";
 import { useAuth } from "../../../Hooks/useAuth";
 import { validateSignup } from "../../../utils/FormVaildators";
 import EyeTrager from "../../../components/Icons/Eyetrager";
@@ -15,6 +15,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
   const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const {t}=useTranslation();
+  const {lang}=useParams();
   const {
     values,
     handleChange,
@@ -31,6 +32,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
     initialValues: { name: "", email: "", password: "" },
     validator: validateSignup,
     onSubmit: adminDashboardauth.signup,
+    inAdmin:true,
     redirectFrom: "signup",
     redirectTo: "/admin",
     openDialog,
@@ -146,7 +148,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
               </small>
             )}
             <span
-              className="absolute right-6 top-5 text-gray-400 cursor-pointer"
+              className={`absolute ${lang === "en" ? "right-6" : "left-6"} top-5 text-gray-400 cursor-pointer`}
               onClick={handleShowPassword}
             >
               <EyeTrager />

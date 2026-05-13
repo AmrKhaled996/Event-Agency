@@ -1,6 +1,8 @@
 import WarningIcon from "../components/Icons/WarningIcon";
+import useAppNavigate from "../Router/useAppNavigate";
 
 function NotFoundPage() {
+    const navigator = useAppNavigate();
     return ( 
         
                 <div className="w-full flex flex-col items-center justify-center min-h-140 h-[60vh]">
@@ -8,7 +10,7 @@ function NotFoundPage() {
             <WarningIcon />
             <h1 className="text-4xl font-bold mb-6  ">Page Not Founded</h1>
             <p className="text-2xl text-center">there is no such page. or maybe you are lost</p>
-            <botton className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all" onClick={() => window.location.href = "/"}>
+            <botton className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-all" onClick={() => navigator("/")}>
                 Go Back Home
             </botton>
 

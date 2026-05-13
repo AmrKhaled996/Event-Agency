@@ -15,6 +15,7 @@ import useAppNavigate from "../../../Router/useAppNavigate";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { adminDashboardauth } from "../../../APIs/adminDashboardApis";
+import { removeTokens } from "../../../services/cookieTokenService";
 
 function LoginPageAdmin() {
   const navigate = useAppNavigate();
@@ -25,6 +26,7 @@ function LoginPageAdmin() {
     {
       validator: validateLogin,
       onSubmit: adminDashboardauth.login,
+      inAdmin: true,
       redirectTo: "/admin",
       origin: "login",
       openDialog,
@@ -46,6 +48,7 @@ function LoginPageAdmin() {
       console.error(error.response?.data || "something go wrong");
     }
   };
+  
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">
       <Title>{t("auth.login.title")}</Title>
@@ -71,7 +74,9 @@ function LoginPageAdmin() {
       <div className="lg:w-[60%] w-full bg-white flex flex-col justify-center px-3 lg:px-10 md:px-6  relative lg:rounded-l-3xl rounded-t-3xl  outline-white outline-10 shadow-[0_-25px_50px_2px] shadow-black ">
         {/* Close Button (optional) */}
         <button
-          onClick={() => navigate("/")}
+          onClick={() => {
+            removeTokens();
+            navigate("/")}}
           className="absolute top-3 right-3 lg:top-6 lg:right-6 text-gray-400 text-4xl hover:text-gray-600 "
         >
           &times;
