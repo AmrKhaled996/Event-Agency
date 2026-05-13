@@ -12,10 +12,12 @@ import {
 import { useUpgradeForm } from "../../../Hooks/useUpgradeForm";
 import useAppNavigate from "../../../Router/useAppNavigate";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
+import Loading from "../../../components/Layout/LoadingLayout";
 
 export default function UpgradePage() {
   const navigate = useAppNavigate();
   const { t } = useTranslation();
+
 
   const {
     selected,
@@ -27,6 +29,7 @@ export default function UpgradePage() {
     submitted,
     openDialog,
     dialogMessage,
+    loading,
     handleCategorySelect,
     handleFieldChange,
     handleFieldBlur,
@@ -92,6 +95,7 @@ export default function UpgradePage() {
           onClose={closeDialog}
         />
       )}
+      {loading && <Loading />}
     </div>
   );
 }

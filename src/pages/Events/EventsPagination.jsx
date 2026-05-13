@@ -43,23 +43,23 @@ function EventsPagination() {
       setLoading(true);
       let response;
       switch (title) {
-        case "Past Events and Highlights":
+        case t(`homePage.sections.past`):
           response = await pastEvents(page);
           break;
-        case "Happening Near You":
+        case t(`homePage.sections.nearby`):
           response = await nearbyEvents(page);
           break;
-        case "What’s New This Week":
+        case t(`homePage.sections.new`):
           response = await newEventsThisWeek(page);
           break;
-        case "Events Just for You":
+        case t(`homePage.sections.curated`):
           response = await personalizedEvents(page);
           break;
         default:
           setDialogMessage("Error confirming order");
           break;
       }
-
+      console.log("first",response?.data?.data?.events)
       setCards(response?.data?.data?.events || []);
     } catch (error) {
       console.error(error);

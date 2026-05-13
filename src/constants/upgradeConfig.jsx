@@ -133,7 +133,7 @@ export const fields = {
     { id: "contactPhone",label: "upgradeToOrganizer.fields.contactPhone",placeholder: "upgradeToOrganizer.fields.placeholders.phone",            type: "tel",  half: true,  required: true, validate: (v) => !/^\+?[\d\s\-(]{7,20}$/.test(v) ? "upgradeToOrganizer.validation.invalidPhone" : null },
     { id: "contactEmail",      label: "upgradeToOrganizer.fields.email",              placeholder: "upgradeToOrganizer.fields.placeholders.email",  type: "email", half: true,  required: true,  validate: (v) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "upgradeToOrganizer.validation.invalidEmail" : null },
     { id: "address",     label: "upgradeToOrganizer.fields.companyAddress",       placeholder: "upgradeToOrganizer.fields.placeholders.address",        type: "text", half: false, required: true, validate: (v) => v.trim().length < 5 ? "upgradeToOrganizer.validation.addressRequired" : null },
-    { id: "officialDocuments",   label: "upgradeToOrganizer.fields.officialDocuments",    type: "pdf",   half: false, required: true },
+    { id: "officialDocument",   label: "upgradeToOrganizer.fields.officialDocuments",    type: "pdf",   half: false, required: true },
     { id: "_social",     type: "social", half: false },
     { id: "photo",       label: "upgradeToOrganizer.fields.profilePhoto",         type: "photo", half: false, required: true },
   ],

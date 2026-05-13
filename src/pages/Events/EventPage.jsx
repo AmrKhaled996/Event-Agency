@@ -891,7 +891,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
                     )
                   ) : (
                     <p className="text-lg pl-3 mb-2 text-red-600">
-                      {t("events.details.seatMap.cannotBuy")}
+                      {t("events.details.seatMap.cannotbuy")}
                     </p>
                   )}
                 </div>

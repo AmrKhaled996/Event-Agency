@@ -104,7 +104,7 @@ function OTPVerificationPage() {
         />
 
         {/* Timer */}
-        <div className={`flex text-3xl font-bold mb-6 felx-row-reverse`}>
+        <div className={`flex text-3xl font-bold mb-6 flex-row-reverse`}>
          {(minutes +":" +seconds)}
         </div>
 
