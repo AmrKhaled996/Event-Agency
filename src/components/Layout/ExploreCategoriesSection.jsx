@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import {  useRef } from "react";
 
 import { useCategories } from "../../Context/CategoriesProvider";
 import CategoriesSkeleton from "../UI/CategoriesSkeleton";
@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 
 function ExploreCategories() {
   const { t } = useTranslation();
-  const { categories, loading} = useCategories();
+  const { categories} = useCategories();
   const {lang}=useParams();
   
   

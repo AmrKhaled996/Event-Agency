@@ -4,6 +4,7 @@ import { validateFields } from "../utils/UpgradeValidation";
 import { becomeOrganizer } from "../APIs/userAPIs";
 import useAppNavigate from "../Router/useAppNavigate";
 import { refreshAccessToken } from "../services/cookieTokenService";
+import { refreshToken } from "../APIs/authAPIs";
 
 /**
  * useUpgradeForm
@@ -110,7 +111,7 @@ export function useUpgradeForm() {
         // console.log("Submitted file data:", fileData);
         // console.log("Submitted social data:", socialData);
         setLoading(true);
-        const response = await becomeOrganizer(fd);
+         await becomeOrganizer(fd);
         const token = await refreshToken()
         refreshAccessToken(token.data)
         navigator("/organizer/otp-verification") 

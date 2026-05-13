@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../UI/Card";
 import { useUser } from "../../Context/AuthProvider";
-import { latestEvents } from "../../APIs/homeApis";
+
 import Loading from "./LoadingLayout";
 import CardSkeleton from "../UI/CardSkeleton";
 import useAppNavigate from "../../Router/useAppNavigate";
@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 function CardDisplaySection({ title, endpoint }) {
   const [cards, setcards] = useState([]);
-  const { user } = useUser();
+
   
   const navigate = useAppNavigate();
   const { t } = useTranslation();

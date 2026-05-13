@@ -14,7 +14,7 @@ function OTPVerificationPageAdmin() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timeLeft, setTimeLeft] = useState(600);
   const inputsRef = useRef([]);
-  const location = useLocation();
+
     const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const {t} = useTranslation();
@@ -23,7 +23,6 @@ function OTPVerificationPageAdmin() {
     // showDialog,
     // dialogMessage,
     // closeDialog,
-    resendOtp,
     loading,
   } = useAuth({
     initialValues: { otp: "" },

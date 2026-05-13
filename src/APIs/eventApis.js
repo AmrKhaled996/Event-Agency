@@ -1,6 +1,6 @@
 import { axiosInstance } from "./axiosInstance";
 
-export async function getEvents({ id, slug }) {
+export async function getEvents({ id }) {
   return axiosInstance.get(`/api/v1/events/${id}`, {});
 }
 
@@ -37,6 +37,3 @@ export async function reserveEventSeats(id, tickets) {
   );
 }
 
-export async function SearchEvents({ search , filter}) {
-  return axiosInstance.get(`/api/v1/events/search?search=${search}`, {});
-}

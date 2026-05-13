@@ -11,7 +11,7 @@ export default function TagInput({ tags = [], setTags }) {
   const [error, setError] = useState("");
   const inputRef = useRef(null);
 
-  const internalTags = setTags ? tags : undefined;
+
   const [localTags, setLocalTags] = useState([]);
   const activeTags = setTags ? tags : localTags;
   const setActiveTags = setTags ? setTags : setLocalTags;

@@ -4,8 +4,8 @@ import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useEffect, useRef, useState } from "react";
-import { axiosInstance } from "../../APIs/axiosInstance";
-import { extractDateParts, extractDateTime } from "../../utils/dateFormater";
+
+import {  extractDateTime } from "../../utils/dateFormater";
 import { getTicketById } from "../../APIs/ticketsApis";
 import { useTranslation } from "react-i18next";
 

@@ -11,10 +11,10 @@ import {
   // refreshAccessToken,
   removeTokens,
 } from "../../services/cookieTokenService";
-import { logout, refreshToken } from "../../APIs/authAPIs";
+import { logout  } from "../../APIs/authAPIs";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { becomeOrganizer, getWalletBalance } from "../../APIs/userAPIs";
+import {  getWalletBalance } from "../../APIs/userAPIs";
 import { useTranslation } from "react-i18next";
 import useAppNavigate from "../../Router/useAppNavigate";
 import LocalLink from "../../Router/LocalLink";
@@ -32,7 +32,7 @@ function NavigationBar({ backGround = "primary" }) {
 
   const handlelogout = async () => {
     try {
-      const response = await logout();
+       await logout();
      
       updateUser({});
 

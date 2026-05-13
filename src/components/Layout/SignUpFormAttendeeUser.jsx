@@ -1,7 +1,6 @@
 import { useState } from "react";
 import FacebookLogo from "../Icons/FacebookLogo";
 import GoogleLogo from "../Icons/GoogleLogo";
-import { redirect } from "react-router-dom";
 import { useAuth } from "../../Hooks/useAuth";
 import { validateSignup } from "../../utils/FormVaildators";
 import EyeTrager from "../Icons/Eyetrager";
@@ -25,7 +24,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
     errors,
     submit,
     loading,
-    setLoading,
+  
   } = useAuth({
     initialValues: { name: "", email: "", password: "" },
     validator: validateSignup,
@@ -38,7 +37,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
     setopenDialog,
   });
 
-  const handleGoogleAuth = async (e) => {
+  const handleGoogleAuth = async () => {
     try {
       loadingpage(true);
       const response = await getGoogleAuth();

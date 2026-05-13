@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FacebookLogo from "../../../components/Icons/FacebookLogo";
 import GoogleLogo from "../../../components/Icons/GoogleLogo";
-import { redirect, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { useAuth } from "../../../Hooks/useAuth";
 import { validateSignup } from "../../../utils/FormVaildators";
 import EyeTrager from "../../../components/Icons/Eyetrager";
@@ -27,7 +27,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
     errors,
     submit,
     loading,
-    setLoading,
+    
   } = useAuth({
     initialValues: { name: "", email: "", password: "" },
     validator: validateSignup,
@@ -41,19 +41,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
     setopenDialog,
   });
 
-  const handleGoogleAuth = async (e) => {
-    try {
-      loadingpage(true);
-      const response = await getGoogleAuth();
 
-      const googleAuthUrl = response.data.data.url;
-
-      window.location.href = googleAuthUrl;
-      loadingpage(false);
-    } catch (error) {
-      console.error(error.response.data || "something go wrong");
-    }
-  };
   return (
     <>
       {/* Social Login Buttons */}

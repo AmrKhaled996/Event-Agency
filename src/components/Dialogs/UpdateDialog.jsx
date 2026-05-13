@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import Dialog from "../UI/Dialog";
 
-export default function UpdateDialog({ open, onClose, onConfirm, event }) {
+export default function UpdateDialog({ open, onClose, onConfirm }) {
   const { t } = useTranslation();
   return (
     <Dialog open={open} onClose={onClose}>

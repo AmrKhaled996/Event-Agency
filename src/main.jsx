@@ -10,7 +10,7 @@ import { Toaster } from "sonner";
 import './I18n';
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
+  <StrictMode>
     <AuthProvider>
       <CategoriesProvider>
         <HeadProvider>
@@ -21,5 +21,5 @@ createRoot(document.getElementById("root")).render(
         </HeadProvider>
       </CategoriesProvider>
     </AuthProvider>
-  // </StrictMode>
+  </StrictMode>
 );

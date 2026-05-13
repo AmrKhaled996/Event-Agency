@@ -29,7 +29,7 @@
 import {
   getRefreshToken,
 } from "../services/cookieTokenService";
-import { signup } from "./authAPIs";
+
 import { adminAxiosInstance } from "./axiosInstance";
 
 /* =========================

@@ -1,4 +1,4 @@
-import { Children, lazy, useState } from "react";
+import { Children,  useState } from "react";
 import ActiveInterestedHart from "../Icons/ActiveInterestedHart.jsx";
 
 import UnactiveInterestedHart from "../Icons/UnactiveInterestedHart.jsx";
@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next";
 function Card({
   bannerUrl,
   title,
-  date,
+
   price,
-  views,
+
   description,
   slug,
   id,
@@ -43,9 +43,9 @@ function Card({
     try {
       setInterested((prv) => !prv);
       if (interested) {
-        const response = await removeFromInterested(id);
+        await removeFromInterested(id);
       } else {
-        const response = await addToInterested(id);
+        await addToInterested(id);
       }
     } catch (error) {
       console.error(error?.response || error);

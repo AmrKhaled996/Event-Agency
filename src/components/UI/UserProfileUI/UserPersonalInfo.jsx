@@ -1,4 +1,4 @@
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { refreshToken } from "../../../APIs/authAPIs.js";
 import { updateMyProfile } from "../../../APIs/profileAPI.js";
 import { refreshAccessToken } from "../../../services/cookieTokenService.js";
@@ -22,7 +22,7 @@ function PersonalInfoSection({ userLocation, accountData }) {
 
     try {
       setLoading(true);
-      const response = await updateMyProfile({
+       await updateMyProfile({
         name: accountData.name,
         // phone: accountData.phone,
         gender: accountData.gender,

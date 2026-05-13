@@ -54,7 +54,7 @@ function UserAccountSettings() {
       description={t("profile.settings.manageDesc")}
     >
       {accountData?.authProvider === "LOCAL" && (
-        <UserSettingsSecurity provider={accountData?.authProvider} />
+        <UserSettingsSecurity  />
       )}
       <Title>{t("profile.settings.manage")}</Title>
 

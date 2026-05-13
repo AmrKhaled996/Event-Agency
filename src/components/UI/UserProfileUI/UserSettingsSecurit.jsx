@@ -6,16 +6,15 @@ import { changeEmail, changePassword } from "../../../APIs/profileAPI";
 import Loading from "../../Layout/LoadingLayout";
 import ErrorDialog from "../../Dialogs/ErrorDialog";
 import { validateForgetPassword } from "../../../utils/FormVaildators";
-import { refreshToken } from "../../../APIs/authAPIs";
+
 import {
-  refreshAccessToken,
   removeTokens,
 } from "../../../services/cookieTokenService";
 import useAppNavigate from "../../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 
 
-function UserSettingsSecurity({ provider }) {
+function UserSettingsSecurity() {
   const { t } = useTranslation();
   const navigate = useAppNavigate();
   const [passwordchanging, setpasswordchanging] = useState(false);
@@ -49,7 +48,7 @@ function UserSettingsSecurity({ provider }) {
       try {
         setLoading(true);
         // Call API to change password
-        const response = await changePassword({
+         await changePassword({
           oldPassword,
           newPassword,
           confirmPassword,
@@ -88,7 +87,7 @@ function UserSettingsSecurity({ provider }) {
       if (Object.keys(newErrors).length === 0) {
         setLoading(true);
         // Call API to change email
-        const response = await changeEmail({
+         await changeEmail({
           newEmail,
           confirmEmail,
           password: emailPassword,

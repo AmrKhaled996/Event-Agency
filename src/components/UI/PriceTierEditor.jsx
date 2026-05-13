@@ -22,7 +22,6 @@ export function PriceTierEditor({
   selectedTier,
   onTierSelect,
   onTierAdd,
-  onTierUpdate,
   onTierDelete,
 }) {
   const { t } = useTranslation();

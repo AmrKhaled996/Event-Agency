@@ -166,11 +166,11 @@ function CreateEventTickets() {
     toast.success(t("organizer.createEvent.validation.tierAdded", { name: tier.name }));
   };
 
-  const handleTierUpdate = (id, updates) => {
-    setPriceTiers((prev) =>
-      prev.map((tier) => (tier.id === id ? { ...tier, ...updates } : tier)),
-    );
-  };
+  // const handleTierUpdate = (id, updates) => {
+  //   setPriceTiers((prev) =>
+  //     prev.map((tier) => (tier.id === id ? { ...tier, ...updates } : tier)),
+  //   );
+  // };
 
   const handleTierDelete = (id) => {
     // Remove tier from seats
@@ -349,7 +349,7 @@ function CreateEventTickets() {
                             selectedTier={selectedTier}
                             onTierSelect={setSelectedTier}
                             onTierAdd={handleTierAdd}
-                            onTierUpdate={handleTierUpdate}
+
                             onTierDelete={handleTierDelete}
                           />
                         </TabsContent>

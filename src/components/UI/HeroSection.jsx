@@ -3,7 +3,7 @@ import {locationOptions, locationOptionsAr} from "../../utils/LocationOptions";
 import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import ErrorDialog from "../Dialogs/ErrorDialog";
-import { toast } from "sonner";
+
 import useAppNavigate from "../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 
@@ -18,6 +18,7 @@ export default function HeroSection() {
   const { lang } = useParams();
   const {t}=useTranslation();
   const navigate = useAppNavigate();
+
 
   const handleSearch = () => {
     // setSearchValue(searchVal); // to sent in api reques

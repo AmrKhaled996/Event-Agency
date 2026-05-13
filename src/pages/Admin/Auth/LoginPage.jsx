@@ -6,7 +6,7 @@ import { validateLogin } from "../../../utils/FormVaildators";
 
 import { useAuth } from "../../../Hooks/useAuth";
 import EyeTrager from "../../../components/Icons/Eyetrager";
-import { getGoogleAuth, login } from "../../../APIs/authAPIs";
+import { getGoogleAuth } from "../../../APIs/authAPIs";
 import Loading from "../../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import { useState } from "react";
@@ -36,18 +36,7 @@ function LoginPageAdmin() {
     },
   );
   const { lang } = useParams();
-  const handleGoogleAuth = async (e) => {
-    try {
-      const response = await getGoogleAuth();
 
-      const googleAuthUrl = response?.data?.data?.url;
-
-
-      window.location.href = googleAuthUrl;
-    } catch (error) {
-      console.error(error.response?.data || "something go wrong");
-    }
-  };
   
   return (
     <div className="flex flex-col  min-h-screen font-sans  bg-primary lg:flex-row">
