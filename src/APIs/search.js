@@ -1,4 +1,4 @@
-import { axiosInstance } from "./axiosInstence";
+import { axiosInstance } from "./axiosInstance";
 //?q=I+am+looking+for+event+to+relax&limit=5&page=1&organizerId=&minPrice=&maxPrice=&hasSeatMap=
 export async function getSearchEvents({
   q,

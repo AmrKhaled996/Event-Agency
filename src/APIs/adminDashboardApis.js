@@ -27,34 +27,22 @@
  */
 
 import {
-  getAccessToken,
   getRefreshToken,
 } from "../services/cookieTokenService";
 import { signup } from "./authAPIs";
-import { adminAxiosInstance } from "./axiosInstence";
+import { adminAxiosInstance } from "./axiosInstance";
 
 /* =========================
    DASHBOARD
 ========================= */
-const token = getAccessToken();
 // GET /api/v1/admin/dashboard/summary
 export const getDashboardSummary = () => {
-  return adminAxiosInstance.get("/api/v1/admin/dashboard/summary", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  return adminAxiosInstance.get("/api/v1/admin/dashboard/summary");
 };
 
 // GET /api/v1/admin/dashboard/review-queue?page=&limit=
 export const getReviewQueue = () => {
-  return adminAxiosInstance.get("/api/v1/admin/dashboard/review-queue", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  return adminAxiosInstance.get("/api/v1/admin/dashboard/review-queue");
 };
 
 /* =========================
@@ -63,39 +51,19 @@ export const getReviewQueue = () => {
 
 // GET /api/v1/admin/users?page=&limit=&gender=
 export const getUsers = (page) =>
-  adminAxiosInstance.get(`/api/v1/admin/users?page=${page}&limit=8`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get(`/api/v1/admin/users?page=${page}&limit=8`);
 
 // GET /api/v1/admin/users/:userId
 export const getUserById = (userId) =>
-  adminAxiosInstance.get(`/api/v1/admin/users/${userId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get(`/api/v1/admin/users/${userId}`);
 
 // DELETE /api/v1/admin/users/:userId
 export const deleteUser = (userId) =>
-  adminAxiosInstance.delete(`/api/v1/admin/users/${userId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.delete(`/api/v1/admin/users/${userId}`);
 
 // PATCH /api/v1/admin/users/:userId/restore
 export const restoreUser = (userId) =>
-  adminAxiosInstance.patch(`/api/v1/admin/users/${userId}/restore`,{}, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.patch(`/api/v1/admin/users/${userId}/restore`,{});
 
 /* =========================
    ORGANIZERS
@@ -103,54 +71,24 @@ export const restoreUser = (userId) =>
 
 // GET /api/v1/admin/organizers?page=&limit=&verificationStatus=&status=
 export const getOrganizers = (page) =>
-  adminAxiosInstance.get(`/api/v1/admin/organizers?page=${page}&limit=8`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get(`/api/v1/admin/organizers?page=${page}&limit=8`);
 
 // GET /api/v1/admin/organizers/:organizerId
 export const getOrganizerById = (organizerId) =>
-  adminAxiosInstance.get(`/api/v1/admin/organizers/${organizerId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get(`/api/v1/admin/organizers/${organizerId}`);
 
 // PATCH actions
 export const reactivateOrganizer = (id) =>
-  adminAxiosInstance.patch(`/api/v1/admin/organizers/${id}/reactivate`,{}, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.patch(`/api/v1/admin/organizers/${id}/reactivate`,{});
 
 export const suspendOrganizer = (id ,reason) =>
-  adminAxiosInstance.patch(`/api/v1/admin/organizers/${id}/suspend`,{reason: reason.trim()}, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.patch(`/api/v1/admin/organizers/${id}/suspend`,{reason: reason.trim()});
 
 export const rejectOrganizer = (id,reason) =>
-  adminAxiosInstance.patch(`/api/v1/admin/organizers/${id}/reject`,{reason: reason.trim()}, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.patch(`/api/v1/admin/organizers/${id}/reject`,{reason: reason.trim()});
 
 export const approveOrganizer = (id) => {
-  return adminAxiosInstance.patch(`/api/v1/admin/organizers/${id}/approve`,{}, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  return adminAxiosInstance.patch(`/api/v1/admin/organizers/${id}/approve`,{});
 };
 
 /* =========================
@@ -159,12 +97,7 @@ export const approveOrganizer = (id) => {
 
 // GET /api/v1/admin/finance/summary?days=
 export const getFinanceSummary = () =>
-  adminAxiosInstance.get("/api/v1/admin/finance/summary", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get("/api/v1/admin/finance/summary");
 
 /* =========================
    ANALYTICS
@@ -172,30 +105,15 @@ export const getFinanceSummary = () =>
 
 // GET /api/v1/admin/analytics/active-users?days=
 export const getActiveUsers = () =>
-  adminAxiosInstance.get("/api/v1/admin/analytics/active-users", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get("/api/v1/admin/analytics/active-users");
 
 // GET /api/v1/admin/analytics/events/:eventId/revenue
 export const getEventRevenue = (eventId) =>
-  adminAxiosInstance.get(`/api/v1/admin/analytics/events/${eventId}/revenue`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get(`/api/v1/admin/analytics/events/${eventId}/revenue`);
 
 // GET /api/v1/admin/analytics/events/:eventId/tickets-sold
 export const getEventTickets = (eventId) =>
-  adminAxiosInstance.get(`/api/v1/admin/analytics/events/${eventId}/tickets-sold`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get(`/api/v1/admin/analytics/events/${eventId}/tickets-sold`);
 
 /* =========================
    EVENTS
@@ -203,39 +121,19 @@ export const getEventTickets = (eventId) =>
 
 // GET /api/v1/admin/events?page=&limit=
 export const getEvents = (page) =>
-  adminAxiosInstance.get(`/api/v1/admin/events?page=${page}&limit=8`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get(`/api/v1/admin/events?page=${page}&limit=8`);
 
 // GET /api/v1/admin/events/:eventId
 export const getEventById = (eventId) =>
-  adminAxiosInstance.get(`/api/v1/admin/events/${eventId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get(`/api/v1/admin/events/${eventId}`);
 
 // DELETE /api/v1/admin/events/:eventId
 export const deleteEvent = (eventId) =>
-  adminAxiosInstance.delete(`/api/v1/admin/events/${eventId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.delete(`/api/v1/admin/events/${eventId}`);
 
 // PATCH /api/v1/admin/events/:eventId/restore
 export const restoreEvent = (eventId) =>
-  adminAxiosInstance.patch(`/api/v1/admin/events/${eventId}/restore`,{}, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.patch(`/api/v1/admin/events/${eventId}/restore`,{});
 
 
 /*
@@ -260,34 +158,22 @@ export const restoreEvent = (eventId) =>
 
 // GET /api/v1/admin/categories
 export const getCategories = () =>
-  adminAxiosInstance.get("/api/v1/admin/categories", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.get("/api/v1/admin/categories");
 
 // GET /api/v1/admin/categories/:categoryId
 export const addCategory = (formData) =>
   adminAxiosInstance.post("/api/v1/admin/categories", formData, {
     headers: {
-      Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     },
   });
 
   export const deleteCategory = (id) =>
-  adminAxiosInstance.delete(`/api/v1/admin/categories/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
+  adminAxiosInstance.delete(`/api/v1/admin/categories/${id}`);
 
   export const editCategory = (id,formData) =>
   adminAxiosInstance.put(`/api/v1/admin/categories/${id}`, formData, {
     headers: {
-      Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     },
   });
@@ -296,16 +182,9 @@ export const addCategory = (formData) =>
 export const adminDashboardauth = {
   refreshtoken: function () {
     const refreshToken = getRefreshToken();
-    const token = token;
     return adminAxiosInstance.post(
       `/api/v1/admin/auth/refresh`,
-      { refreshToken },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      },
+      { refreshToken }
     );
   },
   login:function(formData){

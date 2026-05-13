@@ -1,4 +1,4 @@
-import { axiosInstance } from "./axiosInstence";
+import { axiosInstance } from "./axiosInstance";
 import { getAccessToken } from "../services/cookieTokenService";
 
 export async function subscribeToNewsletter(email, language) {

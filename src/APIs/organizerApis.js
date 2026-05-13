@@ -1,53 +1,25 @@
-import { axiosInstance } from "./axiosInstence";
-import { getAccessToken } from "../services/cookieTokenService";
+import { axiosInstance } from "./axiosInstance";
 
 export async function createEvent(formDataa) {
-  const token = getAccessToken();
-
   return axiosInstance.post("/api/v1/organizer/events", formDataa, {
     headers: {
-      Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     },
   });
 }
 export async function updateEvent(formData, id) {
-  const token = getAccessToken();
   return axiosInstance.put(`/api/v1/organizer/events/${id}`, formData, {
     headers: {
-      Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     },
   });
 }
 export async function deleteEvent(id) {
-  const token = getAccessToken();
-
-  return axiosInstance.delete(`/api/v1/organizer/events/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axiosInstance.delete(`/api/v1/organizer/events/${id}`);
 }
 export async function cancelEvent(id) {
-  const token = getAccessToken();
-
-  return axiosInstance.patch(`/api/v1/organizer/events/${id}`,{}, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axiosInstance.patch(`/api/v1/organizer/events/${id}`,{});
 }
 export async function getAllEvents() {
-  const token = getAccessToken();
-
-  return axiosInstance.get(
-    `/api/v1/organizer/events`,
-
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+  return axiosInstance.get(`/api/v1/organizer/events`);
 }

@@ -1,14 +1,7 @@
-import { getAccessToken } from "../services/cookieTokenService";
-import { axiosInstance } from "./axiosInstence";
+import { axiosInstance } from "./axiosInstance";
 
 export async function getTicketById(ticketId) {
-  const token = getAccessToken();
   return axiosInstance.get(
-    `/api/v1/tickets/${ticketId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
+    `/api/v1/tickets/${ticketId}`
   );
 }
