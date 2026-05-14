@@ -13,51 +13,66 @@ function TicketDialog({ open, onClose, tickets }) {
   const { t } = useTranslation();
   const inputRefs = useRef([]);
   const [ticketsData, setticketsData] = useState([]);
+  const [isDownloading, setIsDownloading] = useState(false);
   const currentTicket = tickets;
+
   inputRefs.current = [];
 
-  const setRefs = (el) => {
+  const addToRefs = (el) => {
     if (el && !inputRefs.current.includes(el)) {
       inputRefs.current.push(el);
     }
   };
 
   const handleDownloadPDF = async () => {
-    const pdf = new jsPDF({
-      orientation: "landscape",
-      unit: "px",
-      format: [535, 528],
-    });
+    if (!ticketsData.length || inputRefs.current.length === 0) return;
 
-    for (let i = 0; i < inputRefs.current.length; i++) {
-      const element = inputRefs.current[i];
-
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
+    try {
+      setIsDownloading(true);
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [535, 528],
       });
 
-      const imgData = canvas.toDataURL("image/jpeg", 1.0);
+      for (let i = 0; i < inputRefs.current.length; i++) {
+        const element = inputRefs.current[i];
 
-      if (i !== 0) pdf.addPage();
+        const canvas = await html2canvas(element, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          backgroundColor: "#ffffff",
+        });
 
-      pdf.addImage(imgData, "JPEG", 0, 0, 535, 528);
+        const imgData = canvas.toDataURL("image/jpeg", 1.0);
+
+        if (i !== 0) pdf.addPage([535, 528], "landscape");
+
+        pdf.addImage(imgData, "JPEG", 0, 0, 535, 528);
+      }
+
+      const fileName = `${ticketsData[0]?.ticketType?.event?.title || "ticket"}.pdf`;
+      pdf.save(fileName);
+    } catch (error) {
+      console.error("PDF Generation Error:", error);
+    } finally {
+      setIsDownloading(false);
     }
-
-    pdf.save(ticketsData[0].ticketType.event.title + " ticket.pdf");
   };
 
   const handleGetTicketsData = async () => {
-  try {
-      setticketsData([]);
-    for (const element of currentTicket) {
-      const response = await getTicketById(element.ticketId);
-      setticketsData((prev) => [...prev, response.data.data]);
+    try {
+      const data = [];
+      for (const element of currentTicket) {
+        const response = await getTicketById(element.ticketId);
+        data.push(response.data.data);
+      }
+      setticketsData(data);
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
   useEffect(() => {
     handleGetTicketsData();
   },[currentTicket]);
@@ -72,7 +87,7 @@ function TicketDialog({ open, onClose, tickets }) {
       <div className="flex flex-col gap-8 h-full max-h-[75vh] w-full overflow-y-scroll">
         {ticketsData &&
           ticketsData?.map((ticket) => (
-            <div key={ticket?.ticketId} ref={setRefs}>
+            <div key={ticket?.ticketId} ref={addToRefs}>
               <h3 className="text-3xl text-center text-shadow-2xs  font-semibold mb-4 ">
                 {ticket?.ticketType?.event?.title}
               </h3>
@@ -137,9 +152,10 @@ function TicketDialog({ open, onClose, tickets }) {
       </div>
       <button
         onClick={handleDownloadPDF}
-        className="px-6 rounded-xl bg-primary text-white py-3 flex items-center justify-center gap-2 hover:bg-primary/80 transition m-auto mt-6"
+        disabled={isDownloading}
+        className="px-6 rounded-xl bg-primary text-white py-3 flex items-center justify-center gap-2 hover:bg-primary/80 transition m-auto mt-6 disabled:bg-gray-400"
       >
-        {t("tickets.details.downloadPDF")}
+        {isDownloading ? t("common.actions.downloading") || "Downloading..." : t("tickets.details.downloadPDF")}
       </button>
     </Dialog>
   );

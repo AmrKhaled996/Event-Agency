@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Card from "../UI/Card";
-// import { useUser } from "../../Context/AuthProvider";
 
 import Loading from "./LoadingLayout";
 import CardSkeleton from "../UI/CardSkeleton";
@@ -8,7 +7,7 @@ import useAppNavigate from "../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 
 
-function CardDisplaySection({ title, endpoint }) {
+function CardDisplaySection({ title, endpoint, type }) {
   const [cards, setcards] = useState([]);
 
   
@@ -33,7 +32,7 @@ function CardDisplaySection({ title, endpoint }) {
   };
 
   const handleDiscoverMore = () => {
-    navigate(`/events-pagenation?page=1&title=${title.trim()}`, {
+    navigate(`/events-pagenation?page=1&type=${type}&title=${title.trim()}`, {
       state: { title: title },
     });
   };

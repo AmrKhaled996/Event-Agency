@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavbarMenuIcon from "../Icons/NavbarMenu";
-import { ChevronDown, DoorOpen, Heart, TicketXIcon } from "lucide-react";
+import { ChevronDown, DoorOpen, Heart, TicketXIcon, Bell, Sun, Moon } from "lucide-react";
 import TicketIcon from "../Icons/TicketIcon";
 import ProfileIcon from "../Icons/ProfileIcon";
-// import { useAuth } from "../../Hooks/useAuth";
+import NotificationBell from "../UI/NotificationBell";
 import { useUser } from "../../Context/AuthProvider";
 import { Link, Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
@@ -12,7 +12,6 @@ import {
   removeTokens,
 } from "../../services/cookieTokenService";
 import { logout  } from "../../APIs/authAPIs";
-import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import {  getWalletBalance } from "../../APIs/userAPIs";
 import { useTranslation } from "react-i18next";
@@ -23,6 +22,7 @@ function NavigationBar({ backGround = "primary" }) {
   const [isOpen, setIsOpen] = useState(false);
   const [UserBalance, setUserBalance] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useAppNavigate();
   const navigateTo = useNavigate();
   const location = useLocation();
@@ -30,6 +30,25 @@ function NavigationBar({ backGround = "primary" }) {
   const {lang} =useParams();
 
   const { user, updateUser } = useUser();
+
+  useEffect(() => {
+    setIsDarkMode(document.documentElement.classList.contains("dark"));
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    if (newMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  };
+
+  // If user is admin, don't show the public navigation bar
+  if (user?.role === "admin") return null;
 
   const handlelogout = async () => {
     try {
@@ -93,14 +112,14 @@ function NavigationBar({ backGround = "primary" }) {
   return (
     <>
       <nav
-        className={` ${
+        className={`sticky top-0 z-50 transition-all duration-300 ${
           backGround ? `bg-${backGround}` : "bg-primary"
-        }  border-gray-200 p-2`}
+        } soft-shadow backdrop-blur-sm bg-opacity-95 p-2`}
       >
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* === 1/4: Logo / Brand === */}
-            <div className="w-3/4 flex items-center md:w-1/6">
+            <div className="w-3/4 flex items-center md:w-1/6 transition-transform hover:scale-105">
               <LocalLink to="/" className="h-full w-full flex items-center">
                 <img
                   src={"/Fa3liatLogo.png"}
@@ -110,160 +129,170 @@ function NavigationBar({ backGround = "primary" }) {
             </div>
 
             {/* === 1/4: Menu Items === */}
-            <div className="hidden lg:flex w-2/4 justify-center font-semibold text-lg">
-              <ul className="flex justify-between w-full text-white">
-                <li
-                  className={`text-center hover:text-gray-300 cursor-pointer ${
-                    lang === "ar" ? "" : "border-r border-gray-400"
-                  } flex-1`}
-                >
-                  <LocalLink to="/events-pagenation?page=1&title=Happening%20Near%20You">
+            <div className="hidden lg:flex w-2/4 justify-center font-medium text-base">
+              <ul className="flex justify-center gap-8 w-full text-white/90">
+                <li className="hover:text-white transition-colors duration-200">
+                  <LocalLink to={`/events-pagenation?page=1&type=nearby&title=${t("homePage.sections.nearby")}`}>
                     {t("layout.nav.events")}
                   </LocalLink>
                 </li>
 
-                <li className="text-center hover:text-gray-300 cursor-pointer border-r border-gray-400 flex-1">
+                <li className="hover:text-white transition-colors duration-200">
                   <LocalLink to="/categories">
                     {t("layout.nav.categories")}
                   </LocalLink>
                 </li>
 
-                <li
-                  className={`text-center hover:text-gray-300 cursor-pointer ${
-                    lang === "en" ? "" : "border-r border-gray-400"
-                  } flex-1`}
-                >
+                <li className="hover:text-white transition-colors duration-200">
                   <a href="#">{t("layout.nav.calendar")}</a>
                 </li>
               </ul>
             </div>
 
-            {/* === 1/4: Language Buttons === */}
-            <div className="hidden lg:flex w-1/8 justify-center items-center space-x-4">
+            {/* === 1/4: Language & Theme === */}
+            <div className="hidden lg:flex w-1/8 justify-center items-center gap-4">
               <button
-                disabled={lang === "ar"}
-                onClick={() => handleChangeLanguage("ar")}
-                className={`text-white ${
-                  lang === "ar"
-                    ? "font-extrabold underline text-xl hover:cursor-not-allowed"
-                    : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"
-                } `}
+                onClick={toggleDarkMode}
+                className="p-2 rounded-full bg-black/10 text-white hover:bg-black/20 transition-all cursor-pointer"
+                title={isDarkMode ? "Light Mode" : "Dark Mode"}
               >
-                AR
+                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
 
-              <span className="text-white text-2xl">|</span>
-
-              <button
-                disabled={lang === "en"}
-                onClick={() => handleChangeLanguage("en")}
-                className={`text-white ${
-                  lang === "en"
-                    ? "font-extrabold underline text-xl hover:cursor-not-allowed"
-                    : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"
-                } mr-2`}
-              >
-                EN
-              </button>
+              <div className="flex bg-black/10 rounded-full p-1 backdrop-blur-md">
+                <button
+                  disabled={lang === "ar"}
+                  onClick={() => handleChangeLanguage("ar")}
+                  className={`px-3 py-1 rounded-full text-sm transition-all ${
+                    lang === "ar"
+                      ? "bg-white text-primary font-bold shadow-sm"
+                      : "text-white hover:text-white/80 cursor-pointer"
+                  }`}
+                >
+                  AR
+                </button>
+                <button
+                  disabled={lang === "en"}
+                  onClick={() => handleChangeLanguage("en")}
+                  className={`px-3 py-1 rounded-full text-sm transition-all ${
+                    lang === "en"
+                      ? "bg-white text-primary font-bold shadow-sm"
+                      : "text-white hover:text-white/80 cursor-pointer"
+                  }`}
+                >
+                  EN
+                </button>
+              </div>
             </div>
 
             {/* === 1/4: Auth Buttons === */}
 
             {user?.role === "user" || user?.role === "organizer" ? (
               <div className="text-white flex items-center gap-6">
+                <div className="transition-transform hover:scale-110">
+                  <NotificationBell />
+                </div>
+                
                 <button
                   onClick={() => navigate(`/tickets`)}
-                  className="hidden md:flex flex-col items-center text-sm cursor-pointer"
+                  className="hidden md:flex flex-col items-center text-xs opacity-90 hover:opacity-100 transition-opacity cursor-pointer group"
                 >
-                  <TicketIcon />
-
-                  <span>{t("layout.nav.tickets")}</span>
+                  <div className="transition-transform group-hover:-translate-y-0.5">
+                    <TicketIcon />
+                  </div>
+                  <span className="mt-1">{t("layout.nav.tickets")}</span>
                 </button>
 
                 <button
                   onClick={() => navigate(`/interested`)}
-                  className="hidden md:flex flex-col items-center text-sm cursor-pointer"
+                  className="hidden md:flex flex-col items-center text-xs opacity-90 hover:opacity-100 transition-opacity cursor-pointer group"
                 >
-                  <Heart size={30} />
-
-                  <span>{t("layout.nav.interest")}</span>
+                  <div className="transition-transform group-hover:-translate-y-0.5">
+                    <Heart size={26} />
+                  </div>
+                  <span className="mt-1">{t("layout.nav.interest")}</span>
                 </button>
 
                 <div className="relative">
                   <button
                     onClick={() => setOpenProfile(!openProfile)}
-                    className="flex items-center gap-1 cursor-pointer"
+                    className="flex items-center gap-2 bg-white/10 hover:bg-white/20 p-2 px-3 rounded-full transition-all cursor-pointer border border-white/10"
                   >
-                    <div className="flex flex-col items-center text-sm">
-                      <ProfileIcon />
-
-                      <span>{t("layout.nav.profile")}</span>
-                    </div>
-
-                    <ChevronDown size={20} />
+                    <ProfileIcon />
+                    <ChevronDown size={16} className={`transition-transform duration-300 ${openProfile ? "rotate-180" : ""}`} />
                   </button>
 
                   {openProfile && (
                     <div
                       className={`absolute ${
                         lang === "ar" ? "left-0 " : "right-0"
-                      } mt-2 bg-white text-black shadow-lg  rounded-lg w-48 z-20`}
+                      } mt-3 bg-white text-gray-800 shadow-2xl rounded-2xl w-56 z-50 border border-gray-100 py-2 animate-in fade-in zoom-in duration-200`}
                     >
-                      <button className="w-full flex justify-between text-left px-4 py-3 border-b border-gray-200 rounded-t-lg ">
-                        <span>{t("layout.nav.wallet")}</span>
-
-                        <span>{UserBalance || 0} EGP</span>
-                      </button>
+                      <div className="px-4 py-3 border-b border-gray-50 flex flex-col">
+                        <span className="text-[10px] uppercase tracking-wider text-gray-400 font-bold">{t("layout.nav.wallet")}</span>
+                        <span className="text-lg font-bold text-primary">{UserBalance || 0} <small className="text-xs text-gray-500 font-normal">EGP</small></span>
+                      </div>
 
                       <button
                         onClick={() => {
                           navigate(`/profile/${user.id}`);
+                          setOpenProfile(false);
                         }}
-                        className="w-full text-left px-4 py-3 hover:bg-gray-200 transition duration-300 cursor-pointer"
+                        className="w-full text-left px-4 py-2.5 hover:bg-gray-50 transition duration-200 cursor-pointer flex items-center gap-2 text-sm font-medium"
                       >
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                          <ProfileIcon />
+                        </div>
                         {t("layout.nav.profile")}
                       </button>
 
                       <button
                         onClick={handlelogout}
-                        className={`w-full text-left px-4 py-3 transition duration-300 flex ${lang === "ar" ? "flex-row-reverse" : ""} gap-2 items-center text-red-700 hover:text-white hover:bg-red-600 cursor-pointer`}
+                        className={`w-full text-left px-4 py-2.5 hover:bg-rose-50 transition duration-200 flex items-center gap-2 text-rose-600 cursor-pointer text-sm font-medium`}
                       >
-                        <DoorOpen size={20} />
-
+                        <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center">
+                          <DoorOpen size={16} />
+                        </div>
                         {t("layout.nav.logout")}
                       </button>
 
-                      {user?.role === "user" ? (
-                        <button
-                          onClick={() => navigate("/organizer/upgrade")}
-                          className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
-                        >
-                          {t("layout.nav.upgrade")}
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() =>
-                            navigate("/organizer/dashboard/overview")
-                          }
-                          className="w-full text-left px-4 py-3 hover:bg-secandry/80 transition duration-300 bg-secandry text-white rounded-b-lg cursor-pointer"
-                        >
-                          {t("layout.nav.dashboard")}
-                        </button>
-                      )}
+                      <div className="px-2 mt-1">
+                        {user?.role === "user" ? (
+                          <button
+                            onClick={() => {
+                              navigate("/organizer/upgrade");
+                              setOpenProfile(false);
+                            }}
+                            className="w-full text-center px-4 py-2.5 hover:brightness-110 transition duration-300 bg-secandry text-white rounded-xl cursor-pointer text-sm font-bold shadow-md shadow-secandry/20"
+                          >
+                            {t("layout.nav.upgrade")}
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              navigate("/organizer/dashboard/overview");
+                              setOpenProfile(false);
+                            }}
+                            className="w-full text-center px-4 py-2.5 hover:brightness-110 transition duration-300 bg-secandry text-white rounded-xl cursor-pointer text-sm font-bold shadow-md shadow-secandry/20"
+                          >
+                            {t("layout.nav.dashboard")}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="hidden lg:flex w-1/5 justify-end space-x-4">
+              <div className="hidden lg:flex w-1/5 justify-end">
                 <button
                   onClick={() => {
                     navigate("/login");
                   }}
-                  className="px-6 py-2 bg-secandry text-white rounded-md hover:bg-[#FF8370] transition w-3/5"
+                  className="px-8 py-2.5 bg-white text-primary font-bold rounded-full hover:bg-gray-100 transition-all active:scale-95 shadow-lg shadow-black/10"
                 >
                   {t("layout.nav.join")}
-                </button>{" "}
+                </button>
               </div>
             )}
 
@@ -304,7 +333,7 @@ function NavigationBar({ backGround = "primary" }) {
           {isOpen && (
             <div className="lg:hidden px-4 pb-4 space-y-2">
               <LocalLink
-                to="/events-pagenation?page=1&title=Happening%20Near%20You"
+                to={`/events-pagenation?page=1&type=nearby&title=${t("homePage.sections.nearby")}`}
                 className="block text-white font-semibold hover:text-gray-300 mb-2 border-b py-3 border-white/30"
               >
                 {t("layout.nav.events")}
@@ -323,6 +352,7 @@ function NavigationBar({ backGround = "primary" }) {
               </a>
               {user?.role === "user" || user?.role === "organizer" ? (
                 <div className="flex space-x-2 items-center justify-center text-white  gap-10">
+                  <NotificationBell />
                   <div
                     onClick={() => navigate(`/tickets`)}
                     className=" flex flex-col items-center text-lg cursor-pointer "

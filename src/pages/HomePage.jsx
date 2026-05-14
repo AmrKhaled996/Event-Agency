@@ -31,19 +31,23 @@ function HomePage() {
       <CardDisplaySection
         title={t(`homePage.sections.curated`)}
         endpoint={personalizedEvents}
+        type="curated"
       />
       <CardDisplaySection
         title={t(`homePage.sections.new`)}
         endpoint={newEventsThisWeek}
+        type="new"
       />
       <CuratedEventsSection />
       <CardDisplaySection
         title={t(`homePage.sections.nearby`)}
         endpoint={nearbyEvents}
+        type="nearby"
       />
       <CardDisplaySection
         title={t(`homePage.sections.past`)}
         endpoint={pastEvents}
+        type="past"
       />
       <CreateEventHomePageSection />
       <Footer />

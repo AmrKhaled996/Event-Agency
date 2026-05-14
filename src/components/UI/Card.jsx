@@ -24,6 +24,7 @@ function Card({
   interestedCount,
 }) {
   const [interested, setInterested] = useState(isInterested);
+  const [localInterestedCount, setLocalInterestedCount] = useState(interestedCount || 0);
   const sessionssInfo = formatEventSessionDate(sessions);
   const { user } = useUser();
   const { t } = useTranslation();
@@ -58,6 +59,7 @@ function Card({
     try {
       const targetState = !interested;
       setInterested(targetState);
+      setLocalInterestedCount((prev) => (targetState ? prev + 1 : prev - 1));
       
       if (interested) {
         await removeFromInterested(id, { _silentError: true });
@@ -66,6 +68,7 @@ function Card({
       }
     } catch (error) {
       setInterested((prv) => !prv);
+      setLocalInterestedCount((prev) => (interested ? prev + 1 : prev - 1));
       handleError(error);
     }
   };
@@ -86,12 +89,14 @@ function Card({
             className={`  rounded-lg border-0  bg-cover bg-center h-64 w-full object-cover group-hover:opacity-98  xl:aspect-7/8 relative group-hover:scale-102  transition-all `}
             style={{ backgroundImage: `url(${encodeURI(bannerUrl)})` }}
           />
-          <button
-            onClick={handleInterested}
-            className="bg-white rounded-full w-10 h-10  right-3 top-2 flex items-center hover:cursor-pointer  absolute hover:bg-white/85 duration-300 transition-colors"
-          >
-            {interested ? <ActiveInterestedHart /> : <UnactiveInterestedHart />}
-          </button>
+          {user && (
+            <button
+              onClick={handleInterested}
+              className="bg-white rounded-full w-10 h-10  right-3 top-2 flex items-center hover:cursor-pointer  absolute hover:bg-white/85 duration-300 transition-colors"
+            >
+              {interested ? <ActiveInterestedHart /> : <UnactiveInterestedHart />}
+            </button>
+          )}
         </div>
 
         <div className="flex px-4">
@@ -110,7 +115,7 @@ function Card({
               {sessionssInfo?.endTime || "6:30 PM - 9:30 PM"}
             </p>
             <p className="mt-1 font-normal text-secandry flex items-center">
-              <Heart size={20} className="mr-1 mb-1 " /> {interestedCount || 0}{" "}
+              <Heart size={20} className="mr-1 mb-1 " /> {localInterestedCount || 0}{" "}
               {t("events.Interested.Interested")}
             </p>
             <p className="mt-1 font-semibold text-green-700 flex items-start">

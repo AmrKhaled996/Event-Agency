@@ -337,6 +337,8 @@
       "totalEvents": "إجمالي الفعاليات",
       "activeEvents": "الفعاليات النشطة",
       "upcomingEvents": "الفعاليات القادمة",
+      "endedEvents": "الفعاليات المنتهية",
+      "cancelledEvents": "الفعاليات الملغاة",
       "revenue": "إجمالي الإيرادات",
       "sold": "التذاكر المباعة",
       "remainingTickets": "التذاكر المتبقية",

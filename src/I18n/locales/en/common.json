@@ -137,7 +137,7 @@
   },
   "newsletter": {
     "success": {
-      "title": "Confermation | Fa3liat",
+      "title": "Confirmation | Fa3liat",
       "header": "Subscription Confirmed!",
       "description": "Thank you for subscribing to our newsletter. You will now receive the latest updates and events directly to your inbox."
     },
@@ -344,6 +344,8 @@
       "totalEvents": "Total Events",
       "activeEvents": "Active Events",
       "upcomingEvents": "Upcoming Events",
+      "endedEvents": "Ended Events",
+      "cancelledEvents": "Cancelled Events",
       "revenue": "Total Revenue",
       "sold": "Sold Tickets",
       "remainingTickets": "Remaining Tickets",

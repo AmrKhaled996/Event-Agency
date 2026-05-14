@@ -1,4 +1,4 @@
-import { DeleteIcon, Info, Pencil, RefreshCcw, Trash } from "lucide-react";
+import { DeleteIcon, Info, Pencil, RefreshCcw, Trash, BookHeart } from "lucide-react";
 import { useEffect, useState } from "react";
 import InfoDialog from "../../../components/Dialogs/InfoDialog";
 import UpdateDialog from "../../../components/Dialogs/UpdateDialog";
@@ -84,7 +84,9 @@ export default function OrganizerEventsPage() {
     try {
       setloading(true);
       const response = await getAllEvents({ _silentError: true });
-      setEvents(response.data.data.result || []);
+      const data = response.data?.data;
+      const fetchedEvents = data?.events || data?.result || data?.data || [];
+      setEvents(fetchedEvents);
     } catch (error) {
       handleError(error, {
         silent: true,
@@ -105,91 +107,80 @@ export default function OrganizerEventsPage() {
     <div>
       <h2 className="text-3xl font-bold mb-6">{t("organizer.dashboard.myEvents")}</h2>
 
-      <div className="bg-white rounded-t-xl shadow-md overflow-hidden min-h-145 p-2">
-        <div className="grid grid-cols-1 md:grid-cols-3 text-center p-1 gap-4 text-lg font-semibold bg-blue-50">
-          <p className="p-4">{t("organizer.dashboard.eventImage")}</p>
-          <p className="p-4">{t("organizer.dashboard.eventName")}</p>
-          {/* <p className="p-4 px-7">ID</p>
-          <p className="p-4">Status</p> */}
-          <p className="p-4 text-center">{t("organizer.dashboard.options")}</p>
+      <div className="bg-white rounded-xl soft-shadow overflow-hidden min-h-145 border border-gray-100">
+        <div className="grid grid-cols-1 md:grid-cols-3 text-center p-2 gap-4 text-sm font-semibold bg-gray-50 text-gray-600 uppercase tracking-wider border-b border-gray-100">
+          <p className="py-3 px-4">{t("organizer.dashboard.eventImage")}</p>
+          <p className="py-3 px-4">{t("organizer.dashboard.eventName")}</p>
+          <p className="py-3 px-4 text-center">{t("organizer.dashboard.options")}</p>
         </div>
 
-        <div className="max-h-120 h-full overflow-y-auto overflow-x-auto py-2 flex flex-col gap-6 rounded-2xl">
+        <div className="max-h-120 h-full overflow-y-auto py-4 px-4 flex flex-col gap-4">
           {events.length > 0 ? (
             events.map((event) => (
               <div
                 key={event.id}
-                className="grid grid-cols-1 md:grid-cols-3 gap-8  text-center items-center shadow-[0_1px_15px_-10px]  mb-1  min-h-32 rounded-xl"
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center items-center bg-white border border-gray-100 p-3 rounded-xl transition-all duration-200 hover:border-primary/20 hover:bg-gray-50/50 group"
               >
-                <img
-                  src={event.bannerUrl}
-                  alt={event.title}
-                  crossOrigin="anonymous"
-                  className="h-full w-full overflow-hidden rounded-l-xl"
-                />
-                <p className="p-4 text-xl font-medium">{event.title}</p>
-                {/* <p className="p-4">{event.id}</p>
-                <p
-                  className={`p-2 w-24 text-center rounded-2xl 
-                   ${
-                     event.status === "Active"
-                       ? "text-green-600 font-bold bg-green-100 "
-                       : event.status === "Canceled"
-                       ? "text-red-600 font-bold bg-red-100"
-                       : event.status === "Pending"
-                       ? "text-yellow-600 font-bold bg-yellow-100"
-                       : event.status === "Ended"
-                       ? "text-gray-800 font-bold bg-gray-100"
-                       : "text-gray-600"
-                   }
-
-                  `}
-                >
-                  {event.status}
-                </p> */}
-                <p className="p-4 flex gap-2 h-20 justify-center items-center">
-                  <Trash
-                    size={60}
-                    fill="red"
-                    color="red"
+                <div className="h-28 w-full overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
+                  <img
+                    src={event.bannerUrl}
+                    alt={event.title}
+                    crossOrigin="anonymous"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="px-4 text-left md:text-center">
+                  <p className="text-lg font-bold text-gray-800 leading-tight mb-1">{event.title}</p>
+                  <p className="text-xs text-gray-400 font-normal">ID: {event.id.toString().slice(0, 8)}...</p>
+                </div>
+                <div className="flex gap-3 justify-center items-center px-4">
+                  <button
                     onClick={() => {
-                      setDeleteDialogOpen(true);
                       setSelectedEvent(event);
-                    }}
-                    className=" rounded-full hover:bg-gray-200 p-2 h-12 flex-1 hover:cursor-pointer"
-                  />{" "}
-                  <Pencil
-                    color="green"
-                    onClick={() => {
-                      setUpdateDialogOpen(true);
-                      setSelectedEvent(event);
-                    }}
-                    className=" rounded-full hover:bg-gray-200 p-2  h-12 flex-1 hover:cursor-pointer "
-                  />{" "}
-                  <Info
-                    color="gray"
-                    onClick={() => {
                       setInfoDialogOpen(true);
-                      setSelectedEvent(event);
                     }}
-                    className=" rounded-full hover:bg-gray-200 p-2  h-12 flex-1 hover:cursor-pointer "
-                  />{" "}
-                  <DeleteIcon
-                    size={60}
-                    fill="red"
-                    color="red"
+                    title={t("common.view")}
+                    className="p-2.5 rounded-lg bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-colors cursor-pointer"
+                  >
+                    <Info size={20} />
+                  </button>
+                  <button
                     onClick={() => {
-                      setcancelDialogOpen(true);
                       setSelectedEvent(event);
+                      setUpdateDialogOpen(true);
                     }}
-                    className=" rounded-full hover:bg-gray-200 p-2 h-12 flex-1 hover:cursor-pointer"
-                  />{" "}
-                </p>
+                    title={t("common.edit")}
+                    className="p-2.5 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:text-emerald-700 transition-colors cursor-pointer"
+                  >
+                    <Pencil size={20} />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSelectedEvent(event);
+                      setcancelDialogOpen(true);
+                    }}
+                    title={t("common.cancel")}
+                    className="p-2.5 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 hover:text-amber-700 transition-colors cursor-pointer"
+                  >
+                    <DeleteIcon size={20} />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSelectedEvent(event);
+                      setDeleteDialogOpen(true);
+                    }}
+                    title={t("common.delete")}
+                    className="p-2.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 hover:text-rose-700 transition-colors cursor-pointer"
+                  >
+                    <Trash size={20} />
+                  </button>
+                </div>
               </div>
             ))
           ) : (
-            <div className="p-6 text-center text-gray-500">
-              {t("organizer.dashboard.noEventsFound")}
+            <div className="py-20 text-center text-gray-400 bg-gray-50/50 rounded-xl border border-dashed border-gray-200">
+              <BookHeart className="mx-auto mb-3 opacity-20" size={48} />
+              <p className="text-lg font-medium">{t("organizer.dashboard.noEventsFound")}</p>
             </div>
           )}
         </div>
