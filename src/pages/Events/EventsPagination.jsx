@@ -26,17 +26,34 @@ function EventsPagination() {
   const navigate = useAppNavigate();
   const {t}= useTranslation();
 
-  //   const endpoint = state?.endpoint;
 
   const urlParams = new URLSearchParams(location.search);
+  const type = urlParams.get("type");
 
-  const title = urlParams.get("title") || "Events";
+  let title = urlParams.get("title") || "Events";
+  if (type) {
+    switch (type) {
+      case "past":
+        title = t("homePage.sections.past");
+        break;
+      case "nearby":
+        title = t("homePage.sections.nearby");
+        break;
+      case "new":
+        title = t("homePage.sections.new");
+        break;
+      case "curated":
+        title = t("homePage.sections.curated");
+        break;
+    }
+  }
 
   const handleEndpoint = async () => {
     // if (typeof endpoint !== "function") return;
 
     try {
       const page = Number(urlParams.get("page")) || 1;
+      const type = urlParams.get("type");
 
       setEventsPage(page);
 
@@ -44,24 +61,46 @@ function EventsPagination() {
       let response;
       const normalizedTitle = title.replace(/['’]/g, "'").trim();
 
-      switch (normalizedTitle) {
-        case t(`homePage.sections.past`):
-          response = await pastEvents(page);
-          break;
-        case t(`homePage.sections.nearby`):
-          response = await nearbyEvents(page);
-          break;
-        case t(`homePage.sections.new`):
-          response = await newEventsThisWeek(page);
-          break;
-        case t(`homePage.sections.curated`):
-          response = await personalizedEvents(page);
-          break;
-        default:
-          setDialogMessage(t("apiErrors.NOT_FOUND"));
-          setopenDialog(true);
-          setLoading(false);
-          return;
+      if (type) {
+        switch (type) {
+          case "past":
+            response = await pastEvents(page);
+            break;
+          case "nearby":
+            response = await nearbyEvents(page);
+            break;
+          case "new":
+            response = await newEventsThisWeek(page);
+            break;
+          case "curated":
+            response = await personalizedEvents(page);
+            break;
+          default:
+            setDialogMessage(t("apiErrors.NOT_FOUND"));
+            setopenDialog(true);
+            setLoading(false);
+            return;
+        }
+      } else {
+        switch (normalizedTitle) {
+          case t(`homePage.sections.past`):
+            response = await pastEvents(page);
+            break;
+          case t(`homePage.sections.nearby`):
+            response = await nearbyEvents(page);
+            break;
+          case t(`homePage.sections.new`):
+            response = await newEventsThisWeek(page);
+            break;
+          case t(`homePage.sections.curated`):
+            response = await personalizedEvents(page);
+            break;
+          default:
+            setDialogMessage(t("apiErrors.NOT_FOUND"));
+            setopenDialog(true);
+            setLoading(false);
+            return;
+        }
       }
 
       setCards(response?.data?.data?.events || []);

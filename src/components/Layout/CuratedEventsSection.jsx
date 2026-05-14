@@ -58,7 +58,7 @@ function CuratedEventsSection() {
         </p>
 
         <button
-        onClick={()=>{navigate(`/events-pagenation?page=1&title=${t(`homePage.sections.curated`)}`)}}
+        onClick={()=>{navigate(`/events-pagenation?page=1&type=curated&title=${t(`homePage.sections.curated`)}`)}}
           className="
             bg-white text-purple-600 font-semibold 
             px-8 py-3 rounded-xl shadow 

@@ -1,7 +1,7 @@
 import { Title } from "react-head";
 import { useTranslation } from "react-i18next";
 
-function ConfermNewsletter() {
+function ConfirmNewsletter() {
     const {t} =useTranslation();
     return ( 
         <div className="min-h-screen flex flex-col items-center justify-center bg-green-100">
@@ -15,4 +15,4 @@ function ConfermNewsletter() {
      );
 }
 
-export default ConfermNewsletter;
+export default ConfirmNewsletter;

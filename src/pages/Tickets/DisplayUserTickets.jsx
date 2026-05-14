@@ -52,16 +52,19 @@ function DisplayUserTickets() {
 
       const groupedTickets = Object.values(
         ticketsData.reduce((acc, ticket) => {
-          const orderId = ticket?.orderId;
+          const orderId = ticket?.orderId || 'no-order';
+          const ticketTypeId = ticket?.ticketTypeId || 'no-type';
+          const groupKey = `${orderId}-${ticketTypeId}`;
 
-          if (!acc[orderId]) {
-            acc[orderId] = {
+          if (!acc[groupKey]) {
+            acc[groupKey] = {
+              id: groupKey,
               orderId,
               tickets: [],
             };
           }
 
-          acc[orderId]?.tickets?.push(ticket);
+          acc[groupKey].tickets.push(ticket);
 
           return acc;
         }, {}),

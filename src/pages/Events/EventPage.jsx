@@ -60,6 +60,9 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   const [isInterested, setisInterested] = useState(
     event?.isInterested || false,
   );
+  const [interestedCount, setInterestedCount] = useState(
+    event?.interestedCount || 0,
+  );
 
   const navigate = useAppNavigate();
   const { t } = useTranslation();
@@ -74,6 +77,8 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
       const response = await getEvents({ id: id });
 
       setEvent(response.data.data.event);
+      setisInterested(response.data.data.event.isInterested || false);
+      setInterestedCount(response.data.data.event.interestedCount || 0);
       const eventSessions =
         response.data.data.event?.eventSessions || eventinfo?.sessions;
 
@@ -159,7 +164,8 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
     try {
       const targetState = !isInterested;
       setisInterested(targetState);
-      
+      setInterestedCount((prev) => (targetState ? prev + 1 : prev - 1));
+
       if (isInterested) {
         await removeFromInterested(event.id, { _silentError: true });
       } else {
@@ -167,6 +173,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
       }
     } catch (error) {
       setisInterested((prv) => !prv);
+      setInterestedCount((prev) => (isInterested ? prev + 1 : prev - 1));
       handleError(error);
     }
   };
@@ -582,18 +589,30 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
             className="cursor-pointer">
               <Share2 size={30} />
             </button>
-            <button
-              onClick={(e) => {
-                handleInterested(e);
-              }}
-              className="cursor-pointer"
-            >
-              {isInterested ? (
-                <Heart size={30} className={`text-secandry`} fill="#FF49B5" />
-              ) : (
-                <Heart size={30} />
-              )}
-            </button>
+            {user ? (
+              <button
+                onClick={(e) => {
+                  handleInterested(e);
+                }}
+                className="cursor-pointer flex items-center gap-2"
+              >
+                {isInterested ? (
+                  <Heart size={30} className={`text-secandry`} fill="#FF49B5" />
+                ) : (
+                  <Heart size={30} />
+                )}
+                <span className="text-lg font-medium text-secandry">
+                  {interestedCount || 0}
+                </span>
+              </button>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Heart size={30} className="text-gray-400" />
+                <span className="text-lg font-medium text-gray-500">
+                  {interestedCount || 0}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 

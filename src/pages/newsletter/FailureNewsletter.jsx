@@ -1,6 +1,7 @@
+import { Title } from "react-head";
 import { useTranslation } from "react-i18next";
 
-function FailedNewsletter() {
+function FailureNewsletter() {
   const { t } = useTranslation();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-red-100">
@@ -24,4 +25,4 @@ function FailedNewsletter() {
   );
 }
 
-export default FailedNewsletter;
+export default FailureNewsletter;

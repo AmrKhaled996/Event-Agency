@@ -5,6 +5,7 @@ import { ChartColumn, Info, LucideBookHeart, Plus, Users2 } from "lucide-react";
 import UnauthorizedPage from "../../Unauthorized";
 import useAppNavigate from "../../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
+import NotificationBell from "../../../components/UI/NotificationBell";
 
 function OrganizerDashboard({ children, page, title }) {
   const { t } = useTranslation();
@@ -76,7 +77,10 @@ function OrganizerDashboard({ children, page, title }) {
               </button>
             </aside>
             {/* main content */}
-            <div className="flex-1 h-full min-h-170 bg-white shadow-2xl rounded-2xl p-8 overflow-scroll overflow-x-auto scroll-m-52">
+            <div className="flex-1 h-full min-h-170 bg-white shadow-2xl rounded-2xl p-8 overflow-scroll overflow-x-auto scroll-m-52 relative">
+              <div className="absolute top-8 right-8 z-10 bg-primary rounded-full shadow-lg">
+                <NotificationBell />
+              </div>
               {children}
               <Outlet />
             </div>

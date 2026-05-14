@@ -1,21 +1,40 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import { useUser } from "../Context/AuthProvider";
 
 function ProtectedRoutes({ children, Roles }) {
   const { user } = useUser();
   const location = useLocation();
+  const { lang } = useParams();
+  const currentLang = lang || localStorage.getItem("lang") || "en";
 
   // If user is not logged in
   if (!user || Object.keys(user).length === 0) {
-    return <Navigate to="/en/login" state={{ from: location }} replace />;
+    // If trying to access admin route, redirect to admin login
+    if (location.pathname.includes("/admin")) {
+      return <Navigate to={`/${currentLang}/admin/login`} state={{ from: location }} replace />;
+    }
+    return <Navigate to={`/${currentLang}/login`} state={{ from: location }} replace />;
   }
 
-  // If user doesn't have the required role
-  if (Roles && !Roles.includes(user.role)) {
-    return <Navigate to="/en/unauthorized" replace />;
+  const userRole = user.role;
+
+  // Strict separation: Admins cannot access user/organizer routes
+  if (userRole === "admin" && !location.pathname.includes("/admin")) {
+    return <Navigate to={`/${currentLang}/admin`} replace />;
+  }
+
+  // Strict separation: Users/Organizers cannot access admin routes
+  if (userRole !== "admin" && location.pathname.includes("/admin")) {
+    return <Navigate to={`/${currentLang}/unauthorized`} replace />;
+  }
+
+  // If user doesn't have the specific required role (e.g., organizer only)
+  if (Roles && !Roles.includes(userRole)) {
+    return <Navigate to={`/${currentLang}/unauthorized`} replace />;
   }
 
   return children;
 }
 
 export default ProtectedRoutes;
+

@@ -19,29 +19,32 @@ const options = {
     },
   },
 };
-export default function DoughnutChart({data}) {
-const setdata = {
-  labels: ['Active', 'Canceled' ,'Upcoming'],
-  datasets: [
-    {
-      label: ['Number of events'],
-      data: data,
-      backgroundColor: [
-        'rgba(26, 197, 4, 0.756)',
-        'rgba(197, 4, 4, 0.756)',
-        'rgba(10, 4, 197, 0.756)',
+export default function DoughnutChart({ data, labels }) {
+  const setdata = {
+    labels: labels || ["Active", "Canceled", "Upcoming"],
+    datasets: [
+      {
+        label: "Count",
+        data: data,
+        backgroundColor: [
+          "rgba(26, 197, 4, 0.756)",
+          "rgba(197, 4, 4, 0.756)",
+          "rgba(10, 4, 197, 0.756)",
+          "rgba(255, 159, 64, 0.756)",
+          "rgba(153, 102, 255, 0.756)",
+        ],
+        borderColor: [
+          "rgba(26, 197, 4, 1)",
+          "rgba(197, 4, 4, 1)",
+          "rgba(10, 4, 197, 1)",
+          "rgba(255, 159, 64, 1)",
+          "rgba(153, 102, 255, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
-      ],
-      borderColor: [
-        'rgba(46, 197, 4, 1)',
-        'rgba(197, 4, 4, 1)',
-        'rgba(10, 4, 197, 1)',
-
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
 
 
 

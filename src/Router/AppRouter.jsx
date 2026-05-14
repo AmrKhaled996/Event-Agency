@@ -33,9 +33,9 @@ import OrganizerAnalyticsPage from "../pages/organizer/dashboard/OrganizerAnalyt
 import OrganizerEventsPage from "../pages/organizer/dashboard/OrganizerEvents";
 // import OrganizerAttendeeInsightsPage from "../pages/organizer/dashboard/OrganizerAttendeeInsights";
 import UpdateEvent from "../pages/organizer/updateEvent/UpdateEvent";
-import ConfermNewsletter from "../pages/newsletter/ConfermationNewsletter";
+import ConfirmNewsletter from "../pages/newsletter/ConfirmationNewsletter";
 import AlreadySubscribedNewsletter from "../pages/newsletter/AlreadySubscribedNewsletter";
-import FailedNewsletter from "../pages/newsletter/FailedNewsletter";
+import FailureNewsletter from "../pages/newsletter/FailureNewsletter";
 import ProtectedRoutes from "./ProtectedRoutes";
 import EventsPagination from "../pages/Events/EventsPagination";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -62,12 +62,13 @@ const RedirectWithSearch = ({ to }) => {
   return <Navigate to={to + search} replace />;
 };
 
-function AppRouter() {
+function AppRouter({ children }) {
   const { t } = useTranslation();
   const savedLang = localStorage.getItem("lang") || "ar";
   return (
     <>
       <BrowserRouter>
+        {children}
         <Routes>
           {/* redirect root */}
           <Route path="/" element={<RedirectWithSearch to={`/${savedLang}`} />} />
@@ -275,14 +276,14 @@ function AppRouter() {
 
             {/* NEWSLETTER */}
             <Route
-              path="newsletter/confermation"
-              element={<ConfermNewsletter />}
+              path="newsletter/confirmation"
+              element={<ConfirmNewsletter />}
             />
             <Route
               path="newsletter/already-subscribed"
               element={<AlreadySubscribedNewsletter />}
             />
-            <Route path="newsletter/failuer" element={<FailedNewsletter />} />
+            <Route path="newsletter/failure" element={<FailureNewsletter />} />
 
             {/* PAYMENT */}
             <Route

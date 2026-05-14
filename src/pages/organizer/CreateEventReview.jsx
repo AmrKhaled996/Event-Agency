@@ -95,13 +95,10 @@ function CreateEventReview() {
         fd.append("priceTiers", JSON.stringify(formData.tickets.priceTiers));
       }
 
-      // Debug: Show form data
-      // for (let pair of fd.entries()) {
-      // }
-      setLoading(true);
-       await createEvent(fd, true); // send formData
 
-      alert(t("organizer.createEvent.createSuccess"));
+      setLoading(true);
+       await createEvent(fd, true);
+
       navigate(`/organizer/dashboard/overview`);
     } catch (error) {
       const message = mapApiError(error);
