@@ -1,5 +1,6 @@
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import { useUser } from "../Context/AuthProvider";
+import { getAccessToken } from "../services/cookieTokenService";
 
 function ProtectedRoutes({ children, Roles }) {
   const { user } = useUser();
@@ -7,28 +8,50 @@ function ProtectedRoutes({ children, Roles }) {
   const { lang } = useParams();
   const currentLang = lang || localStorage.getItem("lang") || "en";
 
-  // If user is not logged in
+  // Robustly detect if we are on an admin route
+  const isAdminPath = location.pathname.includes("/admin");
+
+  // 1. Handling users with NO session in the current context (Admin vs App)
   if (!user || Object.keys(user).length === 0) {
-    // If trying to access admin route, redirect to admin login
-    if (location.pathname.includes("/admin")) {
-      return <Navigate to={`/${currentLang}/admin/login`} state={{ from: location }} replace />;
+    if (isAdminPath) {
+      // Check if they are actually logged in as a regular user/organizer
+      // If they have an app token, we show 'unauthorized' instead of 'login'
+      if (getAccessToken(false)) {
+        console.warn(
+          "User/Organizer attempting to access Admin area. Denying access.",
+        );
+        return <Navigate to={`/${currentLang}/unauthorized`} replace />;
+      }
+      return (
+        <Navigate
+          to={`/${currentLang}/admin/login`}
+          state={{ from: location }}
+          replace
+        />
+      );
     }
-    return <Navigate to={`/${currentLang}/login`} state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to={`/${currentLang}/login`}
+        state={{ from: location }}
+        replace
+      />
+    );
   }
 
   const userRole = user.role;
 
-  // Strict separation: Admins cannot access user/organizer routes
-  if (userRole === "admin" && !location.pathname.includes("/admin")) {
+  // 2. Strict Context Separation for authenticated users
+  if (userRole === "admin" && !isAdminPath) {
     return <Navigate to={`/${currentLang}/admin`} replace />;
   }
 
-  // Strict separation: Users/Organizers cannot access admin routes
-  if (userRole !== "admin" && location.pathname.includes("/admin")) {
+  if (userRole !== "admin" && isAdminPath) {
     return <Navigate to={`/${currentLang}/unauthorized`} replace />;
   }
 
-  // If user doesn't have the specific required role (e.g., organizer only)
+
+  // 3. Specific Role Requirements (e.g. ['organizer'])
   if (Roles && !Roles.includes(userRole)) {
     return <Navigate to={`/${currentLang}/unauthorized`} replace />;
   }

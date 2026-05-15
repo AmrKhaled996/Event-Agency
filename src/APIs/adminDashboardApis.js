@@ -178,10 +178,26 @@ export const addCategory = (formData) =>
     },
   });
 
+/* =========================
+   COUPONS
+========================= */
+
+// GET /api/v1/admin/coupons
+export const getCoupons = () =>
+  adminAxiosInstance.get("/api/v1/admin/coupons");
+
+// POST /api/v1/admin/coupons
+export const addCoupon = (data) =>
+  adminAxiosInstance.post("/api/v1/admin/coupons", data);
+
+// DELETE /api/v1/admin/coupons/:id
+export const deleteCoupon = (id) =>
+  adminAxiosInstance.delete(`/api/v1/admin/coupons/${id}`);
+
 
 export const adminDashboardauth = {
   refreshtoken: function () {
-    const refreshToken = getRefreshToken();
+    const refreshToken = getRefreshToken(true);
     return adminAxiosInstance.post(
       `/api/v1/admin/auth/refresh`,
       { refreshToken }

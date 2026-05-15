@@ -84,7 +84,8 @@
       "dashboard": "Go to Dashboard",
       "join": "Join Us",
       "calendar": "Calendar",
-      "interest": "Interested"
+      "interest": "Interested",
+      "coupons": "Coupons"
     },
     "footer": {
       "companyInfo": "Company Info",
@@ -732,7 +733,9 @@
     "getEvent": "Get Event",
     "deleteEvent": "Delete Event",
     "restoreEvent": "Restore Event",
-    "listCategories": "List Categories"
+    "listCategories": "List Categories",
+    "listCoupons": "List Coupons",
+    "addCoupon": "Add Coupon"
   },
   "table": {
     "id": "ID",
@@ -751,7 +754,11 @@
     "createdAt": "Created At",
     "updatedAt": "Updated At",
     "actions": "Actions",
-    "mode": "Mode"
+    "mode": "Mode",
+    "code": "Code",
+    "discount": "Discount (%)",
+    "expiryDate": "Expiry Date",
+    "usageLimit": "Usage Limit"
   },
   "pagination": {
     "range": "{{from}}–{{to}} of {{total}}"
@@ -1004,6 +1011,29 @@
       "clickOrDrag": "Click to upload or drag and drop",
       "photoHint": "PNG, JPG up to 10MB",
       "pdfHint": "PDF only, up to 20MB"
+    }
+  },
+  "reviews": {
+    "title": "Ratings & Reviews",
+    "count": "reviews",
+    "average": "Average Rating",
+    "alreadyReviewed": "You have already reviewed this event. Thank you!",
+    "empty": {
+      "title": "No reviews yet",
+      "desc": "Be the first to share your experience with this event!"
+    },
+    "form": {
+      "title": "Leave a Review",
+      "rating": "Your Rating",
+      "comment": "Your Feedback (Optional)",
+      "placeholder": "Tell us about your experience...",
+      "submit": "Post Review"
+    },
+    "validation": {
+      "ratingRequired": "Please select a rating"
+    },
+    "feedback": {
+      "success": "Review submitted successfully!"
     }
   }
 }

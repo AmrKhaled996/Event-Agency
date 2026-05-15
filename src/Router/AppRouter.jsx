@@ -61,16 +61,14 @@ const RedirectWithSearch = ({ to }) => {
   const { search } = useLocation();
   return <Navigate to={to + search} replace />;
 };
-
 function AppRouter({ children }) {
   const { t } = useTranslation();
   const savedLang = localStorage.getItem("lang") || "ar";
   return (
     <>
-      <BrowserRouter>
-        {children}
-        <Routes>
-          {/* redirect root */}
+      {children}
+      <Routes>
+        {/* redirect root */}
           <Route path="/" element={<RedirectWithSearch to={`/${savedLang}`} />} />
           <Route path="/confirm-email" element={<RedirectWithSearch to={`/${savedLang}/confirm-email`} />} />
 
@@ -397,7 +395,6 @@ function AppRouter({ children }) {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
-      </BrowserRouter>
     </>
   );
 }

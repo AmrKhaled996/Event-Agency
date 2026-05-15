@@ -10,6 +10,7 @@ import useAppNavigate from "../../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 import CancelDialog from "../../../components/Dialogs/CancelDialog";
 import { handleError } from "../../../utils/errorHandler";
+import EmptyState from "../../../components/UI/EmptyState";
 
 export default function OrganizerEventsPage() {
   const { t } = useTranslation();
@@ -136,7 +137,11 @@ export default function OrganizerEventsPage() {
                 <div className="flex gap-3 justify-center items-center px-4">
                   <button
                     onClick={() => {
-                      setSelectedEvent(event);
+                      const displayEvent = { ...event };
+                      if (displayEvent.venue && typeof displayEvent.venue === 'object') {
+                        displayEvent.venue = displayEvent.venue.name;
+                      }
+                      setSelectedEvent(displayEvent);
                       setInfoDialogOpen(true);
                     }}
                     title={t("common.view")}
@@ -178,10 +183,11 @@ export default function OrganizerEventsPage() {
               </div>
             ))
           ) : (
-            <div className="py-20 text-center text-gray-400 bg-gray-50/50 rounded-xl border border-dashed border-gray-200">
-              <BookHeart className="mx-auto mb-3 opacity-20" size={48} />
-              <p className="text-lg font-medium">{t("organizer.dashboard.noEventsFound")}</p>
-            </div>
+            <EmptyState 
+              title={t("organizer.dashboard.noEventsFound")}
+              description={t("organizer.dashboard.noEventsFoundDesc", "You haven't created any events yet. Start by creating your first event!")}
+              icon={BookHeart}
+            />
           )}
         </div>
       </div>

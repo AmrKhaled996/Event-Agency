@@ -14,7 +14,7 @@ import ActiveUsersPanel       from "./Panels/ActiveUsersPanel";
 // import FinanceSummaryPanel    from "./Panels/FinanceSummaryPanel";
 // import ProcessPayoutsPanel    from "./Panels/ProcessPayoutsPanel";
 import ListEventsPanel        from "./Panels/ListEventsPanel";
-import { ListCategoriesPanel } from "./Panels";
+import { ListCategoriesPanel, CouponsPanel } from "./Panels";
 import { adminDashboardauth } from "../../APIs/adminDashboardApis";
 import { adminRefreshAccessToken } from "../../services/cookieTokenService";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
@@ -31,6 +31,7 @@ const NAV = buildNav({
   // ProcessPayoutsPanel,
   ListEventsPanel,
   ListCategoriesPanel,
+  CouponsPanel,
 });
 
 /* ── Page ────────────────────────────────────────────────────────────────── */

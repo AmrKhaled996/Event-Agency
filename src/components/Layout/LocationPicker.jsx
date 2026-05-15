@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import ClickMarker from "./../../utils/ClickMarker";
@@ -38,7 +39,7 @@ export default function LocationPicker({ event, setEvent, position, setPosition,
 
     const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${searchText}`);
     const data = await res.json();
-    if (!data.length) return alert(t("locationPicker.notFound"));
+    if (!data.length) return toast.error(t("locationPicker.notFound"));
 
     const { lat, lon, display_name } = data[0];
     setMarkerPosition([parseFloat(lat), parseFloat(lon)]);

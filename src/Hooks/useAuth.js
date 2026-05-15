@@ -57,9 +57,9 @@ export function useAuth({
       // Pass _silentError: true to prevent global interceptor toast
       const response = await onSubmit(formData, { _silentError: true });
 
-      setTokens(response.data.data);
+      setTokens(response.data.data, inAdmin);
       if(inAdmin){
-       const accessToken = getAccessToken();
+       const accessToken = getAccessToken(true);
        console.log("acces:",accessToken)
             if (!accessToken) 
             throw new Error("Access token not found");     

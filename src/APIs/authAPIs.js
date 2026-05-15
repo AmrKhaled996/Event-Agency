@@ -34,7 +34,7 @@ export async function resendOtps(config = {}) {
   );
 }
 export async function refreshToken(config = {}) {
-  const refreshToken = getRefreshToken();
+  const refreshToken = getRefreshToken(false);
 
   return axiosInstance.post(
     `/api/v1/auth/refresh-token`,
@@ -57,7 +57,7 @@ export async function resetPassword(newPassword, email, token, config = {}) {
   );
 }
 export async function logout(config = {}) {
-  const refreshToken = getRefreshToken();
+  const refreshToken = getRefreshToken(false);
   return axiosInstance.post(
     `/api/v1/auth/logout`,
     { refreshToken },

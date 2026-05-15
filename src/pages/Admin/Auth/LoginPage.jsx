@@ -64,7 +64,7 @@ function LoginPageAdmin() {
         {/* Close Button (optional) */}
         <button
           onClick={() => {
-            removeTokens();
+            removeTokens(true);
             navigate("/")}}
           className="absolute top-3 right-3 lg:top-6 lg:right-6 text-gray-400 text-4xl hover:text-gray-600 "
         >

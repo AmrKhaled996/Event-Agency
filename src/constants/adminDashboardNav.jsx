@@ -18,6 +18,7 @@ export function buildNav(panels) {
     ActiveUsersPanel,
     ListEventsPanel,
     ListCategoriesPanel,
+    CouponsPanel,
     // AnalyticsPanel,
     // FinanceSummaryPanel,
     // ProcessPayoutsPanel,
@@ -85,8 +86,15 @@ export function buildNav(panels) {
     actions: [
       { id: "list-categories", labelKey: "actions.listCategories", method: "GET", panel: ListCategoriesPanel },],
   },
-    // {
-    //   id: "analytics",
+  {
+    id: "coupons",
+    labelKey: "layout.nav.coupons",
+    icon: <BadgeDollarSign />,
+    actions: [
+      { id: "list-coupons", labelKey: "actions.listCoupons", method: "GET", panel: CouponsPanel },
+    ],
+  },
+  // {    //   id: "analytics",
     //   labelKey: "nav.analytics",
     //   icon: <ChartColumn />,
     //   actions: [

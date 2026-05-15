@@ -8,20 +8,23 @@ import { AuthProvider } from "./Context/AuthProvider.jsx";
 import { NotificationProvider } from "./Context/NotificationContext.jsx";
 import { CategoriesProvider } from "./Context/CategoriesProvider.jsx";
 import { Toaster } from "sonner";
+import { BrowserRouter } from "react-router-dom";
 import './I18n';
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <NotificationProvider>
-        <CategoriesProvider>
-          <HeadProvider>
-            <AppRouter>
-              <App />
-            </AppRouter>
-          </HeadProvider>
-        </CategoriesProvider>
-      </NotificationProvider>
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <NotificationProvider>
+          <CategoriesProvider>
+            <HeadProvider>
+              <AppRouter>
+                <App />
+              </AppRouter>
+            </HeadProvider>
+          </CategoriesProvider>
+        </NotificationProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </StrictMode>
 );

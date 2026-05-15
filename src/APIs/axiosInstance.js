@@ -11,9 +11,9 @@ import { handleError } from "../utils/errorHandler";
 const baseURL = import.meta.env.VITE_API_URL || "";
 
 // Custom event to signal forced logout to AuthProvider
-const triggerForcedLogout = () => {
-  removeTokens();
-  window.dispatchEvent(new CustomEvent("auth:forced-logout"));
+const triggerForcedLogout = (isAdmin = false) => {
+  removeTokens(isAdmin);
+  window.dispatchEvent(new CustomEvent("auth:forced-logout", { detail: { isAdmin } }));
 };
 
 export const axiosInstance = axios.create({
@@ -27,7 +27,7 @@ export const axiosInstance = axios.create({
 // Request interceptor for axiosInstance
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = getAccessToken();
+    const token = getAccessToken(false);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -50,9 +50,9 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshTokenValue = getRefreshToken();
+        const refreshTokenValue = getRefreshToken(false);
         if (!refreshTokenValue) {
-          triggerForcedLogout();
+          triggerForcedLogout(false);
           return Promise.reject(error);
         }
 
@@ -69,7 +69,7 @@ axiosInstance.interceptors.response.use(
 
         await refreshAccessToken(response.data);
 
-        const newToken = getAccessToken();
+        const newToken = getAccessToken(false);
         if (newToken) {
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
         }
@@ -77,7 +77,7 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Refresh token failed, logging out...", refreshError);
-        triggerForcedLogout();
+        triggerForcedLogout(false);
         return Promise.reject(refreshError);
       }
     }
@@ -102,7 +102,7 @@ export const adminAxiosInstance = axios.create({
 // Request interceptor for adminAxiosInstance
 adminAxiosInstance.interceptors.request.use(
   (config) => {
-    const token = getAccessToken();
+    const token = getAccessToken(true);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -125,9 +125,9 @@ adminAxiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshTokenValue = getRefreshToken();
+        const refreshTokenValue = getRefreshToken(true);
         if (!refreshTokenValue) {
-          triggerForcedLogout();
+          triggerForcedLogout(true);
           return Promise.reject(error);
         }
 
@@ -143,7 +143,7 @@ adminAxiosInstance.interceptors.response.use(
 
         await adminRefreshAccessToken(response.data);
 
-        const newToken = getAccessToken();
+        const newToken = getAccessToken(true);
         if (newToken) {
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
         }
@@ -151,7 +151,7 @@ adminAxiosInstance.interceptors.response.use(
         return adminAxiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("Admin refresh token failed, logging out...", refreshError);
-        triggerForcedLogout();
+        triggerForcedLogout(true);
         return Promise.reject(refreshError);
       }
     }

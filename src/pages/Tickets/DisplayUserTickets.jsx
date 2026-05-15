@@ -11,6 +11,8 @@ import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { getUserTickets } from "../../APIs/userAPIs";
 import { extractDateTime } from "../../utils/dateFormater";
 import { useTranslation } from "react-i18next";
+import { handleError } from "../../utils/errorHandler";
+import EmptyState from "../../components/UI/EmptyState";
 
 function DisplayUserTickets() {
   const { t } = useTranslation();
@@ -72,10 +74,12 @@ function DisplayUserTickets() {
 
       setTickets(groupedTickets);
     } catch (error) {
-      const message =
-        error.response?.data?.error || t("tickets.details.fetchError");
-      setDialogMessage(message);
-      setopenErrorDialog(true);
+      handleError(error, {
+        onMapped: (msg) => {
+          setDialogMessage(msg);
+          setopenErrorDialog(true);
+        }
+      });
       console.error(error);
     } finally {
       setLoading(false);
@@ -191,9 +195,11 @@ function DisplayUserTickets() {
           )}
         </div>
         {tickets?.length === 0 && !loading && (
-          <p className="text-gray-500 text-center w-full min-h-[50vh] flex items-center justify-center">
-            {t("tickets.details.noTickets")}
-          </p>
+          <EmptyState 
+            title={t("tickets.details.noTickets")}
+            description={t("tickets.details.noTicketsDesc", "You haven't purchased any tickets yet. Explore our events and find something you love!")}
+            icon={Ticket}
+          />
         )}
       </div>
       {openErrorDialog && (
