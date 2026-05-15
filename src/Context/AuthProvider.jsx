@@ -1,22 +1,22 @@
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import { adminRefreshAccessToken, getAccessToken, refreshAccessToken, getRefreshToken } from "../services/cookieTokenService";
 import { jwtDecode } from "jwt-decode";
 import { refreshToken as refreshTokenAPI } from "../APIs/authAPIs";
 import { adminDashboardauth } from "../APIs/adminDashboardApis";
 import Loading from "../components/Layout/LoadingLayout";
+import { useLocation } from "react-router-dom";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+  const location = useLocation();
+  const isAdminRoute = useMemo(() => location.pathname.includes("/admin"), [location.pathname]);
+
   const [user, setUser] = useState(() => {
-    const token = getAccessToken();
+    const token = getAccessToken(isAdminRoute);
     if (token) {
       try {
-        const decoded = jwtDecode(token);
-        if (decoded?.languagePreference) {
-          localStorage.setItem("lang", decoded?.languagePreference);
-        }
-        return decoded;
+        return jwtDecode(token);
       } catch (error) {
         console.error("Invalid token during synchronous initialization:", error);
         return null;
@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
   });
 
   const [isInitializing, setIsInitializing] = useState(() => {
-    return !getAccessToken() && !!getRefreshToken();
+    return !getAccessToken(isAdminRoute) && !!getRefreshToken(isAdminRoute);
   });
 
   const syncUserFromToken = useCallback((token) => {
@@ -46,38 +46,41 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  // Sync user whenever route type (Admin vs App) changes
+  useEffect(() => {
+    const token = getAccessToken(isAdminRoute);
+    syncUserFromToken(token);
+    
+    // If we have a refresh token but no access token for this route type, trigger initialization
+    if (!token && getRefreshToken(isAdminRoute)) {
+      setIsInitializing(true);
+    }
+  }, [isAdminRoute, syncUserFromToken]);
+
   const updateUser = useCallback(async (userData) => {
     setUser(userData);
-    // Token refresh will be handled automatically by interceptors if needed,
-    // or we can manually refresh here if we want to ensure latest session.
     try {
-      if(userData?.role === "admin") {
+      const isAdmin = userData?.role === "admin";
+      if(isAdmin) {
         const response = await adminDashboardauth.refreshtoken();
         await adminRefreshAccessToken(response.data);
       }else{
         const response = await refreshTokenAPI();
         await refreshAccessToken(response.data);
       }
-      const newToken = getAccessToken();
+      const newToken = getAccessToken(isAdmin);
       syncUserFromToken(newToken);
     } catch (error) {
       console.error("Failed to refresh token during updateUser:", error);
-      console.error(
-        error.response?.data?.data[0]?.message || "Something went wrong"
-      );
-      
     }
   }, [syncUserFromToken]);
 
-  // Handle initialization and background refresh on mount
+  // Handle initialization and background refresh
   useEffect(() => {
     const initAuth = async () => {
       if (!isInitializing) return;
 
       try {
-        const path = window.location.pathname;
-        const isAdminRoute = path.includes("/admin");
-        
         if (isAdminRoute) {
           const response = await adminDashboardauth.refreshtoken();
           await adminRefreshAccessToken(response.data);
@@ -85,10 +88,10 @@ export function AuthProvider({ children }) {
           const response = await refreshTokenAPI();
           await refreshAccessToken(response.data);
         }
-        const newToken = getAccessToken();
+        const newToken = getAccessToken(isAdminRoute);
         syncUserFromToken(newToken);
       } catch (error) {
-        console.error("Failed to refresh token on mount:", error);
+        console.error("Failed to refresh token during initialization:", error);
         setUser(null);
       } finally {
         setIsInitializing(false);
@@ -96,15 +99,18 @@ export function AuthProvider({ children }) {
     };
 
     initAuth();
-  }, [isInitializing, syncUserFromToken]);
+  }, [isInitializing, isAdminRoute, syncUserFromToken]);
 
   // Listen for forced logout events from axios interceptors
   useEffect(() => {
-    const handleForcedLogout = () => {
-      console.warn("Forced logout triggered");
-      setUser(null);
-      // We don't need to call removeTokens() here as triggerForcedLogout in axiosInstance already did it,
-      // but it doesn't hurt to be safe.
+    const handleForcedLogout = (event) => {
+      const isAdminLogout = event.detail?.isAdmin;
+      const isAdminRoute = window.location.pathname.includes("/admin");
+      
+      if (isAdminLogout === isAdminRoute) {
+        console.warn(`Forced logout triggered for ${isAdminLogout ? "admin" : "user"}`);
+        setUser(null);
+      }
     };
 
     window.addEventListener("auth:forced-logout", handleForcedLogout);
@@ -114,11 +120,12 @@ export function AuthProvider({ children }) {
   // Proactive token refresh interval (every 14 minutes)
   useEffect(() => {
     const interval = setInterval(async () => {
-      const token = getAccessToken();
+      const isAdminRoute = window.location.pathname.includes("/admin");
+      const token = getAccessToken(isAdminRoute);
       if (!token) return;
 
       try {
-        const isAdmin = user?.role === "admin";
+        const isAdmin = isAdminRoute || user?.role === "admin";
         if (isAdmin) {
           const response = await adminDashboardauth.refreshtoken();
           await adminRefreshAccessToken(response.data);
@@ -126,15 +133,13 @@ export function AuthProvider({ children }) {
           const response = await refreshTokenAPI();
           await refreshAccessToken(response.data);
         }
-        const newToken = getAccessToken();
+        const newToken = getAccessToken(isAdmin);
         syncUserFromToken(newToken);
       } catch (error) {
         console.error("Proactive refresh failed:", error);
         if (error.response?.status === 401 || error.response?.status === 403) {
           // If refresh fails due to invalid/expired refresh token, we logout
           setUser(null);
-          // removeTokens() is called by the axios interceptor if the API call triggers it,
-          // but we ensure consistency here.
         }
       }
     }, 14 * 60 * 1000);

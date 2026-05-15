@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { useState } from "react";
 import Dialog from "../UI/Dialog";
 import PasswordInput from "../UI/PasswordInput";
@@ -29,7 +30,7 @@ export default function DeleteAccountDialog({ open, onClose }) {
 
       removeTokens();
 
-      alert("Your account has been deleted successfully.");
+      toast.success("Your account has been deleted successfully.");
       navigate("/login");
     } catch (error) {
       console.error("Error deleting account:", error);

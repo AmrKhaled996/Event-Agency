@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { LucideFileWarning } from "lucide-react";
 import { useState } from "react";
 import DeleteAccountDialog from "../../Dialogs/DeleteAccountDialog";
@@ -12,11 +13,11 @@ function DeleteAccountSection() {
   const handleDeleteAccount = async () => {
     try {
       await deleteMyProfile();
-      alert(t("profile.settings.deleteAccount.success"));
+      toast.success(t("profile.settings.deleteAccount.success"));
       navigate("/");
     } catch (error) {
       console.error("Error deleting account:", error);
-      alert(t("profile.settings.deleteAccount.error"));
+      toast.error(t("profile.settings.deleteAccount.error"));
     }
   };
 

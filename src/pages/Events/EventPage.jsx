@@ -45,6 +45,7 @@ import { useTranslation } from "react-i18next";
 import { getAccessToken } from "../../services/cookieTokenService";
 import { Title } from "react-head";
 import { handleError } from "../../utils/errorHandler";
+import EventReviews from "../../components/UI/EventReviews";
 
 const RESERVATION_DURATION = 10 * 60 * 1000;
 const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:8000";
@@ -55,8 +56,6 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   const [loading, setloading] = useState(false);
   const [dateFormat, setDateFormat] = useState([]);
   const [timeFormat, setTimeFormat] = useState([]);
-  const [openDialog, setopenDialog] = useState(false);
-  const [dialogMessage, setDialogMessage] = useState("");
   const [isInterested, setisInterested] = useState(
     event?.isInterested || false,
   );
@@ -136,11 +135,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
 
       }
     } catch (error) {
-      const message =
-        error.response?.data?.error ||
-        "Something went wrong while fetching event data.";
-      setDialogMessage(message);
-      setopenDialog(true);
+      handleError(error);
       console.error(error);
     } finally {
       setloading(false);
@@ -455,13 +450,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
       setShowReservationDialog(true);
       saveStoredReservation(event.id, localExpiry, uniqueSelectedSeats);
     } catch (error) {
-      handleError(error, {
-        silent: true,
-        onMapped: (message) => {
-          setDialogMessage(message);
-          setopenDialog(true);
-        }
-      });
+      handleError(error);
       await loadAvailability(event.id, seatsRef.current);
     } finally {
       isReservingRef.current = false;
@@ -571,12 +560,14 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
 
       <div className="w-full bg-white text-black p-4 max-w-350 mx-auto select-text">
         {/* Header Image */}
-        <img
-          src={event.bannerUrl || eventinfo?.preview || "/images/login.jpg"}
-          alt="Event Banner"
-          crossOrigin="anonymous"
-          className="w-full h-120 rounded-xl mb-6"
-        />
+        <div className="w-full aspect-video rounded-2xl mb-8 overflow-hidden shadow-xl ring-1 ring-gray-200">
+          <img
+            src={event.bannerUrl || eventinfo?.preview || "/images/login.jpg"}
+            alt="Event Banner"
+            crossOrigin="anonymous"
+            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+          />
+        </div>
 
         {/* Title + Icons */}
         <div className="flex justify-between items-center mb-4">
@@ -1072,16 +1063,12 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
           </p>
         </div>
 
+        {event?.id && <EventReviews eventId={event.id} />}
+
         <hr className="text-gray-400 mt-10 " />
       </div>
 
-      {openDialog && (
-        <ErrorDialog
-          open={openDialog}
-          message={dialogMessage}
-          onClose={() => setopenDialog(false)}
-        />
-      )}
+
       {loading && <Loading />}
     </>
   );

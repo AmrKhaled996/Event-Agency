@@ -3,7 +3,7 @@ import HomeHeader from "../../components/Layout/HomeHeader";
 import Card from "../../components/UI/Card";
 import { useCategories } from "../../Context/CategoriesProvider";
 import { Title } from "react-head";
-import { FilterIcon, Search, X } from "lucide-react";
+import { FilterIcon, Search, X, AlertCircle } from "lucide-react";
 import CardSkeleton from "../../components/UI/CardSkeleton";
 import {  useSearchParams } from "react-router-dom";
 
@@ -11,6 +11,8 @@ import { getSearchEvents } from "../../APIs/search";
 import { useTranslation } from "react-i18next";
 import Pagination from "../../components/UI/AdminDashboard/Pagination";
 import { handleError } from "../../utils/errorHandler";
+import EmptyState from "../../components/UI/EmptyState";
+import { Button } from "../../components/shadcn/button";
 
 
 function SearchEventsPage() {
@@ -289,14 +291,17 @@ function SearchEventsPage() {
                 <CardSkeleton key={i} />
               ))
             ) : errorMessage ? (
-              <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
-                <p className="text-red-500 text-lg font-medium">{errorMessage}</p>
-                <button 
-                  onClick={handleSearch}
-                  className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
-                >
-                  {t("common.actions.tryAgain")}
-                </button>
+              <div className="col-span-full">
+                <EmptyState 
+                  title={t("common.errors.fetchError")}
+                  description={errorMessage}
+                  icon={AlertCircle}
+                  action={
+                    <Button onClick={handleSearch} variant="default">
+                      {t("common.actions.tryAgain")}
+                    </Button>
+                  }
+                />
               </div>
             ) : cards?.length > 0 ? (
               cards.map((card, index) => {
@@ -332,10 +337,12 @@ function SearchEventsPage() {
                 );
               })
             ) : (
-              <div className="col-span-full flex flex-col items-center justify-center py-20 text-center text-gray-500">
-                <Search size={48} className="mb-4 opacity-20" />
-                <p className="text-lg font-medium">{t("common.feedback.noResults")}</p>
-                <p className="text-sm opacity-60 mt-1">{t("events.search.tryDifferent") || "Try adjusting your filters or search query"}</p>
+              <div className="col-span-full">
+                <EmptyState 
+                  title={t("common.feedback.noResults")}
+                  description={t("events.search.tryDifferent", "Try adjusting your filters or search query to find what you're looking for.")}
+                  icon={Search}
+                />
               </div>
             )}
           </div>

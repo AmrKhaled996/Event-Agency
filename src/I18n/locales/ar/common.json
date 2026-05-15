@@ -736,9 +736,11 @@
     "getEvent": "عرض فعالية",
     "deleteEvent": "حذف فعالية",
     "restoreEvent": "استعادة فعالية",
-    "listCategories": "عرض التصنيفات"
-  },
-  "table": {
+    "listCategories": "عرض التصنيفات",
+    "listCoupons": "عرض القسائم",
+    "addCoupon": "إضافة قسيمة"
+    },
+    "table": {
     "id": "الهوية",
     "name": "الاسم",
     "email": "البريد الإلكتروني",
@@ -755,7 +757,13 @@
     "createdAt": "تاريخ الإنشاء",
     "updatedAt": "تاريخ التحديث",
     "actions": "الإجراءات",
-    "mode": "الوضع"
+    "mode": "الوضع",
+    "code": "الرمز",
+    "discount": "الخصم (%)",
+    "expiryDate": "تاريخ الانتهاء",
+    "usageLimit": "حد الاستخدام"
+    },
+    "pagination": {
   },
   "pagination": {
     "range": "{{from}}–{{to}} من {{total}}"
