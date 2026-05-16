@@ -3,6 +3,7 @@ import SuccessScreen from "./SuccessScreen";
 import CategorySelector from "../../../components/UI/UpgradeToOrganizer/CategorySelector";
 import DynamicForm from "../../../components/UI/UpgradeToOrganizer/DynamicForm";
 import { useTranslation } from "react-i18next";
+import { Title } from "react-head";
 
 import {
   categories,
@@ -47,6 +48,7 @@ export default function UpgradePage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-8">
+      <Title>{t("upgradeToOrganizer.page.title") || "Fa3liat | Upgrade to Organizer"}</Title>
       {/* Back button */}
       <button
         onClick={() => navigate("/")}
@@ -56,11 +58,16 @@ export default function UpgradePage() {
       </button>
 
       {/* Category selector */}
-      <CategorySelector
-        categories={categories}
-        selected={selected}
-        onSelect={handleCategorySelect}
-      />
+      <div className="flex flex-col gap-4">
+        <h3 className="text-lg font-semibold text-slate-700">
+          {t("upgradeToOrganizer.page.selectionCategory")}
+        </h3>
+        <CategorySelector
+          categories={categories}
+          selected={selected}
+          onSelect={handleCategorySelect}
+        />
+      </div>
 
       {/* Dynamic form */}
       <DynamicForm

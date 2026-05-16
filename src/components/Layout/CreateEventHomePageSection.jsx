@@ -35,7 +35,7 @@ function CreateEventHomePageSection() {
           "
           >
             <CalendarPlus size={20} />
-            Create Event
+            {t("homePage.sections.createEventButton")}
           </button>
         ) : (
           <button
@@ -48,7 +48,7 @@ function CreateEventHomePageSection() {
           "
           >
             <ArrowBigUp size={24} fill="#9810fa" />
-            Upgrade Account
+            {t("homePage.sections.upgradeAccountButton")}
           </button>
         )}
       </div>

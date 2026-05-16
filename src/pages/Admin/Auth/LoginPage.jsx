@@ -53,7 +53,7 @@ function LoginPageAdmin() {
           backgroundSize: `cover`,
         }}
       >
-        <img src="/Fa3liatLogo.png" alt="Fa3liat Logo" className="mb-8 w-48" />
+        <img src="/Fa3liatLogo.png" alt={t("common.logo.alt")} className="mb-8 w-48" />
         <h1 className="text-4xl font-bold mb-4 text-start leading-snug hidden lg:flex">
           {t("auth.adminAuth.asideLogin")}
         </h1>
@@ -91,7 +91,7 @@ function LoginPageAdmin() {
         {/* Divider */}
         <div className="flex items-center mb-6">
           <hr className="grow border-gray-200" />
-          <span className="mx-3 text-gray-400">OR</span>
+          <span className="mx-3 text-gray-400">{t("common.actions.or")}</span>
           <hr className="grow border-gray-200" />
         </div>
 

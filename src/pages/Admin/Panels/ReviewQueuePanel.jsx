@@ -151,7 +151,7 @@ function OrganizerRow({ org, t ,setSelectedData,setInfoDialogOpen}) {
   return (
     <>
       {/* Main Row */}
-      <tr className=" border-b border-gray-800 " onClick={(e) => {
+      <tr className=" border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors " onClick={(e) => {
         e.stopPropagation();
         setSelectedData(org);
         setInfoDialogOpen(true);
@@ -205,7 +205,7 @@ function OrganizerRow({ org, t ,setSelectedData,setInfoDialogOpen}) {
 
       {/* Expand Row */}
       {activeAction && !result && (
-        <tr className="bg-gray-100 border-b border-gray-800">
+        <tr className="bg-gray-50 border-b border-gray-200">
           <td colSpan={6} className="px-3 py-3">
             <div className="flex flex-wrap items-end gap-3">
               {needsReason && (
@@ -314,7 +314,7 @@ export default function ReviewQueuePanel() {
 
       <Pagination
         page={page}
-        total={pagination?.totalPages}
+        total={pagination?.total}
         limit={pagination?.limit}
         onChange={setPage}
       />

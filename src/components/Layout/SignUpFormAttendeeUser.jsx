@@ -76,7 +76,7 @@ function SignUpFormAttendeeUser({ loadingpage }) {
       {/* Divider */}
       <div className="flex items-center mb-6">
         <hr className="grow border-gray-200" />
-        <span className="mx-3 text-gray-400">OR</span>
+        <span className="mx-3 text-gray-400">{t("common.actions.or")}</span>
         <hr className="grow border-gray-200" />
       </div>
 

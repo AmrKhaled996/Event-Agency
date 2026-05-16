@@ -10,3 +10,5 @@ export { default as ProcessPayoutsPanel   } from "./ProcessPayoutsPanel";
 export { default as ListEventsPanel       } from "./ListEventsPanel";
 export { default as ListCategoriesPanel   } from "./ListCategorizePanel";
 export { default as CouponsPanel          } from "./CouponsPanel";
+export { default as NewsletterSubscribersPanel } from "./NewsletterSubscribersPanel";
+export { default as NewsletterBroadcastPanel } from "./NewsletterBroadcastPanel";

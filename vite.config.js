@@ -9,10 +9,16 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), tailwindcss()],
 
     server: {
-      port: 3000,
+      host: "127.0.0.1",
+      port: 5173,
       proxy: {
         "/api": {
-          target: env.VITE_API_URL || "http://localhost:8000",
+          target: env.VITE_API_PROXY_TARGET || "http://localhost:3001",
+          changeOrigin: true,
+          secure: false,
+        },
+        "/uploads": {
+          target: env.VITE_API_PROXY_TARGET || "http://localhost:3001",
           changeOrigin: true,
           secure: false,
         },

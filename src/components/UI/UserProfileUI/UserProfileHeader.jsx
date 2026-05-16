@@ -1,6 +1,8 @@
 import { CircleAlert, PartyPopper } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 function UserProfileHeader({name , memberSince, eventsAttended}) {
+  const { t } = useTranslation();
   return (
     <div className="px-10 py-8 border-b border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
       <div>
@@ -10,7 +12,7 @@ function UserProfileHeader({name , memberSince, eventsAttended}) {
 
         <p className="text-slate-500 mt-1 flex items-center gap-2 pl-2">
           <CircleAlert color="#BB52E0" size={22} />
-          Member since {memberSince}
+          {t("profile.memberSince", { date: memberSince })}
         </p>
       </div>
 
@@ -22,7 +24,7 @@ function UserProfileHeader({name , memberSince, eventsAttended}) {
         <div>
           <p className="text-2xl font-black text-primary leading-none">{eventsAttended}</p>
           <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">
-            Events Attended
+            {t("profile.eventsAttended")}
           </p>
         </div>
       </div>

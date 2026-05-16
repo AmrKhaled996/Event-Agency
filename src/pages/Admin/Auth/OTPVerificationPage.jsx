@@ -8,26 +8,27 @@ import { verify, resendOtps } from "../../../APIs/authAPIs";
 import Loading from "../../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import { useTranslation } from "react-i18next";
+import { removeTokens } from "../../../services/cookieTokenService";
+import useAppNavigate from "../../../Router/useAppNavigate";
+import { toast } from "sonner";
+import { mapApiError } from "../../../utils/apiErrorMapper";
 
 function OTPVerificationPageAdmin() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [timeLeft, setTimeLeft] = useState(600);
   const inputsRef = useRef([]);
-
-    const [openDialog, setopenDialog] = useState(false);
+  const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const {t} = useTranslation();
+  const navigate = useAppNavigate();
+
   const {
     submitOTP,
-    // showDialog,
-    // dialogMessage,
-    // closeDialog,
     loading,
   } = useAuth({
     initialValues: { otp: "" },
     validator: validateOTP,
     onSubmit: verify,
-    redirectTo: "/onboarding/personality-info",
+    redirectTo: "/admin",
     redirectFrom: "/otp-verification",
     openDialog,
     dialogMessage,
@@ -35,17 +36,42 @@ function OTPVerificationPageAdmin() {
     setopenDialog,
   });
 
+  const handleSignOut = () => {
+    removeTokens();
+    navigate("/admin/login");
+  };
+
+  // Use absolute timestamp to survive browser tab throttling/inactivity and page refreshes
+  const [expiryTime, setExpiryTime] = useState(() => {
+    const saved = localStorage.getItem("admin_otp_expiry");
+    if (saved) {
+      const ts = parseInt(saved, 10);
+      if (ts > Date.now()) return ts;
+    }
+    const newExpiry = Date.now() + 600 * 1000;
+    localStorage.setItem("admin_otp_expiry", newExpiry.toString());
+    return newExpiry;
+  });
+  const [timeLeft, setTimeLeft] = useState(600);
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+    const updateTimer = () => {
+      const remaining = Math.max(0, Math.round((expiryTime - Date.now()) / 1000));
+      setTimeLeft(remaining);
+      if (remaining === 0) {
+        localStorage.removeItem("admin_otp_expiry");
+      }
+    };
+
+    updateTimer();
+    const timer = setInterval(updateTimer, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [expiryTime]);
 
   const minutes = Math.floor(timeLeft / 60)
     .toString()
-    .padStart(2, 0);
-  const seconds = (timeLeft % 60).toString().padStart(2, 0);
+    .padStart(2, "0");
+  const seconds = (timeLeft % 60).toString().padStart(2, "0");
 
   const handleChange = (value, index) => {
   
@@ -71,22 +97,39 @@ function OTPVerificationPageAdmin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const otpCode = otp.join("");
-    submitOTP(otpCode);
+    submitOTP(otpCode).then(() => {
+      localStorage.removeItem("admin_otp_expiry");
+    });
   };
-  const resendHandler = (e) => {
+
+  const resendHandler = async (e) => {
     e.preventDefault();
-
-    resendOtps();
-
-    // use axios with backend to resend the OTP code
+    try {
+      await resendOtps();
+      const newExpiry = Date.now() + 600 * 1000;
+      setExpiryTime(newExpiry);
+      localStorage.setItem("admin_otp_expiry", newExpiry.toString());
+      toast.success(t("auth.otp.resentSuccess"));
+    } catch (error) {
+      console.log(error)
+      const message = mapApiError(error);
+      setDialogMessage(message);
+      setopenDialog(true);
+    }
   };
 
   return (
-    <div className=" font-display min-h-screen flex flex-col items-center justify-center  sm:px-8 md:px-20 lg:px-20">
+    <div className=" font-display min-h-screen flex flex-col items-center justify-center  sm:px-8 md:px-20 lg:px-20 relative">
+      <button
+        onClick={handleSignOut}
+        className="absolute top-4 right-4 lg:top-8 lg:right-10 text-gray-500 hover:text-gray-800 font-semibold flex items-center gap-1 cursor-pointer transition-colors"
+      >
+        <span className="text-xl">&times;</span> {t("auth.otp.signOut")}
+      </button>
       <Title>{t("auth.otp.title")}</Title>
       <div className="w-full max-w-4xl bg-white/10  backdrop-blur-lg rounded-xl shadow-lg p-8 flex flex-col items-center">
         {/* Title */}
-        <h1 className="text-3xl font-extrabold mb-3">Verify Your Account</h1>
+        <h1 className="text-3xl font-extrabold mb-3">{t("auth.otp.header")}</h1>
         <p className="mb-5">
           {t("auth.otp.instruction")}
         </p>
@@ -100,8 +143,8 @@ function OTPVerificationPageAdmin() {
         />
 
         {/* Timer */}
-        <div className="text-3xl font-bold mb-6">
-          {minutes} : {seconds}
+        <div className={`flex text-3xl font-bold mb-6 flex-row-reverse`}>
+          {(minutes + ":" + seconds)}
         </div>
 
         {/* Resend */}
@@ -128,11 +171,8 @@ function OTPVerificationPageAdmin() {
         >
           {t("auth.otp.verify")}
         </button>
-        {/* {showDialog && (
-          <div className="mt-4 text-red-600 font-bold">{dialogMessage}</div>
-        )} */}
       </div>
-            {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
+      {openDialog && <ErrorDialog open={openDialog} message={dialogMessage} onClose={() => setopenDialog(false)} />}
       {loading && <Loading />}
     </div>
   );

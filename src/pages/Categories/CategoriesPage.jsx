@@ -28,7 +28,7 @@ function CategoriesPage() {
             ) : categories.length > 0 ? (
               categories.map((cat, index) => (
                 <LocalLink
-                  to={`/search-events?category=${cat.name}`}
+                  to={`/search-events?categoryId=${cat.id}`}
                   key={index}
                   className="flex flex-col items-center text-center cursor-pointer group"
                 >

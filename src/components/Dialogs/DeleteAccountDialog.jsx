@@ -18,7 +18,7 @@ export default function DeleteAccountDialog({ open, onClose }) {
   const handleDeleteAccount = async () => {
     
     if (!inputValue) {
-      setError("Password is required.");
+      setError(t("confirm.deleteAccount.passwordRequired"));
       return;
     }
 
@@ -30,14 +30,14 @@ export default function DeleteAccountDialog({ open, onClose }) {
 
       removeTokens();
 
-      toast.success("Your account has been deleted successfully.");
+      toast.success(t("confirm.deleteAccount.success"));
       navigate("/login");
     } catch (error) {
       console.error("Error deleting account:", error);
 
       const message =
         error?.response?.data?.message ||
-        "Failed to delete account. Please check your password.";
+        t("confirm.deleteAccount.error");
 
       setError(message);
     } finally {
@@ -53,10 +53,10 @@ export default function DeleteAccountDialog({ open, onClose }) {
 
   return (
     <Dialog open={open} onClose={handleClose} className="relative z-50">
-      <h3 className="text-xl font-semibold mb-4">Confirm Deletion</h3>
+      <h3 className="text-xl font-semibold mb-4">{t("confirm.deleteAccount.title")}</h3>
 
       <p className="mb-4 font-bold text-red-500">
-        This action cannot be undone. Please enter your password to confirm.
+        {t("confirm.deleteAccount.message")}
       </p>
 
       <PasswordInput
@@ -86,7 +86,7 @@ export default function DeleteAccountDialog({ open, onClose }) {
           disabled={loading || !inputValue}
           className="bg-red-500 text-white px-4 py-2 rounded disabled:opacity-50"
         >
-          {loading ? "Deleting..." : "Delete"}
+          {loading ? t("confirm.deleteAccount.deleting") : t("confirm.deleteAccount.deleteButton")}
         </button>
       </div>
     </Dialog>

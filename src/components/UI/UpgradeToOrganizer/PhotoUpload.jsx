@@ -48,7 +48,7 @@ export default function PhotoUpload({ label, required, error, onFileChange }) {
         {preview ? (
           <img
             src={preview}
-            alt="preview"
+            alt={t("common.feedback.preview")}
             className="h-20 w-20 rounded-full object-cover border-2 border-primary/30"
           />
         ) : (

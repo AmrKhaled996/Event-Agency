@@ -35,7 +35,11 @@ const MODE_STYLES = {
   const [confirm, setConfirm] = useState(false);
   const [result, setResult] = useState(null);
 
-  const safe = (val) => val ?? "—";
+  const safe = (val) => {
+    if (val === null || val === undefined) return "—";
+    if (typeof val === "object") return JSON.stringify(val);
+    return String(val);
+  };
 
 const fmtDate = (d) =>
   d
@@ -48,7 +52,7 @@ const fmtDate = (d) =>
       })
     : "—";
 
-  const [isDeleted, setisDeleted] = (!!event?.deletedAt);
+  const isDeleted = !!event?.deletedAt;
 
   const handleConfirm = async() => {
     if (!confirm) return;
@@ -65,12 +69,11 @@ const fmtDate = (d) =>
         });
       } else {
         await handleRestore();
-        const now = new Date().toISOString();
         setEvent((e) => ({ ...e, deletedAt: null }));
         setResult({
           success: true,
           action: "restore",
-          time: now,
+          time: new Date().toISOString(),
         });
       }
   
@@ -84,9 +87,9 @@ const fmtDate = (d) =>
     const handleDelete=async()=>{
       try {
          await deleteEvent(event.id);
-        setisDeleted(true);
       } catch (error) {
         console.error(error)
+        throw error;
       }
     }
 
@@ -95,6 +98,7 @@ const fmtDate = (d) =>
            await restoreEvent(event.id);
         } catch (error) {
           console.error(error)
+          throw error;
         }
       }
   return (
@@ -139,7 +143,7 @@ const fmtDate = (d) =>
             />
 
             {event.hasSeatMap && (
-              <Badge label="Seat map" className="bg-emerald-900/30 text-emerald-400 border-emerald-700" />
+              <Badge label={t("eventDialog.status.seatMap")} className="bg-emerald-900/30 text-emerald-400 border-emerald-700" />
             )}
 
             {isDeleted ? (
@@ -285,12 +289,13 @@ export default function ListEventsPanel() {
   const [eventsList, setEventsList] = useState();
   const [pagination, setpagination] = useState();
     const [loading, setloading] = useState(false);
+  const [showDeleted, setShowDeleted] = useState(false);
   // const { users, pagination } = MOCK_RESPONSE;
      const handleGetData =async()=>{
         try {
           setloading(true)
           // await adminDashboardauth.refreshtoken();
-          const response = await getEvents(page);
+          const response = await getEvents(page, showDeleted);
           setEventsList(response.data.data.events);
           setpagination(response.data.data.pagination);
         } catch (error) {
@@ -302,7 +307,7 @@ export default function ListEventsPanel() {
     
       useEffect(() => {
         handleGetData();
-      }, [page]);
+      }, [page, showDeleted]);
 
   // const { events, pagination } = MOCK_RESPONSE;
 
@@ -319,7 +324,23 @@ export default function ListEventsPanel() {
   return (
     <>
       <div className="flex flex-col gap-4">
-        <Title>{t("actions.listEvents")}</Title>
+        <div className="flex justify-between items-center">
+            <Title>{t("actions.listEvents")}</Title>
+            <label className="flex items-center gap-2 cursor-pointer bg-white px-4 py-2 rounded-lg border border-gray-300 hover:border-primary transition shadow-sm mr-2">
+                <input
+                    type="checkbox"
+                    checked={showDeleted}
+                    onChange={(e) => {
+                        setShowDeleted(e.target.checked);
+                        setPage(1);
+                    }}
+                    className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded cursor-pointer"
+                />
+                <span className="text-sm font-medium text-gray-700">
+                    {t("table.showDeletedOnly", { defaultValue: "Show Deleted Only" })}
+                </span>
+            </label>
+        </div>
         <div
           className="rounded-xl border border-gray-700 overflow-hidden"
         >
@@ -336,7 +357,7 @@ export default function ListEventsPanel() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-700">
+            <tbody className="divide-y divide-gray-200 bg-white">
               {eventsList?.map((ev) => (
                 <tr
                   key={ev.id}
@@ -359,12 +380,12 @@ export default function ListEventsPanel() {
                     {ev.deletedAt ? (
                       <Badge
                         className="bg-red-400/30 text-red-400 border-red-700"
-                        label="Deleted"
+                        label={t("eventDialog.status.deleted")}
                       />
                     ) : (
                       <Badge
                         className="bg-emerald-400/30 text-emerald-400 border-emerald-700"
-                        label="Active"
+                        label={t("eventDialog.status.active")}
                       />
                     )}
                   </td>

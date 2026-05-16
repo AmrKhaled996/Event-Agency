@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { addCategory, deleteCategory, editCategory, getCategories } from "../../../APIs/adminDashboardApis";
 import Loading from "../../../components/Layout/LoadingLayout";
 
@@ -131,7 +131,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
       setFile(null);
     } catch (err) {
       console.error(err);
-      setError(err.message || "Something went wrong");
+      setError(err.message || t("apiErrors.UNKNOWN_ERROR"));
     } finally {
       setIsUpdating(false);
     }
@@ -160,7 +160,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
       onClose();
     } catch (err) {
       console.error(err);
-      setError(err.message || "Something went wrong");
+      setError(err.message || t("apiErrors.UNKNOWN_ERROR"));
     } finally {
       setIsDeleting(false);
     }
@@ -171,12 +171,12 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
       <DialogShell
         title={
           mode === "edit"
-            ? `Edit — ${category.name}`
+            ? t("admin.categories.editTitle", { name: category.name })
             : mode === "delete"
-              ? `Delete — ${category.name}`
+              ? t("admin.categories.deleteTitle", { name: category.name })
               : category.name
         }
-        subtitle={`ID: ${category.id} · Created ${fmtDate(category.createdAt)}`}
+        subtitle={`${t("admin.categories.idLabel", { id: category.id })} · ${t("admin.categories.createdAtLabel", { date: fmtDate(category.createdAt) })}`}
         onClose={onClose}
       >
         {/* ERROR */}
@@ -197,7 +197,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
 
             {result && (
               <div className="rounded-md border border-green-800 bg-green-950 px-3 py-[7px] font-mono text-[12px] text-green-400">
-                ✓ Category "{result.name}" updated successfully
+                ✓ {t("admin.categories.updatedSuccess", { name: result.name })}
               </div>
             )}
 
@@ -209,9 +209,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
                 }}
                 className="flex-1 cursor-pointer rounded-[7px] border-none bg-primary py-[7px] text-[13px] font-semibold text-white"
               >
-                {t("buttons.update", {
-                  defaultValue: "Update",
-                })}
+                {t("buttons.update")}
               </button>
 
               <button
@@ -221,9 +219,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
                 }}
                 className="flex-1 cursor-pointer rounded-[7px] border border-red-900 bg-red-600 py-[7px] text-[13px] font-semibold text-white transition-all duration-300 hover:opacity-80"
               >
-                {t("buttons.deleteCategory", {
-                  defaultValue: "Delete",
-                })}
+                {t("buttons.deleteCategory")}
               </button>
             </div>
           </>
@@ -239,9 +235,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
             />
 
             <Field
-              label={t("fields.categoryName", {
-                defaultValue: "Category Name",
-              })}
+              label={t("fields.categoryName")}
             >
               <input
                 className={inputStyle}
@@ -252,9 +246,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
             </Field>
 
             <Field
-              label={t("fields.categoryImage", {
-                defaultValue: "Image",
-              })}
+              label={t("fields.categoryImage")}
             >
               <div
                 onClick={() => fileRef.current?.click()}
@@ -262,9 +254,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
               >
                 {file
                   ? `📎 ${file.name}`
-                  : t("fields.chooseFile", {
-                      defaultValue: "Click to choose a new image…",
-                    })}
+                  : t("fields.chooseFile")}
               </div>
 
               <input
@@ -287,10 +277,8 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
                 } bg-primary`}
               >
                 {isUpdating
-                  ? "Saving..."
-                  : t("buttons.saveChanges", {
-                      defaultValue: "Save Changes",
-                    })}
+                  ? t("buttons.saving")
+                  : t("buttons.saveChanges")}
               </button>
 
               <button
@@ -303,9 +291,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
                 disabled={isUpdating}
                 className="cursor-pointer rounded-[7px] border border-secandry bg-transparent px-4 py-[7px] text-[13px] text-secandry"
               >
-                {t("buttons.cancel", {
-                  defaultValue: "Cancel",
-                })}
+                {t("buttons.cancel")}
               </button>
             </div>
           </>
@@ -321,8 +307,11 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
             />
 
             <p className="m-0 text-[13px] leading-[1.6] text-secandry">
-              This will remove <strong>{category.name}</strong> and its
-              associated image. This action cannot be undone.
+              <Trans
+                i18nKey="admin.categories.deleteWarning"
+                values={{ name: category.name }}
+                components={{ strong: <strong /> }}
+              />
             </p>
 
             <label className="flex cursor-pointer select-none items-center gap-2 text-[12px] text-gray-400">
@@ -333,9 +322,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
                 className="h-3.5 w-3.5 accent-primary"
               />
 
-              {t("confirm.deleteCategory", {
-                defaultValue: "I understand, delete this category",
-              })}
+              {t("confirm.deleteCategory")}
             </label>
 
             <div className="flex gap-2">
@@ -349,10 +336,8 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
                 } bg-red-900`}
               >
                 {isDeleting
-                  ? "Deleting..."
-                  : t("buttons.deleteCategory", {
-                      defaultValue: "Delete Category",
-                    })}
+                  ? t("buttons.deleting")
+                  : t("buttons.deleteCategory")}
               </button>
 
               <button
@@ -363,9 +348,7 @@ function CategoryDetailDialog({ category, onClose, onDelete,onUpdate }) {
                 disabled={isDeleting}
                 className="cursor-pointer rounded-[7px] border border-secandry bg-transparent px-4 py-[7px] text-[13px] text-secandry"
               >
-                {t("buttons.cancel", {
-                  defaultValue: "Cancel",
-                })}
+                {t("buttons.cancel")}
               </button>
             </div>
           </>
@@ -437,9 +420,7 @@ function AddCategoryDialog({ onClose, onAdd }) {
   return (
     <Backdrop onClose={onClose}>
       <DialogShell
-        title={t("actions.addCategory", {
-          defaultValue: "Add Category",
-        })}
+        title={t("actions.addCategory")}
         onClose={onClose}
       >
         {/* image preview */}
@@ -455,9 +436,7 @@ function AddCategoryDialog({ onClose, onAdd }) {
             />
           ) : (
             <span className="text-[12px] text-gray-600">
-              {t("fields.chooseFile", {
-                defaultValue: "Click to upload image…",
-              })}
+              {t("fields.uploadImage")}
             </span>
           )}
         </div>
@@ -471,9 +450,7 @@ function AddCategoryDialog({ onClose, onAdd }) {
         />
 
         <Field
-          label={t("fields.categoryName", {
-            defaultValue: "Category Name",
-          })}
+          label={t("fields.categoryName")}
         >
           <input
             className={inputStyle}
@@ -499,9 +476,7 @@ function AddCategoryDialog({ onClose, onAdd }) {
               : "cursor-not-allowed opacity-45"
           } bg-primary`}
         >
-          {t("buttons.addCategory", {
-            defaultValue: "Add Category",
-          })}
+          {t("buttons.addCategory")}
         </button>
       </DialogShell>
     </Backdrop>
@@ -585,9 +560,7 @@ export default function ListCategoriesPanel() {
         <div className="flex items-center justify-between">
           <p className="m-0 text-[12px] text-gray-600">
             {categories?.length}{" "}
-            {t("table.categories", {
-              defaultValue: "categories",
-            })}
+            {t("table.categories")}
           </p>
 
           <button
@@ -596,9 +569,7 @@ export default function ListCategoriesPanel() {
           >
             <span className="text-[16px] leading-none">+</span>
 
-            {t("buttons.addCategory", {
-              defaultValue: "Add Category",
-            })}
+            {t("buttons.addCategory")}
           </button>
         </div>
 
@@ -611,7 +582,7 @@ export default function ListCategoriesPanel() {
 
         {categories?.length === 0 && (
           <div className="py-10 text-center text-[13px] text-gray-600">
-            No categories yet. Add one above.
+            {t("admin.categories.noCategories")}
           </div>
         )}
       </div>

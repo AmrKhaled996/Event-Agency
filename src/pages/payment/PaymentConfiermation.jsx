@@ -39,7 +39,7 @@ function ConfirmTicketsPage() {
       if (stripeUrl) {
         window.location.href = stripeUrl;
       } else {
-        navigate("/payment/success");
+        navigate(`/payment/success`);
       }
     } catch (error) {
       handleError(error, {

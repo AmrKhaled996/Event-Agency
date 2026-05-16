@@ -10,7 +10,7 @@ function CuratedEventsSection() {
   return (
     <div
       className={`w-full flex justify-center z-20 px-4 my-10 relative
-           before:content-['kljlk']
+           before:content-['']
             before:absolute ${lang ==="ar"? 'before:-right-10':'before:-left-10'} before:bottom-10
             md:before:flex
             before:translate-y-10

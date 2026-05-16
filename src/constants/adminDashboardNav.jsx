@@ -7,7 +7,7 @@
  *   const NAV = buildNav(panels);
  */
 
-import { BadgeDollarSign, ChartColumn, LayoutDashboardIcon, TicketSlash, TvMinimalPlayIcon, User } from "lucide-react";
+import { BadgeDollarSign, ChartColumn, LayoutDashboardIcon, MailIcon, TicketSlash, TvMinimalPlayIcon, User } from "lucide-react";
 
 export function buildNav(panels) {
   const {
@@ -20,8 +20,10 @@ export function buildNav(panels) {
     ListCategoriesPanel,
     CouponsPanel,
     // AnalyticsPanel,
-    // FinanceSummaryPanel,
-    // ProcessPayoutsPanel,
+    FinanceSummaryPanel,
+    ProcessPayoutsPanel,
+    NewsletterSubscribersPanel,
+    NewsletterBroadcastPanel,
     // GetUserPanel,
     // DeleteUserPanel,
     // RestoreUserPanel,
@@ -103,14 +105,23 @@ export function buildNav(panels) {
     //     { id: "active-users",     labelKey: "actions.activeUsers",    method: "GET", panel: ActiveUsersPanel },
     //   ],
     // },
-    // {
-    //   id: "finance",
-    //   labelKey: "nav.finance",
-    //   icon: <BadgeDollarSign />,
-    //   actions: [
-    //     { id: "finance-summary", labelKey: "actions.financeSummary", method: "GET",  panel: FinanceSummaryPanel },
-    //     { id: "process-payouts", labelKey: "actions.processPayouts", method: "POST", panel: ProcessPayoutsPanel },
-    //   ],
-    // },
+    {
+      id: "finance",
+      labelKey: "nav.finance",
+      icon: <BadgeDollarSign />,
+      actions: [
+        { id: "finance-summary", labelKey: "actions.financeSummary", method: "GET",  panel: FinanceSummaryPanel },
+        { id: "process-payouts", labelKey: "actions.processPayouts", method: "POST", panel: ProcessPayoutsPanel },
+      ],
+    },
+    {
+      id: "newsletter",
+      labelKey: "nav.newsletter",
+      icon: <MailIcon />,
+      actions: [
+        { id: "list-newsletter-subscribers", labelKey: "actions.listNewsletterSubscribers", method: "GET", panel: NewsletterSubscribersPanel },
+        { id: "broadcast-newsletter", labelKey: "actions.broadcastNewsletter", method: "POST", panel: NewsletterBroadcastPanel },
+      ],
+    },
   ];
 }

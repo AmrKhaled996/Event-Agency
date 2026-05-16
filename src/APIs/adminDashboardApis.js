@@ -96,8 +96,30 @@ export const approveOrganizer = (id) => {
 ========================= */
 
 // GET /api/v1/admin/finance/summary?days=
-export const getFinanceSummary = () =>
-  adminAxiosInstance.get("/api/v1/admin/finance/summary");
+export const getFinanceSummary = (days) =>
+  adminAxiosInstance.get(`/api/v1/admin/finance/summary${days ? `?days=${days}` : ''}`);
+
+// GET /api/v1/admin/finance/payouts/history?page=&limit=
+export const getPayoutHistory = (page = 1, limit = 8) =>
+  adminAxiosInstance.get(`/api/v1/admin/finance/payouts/history?page=${page}&limit=${limit}`);
+
+// POST /api/v1/admin/finance/payouts/process
+export const processPayouts = (days) =>
+  adminAxiosInstance.post('/api/v1/admin/finance/payouts/process', { days });
+
+/* =========================
+   NEWSLETTER
+========================= */
+
+// GET /api/v1/admin/newsletter/subscribers?page=&limit=&q=
+export const getNewsletterSubscribers = (page = 1, limit = 8, q = '') =>
+  adminAxiosInstance.get(
+    `/api/v1/admin/newsletter/subscribers?page=${page}&limit=${limit}${q ? `&q=${encodeURIComponent(q)}` : ''}`
+  );
+
+// POST /api/v1/admin/newsletter/broadcast
+export const broadcastNewsletter = (data) =>
+  adminAxiosInstance.post('/api/v1/admin/newsletter/broadcast', data);
 
 /* =========================
    ANALYTICS
@@ -119,9 +141,9 @@ export const getEventTickets = (eventId) =>
    EVENTS
 ========================= */
 
-// GET /api/v1/admin/events?page=&limit=
-export const getEvents = (page) =>
-  adminAxiosInstance.get(`/api/v1/admin/events?page=${page}&limit=8`);
+// GET /api/v1/admin/events?page=&limit=&withTrashed=
+export const getEvents = (page, withTrashed = false) =>
+  adminAxiosInstance.get(`/api/v1/admin/events?page=${page}&limit=8${withTrashed ? '&withTrashed=true' : ''}`);
 
 // GET /api/v1/admin/events/:eventId
 export const getEventById = (eventId) =>

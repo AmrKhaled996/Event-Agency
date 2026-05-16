@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import HomeHeader from "../../components/Layout/HomeHeader";
 import Card from "../../components/UI/Card";
 import { useCategories } from "../../Context/CategoriesProvider";
 import { Title } from "react-head";
-import { FilterIcon, Search, X, AlertCircle } from "lucide-react";
+import { FilterIcon, Search as LucideSearch, X, AlertCircle } from "lucide-react";
 import CardSkeleton from "../../components/UI/CardSkeleton";
 import {  useSearchParams } from "react-router-dom";
 
@@ -27,54 +27,164 @@ function SearchEventsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
   const location = searchParams.get("location") || "";
-  const [pagination, setpagination] = useState();
+  const [pagination, setPagination] = useState();
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   
   const { t } = useTranslation();
   
-  const handleSearch = async () => {
+  const debounceRef = useRef(null);
+  
+  // Initialize filters from search params on mount or when searchParams change
+  useEffect(() => {
+    if (categories?.length > 0) {
+      const catId = searchParams.get("categoryId");
+      if (catId) {
+        const found = categories.find(c => String(c.id) === String(catId));
+        if (found) {
+          setCategory(found);
+          setActiveTags(prev => ({ ...prev, category: found.name }));
+        }
+      } else {
+        setCategory("");
+        setActiveTags(prev => ({ ...prev, category: "" }));
+      }
+      
+      const minP = searchParams.get("minPrice");
+      setPriceMin(minP ? Number(minP) : 0);
+      
+      const maxP = searchParams.get("maxPrice");
+      setPriceMax(maxP ? Number(maxP) : 3000);
+      
+      const dt = searchParams.get("date");
+      if (dt) {
+        setDate(dt);
+        setActiveTags(prev => ({ ...prev, date: dt }));
+      } else {
+        setDate("Today");
+        setActiveTags(prev => ({ ...prev, date: "" }));
+      }
+
+      const pg = searchParams.get("page");
+      setPage(pg ? Number(pg) : 1);
+    }
+  }, [categories, searchParams]);
+
+  // Sync filters to search params to ensure persistence and shareable URLs
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    
+    // We only update searchParams when the user interacts, 
+    // but here we check if they are already in sync to avoid loops
+    let changed = false;
+    
+    const updateParam = (key, value, defaultValue) => {
+      const current = params.get(key);
+      if (value && value !== defaultValue) {
+        if (current !== String(value)) {
+          params.set(key, value);
+          changed = true;
+        }
+      } else {
+        if (params.has(key)) {
+          params.delete(key);
+          changed = true;
+        }
+      }
+    };
+
+    if (category?.id) updateParam("categoryId", category.id); else updateParam("categoryId", null);
+    updateParam("minPrice", priceMin, 0);
+    updateParam("maxPrice", priceMax, 5000);
+    if (date !== "Today") updateParam("date", date); else updateParam("date", null);
+    if (page > 1) updateParam("page", page); else updateParam("page", null);
+    
+    if (changed) {
+      setSearchParams(params, { replace: true });
+    }
+  }, [category?.id, priceMin, priceMax, date, page, setSearchParams]);
+
+  const handleSearch = useCallback(async (currentParams) => {
+    const params = currentParams || {
+      q: search,
+      page: page,
+      min: priceMin,
+      max: priceMax,
+      catId: category?.id,
+      loc: location,
+      dt: date
+    };
+
+    const { q, page: pg, min, max, catId, loc, dt } = params;
+    
+    // Prevent min-length validation errors from backend
+    if (q && q.length > 0 && q.length < 2) {
+      setCards([]);
+      return;
+    }
+
     try {
       setIsFetching(true);
       setErrorMessage(null);
       
       const response = await getSearchEvents({
-        q: search,
+        q: q,
         limit: 12,
-        page: page,
-        organizerId: "",
-        minPrice: priceMin,
-        maxPrice: priceMax,
-        categoryId: category?.id,
-        location: location,
-      }, { _silentError: true });
+        page: pg,
+        minPrice: min,
+        maxPrice: max,
+        categoryId: catId,
+        location: loc,
+        date: dt,
+      });
       
-      const newcards = response.data.data.data || [];
+      const newcards = response?.data?.data?.data || [];
       setCards(newcards);
-      setpagination(response?.data?.data?.pagination);
+      setPagination(response?.data?.data?.pagination);
     } catch (error) {
       const message = handleError(error, { 
         silent: true,
         onMapped: (msg) => setErrorMessage(msg)
       });
-      console.error(message||error);
-      
-      setCards([]); // Clear cards on error
+      console.error(message || error);
+      setCards([]);
     } finally {
       setIsFetching(false);
     }
-  };
+  }, [search, page, priceMin, priceMax, category?.id, location, date]);
+
+  // Debounced execution of handleSearch
   useEffect(() => {
-    handleSearch();
-  }, [search, date, category, priceMax, priceMin, page]);
+    const params = {
+      q: search,
+      page: page,
+      min: priceMin,
+      max: priceMax,
+      catId: category?.id,
+      loc: location,
+      dt: date
+    };
 
-  useEffect(() => {}, []);
+    const timeoutId = setTimeout(() => {
+      handleSearch(params);
+    }, 400);
 
-  const dateOptions = ["Today", "Tomorrow", "Next week", "Next month"];
+    return () => clearTimeout(timeoutId);
+  }, [search, page, priceMin, priceMax, category?.id, location, date, handleSearch]);
+
+
+
+  const dateOptions = [
+    { label: t("events.search.dateOptions.today"), value: "Today" },
+    { label: t("events.search.dateOptions.tomorrow"), value: "Tomorrow" },
+    { label: t("events.search.dateOptions.nextWeek"), value: "Next week" },
+    { label: t("events.search.dateOptions.nextMonth"), value: "Next month" },
+  ];
 
   const handleCategoryChange = (val) => {
-    setCategory(val);
+    const selectedCat = categories?.find((cat) => cat.name === val);
+    setCategory(selectedCat || "");
     setActiveTags((prev) => ({ ...prev, category: val }));
   };
 
@@ -146,7 +256,7 @@ function SearchEventsPage() {
                   <span className="text-sm text-gray-400">—</span>
                   <input
                     type="number"
-                    placeholder="Max"
+                    placeholder={t("events.search.maxPrice")}
                     defaultValue={priceMax}
                     value={priceMax || ""}
                     step={100}
@@ -186,10 +296,10 @@ function SearchEventsPage() {
               <div className="flex md:flex-col flex-wrap gap-1.5">
                 {dateOptions.map((opt) => (
                   <label
-                    key={opt}
-                    onClick={() => handleDateChange(opt)}
+                    key={opt.value}
+                    onClick={() => handleDateChange(opt.value)}
                     className={`flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer border transition-all ${
-                      date === opt
+                      date === opt.value
                         ? " ring-primary/80 border-primary"
                         : "border-transparent  hover:ring-1 hover:ring-primary/40"
                     }`}
@@ -197,14 +307,14 @@ function SearchEventsPage() {
                     {/* Custom radio dot */}
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                        date === opt ? "ring-primary" : "border-gray-300"
+                        date === opt.value ? "ring-primary" : "border-gray-300"
                       }`}
                     >
-                      {date === opt && (
+                      {date === opt.value && (
                         <div className="w-2 h-2 rounded-full bg-primary" />
                       )}
                     </div>
-                    <span className="text-sm text-gray-800">{opt}</span>
+                    <span className="text-sm text-gray-800">{opt.label}</span>
                   </label>
                 ))}
               </div>
@@ -297,7 +407,7 @@ function SearchEventsPage() {
                   description={errorMessage}
                   icon={AlertCircle}
                   action={
-                    <Button onClick={handleSearch} variant="default">
+                    <Button onClick={() => handleSearch()} variant="default">
                       {t("common.actions.tryAgain")}
                     </Button>
                   }
@@ -320,7 +430,7 @@ function SearchEventsPage() {
 
                 return (
                   <Card
-                    key={index}
+                    key={card?.id || index}
                     bannerUrl={`${card?.bannerUrl}`}
                     title={card?.title}
                     description={card?.description}
@@ -341,7 +451,7 @@ function SearchEventsPage() {
                 <EmptyState 
                   title={t("common.feedback.noResults")}
                   description={t("events.search.tryDifferent", "Try adjusting your filters or search query to find what you're looking for.")}
-                  icon={Search}
+                  icon={LucideSearch}
                 />
               </div>
             )}

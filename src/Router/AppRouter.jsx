@@ -1,4 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import ErrorBoundary from "../components/ErrorBoundary";
+import OrganizerAccessGate from "../components/OrganizerAccessGate";
 
 import CreateEventBasics from "../pages/organizer/CreateEventBasics";
 import CreateEventBanner from "../pages/organizer/CreateEventBanner";
@@ -41,10 +43,12 @@ import EventsPagination from "../pages/Events/EventsPagination";
 import NotFoundPage from "../pages/NotFoundPage";
 import DisplayUserTickets from "../pages/Tickets/DisplayUserTickets";
 import UserProfileInfoPage from "../pages/Profile/User/UserProfileInfoPage";
+import OrganizerProfileInfoPage from "../pages/Profile/Organizer/OrganizerProfileInfoPage";
 import UserAccountSettings from "../pages/Profile/User/UserAccountSettings";
 import ConfirmEmail from "../pages/Profile/User/ConfirmEmail";
 import InterestedEventsPage from "../pages/Events/InterestedEvents";
 import SearchEventsPage from "../pages/Events/SearchEventsPage";
+import CalendarPage from "../pages/Events/CalendarPage";
 import CategoriesPage from "../pages/Categories/CategoriesPage";
 import UpgradePage from "../pages/organizer/upgradeToOrganizer/UpgradePage";
 import LocalRoutes from "../I18n/LocalRoutes";
@@ -55,7 +59,9 @@ import { useTranslation } from "react-i18next";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import LoginPageAdmin from "../pages/Admin/Auth/LoginPage";
 import SignUpPageAdmin from "../pages/Admin/Auth/SignUpPage";
+import AdminPendingApprovalPage from "../pages/Admin/Auth/AdminPendingApprovalPage";
 import OTPVerificationPageOrganizer from "../pages/organizer/upgradeToOrganizer/OTPVerificationPage";
+import OrganizerAccessStatusPage from "../pages/organizer/OrganizerAccessStatusPage";
 
 const RedirectWithSearch = ({ to }) => {
   const { search } = useLocation();
@@ -65,320 +71,350 @@ function AppRouter({ children }) {
   const { t } = useTranslation();
   const savedLang = localStorage.getItem("lang") || "ar";
   return (
-    <>
+    <ErrorBoundary>
       {children}
       <Routes>
         {/* redirect root */}
-          <Route path="/" element={<RedirectWithSearch to={`/${savedLang}`} />} />
-          <Route path="/confirm-email" element={<RedirectWithSearch to={`/${savedLang}/confirm-email`} />} />
+        <Route path="/" element={<RedirectWithSearch to={`/${savedLang}`} />} />
+        <Route path="/confirm-email" element={<RedirectWithSearch to={`/${savedLang}/confirm-email`} />} />
+        <Route path="/payment/success" element={<RedirectWithSearch to={`/${savedLang}/payment/success`} />} />
 
-          {/* كل الموقع تحت اللغة */}
-          <Route path="/:lang" element={<LocalRoutes />}>
-            {/* PUBLIC */}
-            <Route index element={<HomePage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signup" element={<SignUpPage />} />
-            <Route path="otp-verification" element={<OTPVerificationPage />} />
 
-            <Route
-              path="unauthorized"
-              element={
-                <>
-                  <NavigationBar />
-                  <UnauthorizedPage />
-                  <Footer />
-                </>
-              }
-            />
+            {/* كل الموقع تحت اللغة */}
+            <Route path="/:lang" element={<LocalRoutes />}>
+              {/* PUBLIC */}
+              <Route index element={<HomePage />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="signup" element={<SignUpPage />} />
+              <Route path="otp-verification" element={<OTPVerificationPage />} />
 
-            {/* ONBOARDING */}
-            <Route
-              path="onboarding/location-selection"
-              element={
-                <Onboarding
-                  stepNo={2}
-                  pageTitle={t("onboarding.locationSelection.title")}
-                >
-                  <LocationSelection />
-                </Onboarding>
-              }
-            />
+              <Route
+                path="unauthorized"
+                element={
+                  <>
+                    <NavigationBar />
+                    <UnauthorizedPage />
+                    <Footer />
+                  </>
+                }
+              />
 
-            <Route
-              path="onboarding/preference-selection"
-              element={
-                <Onboarding
-                  stepNo={3}
-                  pageTitle={t("onboarding.preferenceSelection.title")}
-                >
-                  <PreferenceSelection />
-                </Onboarding>
-              }
-            />
-
-            <Route
-              path="onboarding/personality-info"
-              element={
-                <Onboarding
-                  stepNo={1}
-                  pageTitle={t("onboarding.personalityinfo.title")}
-                >
-                  <PersonlityinfoQ />
-                </Onboarding>
-              }
-            />
-
-            {/* AUTH */}
-            <Route path="completed" element={<CompleteResister />} />
-            <Route
-              path="forget-password/get-email"
-              element={<ForgetPassword />}
-            />
-            <Route path="forget-password/back" element={<BackToLogin />} />
-            <Route path="reset-password" element={<ResetPassword />} />
-
-            {/* EVENTS */}
-            <Route
-              path="events/:slug"
-              element={
-                <>
-                  <NavigationBar />
-                  <EventPage />
-                  <OtherEventsSlider />
-                  <Footer />
-                </>
-              }
-            />
-
-            <Route
-              path="events-pagenation"
-              element={
-                <>
-                  <NavigationBar />
-                  <EventsPagination />
-                  <Footer />
-                </>
-              }
-            />
-
-            <Route path="search-events" element={<SearchEventsPage />} />
-            <Route path="categories" element={<CategoriesPage />} />
-
-            {/* ORGANIZER */}
-            <Route
-              path="organizer/dashboard/overview"
-              element={
-                <ProtectedRoutes Roles={["organizer"]}>
-                  <OrganizerDashboard page="overview" title={t("organizer.dashboard.overview")}>
-                    <OrganizerOverviewPage />
-                  </OrganizerDashboard>
-                </ProtectedRoutes>
-              }
-            />
-
-            <Route
-              path="organizer/dashboard/events"
-              element={
-                <ProtectedRoutes Roles={["organizer"]}>
-                  <OrganizerDashboard page="events" title={t("organizer.dashboard.myEvents")}>
-                    <OrganizerEventsPage />
-                  </OrganizerDashboard>
-                </ProtectedRoutes>
-              }
-            />
-
-            <Route
-              path="organizer/dashboard/analytics"
-              element={
-                <ProtectedRoutes Roles={["organizer"]}>
-                  <OrganizerDashboard page="analytics" title={t("organizer.dashboard.analytics")}>
-                    <OrganizerAnalyticsPage />
-                  </OrganizerDashboard>
-                </ProtectedRoutes>
-              }
-            />
-
-            {/* <Route
-              path="organizer/dashboard/attendee-insights"
-              element={
-                <ProtectedRoutes Roles={["organizer"]}>
-                  <OrganizerDashboard
-                    page="attendee-insights"
-                    title={t("organizer.dashboard.attendees")}
+              {/* ONBOARDING */}
+              <Route
+                path="onboarding/location-selection"
+                element={
+                  <Onboarding
+                    stepNo={2}
+                    pageTitle={t("onboarding.locationSelection.title")}
                   >
-                    <OrganizerAttendeeInsightsPage />
-                  </OrganizerDashboard>
-                </ProtectedRoutes>
-              }
-            /> */}
+                    <LocationSelection />
+                  </Onboarding>
+                }
+              />
+
+              <Route
+                path="onboarding/preference-selection"
+                element={
+                  <Onboarding
+                    stepNo={3}
+                    pageTitle={t("onboarding.preferenceSelection.title")}
+                  >
+                    <PreferenceSelection />
+                  </Onboarding>
+                }
+              />
+
+              <Route
+                path="onboarding/personality-info"
+                element={
+                  <Onboarding
+                    stepNo={1}
+                    pageTitle={t("onboarding.personalityinfo.title")}
+                  >
+                    <PersonlityinfoQ />
+                  </Onboarding>
+                }
+              />
+
+              {/* AUTH */}
+              <Route path="completed" element={<CompleteResister />} />
+              <Route
+                path="forget-password/get-email"
+                element={<ForgetPassword />}
+              />
+              <Route path="forget-password/back" element={<BackToLogin />} />
+              <Route path="reset-password" element={<ResetPassword />} />
+
+              {/* EVENTS */}
+              <Route
+                path="events/:slug"
+                element={
+                  <>
+                    <NavigationBar />
+                    <EventPage />
+                    <OtherEventsSlider />
+                    <Footer />
+                  </>
+                }
+              />
+
+              <Route
+                path="events-pagenation"
+                element={
+                  <>
+                    <NavigationBar />
+                    <EventsPagination />
+                    <Footer />
+                  </>
+                }
+              />
+
+              <Route path="search-events" element={<SearchEventsPage />} />
+              <Route path="calendar" element={<CalendarPage />} />
+              <Route path="categories" element={<CategoriesPage />} />
+
+              {/* ORGANIZER */}
+              <Route
+                path="organizer/dashboard/overview"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessGate>
+                      <OrganizerDashboard page="overview" title={t("organizer.dashboard.overview")}>
+                        <OrganizerOverviewPage />
+                      </OrganizerDashboard>
+                    </OrganizerAccessGate>
+                  </ProtectedRoutes>
+                }
+              />
+
+              <Route
+                path="organizer/dashboard/events"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessGate>
+                      <OrganizerDashboard page="events" title={t("organizer.dashboard.myEvents")}>
+                        <OrganizerEventsPage />
+                      </OrganizerDashboard>
+                    </OrganizerAccessGate>
+                  </ProtectedRoutes>
+                }
+              />
+
+              <Route
+                path="organizer/dashboard/analytics"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessGate>
+                      <OrganizerDashboard page="analytics" title={t("organizer.dashboard.analytics")}>
+                        <OrganizerAnalyticsPage />
+                      </OrganizerDashboard>
+                    </OrganizerAccessGate>
+                  </ProtectedRoutes>
+                }
+              />
+
+              {/* <Route
+                path="organizer/dashboard/attendee-insights"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerDashboard
+                      page="attendee-insights"
+                      title={t("organizer.dashboard.attendees")}
+                    >
+                      <OrganizerAttendeeInsightsPage />
+                    </OrganizerDashboard>
+                  </ProtectedRoutes>
+                }
+              /> */}
 
 
-            {/* CREATE EVENT */}
-            <Route
-              path="organizer/create-event/basics"
-              element={
-                <ProtectedRoutes Roles={["organizer"]}>
-                  <EventFormProvider>
-                    <CreateEventBasics />
-                  </EventFormProvider>
-                </ProtectedRoutes>
-              }
-            />
+              {/* CREATE EVENT */}
+              <Route
+                path="organizer/create-event/basics"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessGate>
+                      <EventFormProvider>
+                        <CreateEventBasics />
+                      </EventFormProvider>
+                    </OrganizerAccessGate>
+                  </ProtectedRoutes>
+                }
+              />
 
-            <Route
-              path="organizer/create-event/banner"
-              element={
-                <ProtectedRoutes Roles={["organizer"]}>
-                  <EventFormProvider>
-                    <CreateEventBanner />
-                  </EventFormProvider>
-                </ProtectedRoutes>
-              }
-            />
+              <Route
+                path="organizer/create-event/banner"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessGate>
+                      <EventFormProvider>
+                        <CreateEventBanner />
+                      </EventFormProvider>
+                    </OrganizerAccessGate>
+                  </ProtectedRoutes>
+                }
+              />
 
-            <Route
-              path="organizer/create-event/ticket"
-              element={
-                <ProtectedRoutes Roles={["organizer"]}>
-                  <EventFormProvider>
-                    <CreateEventTickets />
-                  </EventFormProvider>
-                </ProtectedRoutes>
-              }
-            />
+              <Route
+                path="organizer/create-event/ticket"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessGate>
+                      <EventFormProvider>
+                        <CreateEventTickets />
+                      </EventFormProvider>
+                    </OrganizerAccessGate>
+                  </ProtectedRoutes>
+                }
+              />
 
-            <Route
-              path="organizer/create-event/review"
-              element={
-                <ProtectedRoutes Roles={["organizer"]}>
-                  <EventFormProvider>
-                    <CreateEventReview />
-                  </EventFormProvider>
-                </ProtectedRoutes>
-              }
-            />
+              <Route
+                path="organizer/create-event/review"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessGate>
+                      <EventFormProvider>
+                        <CreateEventReview />
+                      </EventFormProvider>
+                    </OrganizerAccessGate>
+                  </ProtectedRoutes>
+                }
+              />
 
-            <Route
-              path="organizer/update-event"
-              element={
-                <ProtectedRoutes Roles={["organizer"]}>
-                  <EventFormProvider>
-                    <UpdateEvent />
-                  </EventFormProvider>
-                </ProtectedRoutes>
-              }
-            />
+              <Route
+                path="organizer/update-event"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessGate>
+                      <EventFormProvider>
+                        <UpdateEvent />
+                      </EventFormProvider>
+                    </OrganizerAccessGate>
+                  </ProtectedRoutes>
+                }
+              />
 
-            <Route path="organizer/upgrade" element={<UpgradePage />} />
-            <Route path="organizer/otp-verification" element={<OTPVerificationPageOrganizer />} />
+              <Route path="organizer/upgrade" element={<UpgradePage />} />
+              <Route path="organizer/otp-verification" element={<OTPVerificationPageOrganizer />} />
+              <Route
+                path="organizer/status"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessStatusPage />
+                  </ProtectedRoutes>
+                }
+              />
 
-            {/* NEWSLETTER */}
-            <Route
-              path="newsletter/confirmation"
-              element={<ConfirmNewsletter />}
-            />
-            <Route
-              path="newsletter/already-subscribed"
-              element={<AlreadySubscribedNewsletter />}
-            />
-            <Route path="newsletter/failure" element={<FailureNewsletter />} />
+              {/* NEWSLETTER */}
+              <Route
+                path="newsletter/confirmation"
+                element={<ConfirmNewsletter />}
+              />
+              <Route
+                path="newsletter/already-subscribed"
+                element={<AlreadySubscribedNewsletter />}
+              />
+              <Route path="newsletter/failure" element={<FailureNewsletter />} />
 
-            {/* PAYMENT */}
-            <Route
-              path="payment/tickets"
-              element={
-                <ProtectedRoutes Roles={["organizer", "user"]}>
-                  <PayTicketsPage />
-                </ProtectedRoutes>
-              }
-            />
+              {/* PAYMENT */}
+              <Route
+                path="payment/tickets"
+                element={
+                  <ProtectedRoutes Roles={["organizer", "user"]}>
+                    <PayTicketsPage />
+                  </ProtectedRoutes>
+                }
+              />
 
-            <Route
-              path="payment/confirmation"
-              element={
-                <ProtectedRoutes Roles={["organizer", "user"]}>
-                  <PaymanetConfirmationPage />
-                </ProtectedRoutes>
-              }
-            />
+              <Route
+                path="payment/confirmation"
+                element={
+                  <ProtectedRoutes Roles={["organizer", "user"]}>
+                    <PaymanetConfirmationPage />
+                  </ProtectedRoutes>
+                }
+              />
 
-            <Route path="payment/success" element={<PaymentSuccessPage />} />
-            <Route path="payment/cancel" element={<PaymentCancelPage />} />
+              <Route path="payment/success" element={<PaymentSuccessPage />} />
+              <Route path="payment/cancel" element={<PaymentCancelPage />} />
 
-            {/* USER */}
-            <Route
-              path="tickets"
-              element={
-                <>
-                  <NavigationBar />
-                  <DisplayUserTickets />
-                  <Footer />
-                </>
-              }
-            />
+              {/* USER */}
+              <Route
+                path="tickets"
+                element={
+                  <>
+                    <NavigationBar />
+                    <DisplayUserTickets />
+                    <Footer />
+                  </>
+                }
+              />
 
-            <Route
-              path="profile/:userId"
-              element={
-                <>
-                  <NavigationBar />
-                  <UserProfileInfoPage />
-                  <Footer />
-                </>
-              }
-            />
+              <Route
+                path="profile/:userId"
+                element={
+                  <>
+                    <NavigationBar />
+                    <UserProfileInfoPage />
+                    <Footer />
+                  </>
+                }
+              />
 
-            <Route
-              path="profile/:userId/setting"
-              element={
-                <>
-                  <NavigationBar />
-                  <UserAccountSettings />
-                  <Footer />
-                </>
-              }
-            />
+              <Route
+                path="profile/:userId/setting"
+                element={
+                  <>
+                    <NavigationBar />
+                    <UserAccountSettings />
+                    <Footer />
+                  </>
+                }
+              />
 
-            <Route path="confirm-email" element={<ConfirmEmail />} />
+              <Route path="organizer/:id" element={<OrganizerProfileInfoPage />} />
 
-            <Route
-              path="interested"
-              element={
-                <div className="flex flex-col min-h-screen">
-                  <NavigationBar />
-                  <main className="flex-grow">
-                    <InterestedEventsPage />
-                  </main>
-                  <Footer />
-                </div>
-              }
-            />
+              <Route path="confirm-email" element={<ConfirmEmail />} />
 
-            <Route path="google/callback" element={<GoogleCallback />} />
+              <Route
+                path="interested"
+                element={
+                  <div className="flex flex-col min-h-screen">
+                    <NavigationBar />
+                    <main className="flex-grow">
+                      <InterestedEventsPage />
+                    </main>
+                    <Footer />
+                  </div>
+                }
+              />
 
-            <Route
-              path="about"
-              element={
-                <>
-                  <NavigationBar />
-                  {savedLang === "ar" ? <AboutPageAR /> : <AboutPage />}
-                  <Footer />
-                </>
-              }
-            />
-            {/* ADMIN AUTH */}
-              <Route path="admin/login" element={<LoginPageAdmin />} />
-            <Route path="admin/signup" element={<SignUpPageAdmin />} />
-            {/* ADMIN */}
+              <Route path="google/callback" element={<GoogleCallback />} />
 
-            <Route
-              path="admin"
-              element={
-                <ProtectedRoutes Roles={["admin"]}>
-                  <AdminDashboard />
-                </ProtectedRoutes>
-              }
-            />
+              <Route
+                path="about"
+                element={
+                  <>
+                    <NavigationBar />
+                    {savedLang === "ar" ? <AboutPageAR /> : <AboutPage />}
+                    <Footer />
+                  </>
+                }
+              />
+              {/* ADMIN AUTH */}
+                <Route path="admin/login" element={<LoginPageAdmin />} />
+              <Route path="admin/signup" element={<SignUpPageAdmin />} />
+              <Route path="admin/pending-approval" element={<AdminPendingApprovalPage />} />
+              {/* ADMIN */}
+
+              <Route
+                path="admin"
+                element={
+                  <ProtectedRoutes Roles={["admin"]}>
+                    <AdminDashboard />
+                  </ProtectedRoutes>
+                }
+              />
 
             {/* chatbotHelper */}
             <Route
@@ -395,7 +431,7 @@ function AppRouter({ children }) {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
-    </>
+      </ErrorBoundary>
   );
 }
 

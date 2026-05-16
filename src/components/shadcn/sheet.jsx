@@ -1,3 +1,4 @@
+import i18n from "../../I18n";
 "use client";
 
 import * as SheetPrimitive from "@radix-ui/react-dialog";
@@ -57,7 +58,7 @@ function SheetContent({ className, children, side = "right", ...props }) {
         {children}
         <SheetPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
           <XIcon className="size-4" />
-          <span className="sr-only">Close</span>
+          <span className="sr-only">{i18n.t("ui.dialog.close")}</span>
         </SheetPrimitive.Close>
       </SheetPrimitive.Content>
     </SheetPortal>

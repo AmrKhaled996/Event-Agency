@@ -123,7 +123,7 @@ function NavigationBar({ backGround = "primary" }) {
               <LocalLink to="/" className="h-full w-full flex items-center">
                 <img
                   src={"/Fa3liatLogo.png"}
-                  alt="Fa3liat Logo"
+                  alt={t("common.logo.alt")}
                   className="md:h-20 h-16 w-fit pb-2"
                 />              </LocalLink>
             </div>
@@ -143,8 +143,8 @@ function NavigationBar({ backGround = "primary" }) {
                   </LocalLink>
                 </li>
 
-                <li className="hover:text-white transition-colors duration-200">
-                  <a href="#">{t("layout.nav.calendar")}</a>
+                <li className="hover:text-white transition-colors duration-200 cursor-pointer" onClick={() => navigate("/search-events")}>
+                  {t("layout.nav.calendar")}
                 </li>
               </ul>
             </div>
@@ -154,7 +154,7 @@ function NavigationBar({ backGround = "primary" }) {
               <button
                 onClick={toggleDarkMode}
                 className="p-2 rounded-full bg-black/10 text-white hover:bg-black/20 transition-all cursor-pointer"
-                title={isDarkMode ? "Light Mode" : "Dark Mode"}
+                title={isDarkMode ? t("layout.nav.lightMode") : t("layout.nav.darkMode")}
               >
                 {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
@@ -169,7 +169,7 @@ function NavigationBar({ backGround = "primary" }) {
                       : "text-white hover:text-white/80 cursor-pointer"
                   }`}
                 >
-                  AR
+                  {t("common.languages.ar")}
                 </button>
                 <button
                   disabled={lang === "en"}
@@ -180,7 +180,7 @@ function NavigationBar({ backGround = "primary" }) {
                       : "text-white hover:text-white/80 cursor-pointer"
                   }`}
                 >
-                  EN
+                  {t("common.languages.en")}
                 </button>
               </div>
             </div>
@@ -230,7 +230,7 @@ function NavigationBar({ backGround = "primary" }) {
                     >
                       <div className="px-4 py-3 border-b border-gray-50 flex flex-col">
                         <span className="text-[10px] uppercase tracking-wider text-gray-400 font-bold">{t("layout.nav.wallet")}</span>
-                        <span className="text-lg font-bold text-primary">{UserBalance || 0} <small className="text-xs text-gray-500 font-normal">EGP</small></span>
+                        <span className="text-lg font-bold text-primary">{UserBalance || 0} <small className="text-xs text-gray-500 font-normal">{t("common.currency.egp")}</small></span>
                       </div>
 
                       <button
@@ -344,12 +344,12 @@ function NavigationBar({ backGround = "primary" }) {
               >
                 {t("layout.nav.categories")}
               </LocalLink>
-              <a
-                to="#"
+              <LocalLink
+                to="/calendar"
                 className="block text-white font-semibold hover:text-gray-300 mb-5"
               >
                 {t("layout.nav.calendar")}
-              </a>
+              </LocalLink>
               {user?.role === "user" || user?.role === "organizer" ? (
                 <div className="flex space-x-2 items-center justify-center text-white  gap-10">
                   <NotificationBell />
@@ -388,7 +388,7 @@ function NavigationBar({ backGround = "primary" }) {
                   onClick={() => handleChangeLanguage("ar")}
                   className={`text-white  ${lang === "ar" ? "font-extrabold underline text-xl hover:cursor-not-allowed" : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"} `}
                 >
-                  AR
+                  {t("common.languages.ar")}
                 </button>
                 <span className="text-white text-2xl">|</span>
                 <button
@@ -396,7 +396,7 @@ function NavigationBar({ backGround = "primary" }) {
                   onClick={() => handleChangeLanguage("en")}
                   className={`text-white ${lang === "en" ? "font-extrabold underline text-xl hover:cursor-not-allowed" : "font-bold text-xl hover:cursor-pointer hover:text-gray-300"}  mr-2`}
                 >
-                  EN
+                  {t("common.languages.en")}
                 </button>
               </div>
             </div>
