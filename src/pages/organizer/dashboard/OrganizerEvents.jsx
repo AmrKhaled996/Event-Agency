@@ -1,9 +1,8 @@
-import { DeleteIcon, Info, Pencil, RefreshCcw, Trash, BookHeart } from "lucide-react";
+import { Info, Pencil, BookHeart, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import InfoDialog from "../../../components/Dialogs/InfoDialog";
 import UpdateDialog from "../../../components/Dialogs/UpdateDialog";
-import DeleteDialog from "../../../components/Dialogs/DeleteDialog";
-import { cancelEvent, deleteEvent, getAllEvents } from "../../../APIs/organizerApis";
+import { cancelEvent, getAllEvents } from "../../../APIs/organizerApis";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
 import Loading from "../../../components/Layout/LoadingLayout";
 import useAppNavigate from "../../../Router/useAppNavigate";
@@ -14,7 +13,6 @@ import EmptyState from "../../../components/UI/EmptyState";
 
 export default function OrganizerEventsPage() {
   const { t } = useTranslation();
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [cancelDialogOpen, setcancelDialogOpen] = useState(false);
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
@@ -28,25 +26,6 @@ export default function OrganizerEventsPage() {
 
   const navigate = useAppNavigate();
 
-  const handleDelete = async () => {
-    try {
-      const eventId = selectedEvent.id;
-      await deleteEvent(eventId, { _silentError: true });
-
-      setEvents((prevEvents) =>
-        prevEvents.filter((event) => event.id !== eventId),
-      );
-      setDeleteDialogOpen(false);
-    } catch (error) {
-      handleError(error, {
-        silent: true,
-        onMapped: (msg) => {
-          setDialogMessage(msg);
-          setopenDialog(true);
-        }
-      });
-    }
-  };
   const handleCancel = async () => {
     try {
       const eventId = selectedEvent.id;
@@ -165,19 +144,9 @@ export default function OrganizerEventsPage() {
                       setcancelDialogOpen(true);
                     }}
                     title={t("common.cancel")}
-                    className="p-2.5 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 hover:text-amber-700 transition-colors cursor-pointer"
-                  >
-                    <DeleteIcon size={20} />
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedEvent(event);
-                      setDeleteDialogOpen(true);
-                    }}
-                    title={t("common.delete")}
                     className="p-2.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 hover:text-rose-700 transition-colors cursor-pointer"
                   >
-                    <Trash size={20} />
+                    <X size={20} />
                   </button>
                 </div>
               </div>
@@ -192,13 +161,6 @@ export default function OrganizerEventsPage() {
         </div>
       </div>
 
-      {deleteDialogOpen && (
-        <DeleteDialog
-          open={deleteDialogOpen}
-          onClose={() => setDeleteDialogOpen(false)}
-          onConfirm={handleDelete}
-        />
-      )}
       {cancelDialogOpen && (
         <CancelDialog
           open={cancelDialogOpen}

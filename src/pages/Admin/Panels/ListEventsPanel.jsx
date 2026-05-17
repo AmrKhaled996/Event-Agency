@@ -69,7 +69,7 @@ const fmtDate = (d) =>
         });
       } else {
         await handleRestore();
-        setEvent((e) => ({ ...e, deletedAt: null }));
+        setEvent((e) => ({ ...e, deletedAt: null, status: "active" }));
         setResult({
           success: true,
           action: "restore",
@@ -146,7 +146,12 @@ const fmtDate = (d) =>
               <Badge label={t("eventDialog.status.seatMap")} className="bg-emerald-900/30 text-emerald-400 border-emerald-700" />
             )}
 
-            {isDeleted ? (
+            {event.status === "cancelled" ? (
+              <Badge
+                label={t("eventDialog.status.cancelled")}
+                className="bg-amber-500/30 text-amber-500 border-amber-700"
+              />
+            ) : isDeleted ? (
               <Badge
                 label={t("eventDialog.status.deleted")}
                 className="bg-red-600 hover:bg-red-700 text-white border-red-400"
@@ -240,31 +245,38 @@ const fmtDate = (d) =>
 
           {/* confirm */}
           {action && (
-            <div className="flex items-center justify-between gap-4 bg-primary/80 border border-gray-700 rounded-lg px-4 py-2 text-xs">
-              <label className="flex items-center gap-2 text-white cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={confirm}
-                  onChange={(e) => setConfirm(e.target.checked)}
-                  className="accent-blue-500"
-                />
-                {t(`confirm.${action}Event`)}
-              </label>
+            <div className="flex flex-col gap-3 bg-primary/80 border border-gray-700 rounded-lg px-4 py-3">
+              {action === "restore" && event.status === "cancelled" && (
+                <p className="text-[11px] text-amber-300 font-medium italic border-b border-white/10 pb-2 mb-1">
+                   ⚠️ {t("confirm.restoreEventWarning")}
+                </p>
+              )}
+              <div className="flex items-center justify-between gap-4 text-xs">
+                <label className="flex items-center gap-2 text-white cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={confirm}
+                    onChange={(e) => setConfirm(e.target.checked)}
+                    className="accent-blue-500"
+                  />
+                  {t(`confirm.${action}Event`)}
+                </label>
 
-              <button
-                onClick={handleConfirm}
-                disabled={!confirm}
-                className={`px-4 py-1 rounded text-white text-xs font-semibold
-                ${
-                  confirm
-                    ? action === "delete"
-                      ? "bg-red-600 hover:bg-red-700"
-                      : "bg-blue-600 hover:bg-blue-700"
-                    : "bg-gray-600 cursor-not-allowed opacity-50"
-                }`}
-              >
-                {t("buttons.confirm")}
-              </button>
+                <button
+                  onClick={handleConfirm}
+                  disabled={!confirm}
+                  className={`px-4 py-1 rounded text-white text-xs font-semibold
+                  ${
+                    confirm
+                      ? action === "delete"
+                        ? "bg-red-600 hover:bg-red-700"
+                        : "bg-blue-600 hover:bg-blue-700"
+                      : "bg-gray-600 cursor-not-allowed opacity-50"
+                  }`}
+                >
+                  {t("buttons.confirm")}
+                </button>
+              </div>
             </div>
           )}
 
@@ -377,7 +389,12 @@ export default function ListEventsPanel() {
                   </td>
 
                   <td className="px-4 py-3 text-center">
-                    {ev.deletedAt ? (
+                    {ev.status === "cancelled" ? (
+                      <Badge
+                        className="bg-amber-500/30 text-amber-500 border-amber-700"
+                        label={t("eventDialog.status.cancelled")}
+                      />
+                    ) : ev.deletedAt ? (
                       <Badge
                         className="bg-red-400/30 text-red-400 border-red-700"
                         label={t("eventDialog.status.deleted")}

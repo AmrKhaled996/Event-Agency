@@ -10,7 +10,7 @@ import { extractDateTime } from "../../utils/dateFormater";
 import EmptyState from "./EmptyState";
 import { handleError } from "../../utils/errorHandler";
 
-export default function EventReviews({ eventId }) {
+export default function EventReviews({ eventId, organizerUserId }) {
   const { t } = useTranslation();
   const { user } = useUser();
   const [reviews, setReviews] = useState([]);
@@ -22,6 +22,8 @@ export default function EventReviews({ eventId }) {
   const [submitting, setSubmitting] = useState(false);
   const [newRating, setNewRating] = useState(0);
   const [newComment, setNewComment] = useState("");
+
+  const isOrganizer = user && organizerUserId && user.id === organizerUserId;
 
   const fetchReviews = async () => {
     try {
@@ -38,7 +40,7 @@ export default function EventReviews({ eventId }) {
   };
 
   const fetchMyReview = async () => {
-    if (!user) return;
+    if (!user || isOrganizer) return;
     try {
       const res = await getMyEventReview(eventId);
       // The API returns { review: 0 } if no review found
@@ -55,7 +57,7 @@ export default function EventReviews({ eventId }) {
       fetchReviews();
       fetchMyReview();
     }
-  }, [eventId, user]);
+  }, [eventId, user, organizerUserId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,8 +114,8 @@ export default function EventReviews({ eventId }) {
         )}
       </div>
 
-      {/* Submission Form */}
-      {user && !myReview && (
+      {/* Submission Form for logged in non-organizer users */}
+      {user && !myReview && !isOrganizer && (
         <form 
           onSubmit={handleSubmit}
           className="bg-white border-2 border-primary/10 rounded-2xl p-6 shadow-sm space-y-4"
@@ -157,8 +159,33 @@ export default function EventReviews({ eventId }) {
         </form>
       )}
 
+      {/* Login Prompt for Guests */}
+      {!user && (
+        <div className="bg-primary/5 border border-primary/10 rounded-2xl p-8 text-center space-y-4">
+          <h3 className="font-bold text-xl text-gray-800">
+            {t("reviews.guest.title", "Want to share your experience?")}
+          </h3>
+          <p className="text-gray-600 max-w-md mx-auto">
+            {t("reviews.guest.description", "Log in to leave a rating and review for this event and help others in the community.")}
+          </p>
+          <div className="pt-2">
+            <Button asChild>
+              <Link to="/login">{t("common.login", "Log In")}</Link>
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Organizer Notice */}
+      {isOrganizer && (
+        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-gray-600 text-sm flex items-center gap-3 italic">
+          <Info size={18} />
+          {t("reviews.organizerRestriction", "Organizers cannot review their own events.")}
+        </div>
+      )}
+
       {/* Success message if already reviewed */}
-      {myReview && (
+      {user && myReview && (
         <div className="bg-green-50 border border-green-100 rounded-2xl p-4 text-green-700 text-sm flex items-center gap-3">
           <Star className="fill-green-500 text-green-500" size={18} />
           {t("reviews.alreadyReviewed", "You have already reviewed this event. Thank you!")}

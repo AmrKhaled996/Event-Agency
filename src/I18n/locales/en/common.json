@@ -1122,6 +1122,7 @@
     "processPayouts": "Confirm processing payouts",
     "deleteEvent": "Confirm Event Deletion",
     "restoreEvent": "Confirm Event Restoration",
+    "restoreEventWarning": "This event had refunded/canceled tickets. Restoring the event will NOT restore refunded tickets automatically.",
     "cancelEvent": {
       "title": "Confirm Cancelation",
       "message": "Are you sure you want to Cancel this event?",

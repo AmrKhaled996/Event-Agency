@@ -1105,7 +1105,12 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
           </p>
         </div>
 
-        {event?.id && <EventReviews eventId={event.id} />}
+        {event?.id && (
+          <EventReviews 
+            eventId={event.id} 
+            organizerUserId={event.organizer?.userId} 
+          />
+        )}
 
         <hr className="text-gray-400 mt-10 " />
       </div>
