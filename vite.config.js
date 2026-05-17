@@ -22,6 +22,12 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
+        "/socket.io": {
+          target: env.VITE_API_PROXY_TARGET || "http://localhost:3001",
+          ws: true,
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
   };

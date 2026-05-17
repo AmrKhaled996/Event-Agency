@@ -1,5 +1,5 @@
 import { User } from "lucide-react";
-import socket from "../../services/socket";
+import socket, { connectSocket } from "../../services/socket";
 
 
 import { useState, useRef, useEffect } from "react";
@@ -77,6 +77,7 @@ export default function ChatbotHelper() {
   const inputRef = useRef(null);
 
   useEffect(() => {
+    connectSocket();
   
     socket.on("chatbot-reply", (data) => {
 

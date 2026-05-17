@@ -15,9 +15,12 @@ export const connectSocket = () => {
   const token = getAccessToken();
   if (token) {
     socket.auth = { token };
-    if (socket.disconnected) {
-      socket.connect();
-    }
+  } else {
+    socket.auth = {};
+  }
+  
+  if (socket.disconnected) {
+    socket.connect();
   }
 };
 
