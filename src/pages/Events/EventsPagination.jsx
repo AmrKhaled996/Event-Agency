@@ -145,7 +145,7 @@ function EventsPagination() {
             );
           })}
         </div>
-        <div className="w-full flex justify-center my-10 gap-20">
+        <div className="w-full flex justify-center my-10 gap-4 sm:gap-10">
           <button
             onClick={() => {
               if (eventsPage <= 1) return;
@@ -162,9 +162,9 @@ function EventsPagination() {
               eventsPage <= 1
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-primary cursor-pointer"
-            } md:px-30 px-20 py-3 font-semibold text-lg text-white my-15 rounded-md  flex gap-3 items-center`}
+            } px-6 sm:px-10 py-2.5 font-semibold text-base sm:text-lg text-white my-10 rounded-md flex gap-2 items-center`}
           >
-            <ArrowLeft /> {t("common.actions.previous")}
+            <ArrowLeft size={18} /> {t("common.actions.previous")}
           </button>
           <button
             onClick={() => {
@@ -183,9 +183,9 @@ function EventsPagination() {
               cards.length < 12
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-primary cursor-pointer"
-            } md:px-30 px-20 py-3 font-semibold text-lg text-white my-15 rounded-md  flex gap-3 items-center`}
+            } px-6 sm:px-10 py-2.5 font-semibold text-base sm:text-lg text-white my-10 rounded-md flex gap-2 items-center`}
           >
-            {t("common.actions.next")} <ArrowRight />
+            {t("common.actions.next")} <ArrowRight size={18} />
           </button>
         </div>
         {openDialog && (

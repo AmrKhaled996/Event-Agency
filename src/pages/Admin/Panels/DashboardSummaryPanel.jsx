@@ -15,12 +15,12 @@ function Section({ title, children }) {
   const { t } = useTranslation();
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow mb-10">
-      <p className="text-[11px] font-medium tracking-wider uppercase text-gray-400 mb-2">
+    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8">
+      <p className="text-[12px] font-bold tracking-wider uppercase text-gray-400 mb-4 ml-1">
         {t(title)}
       </p>
 
-      <div className="grid  grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-4">
         {children}
       </div>
     </div>
@@ -32,20 +32,22 @@ function StatCard({ label, value, accent }) {
 
   const isRevenue = label.toLowerCase().includes("revenue");
 
-  const display = isRevenue
-    ? `$${(value).toLocaleString()}`
-    : (value).toLocaleString();
+  let display = "—";
+  if (value !== undefined && value !== null && value !== "-") {
+    display = Number(value).toLocaleString();
+    if (isRevenue) display = `$${display}`;
+  }
 
   return (
     <div
-      className="bg-gray-100 rounded-md px-3 py-2 border-l-[3px]"
-      style={{ borderColor: accent || "transparent" }}
+      className="bg-white rounded-xl shadow-sm border border-gray-100 px-5 py-4 flex flex-col gap-1 border-l-4 transition-all hover:shadow-md"
+      style={{ borderLeftColor: accent || "#e5e7eb" }}
     >
-      <p className="text-xs text-gray-500 mb-1">
+      <p className="text-[11px] text-gray-500 uppercase tracking-wider font-semibold">
         {t(label)}
       </p>
 
-      <p className="text-lg font-medium text-gray-900">
+      <p className="text-2xl font-bold text-gray-900">
         {display}
       </p>
     </div>

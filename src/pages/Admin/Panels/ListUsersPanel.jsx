@@ -233,7 +233,7 @@ export default function ListUsersPanel() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-700">
+            <tbody className="divide-y divide-gray-200 bg-white">
               {usersList?.map((user) => (
                 <UserRow key={user?.id} user={user} t={t} />
               ))}
@@ -253,3 +253,4 @@ export default function ListUsersPanel() {
     </div>
   );
 }
+

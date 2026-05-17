@@ -52,7 +52,7 @@ function ForgetPassword() {
       <div>
         <img
           src={import.meta.env.BASE_URL + "Fa3liatLogo.png"}
-          alt="fa3liat Logo"
+          alt={t("common.logo.alt")}
           className="w-fit h-30 absolute top-2 left-10 drop-shadow-black  drop-shadow-lg"
         />
       </div>

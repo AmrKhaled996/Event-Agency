@@ -40,6 +40,24 @@ function ProtectedRoutes({ children, Roles }) {
   }
 
   const userRole = user.role;
+  const isVerified = userRole === "admin" ? user.isApproved : user.isVerified;
+
+  // Strict verification check
+  if (!isVerified && 
+      !location.pathname.includes("/otp-verification") && 
+      !location.pathname.includes("/confirm-email") &&
+      !location.pathname.includes("/admin/pending-approval")) {
+    
+    if (userRole === "admin") {
+      return <Navigate to={`/${currentLang}/admin/pending-approval`} replace />;
+    }
+    return <Navigate to={`/${currentLang}/otp-verification`} replace />;
+  }
+
+  // Strict onboarding check (only for regular users)
+  if (userRole === "user" && !user.isCompleted && !location.pathname.includes("/onboarding") && !location.pathname.includes("/otp-verification")) {
+    return <Navigate to={`/${currentLang}/onboarding/personality-info`} replace />;
+  }
 
   // 2. Strict Context Separation for authenticated users
   if (userRole === "admin" && !isAdminPath) {

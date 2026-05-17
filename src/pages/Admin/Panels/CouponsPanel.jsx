@@ -73,11 +73,11 @@ function AddCouponDialog({ onClose, onAdd }) {
       });
 
       onAdd(response.data.data.coupon);
-      toast.success(t("coupons.feedback.success", "Coupon created successfully!"));
+      toast.success(t("coupons.feedback.success"));
       onClose();
     } catch (error) {
       console.error(error);
-      const msg = error.response?.data?.error || error.message || "Failed to create coupon";
+      const msg = error.response?.data?.error || error.message || t("apiErrors.UNKNOWN_ERROR");
       toast.error(msg);
     } finally {
       setIsSubmitting(false);
@@ -95,7 +95,7 @@ function AddCouponDialog({ onClose, onAdd }) {
                 className={`${inputStyle} pl-8`}
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder="E.g. SUMMER2026"
+                placeholder={t("admin.coupons.codePlaceholder")}
                 autoFocus
                 required
               />
@@ -110,7 +110,7 @@ function AddCouponDialog({ onClose, onAdd }) {
                 className={`${inputStyle} pl-8`}
                 value={discount}
                 onChange={(e) => setDiscount(e.target.value)}
-                placeholder="Percentage (e.g. 15)"
+                placeholder={t("admin.coupons.discountPlaceholder")}
                 min="1"
                 max="100"
                 required
@@ -145,7 +145,7 @@ function DeleteConfirmDialog({ coupon, onClose, onConfirm }) {
       setIsDeleting(true);
       await deleteCoupon(coupon.id);
       onConfirm(coupon.id);
-      toast.success(t("coupons.feedback.deleted", "Coupon deleted successfully"));
+      toast.success(t("coupons.feedback.deleted"));
       onClose();
     } catch (error) {
       console.error(error);
@@ -163,7 +163,7 @@ function DeleteConfirmDialog({ coupon, onClose, onConfirm }) {
         onClose={onClose}
       >
         <p className="m-0 text-[14px] text-gray-600">
-          Are you sure you want to delete this coupon? This action cannot be undone and will immediately deactivate the promo code.
+          {t("admin.coupons.deleteWarning")}
         </p>
 
         <div className="flex gap-2">
@@ -230,7 +230,7 @@ export default function CouponsPanel() {
       {/* toolbar */}
       <div className="flex items-center justify-between">
         <h2 className="m-0 text-xl font-bold text-gray-800">
-          {t("coupons")}
+          {t("layout.nav.coupons")}
         </h2>
         <button
           onClick={() => setShowAdd(true)}
@@ -290,7 +290,7 @@ export default function CouponsPanel() {
               <Ticket size={48} className="opacity-20" />
             </div>
             <p className="text-lg font-medium">{t("common.feedback.noResults")}</p>
-            <p className="text-sm">No coupons found. Create one to get started!</p>
+            <p className="text-sm">{t("admin.coupons.noCoupons")}</p>
           </div>
         )}
       </div>

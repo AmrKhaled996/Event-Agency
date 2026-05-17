@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { getAccessToken,  setTokens } from "../services/cookieTokenService";
+import { getAccessToken, removeTokens, setTokens } from "../services/cookieTokenService";
 import { resendOtps } from "../APIs/authAPIs";
 import { useUser } from "../Context/AuthProvider";
 import useAppNavigate from "../Router/useAppNavigate";
@@ -57,6 +57,12 @@ export function useAuth({
       // Pass _silentError: true to prevent global interceptor toast
       const response = await onSubmit(formData, { _silentError: true });
 
+      if (inAdmin && redirectFrom === "signup") {
+        removeTokens(true);
+        navigate("/admin/pending-approval");
+        return;
+      }
+
       setTokens(response.data.data, inAdmin);
       if(inAdmin){
        const accessToken = getAccessToken(true);
@@ -74,6 +80,17 @@ export function useAuth({
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
     } catch (error) {
+      const errorCode =
+        error?.response?.data?.data?.[0]?.code ||
+        error?.response?.data?.code ||
+        error?.response?.data?.data?.code;
+
+      if (inAdmin && errorCode === "ADMIN_NOT_APPROVED") {
+        removeTokens();
+        navigate("/admin/pending-approval");
+        return;
+      }
+
       // Use global handler but siliently (no toast) to use the dialog instead
       const message = handleError(error, { 
         silent: true,
@@ -100,6 +117,7 @@ export function useAuth({
 
     // if (Object.keys(validationErr).length > 0) return;
     try {
+      setLoading(true);
        await onSubmit(otp, { _silentError: true });
 
       navigate(redirectTo, { state: { origin: redirectFrom } });
@@ -111,14 +129,6 @@ export function useAuth({
           setopenDialog(true);
         }
       });
-      setLoading(true);
-       await onSubmit(otp);
-
-      navigate(redirectTo, { state: { origin: redirectFrom } });
-    // } catch (error) {
-    //   const message = error.response?.data?.data?.otp || "Something went wrong";
-    //   setDialogMessage(message);
-    //   setopenDialog(true);
     } finally {
       setLoading(false);
     }

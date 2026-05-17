@@ -2,6 +2,7 @@ import FormField from "./FormField";
 import PhotoUpload from "./PhotoUpload";
 import PdfUpload from "./PdfUpload";
 import SocialLinksField from "./SocialLinksField";
+import LocationSelect from "./LocationSelect";
 import { useTranslation } from "react-i18next";
 
 /**
@@ -60,6 +61,24 @@ export default function DynamicForm({
                 onChange={onSocialChange}
                 errors={socialErrors}
                 onErrorChange={onSocialErrorChange}
+              />
+            );
+          }
+
+          if (field.type === "location-select") {
+            return (
+              <LocationSelect
+                key={field.id}
+                id={field.id}
+                label={t(field.label)}
+                locationType={field.locationType}
+                dependsOn={field.dependsOn}
+                formData={formData}
+                value={value}
+                required={field.required}
+                error={error ? t(error) : null}
+                half={field.half}
+                onChange={onFieldChange}
               />
             );
           }

@@ -28,7 +28,7 @@ function ResetPassword() {
     e.preventDefault();
 
     if (!email || !token) {
-      setDialogMessage("Invalid reset link. Please request a new one.");
+      setDialogMessage(t("auth.resetPassword.invalidLink"));
       setopenDialog(true);
       return;
     }
@@ -64,13 +64,13 @@ function ResetPassword() {
       <div>
         <img
           src={import.meta.env.BASE_URL + "Fa3liatLogo.png"}
-          alt="fa3liat Logo"
+          alt={t("common.logo.alt")}
           className="w-fit h-30 absolute top-2 left-10 drop-shadow-black  drop-shadow-lg"
         />
       </div>
       <div className="w-full max-w-md bg-white border-gray-200 rounded-xl shadow-lg p-8">
         <h1 className="text-slate-900 text-3xl font-bold leading-tight pb-3 text-center">
-          {t("Reset your Password")}
+          {t("auth.resetPassword.header")}
         </h1>
         <p className="text-gray-600 text-base font-normal leading-normal pb-6 text-center">
           {}
@@ -79,7 +79,7 @@ function ResetPassword() {
         <form onSubmit={submitResetForm} className="flex flex-col gap-y-6">
           <div className="flex flex-col gap-4">
             <PasswordInput
-              content={"New Password"}
+              content={t("auth.resetPassword.newPassword")}
               id="password"
               password={password}
               setPassword={setPassword}
@@ -87,9 +87,7 @@ function ResetPassword() {
               placeholder={t("auth.signup.passwordPlaceholder")}
             />
             <PasswordInput
-              content={
-                 "Confirm Password"
-              }
+              content={t("auth.resetPassword.confirmPassword")}
               id="confirmPassword"
               password={confirmPassword}
               setPassword={setConfirmPassword}
@@ -103,7 +101,7 @@ function ResetPassword() {
               disabled={loading}
               className={`w-full cursor-pointer rounded-lg h-12 px-5 bg-primary text-white font-bold hover:bg-primary/90 focus:ring-2 ${loading ? "opacity-50" : ""}`}
             >
-              <span className="">{t("Reset Password")}</span>
+              <span className="">{t("auth.resetPassword.submit")}</span>
             </button>
           </div>
         </form>

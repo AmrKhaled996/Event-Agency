@@ -6,16 +6,20 @@ import CategoriesSkeleton from "../UI/CategoriesSkeleton";
 import CardSkeleton from "../UI/CardSkeleton";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function ExploreCategories() {
   const { t } = useTranslation();
   const { categories} = useCategories();
   const {lang}=useParams();
-  
+  const navigate = useAppNavigate();
   
   const scrollRef = useRef(null);
 
-  
+  const handleCategoryClick = (categoryId) => {
+    navigate(`/search-events?categoryId=${categoryId}`);
+  };
+
   const slideRight = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
@@ -59,6 +63,7 @@ function ExploreCategories() {
             <div
               key={index}
               className="min-w-[180px] flex flex-col items-center text-center  cursor-pointer"
+              onClick={() => handleCategoryClick(cat.id)}
             >
               <div className="w-32 h-32 rounded-full overflow-hidden shadow-md hover:shadow-xl transition-all">
                 <img

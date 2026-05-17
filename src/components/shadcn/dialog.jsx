@@ -1,3 +1,4 @@
+import i18n from "../../I18n";
 "use client";
 
 import * as React from "react";
@@ -49,7 +50,7 @@ const DialogContent = React.forwardRef(
         {children}
         <DialogPrimitive.Close className="absolute top-4 right-4 opacity-70 hover:opacity-100">
           <XIcon />
-          <span className="sr-only">Close</span>
+          <span className="sr-only">{i18n.t("ui.dialog.close")}</span>
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>
     </DialogPortal>

@@ -27,8 +27,26 @@
     "TICKET_SOLD_OUT": "Sorry, this ticket type is sold out.",
     "INSUFFICIENT_FUNDS": "Insufficient balance in your wallet.",
     "ORGANIZER_NOT_APPROVED": "Your organizer account is still pending approval.",
+    "ORGANIZER_CONTACT_EMAIL_NOT_VERIFIED": "Please verify your organizer contact email first.",
+    "ORGANIZER_ACCOUNT_NOT_ACTIVE": "Your organizer account is not active.",
+    "ORGANIZER_REJECTED": "Your organizer application was rejected.",
+    "ADMIN_NOT_APPROVED": "Your admin account is pending approval.",
     "INVALID_REFRESH": "Session expired. Please log in again.",
     "LOGOUT_ERROR": "Logout failed. Please try again."
+  },
+  "dashboardSummary": {
+    "users": "Users",
+    "total": "Total",
+    "active": "Active",
+    "deleted": "Deleted",
+    "organizers": "Organizers",
+    "pendingReview": "Pending Review",
+    "events": "Events",
+    "orders": "Orders",
+    "completed": "Completed",
+    "pending": "Pending",
+    "cancelled": "Cancelled",
+    "revenue": "Revenue"
   },
   "common": {
     "actions": {
@@ -49,16 +67,50 @@
       "or": "OR",
       "error": "Error",
       "loading": "Loading...",
-      "currncy": "EGP"
+      "currncy": "EGP",
+      "select": "Select...",
+      "downloading": "Downloading...",
+      "goHome": "Go Home",
+      "refreshPage": "Refresh Page",
+      "returnHome": "Return Home"
     },
     "feedback": {
       "error": "Something went wrong",
       "loading": "Loading...",
       "noResults": "No events found",
-      "success": "Success!"
+      "success": "Success!",
+      "noData": "No data available",
+      "noDataDesc": "We couldn't find anything matching your request."
     },
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "errors": {
+      "fetchError": "Failed to load data",
+      "notFound": "Resource not found",
+      "pageNotFound": "404 - Page Not Found",
+      "pageNotFoundDesc": "Oops! The page you're looking for doesn't exist or has been moved.",
+      "unauthorized": "Access Denied",
+      "unauthorizedDesc": "You don't have permission to access this page."
+    },
+    "language": "Language",
+    "noData": "No data available",
+    "period": "Period",
+    "processing": "Processing...",
+    "subscribedAt": "Subscribed At",
+    "view": "View",
+    "currency": {
+      "egp": "EGP"
+    },
+    "logo": {
+      "alt": "Fa3liat Logo"
+    },
+    "languages": {
+      "ar": "العربية",
+      "en": "English"
+    }
   },
   "validation": {
     "emailRequired": "Email is required",
@@ -85,7 +137,10 @@
       "join": "Join Us",
       "calendar": "Calendar",
       "interest": "Interested",
-      "coupons": "Coupons"
+      "coupons": "Coupons",
+      "newsletter": "Newsletter",
+      "lightMode": "Light Mode",
+      "darkMode": "Dark Mode"
     },
     "footer": {
       "companyInfo": "Company Info",
@@ -197,10 +252,11 @@
       "haveNoAccount": "Don’t have an account? ",
       "login": "Login",
       "organizer": {
-        "nameLabel": "Orgnaization Name",
+        "nameLabel": "Organization Name",
         "namePlaceholder": "Enter Organization Name",
         "emailPlaceholder": "Enter your e-mail",
-        "createAccount": "Create account"
+        "createAccount": "Create account",
+        "nameRequired": "Organization name is required"
       }
     },
     "otp": {
@@ -208,7 +264,14 @@
       "instruction": "We’ve sent a one-time password to your email. Please enter it below to continue.",
       "notReceived": "Didn’t receive the code?",
       "resend": "Resend OTP",
-      "verify": "Verify"
+      "verify": "Verify",
+      "resentSuccess": "OTP has been resent to your email.",
+      "signOut": "Sign Out",
+      "header": "Verify Your Account"
+    },
+    "adminPending": {
+      "title": "Admin Approval Pending",
+      "message": "Your admin account has been created, but it must be approved before you can access the admin dashboard."
     },
     "forgetPassword": {
       "title": "forget Password",
@@ -221,19 +284,25 @@
     },
     "resetPassword": {
       "title": "Reset Password | Fa3liat",
-      "header": "Set a New Password",
+      "header": "Reset your Password",
       "instruction": "Your new password must be different from previously used passwords.",
       "passwordLabel": "Password",
-      "confirmPassword": "Confirm Password"
+      "confirmPassword": "Confirm Password",
+      "submit": "Reset Password",
+      "newPassword": "New Password",
+      "invalidLink": "Invalid reset link. Please request a new one."
     },
     "backtoLogin": {
       "title": "Check Your Inbox",
-      "instruction": "We've sent a password reset link. if a Fa3liat account exists with this email..",
+      "instruction": "We've sent a password reset link.",
       "back": "Back To Login"
     },
     "adminAuth": {
       "asideLogin": "  You have power in your hands. <br /> Just login and enjoy the world of events.",
       "asideSignUp": "controll the whole world with one click. \n you can do anything you want. \n just login and enjoy the power."
+    },
+    "signUp": {
+      "title": "Fa3liat | Sign Up"
     }
   },
   "homePage": {
@@ -252,12 +321,14 @@
       "past": "Past Events and Highlights",
       "discover": "Discover More Events",
       "interested": "Interested Events",
-      "otherEvents":"Other events you may like",
+      "otherEvents": "Other events you may like",
       "curatedForYou": "Events specially curated for you!",
       "curatedForYouButton": "Get Started",
       "curatedForYouDescription": "Get event suggestions tailored to your interests! Don't let your \nfavorite events slip away.",
       "createEvent": "Create an event with Fa3liat!",
-      "createEventDescription": "Got a show, event, activity or a great experience? Partner with us & get listed on Fa3liat"
+      "createEventDescription": "Got a show, event, activity or a great experience? Partner with us & get listed on Fa3liat",
+      "createEventButton": "Create Event",
+      "upgradeAccountButton": "Upgrade Account"
     }
   },
   "events": {
@@ -275,7 +346,16 @@
       "PriceHtoL": "Price: low to high",
       "PriceLtoH": "Price: high to low",
       "category": "Category",
-      "eventsFound": "Events Found"
+      "eventsFound": "Events Found",
+      "tryDifferent": "Try searching for something else or adjusting your filters.",
+      "dateOptions": {
+        "today": "Today",
+        "tomorrow": "Tomorrow",
+        "nextWeek": "Next week",
+        "nextMonth": "Next month"
+      },
+      "minPrice": "Min",
+      "maxPrice": "Max"
     },
     "details": {
       "date": "Date and Time",
@@ -322,7 +402,10 @@
       "follow": "Follow",
       "description": "Event Description",
       "rules": "Rules And Restrictions",
-      "tags": "Event Tags"
+      "tags": "Event Tags",
+      "followed": "Followed!",
+      "unfollow": "Unfollow",
+      "unfollowed": "Unfollowed!"
     },
     "booking": {
       "reservationTimer": "Reservation Expires In",
@@ -340,6 +423,30 @@
     }
   },
   "organizer": {
+    "status": {
+      "emailVerification": {
+        "title": "Verify Your Organizer Contact Email",
+        "message": "Your organizer account exists, but you must verify {{email}} before you can access the dashboard.",
+        "action": "Verify Email",
+        "resent": "A new verification code has been sent."
+      },
+      "review": {
+        "title": "Organizer Review In Progress",
+        "message": "Your organizer account is under review. You will be able to access the dashboard after approval."
+      },
+      "rejected": {
+        "title": "Organizer Application Rejected",
+        "message": "Your organizer application was rejected."
+      },
+      "suspended": {
+        "title": "Organizer Account Inactive",
+        "message": "Your organizer account is currently not active."
+      },
+      "unavailable": {
+        "title": "Organizer Status Unavailable",
+        "message": "We could not load your organizer status right now."
+      }
+    },
     "dashboard": {
       "overview": "Overview",
       "totalEvents": "Total Events",
@@ -371,7 +478,8 @@
       "eventImage": "Event Image",
       "eventName": "Event Name",
       "options": "Options",
-      "noEventsFound": "No events found."
+      "noEventsFound": "No events found.",
+      "noEventsFoundDesc": "You haven't created any events yet. Start by creating your first event!"
     },
     "createEvent": {
       "basics": "Create Event - Basics",
@@ -507,7 +615,8 @@
       "location": "Location",
       "status": "Ticket Status",
       "organizer": "Organizer",
-      "downloadPDF": "Download as PDF"
+      "downloadPDF": "Download as PDF",
+      "noTicketsDesc": "We couldn't find any tickets associated with your account."
     }
   },
   "profile": {
@@ -524,6 +633,14 @@
       "editAccount": "Edit Account",
       "userName": "User Name",
       "fetchError": "Something went wrong while fetching event data."
+    },
+    "organizer": {
+      "followers": "Followers",
+      "joined": "Joined",
+      "about": "About the Organizer",
+      "noDescription": "No description available.",
+      "events": "Events",
+      "noEvents": "No upcoming events yet."
     },
     "settings": {
       "manage": "Manage Account",
@@ -574,7 +691,9 @@
     "confirmEmail": {
       "title": "Email about to change",
       "step": "One more step. Just Confirm the email change"
-    }
+    },
+    "memberSince": "Member since {{date}}",
+    "eventsAttended": "Events Attended"
   },
   "ui": {
     "addPreference": {
@@ -640,6 +759,27 @@
       "banner": "Banner",
       "ticketing": "Ticketing",
       "review": "Review"
+    },
+    "pagination": {
+      "label": "pagination",
+      "prevLabel": "Go to previous page",
+      "nextLabel": "Go to next page",
+      "prev": "Previous",
+      "next": "Next",
+      "more": "More pages"
+    },
+    "breadcrumb": {
+      "more": "More"
+    },
+    "carousel": {
+      "prev": "Previous slide",
+      "next": "Next slide"
+    },
+    "command": {
+      "title": "Command Palette"
+    },
+    "dialog": {
+      "close": "Close"
     }
   },
   "about": {
@@ -697,7 +837,10 @@
       "header": "Thank You for Signing Up!",
       "description": "Your account has been successfully created. Welcome to the community! You can now explore and book unique spaces for your parties, events, and workspaces."
     },
-    "continue": "Continue"
+    "continue": "Continue",
+    "personalityinfo": {
+      "title": "Tell us about yourself"
+    }
   },
   "appTitle": "Admin Controller",
   "sandbox": "Fa3liat controller environment",
@@ -709,219 +852,20 @@
     "analytics": "Analytics",
     "finance": "Finance",
     "events": "Events",
-    "categories": "Categories"
-  },
-  "actions": {
-    "dashboardSummary": "Dashboard Summary",
-    "reviewQueue": "Review Queue",
-    "listUsers": "List Users",
-    "getUser": "Get User",
-    "deleteUser": "Delete User",
-    "restoreUser": "Restore User",
-    "listOrganizers": "List Organizers",
-    "getOrganizer": "Get Organizer",
-    "approveOrganizer": "Approve Organizer",
-    "rejectOrganizer": "Reject Organizer",
-    "suspendOrganizer": "Suspend Organizer",
-    "reactivateOrganizer": "Reactivate Organizer",
-    "ticketsByEvent": "Tickets Sold By Event",
-    "revenueByEvent": "Revenue By Event",
-    "activeUsers": "Active Users",
-    "financeSummary": "Summary",
-    "processPayouts": "Process Payouts",
-    "listEvents": "List Events",
-    "getEvent": "Get Event",
-    "deleteEvent": "Delete Event",
-    "restoreEvent": "Restore Event",
-    "listCategories": "List Categories",
-    "listCoupons": "List Coupons",
-    "addCoupon": "Add Coupon"
-  },
-  "table": {
-    "id": "ID",
-    "name": "Name",
-    "email": "Email",
-    "status": "Status",
-    "joined": "Joined",
-    "events": "Events",
-    "organizer": "Organizer",
-    "date": "Date",
-    "tickets": "Tickets",
-    "type": "Type",
-    "submitted": "Submitted",
-    "title": "Title",
-    "deletedAt": "Deleted At",
-    "createdAt": "Created At",
-    "updatedAt": "Updated At",
-    "actions": "Actions",
-    "mode": "Mode",
-    "code": "Code",
-    "discount": "Discount (%)",
-    "expiryDate": "Expiry Date",
-    "usageLimit": "Usage Limit"
-  },
-  "pagination": {
-    "range": "{{from}}–{{to}} of {{total}}"
-  },
-  "fields": {
-    "userId": "User ID",
-    "userIdPlaceholder": "usr_0001",
-    "organizerId": "Organizer ID",
-    "organizerIdPlaceholder": "org_0001",
-    "eventId": "Event ID",
-    "eventIdPlaceholder": "evt_0001",
-    "reason": "Reason (optional)",
-    "reasonPlaceholder": "Provide a reason…"
-  },
-  "buttons": {
-    "deleteUser": "Delete User",
-    "restoreUser": "Restore User",
-    "approve": "Approve",
-    "reject": "Reject",
-    "suspend": "Suspend",
-    "reactivate": "Reactivate",
-    "processPayouts": "Process Payouts",
-    "deleteEvent": "Delete",
-    "restoreEvent": "Restore",
-    "confirm": "Confirm"
-  },
-  "confirm": {
-    "deleteUser": "Confirm permanent deletion",
-    "deleteEvent": "Confirm permanent deletion",
-    "processPayouts": "Confirm — process all 14 pending payouts ($18,340)",
-    "restoreEvent": "Confirm restore event",
-    "deleteCategory": "I understand, delete this category"
-  },
-  "admin": {
-    "categories": {
-      "noCategories": "No categories yet. Add one above."
-    },
-    "categoryDialog": {
-      "subtitle": "ID: {{id}} · Created {{date}}",
-      "updateSuccess": "✓ Category \"{{name}}\" updated successfully",
-      "deleteWarning": "This will remove {{name}} and its associated image. This action cannot be undone."
-    }
-  },
-  "dashboardSummary": {
-    "users": "Users",
-    "organizers": "Organizers",
-    "events": "Events",
-    "orders": "Orders",
-
-    "total": "Total",
-    "active": "Active (period)",
-    "deleted": "Deleted",
-
-    "pendingReview": "Pending review",
-
-    "completed": "Completed",
-    "pending": "Pending",
-    "cancelled": "Cancelled",
-
-    "revenue": "Revenue"
-  },
-  "listorganizersTable": {
-    "id": "ID",
-    "name": "Name",
-    "email": "Email",
-    "type": "Type",
-    "status": "Status",
-    "verification": "Verification",
-    "reason": "Reason",
-    "rejected": "Rejected",
-    "suspended": "Suspended"
-  },
-
-  "organizerFields": {
-    "id": "ID",
-    "userId": "User ID",
-    "phone": "Phone",
-    "contactPhone": "Phone",
-    "reviewedBy": "Reviewed By",
-    "reviewedAt": "Reviewed At",
-    "createdAt": "Created At",
-    "updatedAt": "Updated At"
-  },
-  "userTable": {
-    "id": "ID",
-    "name": "Name",
-    "email": "Email",
-    "role": "Role",
-    "verified": "Verified",
-    "completed": "Completed",
-    "location": "Location",
-    "deleted": "Deleted"
-  },
-  "userFields": {
-    "id": "ID",
-    "phone": "Phone",
-    "gender": "Gender",
-    "birthDate": "Birth Date",
-    "languagePreference": "Language",
-    "createdAt": "Created At",
-    "updatedAt": "Updated At"
-  },
-  "eventDialog": {
-    "deletedSuccess": "Event deleted at {{time}}",
-    "restoredSuccess": "Event restored at {{time}}",
-    "title": "Event Details",
-    "fields": {
-      "id": "ID",
-      "organizerId": "Organizer ID",
-      "title": "Title",
-      "slug": "Slug",
-      "description": "Description",
-      "bannerUrl": "Banner URL",
-      "type": "Type",
-      "mode": "Mode",
-      "category": "Category",
-      "categoryId": "Category ID",
-      "categoryName": "Category Name",
-      "venue": "Venue",
-      "venueId": "Venue ID",
-      "venueName": "Venue Name",
-      "address": "Address",
-      "city": "City",
-      "state": "State",
-      "country": "Country",
-      "zipCode": "Zip Code",
-      "latitude": "Latitude",
-      "longitude": "Longitude",
-      "tags": "Tags",
-      "hasSeatMap": "Seat Map",
-      "deletedAt": "Deleted At",
-      "createdAt": "Created At",
-      "updatedAt": "Updated At"
-    },
-
-    "status": {
-      "active": "Active",
-      "approve": "Approved",
-      "reactivated": "Reactivated",
-      "published": "Published",
-
-      "inactive": "Inactive",
-      "pending": "Pending",
-      "draft": "Draft",
-      "under_review": "Under Review",
-
-      "banned": "Banned",
-      "suspended": "Suspended",
-      "cancelled": "Cancelled",
-      "rejected": "Rejected",
-      "deleted": "Deleted"
-    }
+    "categories": "Categories",
+    "newsletter": "Newsletter"
   },
   "upgradeToOrganizer": {
     "success": {
       "title": "Upgrade submitted!",
       "description": "Your {{category}} upgrade request has been received. We'll review and get back to you shortly.",
-      "submitAnother": "Go to home"
+      "submitAnother": "Submit another request"
     },
     "page": {
+      "title": "Fa3liat | Upgrade to Organizer",
       "personalInfo": "Personal Information",
       "submitUpgrade": "Submit Upgrade",
-      "selectionCategory": "Selection category"
+      "selectionCategory": "Selection Category"
     },
     "categories": {
       "hobbyist": {
@@ -956,6 +900,11 @@
       "commercialRegistration": "Commercial Registration",
       "registrationNumber": "Registration Number",
       "taxId": "Tax ID",
+      "ownerName": "Owner Name",
+      "contactName": "Contact Name",
+      "country": "Country",
+      "state": "State",
+      "city": "City",
       "officialEmailDomain": "Official Email Domain",
       "officialDocuments": "Official Documents",
       "profilePhoto": "Profile Photo",
@@ -984,7 +933,13 @@
         "facebookUrl": "Facebook",
         "twitterUrl": "X / Twitter",
         "linkedinUrl": "LinkedIn",
-        "youtubeUrl": "YouTube"
+        "youtubeUrl": "YouTube",
+        "website": "Website",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "twitter": "Twitter",
+        "linkedin": "LinkedIn",
+        "youtube": "YouTube"
       }
     },
     "validation": {
@@ -1002,7 +957,6 @@
       "invalidDomain": "Enter a valid domain (e.g. @company.com)",
       "photoRequired": "Profile photo is required",
       "documentRequired": "Document upload is required",
-      "selectPlatform": "Please select a platform",
       "enterUrl": "Please enter a URL",
       "invalidUrl": "Enter a valid URL (https://...)",
       "genericRequired": "This field is required"
@@ -1013,27 +967,310 @@
       "pdfHint": "PDF only, up to 20MB"
     }
   },
+  "actions": {
+    "addCategory": "Add Category",
+    "addCoupon": "Add Coupon",
+    "dashboardSummary": "Dashboard Summary",
+    "financeSummary": "Finance Summary",
+    "listEvents": "List Events",
+    "listNewsletterSubscribers": "Newsletter Subscribers",
+    "listOrganizers": "List Organizers",
+    "listUsers": "List Users",
+    "processPayouts": "Process Payouts"
+  },
+  "buttons": {
+    "addCategory": "Add Category",
+    "approve": "Approve",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "deleteCategory": "Delete Category",
+    "deleteEvent": "Delete Event",
+    "processPayouts": "Process Payouts",
+    "reactivate": "Reactivate",
+    "reject": "Reject",
+    "restore": "Restore",
+    "restoreEvent": "Restore Event",
+    "saveChanges": "Save Changes",
+    "suspend": "Suspend",
+    "update": "Update",
+    "confirm_approve": "Confirm Approval",
+    "confirm_reject": "Confirm Rejection",
+    "confirm_suspend": "Confirm Suspension",
+    "confirm_reactivate": "Confirm Reactivation",
+    "saving": "Saving...",
+    "deleting": "Deleting...",
+    "sendBroadcast": "Send Broadcast",
+    "sending": "Sending...",
+    "clear": "Clear"
+  },
+  "table": {
+    "actions": "Actions",
+    "categories": "Categories",
+    "code": "Code",
+    "createdAt": "Created At",
+    "deletedAt": "Deleted At",
+    "discount": "Discount",
+    "email": "Email",
+    "id": "ID",
+    "mode": "Mode",
+    "name": "Name",
+    "status": "Status",
+    "submitted": "Submitted",
+    "title": "Title",
+    "type": "Type"
+  },
+  "finance": {
+    "activeOrganizers": "Active Organizers",
+    "grossAmount": "Amount",
+    "orders": "Orders",
+    "organizers": "Organizers",
+    "payoutHistory": "Payout History",
+    "payoutsProcessed": "Payouts Processed",
+    "pendingPayouts": "Pending Payouts",
+    "platformFees": "Platform Fees",
+    "processedAt": "Processed At",
+    "processNew": "Process New Payouts",
+    "totalOrders": "Total Orders",
+    "totalPaidOut": "Total Paid Out",
+    "totalRevenue": "Total Revenue",
+    "totalTicketsSold": "Total Tickets Sold",
+    "window": "Window",
+    "windowDays": "Window (days)"
+  },
+  "fields": {
+    "categoryName": "Category Name",
+    "categoryImage": "Category Image",
+    "chooseFile": "Click to choose a new image…",
+    "eventId": "Event ID",
+    "eventIdPlaceholder": "evt_001",
+    "reason": "Reason",
+    "reasonPlaceholder": "Provide a reason...",
+    "uploadImage": "Click to upload image…"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No new notifications",
+    "clearAll": "Clear All",
+    "close": "Close"
+  },
+  "Our Categories": "Our Categories",
+  "Reset Password": "Reset Password",
+  "Reset your Password": "Reset your Password",
+  "Verification email sent successfully": "Verification email sent successfully",
+  "eventDialog": {
+    "deletedSuccess": "✓ Event deleted successfully at {{time}}",
+    "restoredSuccess": "✓ Event restored successfully at {{time}}",
+    "status": {
+      "active": "Active",
+      "deleted": "Deleted",
+      "approve": "Approved",
+      "banned": "Banned",
+      "cancelled": "Cancelled",
+      "draft": "Draft",
+      "inactive": "Inactive",
+      "pending": "Pending",
+      "published": "Published",
+      "reactivated": "Reactivated",
+      "rejected": "Rejected",
+      "suspended": "Suspended",
+      "under_review": "Under Review",
+      "seatMap": "Seat map"
+    },
+    "fields": {
+      "id": "Event ID",
+      "title": "Event Title",
+      "description": "Description",
+      "type": "Event Type",
+      "mode": "Event Mode",
+      "status": "Status",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At"
+    }
+  },
+  "listorganizersTable": {
+    "email": "Email",
+    "id": "ID",
+    "name": "Name",
+    "reason": "Reason",
+    "rejected": "Rejected",
+    "status": "Status",
+    "suspended": "Suspended",
+    "type": "Type",
+    "verification": "Verification"
+  },
+  "userTable": {
+    "completed": "Completed",
+    "deleted": "Deleted",
+    "email": "Email",
+    "id": "ID",
+    "location": "Location",
+    "name": "Name",
+    "role": "Role",
+    "verified": "Verified"
+  },
+  "pagination": {
+    "range": "{{from}}–{{to}} of {{total}}",
+    "previous": "Previous page",
+    "next": "Next page"
+  },
+  "auth:forced-logout": "Session expired. Please log in again.",
+  "cancel": "Cancel",
+  "code": "Code",
+  "confirm": {
+    "deleteCategory": "Confirm deleting category",
+    "processPayouts": "Confirm processing payouts",
+    "deleteEvent": "Confirm Event Deletion",
+    "restoreEvent": "Confirm Event Restoration",
+    "cancelEvent": {
+      "title": "Confirm Cancelation",
+      "message": "Are you sure you want to Cancel this event?",
+      "confirmButton": "Remove"
+    },
+    "deleteAccount": {
+      "title": "Confirm Deletion",
+      "message": "This action cannot be undone. Please enter your password to confirm.",
+      "passwordRequired": "Password is required.",
+      "success": "Your account has been deleted successfully.",
+      "error": "Failed to delete account. Please check your password.",
+      "deleting": "Deleting...",
+      "deleteButton": "Delete"
+    },
+    "updateEvent": {
+      "title": "Update Event",
+      "message": "Are you sure you want to update this event?",
+      "updateButton": "Update"
+    }
+  },
+  "coupons": "Coupons",
+  "en-EG": "English (Egypt)",
+  "en-US": "English (US)",
+  "resetPassword": {
+    "title": "Reset Password"
+  },
   "reviews": {
-    "title": "Ratings & Reviews",
-    "count": "reviews",
+    "alreadyReviewed": "You have already reviewed this event.",
     "average": "Average Rating",
-    "alreadyReviewed": "You have already reviewed this event. Thank you!",
+    "count": "reviews",
     "empty": {
-      "title": "No reviews yet",
-      "desc": "Be the first to share your experience with this event!"
-    },
-    "form": {
-      "title": "Leave a Review",
-      "rating": "Your Rating",
-      "comment": "Your Feedback (Optional)",
-      "placeholder": "Tell us about your experience...",
-      "submit": "Post Review"
-    },
-    "validation": {
-      "ratingRequired": "Please select a rating"
+      "desc": "Be the first to share your experience!",
+      "title": "No reviews yet"
     },
     "feedback": {
-      "success": "Review submitted successfully!"
+      "success": "Review submitted successfully"
+    },
+    "form": {
+      "comment": "Your Feedback (Optional)",
+      "placeholder": "Tell us about your experience...",
+      "rating": "Your Rating",
+      "submit": "Post Review",
+      "title": "Leave a Review"
+    },
+    "title": "Ratings & Reviews",
+    "validation": {
+      "ratingRequired": "Please select a rating"
+    }
+  },
+  "title": "Title",
+  "userFields": {
+    "id": "User ID",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "isEmailVerified": "Email Verified",
+    "gender": "Gender",
+    "age": "Age",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
+  },
+  "organizerFields": {
+    "id": "Organizer ID",
+    "name": "Name",
+    "contactName": "Contact Name",
+    "contactEmail": "Contact Email",
+    "contactPhone": "Contact Phone",
+    "type": "Type",
+    "verificationStatus": "Verification Status",
+    "status": "Status",
+    "address": "Address",
+    "businessAddress": "Business Address",
+    "companyAddress": "Company Address",
+    "commercialRegistration": "Commercial Registration",
+    "registrationNumber": "Registration Number",
+    "taxId": "Tax ID",
+    "officialEmailDomain": "Official Email Domain",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
+  },
+  "errors": {
+    "boundary": {
+      "title": "Something went wrong",
+      "message": "An unexpected error occurred. Please try refreshing the page or go back to the home page.",
+      "secondaryMessage": "We encountered an unexpected error. Don't worry, your data is safe. Please try refreshing or return to the home page."
+    }
+  },
+  "infoDialog": {
+    "title": "Data :"
+  },
+  "admin": {
+    "categories": {
+      "editTitle": "Edit — {{name}}",
+      "deleteTitle": "Delete — {{name}}",
+      "idLabel": "ID: {{id}}",
+      "createdAtLabel": "Created {{date}}",
+      "updatedSuccess": "Category \"{{name}}\" updated successfully",
+      "deleteWarning": "This will remove <strong>{{name}}</strong> and its associated image. This action cannot be undone.",
+      "noCategories": "No categories yet. Add one above."
+    },
+    "newsletter": {
+      "title": "Broadcast Newsletter",
+      "desc": "Compose and send an email to all confirmed newsletter subscribers.",
+      "subjectLabel": "Email Subject",
+      "subjectPlaceholder": "e.g. Weekly Event Highlights",
+      "contentLabel": "Email Content (HTML supported)",
+      "contentPlaceholder": "Write your newsletter content here...",
+      "success": "Newsletter sent successfully to all subscribers.",
+      "error": "Failed to broadcast newsletter",
+      "validation": "Subject and content are required",
+      "noteTitle": "Important Note:",
+      "noteDesc": "This action will send an email to EVERY subscriber in your database. This process might take some time depending on the number of subscribers. Ensure your content is correct before sending."
+    },
+    "finance": {
+      "title": "Financial Payouts",
+      "desc": "Process and manage automatic transfers to event organizers.",
+      "generateBatch": "Generate New Payouts Batch",
+      "historicalWindow": "Historical Window",
+      "days": "days",
+      "batchingNote": "Batching orders from the last {{days}} days.",
+      "confirmExecution": "Confirm Execution",
+      "confirmCheckbox": "I confirm I want to process all pending organizer payouts for this window.",
+      "executeNow": "Execute Payouts Now",
+      "processing": "Processing...",
+      "batchSuccess": "Batch processed successfully!",
+      "historyTitle": "Transaction History",
+      "showingBatches": "Showing {{count}} recent batches",
+      "noHistory": "No payout history found",
+      "windowFrom": "Window From",
+      "windowTo": "Window To",
+      "processedBy": "Processed By",
+      "individualPayouts": "Individual Organizer Payouts",
+      "organizer": "Organizer",
+      "grossAmount": "Gross Amount",
+      "orders": "Orders",
+      "date": "Date",
+      "window": "Window",
+      "orgs": "Orgs",
+      "totalAmount": "Total Amount"
+    },
+    "coupons": {
+      "deleteWarning": "Are you sure you want to delete this coupon? This action cannot be undone and will immediately deactivate the promo code.",
+      "noCoupons": "No coupons found. Create one to get started!",
+      "codePlaceholder": "E.g. SUMMER2026",
+      "discountPlaceholder": "Percentage (e.g. 15)"
+    },
+    "newsletterSubscribers": {
+      "desc": "Manage and view all users who have subscribed to your newsletter updates.",
+      "error": "Failed to load newsletter subscribers"
     }
   }
 }

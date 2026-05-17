@@ -1,5 +1,5 @@
 import { User } from "lucide-react";
-import socket from "../../services/socket";
+import socket, { connectSocket } from "../../services/socket";
 
 
 import { useState, useRef, useEffect } from "react";
@@ -28,6 +28,7 @@ function TypingDots() {
 }
 
 function Message({ msg }) {
+  const {t} = useTranslation();
   const {lang}=useParams();
   const isUser = msg.role === "user";
   return (
@@ -39,7 +40,7 @@ function Message({ msg }) {
         >
           <img
             src={import.meta.env.BASE_URL + "FLogo.png"}
-            alt="fa3liat Logo"
+            alt={t("common.logo.alt")}
             className="w-fit h-fit lx:absolute p-1 top-2 left-10 drop-shadow-black  drop-shadow-lg"
           />
         </div>
@@ -76,6 +77,7 @@ export default function ChatbotHelper() {
   const inputRef = useRef(null);
 
   useEffect(() => {
+    connectSocket();
   
     socket.on("chatbot-reply", (data) => {
 
@@ -127,7 +129,7 @@ export default function ChatbotHelper() {
         <div className="w-11 h-11 rounded-xl flex items-center justify-center border border-primary/90 text-xl shadow-lg bg-linear-to-br from-primary/60 to-secandry/60">
           <img
             src={import.meta.env.BASE_URL + "FLogo.png"}
-            alt="fa3liat Logo"
+            alt={t("common.logo.alt")}
             className="w-fit h-fit lx:absolute p-1 top-2 left-10 drop-shadow-black  drop-shadow-lg"
           />
         </div>
@@ -168,7 +170,7 @@ export default function ChatbotHelper() {
               >
                 <img
                   src={import.meta.env.BASE_URL + "FLogo.png"}
-                  alt="fa3liat Logo"
+                  alt={t("common.logo.alt")}
                   className="w-fit h-fit lx:absolute p-1 top-2 left-10 drop-shadow-black  drop-shadow-lg"
                 />
               </div>

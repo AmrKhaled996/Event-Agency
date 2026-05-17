@@ -11,10 +11,11 @@ export function validateUrl(val) {
 
 /**
  * Runs validation for all fields in the current category.
- * Returns an errors object { fieldId: errorMessage }.
+ * Returns { fieldErrors, socialErrors }.
  */
 export function validateFields({ selectedCategory, fields, formData, fileData, socialData }) {
-  const newErrors = {};
+  const fieldErrors = {};
+  const socialErrors = {};
   const currentFields = fields[selectedCategory];
   const data  = formData[selectedCategory] || {};
   const files = fileData[selectedCategory] || {};
@@ -24,20 +25,20 @@ export function validateFields({ selectedCategory, fields, formData, fileData, s
 
     if (field.type === "photo" || field.type === "pdf") {
       if (field.required && !files[field.id]) {
-        newErrors[field.id] =
+        fieldErrors[field.id] =
           field.type === "photo" ? "upgradeToOrganizer.validation.photoRequired" : "upgradeToOrganizer.validation.documentRequired";
       }
       return;
     }
 
     const value = data[field.id] || "";
-    if (field.required && !value.trim()) {
-      newErrors[field.id] = field.validate?.(value) || "upgradeToOrganizer.validation.genericRequired";
+    if (field.required && (typeof value !== "string" || !value.trim())) {
+      fieldErrors[field.id] = field.validate?.(value) || "upgradeToOrganizer.validation.genericRequired";
       return;
     }
-    if (value && field.validate) {
+    if (value && typeof value === "string" && field.validate) {
       const err = field.validate(value);
-      if (err) newErrors[field.id] = err;
+      if (err) fieldErrors[field.id] = err;
     }
   });
 
@@ -45,8 +46,8 @@ export function validateFields({ selectedCategory, fields, formData, fileData, s
   const socials = socialData[selectedCategory] || {};
   Object.entries(socials).forEach(([platformId, url]) => {
     const err = validateUrl(url);
-    if (err) newErrors[`social_${platformId}`] = err;
+    if (err) socialErrors[platformId] = err;
   });
 
-  return newErrors;
+  return { fieldErrors, socialErrors };
 }

@@ -11,12 +11,12 @@ import ListUsersPanel         from "./Panels/ListUsersPanel";
 import ListOrganizersPanel    from "./Panels/ListOrganizersPanel";
 // import AnalyticsPanel         from "./Panels/AnalyticsPanel";
 import ActiveUsersPanel       from "./Panels/ActiveUsersPanel";
-// import FinanceSummaryPanel    from "./Panels/FinanceSummaryPanel";
-// import ProcessPayoutsPanel    from "./Panels/ProcessPayoutsPanel";
+import FinanceSummaryPanel    from "./Panels/FinanceSummaryPanel";
+import ProcessPayoutsPanel    from "./Panels/ProcessPayoutsPanel";
 import ListEventsPanel        from "./Panels/ListEventsPanel";
-import { ListCategoriesPanel, CouponsPanel } from "./Panels";
+import { ListCategoriesPanel, CouponsPanel, NewsletterSubscribersPanel, NewsletterBroadcastPanel } from "./Panels";
 import { adminDashboardauth } from "../../APIs/adminDashboardApis";
-import { adminRefreshAccessToken } from "../../services/cookieTokenService";
+import { adminRefreshAccessToken, getRefreshToken } from "../../services/cookieTokenService";
 import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 
 /* ── Build NAV ───────────────────────────────────────────────────────────── */
@@ -27,11 +27,13 @@ const NAV = buildNav({
   ListOrganizersPanel,
   // AnalyticsPanel,
   ActiveUsersPanel,
-  // FinanceSummaryPanel,
-  // ProcessPayoutsPanel,
+  FinanceSummaryPanel,
+  ProcessPayoutsPanel,
   ListEventsPanel,
   ListCategoriesPanel,
   CouponsPanel,
+  NewsletterSubscribersPanel,
+  NewsletterBroadcastPanel,
 });
 
 /* ── Page ────────────────────────────────────────────────────────────────── */
@@ -53,6 +55,9 @@ export default function AdminDashboard() {
   const Panel = currentAction?.panel;
   const handlerefreshToken = async () => {
     try {
+      const refreshToken = getRefreshToken(true);
+      if (!refreshToken) return;
+
       const response = await adminDashboardauth.refreshtoken();
       await adminRefreshAccessToken(response?.data);
     } catch (error) {

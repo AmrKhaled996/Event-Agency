@@ -26,7 +26,9 @@ export function AuthProvider({ children }) {
   });
 
   const [isInitializing, setIsInitializing] = useState(() => {
-    return !getAccessToken(isAdminRoute) && !!getRefreshToken(isAdminRoute);
+    const hasAccessToken = !!getAccessToken(isAdminRoute);
+    const hasRefreshToken = !!getRefreshToken(isAdminRoute);
+    return !hasAccessToken && hasRefreshToken;
   });
 
   const syncUserFromToken = useCallback((token) => {
@@ -61,6 +63,9 @@ export function AuthProvider({ children }) {
     setUser(userData);
     try {
       const isAdmin = userData?.role === "admin";
+      const refreshToken = getRefreshToken(isAdmin);
+      if (!refreshToken) return;
+
       if(isAdmin) {
         const response = await adminDashboardauth.refreshtoken();
         await adminRefreshAccessToken(response.data);
@@ -81,6 +86,12 @@ export function AuthProvider({ children }) {
       if (!isInitializing) return;
 
       try {
+        const refreshToken = getRefreshToken(isAdminRoute);
+        if (!refreshToken) {
+          setIsInitializing(false);
+          return;
+        }
+
         if (isAdminRoute) {
           const response = await adminDashboardauth.refreshtoken();
           await adminRefreshAccessToken(response.data);
@@ -110,6 +121,7 @@ export function AuthProvider({ children }) {
       if (isAdminLogout === isAdminRoute) {
         console.warn(`Forced logout triggered for ${isAdminLogout ? "admin" : "user"}`);
         setUser(null);
+        setIsInitializing(false);
       }
     };
 
@@ -122,7 +134,8 @@ export function AuthProvider({ children }) {
     const interval = setInterval(async () => {
       const isAdminRoute = window.location.pathname.includes("/admin");
       const token = getAccessToken(isAdminRoute);
-      if (!token) return;
+      const refreshToken = getRefreshToken(isAdminRoute);
+      if (!token || !refreshToken) return;
 
       try {
         const isAdmin = isAdminRoute || user?.role === "admin";

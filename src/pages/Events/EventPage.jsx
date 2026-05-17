@@ -17,7 +17,8 @@ import { extractDateTime } from "../../utils/dateFormater";
 
 import ErrorDialog from "./../../components/Dialogs/ErrorDialog";
 import { useUser } from "../../Context/AuthProvider";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
+import LocalLink from "../../Router/LocalLink";
 import { BuyerSeatMap } from "./../../components/UI/BuyerSeatMap";
 import { ReservationTimer } from "./../../components/UI/ReservationTimer";
 import { Button } from "./../../components/shadcn/button";
@@ -46,9 +47,10 @@ import { getAccessToken } from "../../services/cookieTokenService";
 import { Title } from "react-head";
 import { handleError } from "../../utils/errorHandler";
 import EventReviews from "../../components/UI/EventReviews";
+import { followOrganizer, unfollowOrganizer } from "../../APIs/userAPIs";
 
 const RESERVATION_DURATION = 10 * 60 * 1000;
-const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:8000";
+const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:3000";
 const RESERVATION_STORAGE_PREFIX = "event-seat-reservation";
 
 export default function EventPage({ organizer, eventinfo, review = false }) {
@@ -62,6 +64,8 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
   const [interestedCount, setInterestedCount] = useState(
     event?.interestedCount || 0,
   );
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
 
   const navigate = useAppNavigate();
   const { t } = useTranslation();
@@ -78,6 +82,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
       setEvent(response.data.data.event);
       setisInterested(response.data.data.event.isInterested || false);
       setInterestedCount(response.data.data.event.interestedCount || 0);
+      setIsFollowing(response.data.data.event.isFollowing || false);
       const eventSessions =
         response.data.data.event?.eventSessions || eventinfo?.sessions;
 
@@ -146,6 +151,33 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
     handleLoadEvents();
     window.scrollTo(0, 0);
   }, [location.search]);
+
+  const handleFollowToggle = async () => {
+    if (!user || Object.keys(user).length === 0) {
+      toast.error(t("apiErrors.UNAUTHORIZED"));
+      return;
+    }
+
+    const organizerId = event?.organizerId;
+    if (!organizerId) return;
+
+    try {
+      setFollowLoading(true);
+      if (isFollowing) {
+        await unfollowOrganizer(organizerId);
+        setIsFollowing(false);
+        toast.success(t("events.details.unfollowed") || "Unfollowed organizer");
+      } else {
+        await followOrganizer(organizerId);
+        setIsFollowing(true);
+        toast.success(t("events.details.followed") || "Following organizer!");
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setFollowLoading(false);
+    }
+  };
 
   const handleInterested = async (e) => {
     e.preventDefault();
@@ -572,7 +604,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
         {/* Title + Icons */}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold select-text">
-            {event.title || eventinfo?.title || "Sound Of Hart 2026"}
+            {event.title || ""}
           </h1>
           <div className="flex flex-col md:flex-row gap-8 text-2xl">
             <button 
@@ -633,12 +665,12 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
             <div className="space-y-2">
               <p className="flex gap-4 items-center">
                 <Calendar />
-                Saturday, 2 December 2023
+                
               </p>
 
               <p className="flex gap-4 items-center pl-8 text-gray-500">
                 <Clock />
-                6:30 PM - 9:30 PM
+                
               </p>
             </div>
           )}
@@ -973,15 +1005,15 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
               </h2>
 
               {event?.ticketTypes?.length > 0 ? (
-                event.ticketTypes.map((ticket) => (
-                  <p className="text-lg pl-3 mb-2" key={ticket.id}>
-                    {`${ticket.name}: ${ticket.price} EGP`}
+                event.ticketTypes.map((ticket, index) => (
+                  <p className="text-lg pl-3 mb-2" key={ticket.id || index}>
+                    {`${ticket.name}: ${ticket.price} ${t("common.actions.currncy")}`}
                   </p>
                 ))
               ) : eventinfo?.tickets?.length > 0 ? (
                 eventinfo.tickets.map((ticket, index) => (
-                  <p className="text-lg pl-3 mb-2" key={index}>
-                    {`${ticket.name}: ${ticket.price} EGP`}
+                  <p className="text-lg pl-3 mb-2" key={ticket.id || index}>
+                    {`${ticket.name}: ${ticket.price} ${t("common.actions.currncy")}`}
                   </p>
                 ))
               ) : (
@@ -1035,17 +1067,27 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
             {t("events.details.hostedBy")}
           </h2>
           <div className="flex items-center gap-3">
-            <img src="/images/Charity.jpg" className="w-12 h-12 rounded-full" />
+            <LocalLink to={`/organizer/${event?.organizerId}`}>
+              <img src="/images/Charity.jpg" className="w-12 h-12 rounded-full cursor-pointer hover:opacity-80 transition-opacity" />
+            </LocalLink>
             <div>
-              <p className="font-semibold">
+              <LocalLink to={`/organizer/${event?.organizerId}`} className="font-semibold hover:text-secandry transition-colors cursor-pointer">
                 {event.organizer?.name || organizer?.name || (typeof organizer === 'string' ? organizer : "") || "Fa3liat Organizer"}
-              </p>
+              </LocalLink>
               <div className="flex gap-2 mt-1">
                 <button className="border px-2 py-1 rounded cursor-pointer">
                   {t("events.details.contact")}
                 </button>
-                <button className="border px-2 py-1 rounded bg-gray-900 text-white cursor-pointer">
-                  + {t("events.details.follow")}
+                <button 
+                  onClick={handleFollowToggle}
+                  disabled={followLoading}
+                  className={`border px-3 py-1 rounded cursor-pointer transition-all ${
+                    isFollowing 
+                      ? "bg-white text-gray-900 border-gray-900 hover:bg-gray-100" 
+                      : "bg-gray-900 text-white border-transparent hover:bg-gray-800"
+                  }`}
+                >
+                  {followLoading ? "..." : (isFollowing ? t("events.details.unfollow") || "Unfollow" : `+ ${t("events.details.follow")}`)}
                 </button>
               </div>
             </div>

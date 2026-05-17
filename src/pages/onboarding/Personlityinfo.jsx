@@ -83,7 +83,7 @@ function PersonlityinfoQ() {
                 className="absolute h-full w-full opacity-0 cursor-pointer"
               />
 
-              <span className="material-symbols-outlined text-4xl mb-2 text-primary">
+              <span className="text-4xl mb-2 text-primary">
                 {option.icon}
               </span>
               <span className="font-semibold">{option.label}</span>
@@ -99,7 +99,10 @@ function PersonlityinfoQ() {
         type="date"
         selected={date}
         value={date}
-        onChange={(value) => setDate(value)}
+        onChange={(value) => {
+          console.log("Date selected:", value);
+          setDate(value);
+        }}
         placeholder="Enter your date"
         className="lg:w-100 w-70  max-w-sm rounded-lg border px-4 py-3 focus:outline-none focus:border-primary  focus:ring-2 focus:ring-primary transition-all duration-200"
       />

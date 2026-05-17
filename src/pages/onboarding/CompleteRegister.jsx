@@ -5,16 +5,18 @@ import Loading from "../../components/Layout/LoadingLayout";
 import { useState } from "react";
 import useAppNavigate from "../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
+import { useUser } from "../../Context/AuthProvider";
 
 function CompleteResister() {
   const [loading, setLoading] = useState(false);
+  const { user, updateUser } = useUser();
   const navigator = useAppNavigate();
     const {t}=useTranslation();
   const goToHome = async () => {
     try {
       setLoading(true);
       await getStatus();
-;
+      await updateUser(user);
       navigator("/");
     } catch (error) {
 

@@ -35,7 +35,7 @@ function SignUpPageAdmin() {
           backgroundSize: `cover`,
         }}
       >
-        <img src="/Fa3liatLogo.png" alt="Fa3liat Logo" className="mb-8 w-48" />
+        <img src="/Fa3liatLogo.png" alt={t("common.logo.alt")} className="mb-8 w-48" />
         <h1 className="text-4xl font-bold mb-4 text-start leading-snug hidden lg:flex">
              {t("auth.adminAuth.asideSignUp")}
 

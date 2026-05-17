@@ -218,7 +218,7 @@ export default function ListOrganizersPanel() {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-700">
+            <tbody className="divide-y divide-gray-200 bg-white">
               {organizersList?.map((org) => (
                 <OrganizerRow key={org.id} org={org} t={t} />
               ))}

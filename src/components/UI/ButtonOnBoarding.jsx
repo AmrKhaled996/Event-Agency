@@ -6,6 +6,7 @@ function ButtonOnBoarding({submit,data}) {
     <div className="flex flex-row sm:flex-row gap-3 max-w-120 mx-auto">
       <button
         onClick={submit}
+        disabled={!data}
         className={`flex-1 h-12 bg-linear-to-r ${
           !data
             ? `bg-gray-300 `

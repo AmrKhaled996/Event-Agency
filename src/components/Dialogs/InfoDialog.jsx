@@ -7,7 +7,7 @@ export default function InfoDialog({ open, onClose, data }) {
   return (
     <Dialog open={open} onClose={onClose}>
       
-      <h3 className="text-xl font-semibold mb-4">Data :</h3>
+      <h3 className="text-xl font-semibold mb-4">{t("infoDialog.title")}</h3>
       <hr  className="text-3xl border-2 border-black bg-black mb-8"/>
       <table className="w-full text-sm border-collapse">
         <tbody>
@@ -22,8 +22,10 @@ export default function InfoDialog({ open, onClose, data }) {
               </td>
 
               {/* VALUE */}
-              <td className="px-3 py-2 font-medium  ">
-                {value?.toString() ?? "-"}
+              <td className="px-3 py-2 font-medium">
+                {typeof value === "object" && value !== null 
+                  ? JSON.stringify(value) 
+                  : (value?.toString() ?? "-")}
               </td>
             </tr>
           ))}
@@ -35,7 +37,7 @@ export default function InfoDialog({ open, onClose, data }) {
           onClick={onClose}
           className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded mr-2"
         >
-          Close
+          {t("common.actions.close")}
         </button>
       </div>
     </Dialog>

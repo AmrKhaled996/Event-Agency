@@ -27,11 +27,33 @@
     "TICKET_SOLD_OUT": "عذراً، نفدت تذاكر هذا الفئة.",
     "INSUFFICIENT_FUNDS": "رصيد غير كافٍ في محفظتك.",
     "ORGANIZER_NOT_APPROVED": "حساب المنظم الخاص بك لا يزال قيد المراجعة.",
+    "ORGANIZER_CONTACT_EMAIL_NOT_VERIFIED": "يرجى التحقق من بريد التواصل الخاص بالمنظم أولاً.",
+    "ORGANIZER_ACCOUNT_NOT_ACTIVE": "حساب المنظم غير نشط حالياً.",
+    "ORGANIZER_REJECTED": "تم رفض طلب المنظم الخاص بك.",
+    "ADMIN_NOT_APPROVED": "حساب المشرف بانتظار الموافقة.",
     "INVALID_REFRESH": "انتهت الجلسة. يرجى تسجيل الدخول مرة أخرى.",
     "LOGOUT_ERROR": "فشل تسجيل الخروج. يرجى المحاولة مرة أخرى."
   },
+  "dashboardSummary": {
+    "users": "المستخدمون",
+    "total": "الإجمالي",
+    "active": "نشط",
+    "deleted": "محذوف",
+    "organizers": "المنظمون",
+    "pendingReview": "قيد المراجعة",
+    "events": "الفعاليات",
+    "orders": "الطلبات",
+    "completed": "مكتمل",
+    "pending": "قيد الانتظار",
+    "cancelled": "ملغى",
+    "revenue": "الإيرادات"
+  },
   "common": {
     "actions": {
+      "goHome": "الذهاب للرئيسية",
+      "downloading": "جاري التحميل...",
+      "select": "اختر...",
+      "view": "عرض",
       "save": "حفظ التغييرات",
       "confirm": "تأكيد!",
       "cancel": "إلغاء",
@@ -48,16 +70,48 @@
       "remove": "إزالة",
       "error": "خطأ",
       "loading": "جاري التحميل...",
-      "currncy": "ج.م"
+      "currncy": "ج.م",
+      "or": "أو",
+      "refreshPage": "تحديث الصفحة",
+      "returnHome": "العودة للرئيسية"
     },
     "feedback": {
+      "noData": "لا توجد بيانات",
+      "noDataDesc": "لم نتمكن من العثور على ما تبحث عنه.",
       "error": "حدث خطأ ما",
       "loading": "جاري التحميل...",
       "noResults": "لم يتم العثور على فعاليات",
       "success": "تم بنجاح!"
     },
+    "errors": {
+      "fetchError": "فشل تحميل البيانات",
+      "notFound": "المورد غير موجود",
+      "pageNotFound": "404 - الصفحة غير موجودة",
+      "pageNotFoundDesc": "عذراً! الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+      "unauthorized": "غير مصرح بالدخول",
+      "unauthorizedDesc": "ليس لديك صلاحية للوصول لهذه الصفحة."
+    },
+    "language": "اللغة",
+    "period": "الفترة",
+    "processing": "جاري المعالجة...",
+    "subscribedAt": "تاريخ الاشتراك",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "view": "عرض",
+    "noData": "لا توجد بيانات",
+    "currency": {
+      "egp": "ج.م"
+    },
+    "logo": {
+      "alt": "شعار فعليات"
+    },
+    "languages": {
+      "ar": "العربية",
+      "en": "English"
+    }
   },
   "validation": {
     "emailRequired": "البريد الإلكتروني مطلوب",
@@ -83,7 +137,11 @@
       "dashboard": "الذهاب إلى لوحة التحكم",
       "join": "انضم إلينا",
       "calendar": "التقويم",
-      "interest": "الاهتمامات"
+      "interest": "الاهتمامات",
+      "coupons": "القسائم",
+      "newsletter": "النشرة البريدية",
+      "lightMode": "الوضع الفاتح",
+      "darkMode": "الوضع الداكن"
     },
     "footer": {
       "companyInfo": "معلومات الشركة",
@@ -153,26 +211,24 @@
     "backbutton": "العودة إلى الصفحة الرئيسية"
   },
   "auth": {
-    "login": {
-      "title": "فعاليات | تسجيل الدخول",
-      "emailLabel": "البريد الإلكتروني",
-      "emailplaceholder": "أدخل البريد الإلكتروني",
-      "aside1": "اكتشف فعاليات",
-      "aside2": "مناسبة لك.",
-      "aside3": "سجّل الدخول للحصول على",
-      "aside4": "توصيات مخصصة",
-      "aside5": "اليوم!",
-      "login": "تسجيل الدخول",
-      "passwordLabel": "كلمة المرور",
-      "forgotPassword": "نسيت كلمة المرور؟",
-      "google": "تسجيل الدخول باستخدام جوجل",
-      "facebook": "تسجيل الدخول باستخدام فيسبوك",
-      "haveNoAccount": "ليس لديك حساب؟ ",
-      "signup": "إنشاء حساب",
-      "forgetPassword": "نسيت كلمة المرور؟",
-      "resetPassword": "إعادة تعيين كلمة المرور"
+    "otp": {
+      "resentSuccess": "تم إعادة إرسال رمز التحقق إلى بريدك الإلكتروني.",
+      "signOut": "تسجيل الخروج",
+      "title": "تأكيد الحساب",
+      "instruction": "لقد أرسلنا رمز تحقق إلى بريدك الإلكتروني. يرجى إدخاله أدناه للمتابعة.",
+      "notReceived": "لم يصلك الرمز؟",
+      "resend": "إعادة إرسال الرمز",
+      "verify": "تأكيد",
+      "header": "تحقق من حسابك"
     },
     "signup": {
+      "organizer": {
+        "nameRequired": "اسم المنظمة مطلوب",
+        "createAccount": "إنشاء حساب",
+        "emailPlaceholder": "أدخل بريدك الإلكتروني",
+        "nameLabel": "اسم المنظمة",
+        "namePlaceholder": "أدخل اسم المنظمة"
+      },
       "title": "فعاليات | إنشاء حساب",
       "header": "إنشاء حساب",
       "aside1": "اكتشف فعاليات",
@@ -195,12 +251,27 @@
       "haveNoAccount": "ليس لديك حساب؟ ",
       "login": "تسجيل الدخول"
     },
-    "otp": {
-      "title": "تأكيد الحساب",
-      "instruction": "لقد أرسلنا رمز تحقق إلى بريدك الإلكتروني. يرجى إدخاله أدناه للمتابعة.",
-      "notReceived": "لم يصلك الرمز؟",
-      "resend": "إعادة إرسال الرمز",
-      "verify": "تأكيد"
+    "signUp": {
+      "title": "فعاليات | إنشاء حساب"
+    },
+    "login": {
+      "title": "فعاليات | تسجيل الدخول",
+      "emailLabel": "البريد الإلكتروني",
+      "emailplaceholder": "أدخل البريد الإلكتروني",
+      "aside1": "اكتشف فعاليات",
+      "aside2": "مناسبة لك.",
+      "aside3": "سجّل الدخول للحصول على",
+      "aside4": "توصيات مخصصة",
+      "aside5": "اليوم!",
+      "login": "تسجيل الدخول",
+      "passwordLabel": "كلمة المرور",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "google": "تسجيل الدخول باستخدام جوجل",
+      "facebook": "تسجيل الدخول باستخدام فيسبوك",
+      "haveNoAccount": "ليس لديك حساب؟ ",
+      "signup": "إنشاء حساب",
+      "forgetPassword": "نسيت كلمة المرور؟",
+      "resetPassword": "إعادة تعيين كلمة المرور"
     },
     "forgetPassword": {
       "title": "نسيت كلمة المرور",
@@ -213,14 +284,26 @@
     },
     "resetPassword": {
       "title": "إعادة تعيين كلمة المرور | فعاليات",
-      "header": "تعيين كلمة مرور جديدة",
+      "header": "إعادة تعيين كلمة المرور الخاصة بك",
       "instruction": "يجب أن تكون كلمة المرور الجديدة مختلفة عن كلمات المرور السابقة.",
       "passwordLabel": "كلمة المرور",
-      "confirmPassword": "تأكيد كلمة المرور"
+      "confirmPassword": "تأكيد كلمة المرور",
+      "submit": "إعادة تعيين كلمة المرور",
+      "newPassword": "كلمة المرور الجديدة",
+      "invalidLink": "رابط إعادة التعيين غير صالح. يرجى طلب رابط جديد."
     },
     "adminAuth": {
       "asideLogin": "لديك القوة في يديك.\nفقط قم بتسجيل الدخول واستمتع بعالم الفعاليات.",
       "asideSignUp": "تحكم في العالم كله بضغطة واحدة.\nيمكنك فعل أي شيء تريده.\nفقط قم بتسجيل الدخول واستمتع بالقوة."
+    },
+    "adminPending": {
+      "title": "حساب المشرف بانتظار الموافقة",
+      "message": "تم إنشاء حساب المشرف الخاص بك، لكنه يحتاج إلى موافقة قبل أن تتمكن من الوصول إلى لوحة تحكم المشرف."
+    },
+    "backtoLogin": {
+      "back": "العودة إلى تسجيل الدخول",
+      "instruction": "لقد أرسلنا رابط إعادة تعيين كلمة المرور.",
+      "title": "تحقق من بريدك الوارد"
     }
   },
   "backtoLogin": {
@@ -249,7 +332,9 @@
       "curatedForYouButton": "ابدء",
       "curatedForYouDescription": "احصل على اقتراحات فعاليات تناسب اهتماماتك!\nلا تدع فعالياتك المفضلة تفوتك.",
       "createEvent": "أنشئ فعالية مع فعاليات!",
-      "createEventDescription": "هل لديك عرض، فعالية، نشاط أو تجربة رائعة؟\nتعاون معنا وأضف فعاليتك على فعاليات."
+      "createEventDescription": "هل لديك عرض، فعالية، نشاط أو تجربة رائعة؟\nتعاون معنا وأضف فعاليتك على فعاليات.",
+      "createEventButton": "أنشئ فعالية",
+      "upgradeAccountButton": "ترقية الحساب"
     }
   },
   "events": {
@@ -267,7 +352,16 @@
       "PriceHtoL": "السعر: من الأقل إلى الأعلى",
       "PriceLtoH": "السعر: من الأعلى إلى الأقل",
       "category": "التصنيف",
-      "eventsFound": "عدد الفعاليات"
+      "eventsFound": "عدد الفعاليات",
+      "tryDifferent": "حاول البحث عن شيء آخر أو تعديل الفلاتر.",
+      "dateOptions": {
+        "today": "اليوم",
+        "tomorrow": "غداً",
+        "nextWeek": "الأسبوع القادم",
+        "nextMonth": "الشهر القادم"
+      },
+      "minPrice": "الأدنى",
+      "maxPrice": "الأقصى"
     },
     "details": {
       "date": "التاريخ والوقت",
@@ -314,7 +408,10 @@
       "follow": "متابعة",
       "description": "وصف الفعالية",
       "rules": "القواعد والقيود",
-      "tags": "وسوم الفعالية"
+      "tags": "وسوم الفعالية",
+      "followed": "تمت المتابعة!",
+      "unfollow": "إلغاء المتابعة",
+      "unfollowed": "تم إلغاء المتابعة!"
     },
     "booking": {
       "reservationTimer": "ينتهي الحجز خلال",
@@ -323,7 +420,8 @@
       "comleteNow": "⚠️ أكمل الشراء الآن وإلا سيتم إلغاء الحجز!",
       "completeSoon": "أكمل الشراء قريبًا لتأكيد مقاعدك.",
       "yourSeats": "تم حجز مقاعدك. أكمل عملية الشراء.",
-      "signinRequired": "لا يمكنك حجز التذاكر بدون تسجيل الدخول."
+      "signinRequired": "لا يمكنك حجز التذاكر بدون تسجيل الدخول.",
+      "completeNow": "⚠️ أكمل الشراء الآن وإلا سيتم إلغاء الحجز!"
     },
     "Interested": {
       "title": "فعاليات | الفعاليات المهتم بها",
@@ -333,6 +431,7 @@
   },
   "organizer": {
     "dashboard": {
+      "noEventsFoundDesc": "لم تقم بإنشاء أي فعاليات بعد. ابدأ بإنشاء فعاليتك الأولى!",
       "overview": "نظرة عامة",
       "totalEvents": "إجمالي الفعاليات",
       "activeEvents": "الفعاليات النشطة",
@@ -364,6 +463,30 @@
       "eventName": "اسم الفعالية",
       "options": "خيارات",
       "noEventsFound": "لم يتم العثور على فعاليات."
+    },
+    "status": {
+      "emailVerification": {
+        "title": "تحقق من بريد التواصل الخاص بالمنظم",
+        "message": "تم إنشاء حساب المنظم، لكن يجب التحقق من {{email}} قبل الوصول إلى لوحة التحكم.",
+        "action": "تحقق من البريد",
+        "resent": "تم إرسال رمز تحقق جديد."
+      },
+      "review": {
+        "title": "حساب المنظم قيد المراجعة",
+        "message": "حساب المنظم الخاص بك قيد المراجعة حالياً. ستتمكن من الوصول إلى لوحة التحكم بعد الموافقة."
+      },
+      "rejected": {
+        "title": "تم رفض طلب المنظم",
+        "message": "تم رفض طلب المنظم الخاص بك."
+      },
+      "suspended": {
+        "title": "حساب المنظم غير نشط",
+        "message": "حساب المنظم الخاص بك غير نشط حالياً."
+      },
+      "unavailable": {
+        "title": "تعذر تحميل حالة المنظم",
+        "message": "تعذر تحميل حالة حساب المنظم حالياً."
+      }
     },
     "createEvent": {
       "basics": "إنشاء فعالية - الأساسيات",
@@ -499,7 +622,8 @@
       "location": "الموقع",
       "status": "حالة التذكرة",
       "organizer": "المنظم",
-      "downloadPDF": "تحميل كملف PDF"
+      "downloadPDF": "تحميل كملف PDF",
+      "noTicketsDesc": "لم نجد أي تذاكر مرتبطة بحسابك."
     }
   },
   "profile": {
@@ -516,6 +640,14 @@
       "editAccount": "تعديل الحساب",
       "userName": "اسم المستخدم",
       "fetchError": "حدث خطأ ما أثناء جلب بيانات الفعالية."
+    },
+    "organizer": {
+      "followers": "متابع",
+      "joined": "انضم في",
+      "about": "حول المنظم",
+      "noDescription": "لا يوجد وصف متاح.",
+      "events": "الفعاليات",
+      "noEvents": "لا توجد فعاليات قادمة بعد."
     },
     "settings": {
       "manage": "إدارة الحساب",
@@ -566,85 +698,97 @@
     "confirmEmail": {
       "title": "البريد الإلكتروني على وشك التغيير",
       "step": "خطوة واحدة إضافية. فقط قم بتأكيد تغيير البريد الإلكتروني"
+    },
+    "memberSince": "عضو منذ {{date}}",
+    "eventsAttended": "الفعاليات التي تم حضورها"
+  },
+  "ui": {
+    "addPreference": {
+      "addNew": "+ إضافة جديد"
+    },
+    "seatMap": {
+      "stage": "المسرح",
+      "available": "متاح",
+      "sold": "مباع",
+      "reserved": "محجوز",
+      "selected": "محدد"
+    },
+    "card": {
+      "free": "مجاني"
+    },
+    "hero": {
+      "searchError": "يرجى إدخال كلمة بحث ."
+    },
+    "passwordInput": {
+      "placeholder": "أدخل كلمة المرور"
+    },
+    "priceTier": {
+      "title": "فئات الأسعار",
+      "addNew": "إضافة فئة جديدة",
+      "nameLabel": "اسم الفئة",
+      "priceLabel": "السعر ($)",
+      "colorLabel": "اللون",
+      "addButton": "إضافة فئة",
+      "namePlaceholder": "مثل: VIP، بريميوم، عادي"
+    },
+    "rules": {
+      "title": "القيود والقوانين",
+      "desc": "قم بتحديد القواعد المطبقة",
+      "placeholder": "مثل: يمنع استخدام الألفاظ المسيئة …",
+      "addButton": "إضافة قاعدة",
+      "rule": "قاعدة",
+      "rules": "قواعد",
+      "added": "تمت الإضافة"
+    },
+    "tags": {
+      "title": "الوسوم",
+      "desc": "أضف حتى {{max}} وسوم · بحد أقصى {{words}} كلمات لكل وسم",
+      "placeholder": "مثل: تعلم الآلة …",
+      "addButton": "إضافة وسم",
+      "used": "وسوم مستخدمة",
+      "errors": {
+        "words": "يمكن أن يحتوي الوسم على {{count}} كلمات كحد أقصى.",
+        "max": "تم الوصول إلى الحد الأقصى وهو {{count}} وسوم.",
+        "exists": "هذا الوسم موجود بالفعل."
+      }
+    },
+    "venue": {
+      "title": "تصميم المكان",
+      "rowsLabel": "عدد الصفوف",
+      "seatsLabel": "عدد المقاعد لكل صف",
+      "applyButton": "تطبيق التصميم"
+    },
+    "location": {
+      "selectedPlace": "المكان المحدد"
+    },
+    "progressBar": {
+      "edit": "تعديل",
+      "banner": "الغلاف",
+      "ticketing": "التذاكر",
+      "review": "المراجعة"
+    },
+    "pagination": {
+      "label": "التنقل",
+      "prevLabel": "الذهاب للصفحة السابقة",
+      "nextLabel": "الذهاب للصفحة التالية",
+      "prev": "السابق",
+      "next": "التالي",
+      "more": "المزيد من الصفحات"
+    },
+    "breadcrumb": {
+      "more": "المزيد"
+    },
+    "carousel": {
+      "prev": "الشريحة السابقة",
+      "next": "الشريحة التالية"
+    },
+    "command": {
+      "title": "لوحة الأوامر"
+    },
+    "dialog": {
+      "close": "إغلاق"
     }
   },
-"ui": {
-  "addPreference": {
-    "addNew": "+ إضافة جديد"
-  },
-
-  "seatMap": {
-    "stage": "المسرح",
-    "available": "متاح",
-    "sold": "مباع",
-    "reserved": "محجوز",
-    "selected": "محدد"
-  },
-
-  "card": {
-    "free": "مجاني"
-  },
-
-  "hero": {
-    "searchError": "يرجى إدخال كلمة بحث ."
-  },
-
-  "passwordInput": {
-    "placeholder": "أدخل كلمة المرور"
-  },
-
-  "priceTier": {
-    "title": "فئات الأسعار",
-    "addNew": "إضافة فئة جديدة",
-    "nameLabel": "اسم الفئة",
-    "priceLabel": "السعر ($)",
-    "colorLabel": "اللون",
-    "addButton": "إضافة فئة",
-    "namePlaceholder": "مثل: VIP، بريميوم، عادي"
-  },
-
-  "rules": {
-    "title": "القيود والقوانين",
-    "desc": "قم بتحديد القواعد المطبقة",
-    "placeholder": "مثل: يمنع استخدام الألفاظ المسيئة …",
-    "addButton": "إضافة قاعدة",
-    "rule": "قاعدة",
-    "rules": "قواعد",
-    "added": "تمت الإضافة"
-  },
-
-  "tags": {
-    "title": "الوسوم",
-    "desc": "أضف حتى {{max}} وسوم · بحد أقصى {{words}} كلمات لكل وسم",
-    "placeholder": "مثل: تعلم الآلة …",
-    "addButton": "إضافة وسم",
-    "used": "وسوم مستخدمة",
-
-    "errors": {
-      "words": "يمكن أن يحتوي الوسم على {{count}} كلمات كحد أقصى.",
-      "max": "تم الوصول إلى الحد الأقصى وهو {{count}} وسوم.",
-      "exists": "هذا الوسم موجود بالفعل."
-    }
-  },
-
-  "venue": {
-    "title": "تصميم المكان",
-    "rowsLabel": "عدد الصفوف",
-    "seatsLabel": "عدد المقاعد لكل صف",
-    "applyButton": "تطبيق التصميم"
-  },
-
-  "location": {
-    "selectedPlace": "المكان المحدد"
-  },
-
-  "progressBar": {
-    "edit": "تعديل",
-    "banner": "الغلاف",
-    "ticketing": "التذاكر",
-    "review": "المراجعة"
-  }
-},
   "about": {
     "mission": "عن مهمتنا",
     "redefining": "إعادة تعريف طريقة تجربتك للعالم",
@@ -663,6 +807,14 @@
     "fallbackReply": "عذرًا، لم أستطع معالجة ذلك."
   },
   "onboarding": {
+    "personalityinfo": {
+      "title": "أخبرنا عن نفسك",
+      "header": "أخبرنا قليلاً عن نفسك",
+      "description": "هذا يساعدنا على تخصيص تجربتك وعرض محتوى مناسب لك.",
+      "genderLabel": "ما هو جنسك؟",
+      "dateLabel": "متى تاريخ ميلادك؟",
+      "datePlaceholder": "أدخل تاريخك..."
+    },
     "interests": {
       "title": "ما هي اهتماماتك؟",
       "subtitle": "اختر بعض الموضوعات المفضلة لديك."
@@ -684,7 +836,7 @@
       "title": "اختيار الموقع",
       "error": "حدث خطأ ما",
       "header": "أين موقعك؟",
-      "description": "هذا يساعدنا على تخصيص تجربتك وعرض محتوى مناسب لك.",
+      "description": "هذا يساعدنا على عرض محتوى مناسب لك.",
       "selectLabel": "اختر موقعك",
       "selectPlaceholder": "اختر موقعًا..."
     },
@@ -692,13 +844,13 @@
       "title": "اختيار التفضيلات",
       "error": "حدث خطأ ما",
       "header": "ما هي اهتماماتك؟",
-      "description": "اختر بعض الموضوعات المفضلة لديك لنقترح عليك أفضل الفعاليات والمساحات."
+      "description": "اختر بعض الموضوعات المفضلة لديك لنقترح عليك أفضل الفعاليات."
     },
     "completeRegister": {
       "title": "تم بنجاح!!",
       "error": "حدث خطأ ما",
-      "header": "شكرًا لتسجيلك!",
-      "description": "تم إنشاء حسابك بنجاح. مرحبًا بك في المجتمع! يمكنك الآن استكشاف وحجز مساحات مميزة لفعالياتك وحفلاتك وأماكن العمل."
+      "header": "اكتمل التسجيل!",
+      "description": "تم إنشاء حسابك بنجاح. مرحبًا بك في مجتمعنا!"
     },
     "continue": "متابعة"
   },
@@ -712,207 +864,17 @@
     "analytics": "التحليلات",
     "finance": "المالية",
     "events": "الفعاليات",
-    "categories": "التصنيفات"
-  },
-  "actions": {
-    "dashboardSummary": "ملخص لوحة المعلومات",
-    "reviewQueue": "قائمة المراجعة",
-    "listUsers": "عرض المستخدمين",
-    "getUser": "عرض مستخدم",
-    "deleteUser": "حذف مستخدم",
-    "restoreUser": "استعادة مستخدم",
-    "listOrganizers": "عرض المنظمين",
-    "getOrganizer": "عرض منظم",
-    "approveOrganizer": "قبول منظم",
-    "rejectOrganizer": "رفض منظم",
-    "suspendOrganizer": "تعليق منظم",
-    "reactivateOrganizer": "إعادة تفعيل منظم",
-    "ticketsByEvent": "التذاكر المباعة حسب الفعالية",
-    "revenueByEvent": "الإيرادات حسب الفعالية",
-    "activeUsers": "المستخدمون النشطون",
-    "financeSummary": "ملخص",
-    "processPayouts": "معالجة المدفوعات",
-    "listEvents": "عرض الفعاليات",
-    "getEvent": "عرض فعالية",
-    "deleteEvent": "حذف فعالية",
-    "restoreEvent": "استعادة فعالية",
-    "listCategories": "عرض التصنيفات",
-    "listCoupons": "عرض القسائم",
-    "addCoupon": "إضافة قسيمة"
-    },
-    "table": {
-    "id": "الهوية",
-    "name": "الاسم",
-    "email": "البريد الإلكتروني",
-    "status": "الحالة",
-    "joined": "تاريخ الانضمام",
-    "events": "الفعاليات",
-    "organizer": "المنظم",
-    "date": "التاريخ",
-    "tickets": "التذاكر",
-    "type": "النوع",
-    "submitted": "تم الإرسال",
-    "title": "العنوان",
-    "deletedAt": "تاريخ الحذف",
-    "createdAt": "تاريخ الإنشاء",
-    "updatedAt": "تاريخ التحديث",
-    "actions": "الإجراءات",
-    "mode": "الوضع",
-    "code": "الرمز",
-    "discount": "الخصم (%)",
-    "expiryDate": "تاريخ الانتهاء",
-    "usageLimit": "حد الاستخدام"
-    },
-    "pagination": {
-  },
-  "pagination": {
-    "range": "{{from}}–{{to}} من {{total}}"
-  },
-  "fields": {
-    "userId": "معرف المستخدم",
-    "userIdPlaceholder": "usr_0001",
-    "organizerId": "معرف المنظم",
-    "organizerIdPlaceholder": "org_0001",
-    "eventId": "معرف الفعالية",
-    "eventIdPlaceholder": "evt_0001",
-    "reason": "السبب (اختياري)",
-    "reasonPlaceholder": "أدخل السبب..."
-  },
-  "buttons": {
-    "deleteUser": "حذف المستخدم",
-    "restoreUser": "استعادة المستخدم",
-    "approve": "قبول",
-    "reject": "رفض",
-    "suspend": "تعليق",
-    "reactivate": "إعادة تفعيل",
-    "processPayouts": "معالجة المدفوعات",
-    "deleteEvent": "حذف",
-    "restoreEvent": "استعادة",
-    "confirm": "تأكيد",
-    "update": "تحديث",
-    "deleteCategory": "حذف التصنيف",
-    "saveChanges": "حفظ التغييرات",
-    "cancel": "إلغاء",
-    "addCategory": "إضافة تصنيف"
-  },
-  "confirm": {
-    "deleteUser": "تأكيد الحذف النهائي",
-    "deleteEvent": "تأكيد الحذف النهائي",
-    "processPayouts": "تأكيد — معالجة جميع المدفوعات المعلقة (14) ($18,340)",
-    "restoreEvent": "تأكيد استعادة الفعالية"
-  },
-  "dashboardSummary": {
-    "users": "المستخدمين",
-    "organizers": "المنظمين",
-    "events": "الفعاليات",
-    "orders": "الطلبات",
-
-    "total": "الإجمالي",
-    "active": "نشط (الفترة)",
-    "deleted": "محذوف",
-
-    "pendingReview": "في انتظار المراجعة",
-
-    "completed": "مكتمل",
-    "pending": "قيد الانتظار",
-    "cancelled": "ملغي",
-
-    "revenue": "الإيرادات"
-  },
-  "listorganizersTable": {
-    "id": "الهوية",
-    "name": "الاسم",
-    "email": "البريد الإلكتروني",
-    "type": "النوع",
-    "status": "الحالة",
-    "verification": "التحقق",
-    "reason": "السبب",
-    "rejected": "مرفوض",
-    "suspended": "موقوف"
-  },
-  "organizerFields": {
-    "id": "الهوية",
-    "userId": "معرف المستخدم",
-    "phone": "الهاتف",
-    "contactPhone": "هاتف التواصل",
-    "reviewedBy": "تمت المراجعة بواسطة",
-    "reviewedAt": "تمت المراجعة في",
-    "createdAt": "تاريخ الإنشاء",
-    "updatedAt": "تاريخ التحديث"
-  },
-  "userTable": {
-    "id": "الهوية",
-    "name": "الاسم",
-    "email": "البريد الإلكتروني",
-    "role": "الدور",
-    "verified": "موثق",
-    "completed": "مكتمل",
-    "location": "الموقع"
-  },
-  "userFields": {
-    "id": "الهوية",
-    "phone": "الهاتف",
-    "gender": "النوع",
-    "birthDate": "تاريخ الميلاد",
-    "languagePreference": "اللغة المفضلة",
-    "createdAt": "تاريخ الإنشاء",
-    "updatedAt": "تاريخ التحديث"
-  },
-  "eventDialog": {
-    "deletedSuccess": "تم حذف الفعالية في {{time}}",
-    "restoredSuccess": "تم استعادة الفعالية في {{time}}",
-    "title": "تفاصيل الفعالية",
-    "fields": {
-      "id": "الهوية",
-      "organizerId": "معرف المنظم",
-      "title": "العنوان",
-      "slug": "الرابط المختصر",
-      "description": "الوصف",
-      "bannerUrl": "رابط البانر",
-      "type": "النوع",
-      "mode": "الوضع",
-      "category": "الفئة",
-      "categoryId": "معرف الفئة",
-      "categoryName": "اسم الفئة",
-      "venue": "المكان",
-      "venueId": "معرف المكان",
-      "venueName": "اسم المكان",
-      "address": "العنوان",
-      "city": "المدينة",
-      "state": "المنطقة/المحافظة",
-      "country": "الدولة",
-      "zipCode": "الرمز البريدي",
-      "latitude": "خط العرض",
-      "longitude": "خط الطول",
-      "tags": "الوسوم",
-      "hasSeatMap": "يوجد مخطط مقاعد",
-      "deletedAt": "تاريخ الحذف",
-      "createdAt": "تاريخ الإنشاء",
-      "updatedAt": "تاريخ التحديث"
-    },
-    "status": {
-      "deleted": "محذوف",
-      "active": "نشط",
-      "approve": "مقبول",
-      "reactivated": "تمت إعادة التفعيل",
-      "published": "منشور",
-      "inactive": "غير نشط",
-      "pending": "قيد الانتظار",
-      "draft": "مسودة",
-      "under_review": "قيد المراجعة",
-      "banned": "محظور",
-      "suspended": "موقوف",
-      "cancelled": "ملغي",
-      "rejected": "مرفوض"
-    }
+    "categories": "التصنيفات",
+    "newsletter": "النشرة البريدية"
   },
   "upgradeToOrganizer": {
     "success": {
-      "title": "تم تقديم طلب الترقية!",
+      "title": "تم إرسال طلب الترقية!",
       "description": "تم استلام طلب ترقية {{category}} الخاص بك. سنقوم بمراجعته والرد عليك قريباً.",
-      "submitAnother": "الى الرئيسية"
+      "submitAnother": "إرسال طلب آخر"
     },
     "page": {
+      "title": "فعاليات | الترقية إلى منظم",
       "personalInfo": "المعلومات الشخصية",
       "submitUpgrade": "تقديم طلب الترقية",
       "selectionCategory": "فئة الاختيار"
@@ -950,6 +912,11 @@
       "commercialRegistration": "السجل التجاري",
       "registrationNumber": "رقم التسجيل",
       "taxId": "الرقم الضريبي",
+      "ownerName": "اسم المالك",
+      "contactName": "اسم شخص التواصل",
+      "country": "الدولة",
+      "state": "المنطقة/المحافظة",
+      "city": "المدينة",
       "officialEmailDomain": "نطاق البريد الإلكتروني الرسمي",
       "officialDocuments": "المستندات الرسمية",
       "profilePhoto": "الصورة الشخصية",
@@ -969,16 +936,22 @@
     },
     "social": {
       "label": "روابط التواصل الاجتماعي والموقع",
-      "optional": "كلها اختيارية - أضف ما ينطبق عليك",
+      "optional": "جميعها اختيارية — أضف ما ينطبق عليك",
       "selectPlatform": "اختر المنصة",
       "allAdded": "تم إضافة جميع المنصات",
       "platforms": {
         "websiteUrl": "الموقع الإلكتروني",
-        "instagramUrl": "إنستغرام",
+        "instagramUrl": "إنستجرام",
         "facebookUrl": "فيسبوك",
-        "twitterUrl": "إكس / تويتر",
+        "twitterUrl": "إكس (تويتر)",
         "linkedinUrl": "لينكد إن",
-        "youtubeUrl": "يوتيوب"
+        "youtubeUrl": "يوتيوب",
+        "website": "الموقع الإلكتروني",
+        "instagram": "إنستجرام",
+        "facebook": "فيسبوك",
+        "twitter": "إكس (تويتر)",
+        "linkedin": "لينكد إن",
+        "youtube": "يوتيوب"
       }
     },
     "validation": {
@@ -996,7 +969,6 @@
       "invalidDomain": "أدخل نطاقًا صالحًا (مثال: @company.com)",
       "photoRequired": "الصورة الشخصية مطلوبة",
       "documentRequired": "تحميل المستند مطلوب",
-      "selectPlatform": "يرجى اختيار منصة",
       "enterUrl": "يرجى إدخال رابط",
       "invalidUrl": "أدخل رابطًا صالحًا (https://...)",
       "genericRequired": "هذا الحقل مطلوب"
@@ -1006,7 +978,311 @@
       "photoHint": "PNG, JPG حتى 10 ميجابايت",
       "pdfHint": "PDF فقط، حتى 20 ميجابايت"
     }
+  },
+  "Verification email sent successfully": "تم إرسال بريد التحقق بنجاح",
+  "actions": {
+    "addCategory": "إضافة تصنيف",
+    "addCoupon": "إضافة قسيمة",
+    "dashboardSummary": "ملخص لوحة المعلومات",
+    "financeSummary": "ملخص المالية",
+    "listEvents": "عرض الفعاليات",
+    "listNewsletterSubscribers": "مشتركي النشرة البريدية",
+    "listOrganizers": "عرض المنظمين",
+    "listUsers": "عرض المستخدمين",
+    "processPayouts": "معالجة المدفوعات"
+  },
+  "buttons": {
+    "addCategory": "إضافة تصنيف",
+    "approve": "قبول",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "delete": "حذف",
+    "deleteCategory": "حذف التصنيف",
+    "deleteEvent": "حذف الفعالية",
+    "processPayouts": "معالجة المدفوعات",
+    "reactivate": "إعادة تفعيل",
+    "reject": "رفض",
+    "restore": "استعادة",
+    "restoreEvent": "استعادة الفعالية",
+    "saveChanges": "حفظ التغييرات",
+    "suspend": "تعليق",
+    "update": "تحديث",
+    "confirm_approve": "تأكيد القبول",
+    "confirm_reject": "تأكيد الرفض",
+    "confirm_suspend": "تأكيد التعليق",
+    "confirm_reactivate": "تأكيد إعادة التفعيل",
+    "saving": "جاري الحفظ...",
+    "deleting": "جاري الحذف...",
+    "sendBroadcast": "إرسال البث",
+    "sending": "جاري الإرسال...",
+    "clear": "مسح"
+  },
+  "table": {
+    "actions": "الإجراءات",
+    "categories": "التصنيفات",
+    "code": "الرمز",
+    "createdAt": "تاريخ الإنشاء",
+    "deletedAt": "تاريخ الحذف",
+    "discount": "الخصم",
+    "email": "البريد الإلكتروني",
+    "id": "الهوية",
+    "mode": "الوضع",
+    "name": "الاسم",
+    "status": "الحالة",
+    "submitted": "تم الإرسال",
+    "title": "العنوان",
+    "type": "النوع"
+  },
+  "finance": {
+    "activeOrganizers": "المنظمون النشطون",
+    "grossAmount": "المبلغ",
+    "orders": "الطلبات",
+    "organizers": "المنظمون",
+    "payoutHistory": "سجل المدفوعات",
+    "payoutsProcessed": "المدفوعات المعالجة",
+    "pendingPayouts": "المدفوعات المعلقة",
+    "platformFees": "رسوم المنصة",
+    "processedAt": "تاريخ المعالجة",
+    "processNew": "معالجة مدفوعات جديدة",
+    "totalOrders": "إجمالي الطلبات",
+    "totalPaidOut": "إجمالي المبالغ المدفوعة",
+    "totalRevenue": "إجمالي الإيرادات",
+    "totalTicketsSold": "إجمالي التذاكر المباعة",
+    "window": "النافذة",
+    "windowDays": "النافذة (أيام)"
+  },
+  "fields": {
+    "categoryName": "اسم التصنيف",
+    "categoryImage": "صورة التصنيف",
+    "chooseFile": "انقر لاختيار صورة جديدة...",
+    "eventId": "هوية الفعالية",
+    "eventIdPlaceholder": "evt_001",
+    "reason": "السبب",
+    "reasonPlaceholder": "اذكر السبب...",
+    "uploadImage": "انقر لتحميل صورة..."
+  },
+  "notifications": {
+    "title": "التنبيهات",
+    "empty": "لا توجد تنبيهات جديدة",
+    "clearAll": "مسح الكل",
+    "close": "إغلاق"
+  },
+  "Our Categories": "تصنيفاتنا",
+  "Reset Password": "إعادة تعيين كلمة المرور",
+  "Reset your Password": "إعادة تعيين كلمة المرور",
+  "eventDialog": {
+    "deletedSuccess": "✓ تم حذف الفعالية بنجاح في {{time}}",
+    "restoredSuccess": "✓ تم استعادة الفعالية بنجاح في {{time}}",
+    "status": {
+      "active": "نشط",
+      "deleted": "محذوف",
+      "approve": "مقبول",
+      "banned": "محظور",
+      "cancelled": "ملغى",
+      "draft": "مسودة",
+      "inactive": "غير نشط",
+      "pending": "قيد الانتظار",
+      "published": "منشور",
+      "reactivated": "مفعل",
+      "rejected": "مرفوض",
+      "suspended": "موقوف",
+      "under_review": "قيد المراجعة",
+      "seatMap": "مخطط المقاعد"
+    },
+    "fields": {
+      "id": "هوية الفعالية",
+      "title": "عنوان الفعالية",
+      "description": "الوصف",
+      "type": "نوع الفعالية",
+      "mode": "وضع الفعالية",
+      "status": "الحالة",
+      "createdAt": "تاريخ الإنشاء",
+      "updatedAt": "تاريخ التحديث"
+    }
+  },
+  "listorganizersTable": {
+    "email": "البريد الإلكتروني",
+    "id": "الهوية",
+    "name": "الاسم",
+    "reason": "السبب",
+    "rejected": "مرفوض",
+    "status": "الحالة",
+    "suspended": "معلق",
+    "type": "النوع",
+    "verification": "التحقق"
+  },
+  "userTable": {
+    "completed": "مكتمل",
+    "deleted": "محذوف",
+    "email": "البريد الإلكتروني",
+    "id": "الهوية",
+    "location": "الموقع",
+    "name": "الاسم",
+    "role": "الدور",
+    "verified": "موثق"
+  },
+  "pagination": {
+    "range": "{{from}}–{{to}} من {{total}}",
+    "previous": "الصفحة السابقة",
+    "next": "الصفحة التالية"
+  },
+  "auth:forced-logout": "انتهت الجلسة. يرجى تسجيل الدخول مرة أخرى.",
+  "cancel": "إلغاء",
+  "code": "الرمز",
+  "confirm": {
+    "deleteCategory": "تأكيد حذف التصنيف",
+    "processPayouts": "تأكيد معالجة المدفوعات",
+    "deleteEvent": "تأكيد حذف الفعالية",
+    "restoreEvent": "تأكيد استعادة الفعالية",
+    "cancelEvent": {
+      "title": "تأكيد الإلغاء",
+      "message": "هل أنت متأكد أنك تريد إلغاء هذه الفعالية؟",
+      "confirmButton": "إزالة"
+    },
+    "deleteAccount": {
+      "title": "تأكيد الحذف",
+      "message": "لا يمكن التراجع عن هذا الإجراء. يرجى إدخال كلمة المرور للتأكيد.",
+      "passwordRequired": "كلمة المرور مطلوبة.",
+      "success": "تم حذف حسابك بنجاح.",
+      "error": "فشل حذف الحساب. يرجى التحقق من كلمة المرور الخاصة بك.",
+      "deleting": "جاري الحذف...",
+      "deleteButton": "حذف"
+    },
+    "updateEvent": {
+      "title": "تحديث الفعالية",
+      "message": "هل أنت متأكد أنك تريد تحديث هذه الفعالية؟",
+      "updateButton": "تحديث"
+    }
+  },
+  "coupons": "القسائم",
+  "en-EG": "الإنجليزية (مصر)",
+  "en-US": "الإنجليزية (الولايات المتحدة)",
+  "resetPassword": {
+    "title": "إعادة تعيين كلمة المرور"
+  },
+  "reviews": {
+    "alreadyReviewed": "لقد قمت بتقييم هذه الفعالية بالفعل.",
+    "average": "متوسط التقييم",
+    "count": "مراجعات",
+    "empty": {
+      "desc": "كن أول من يشارك تجربته!",
+      "title": "لا توجد مراجعات بعد"
+    },
+    "feedback": {
+      "success": "تم نشر المراجعة بنجاح"
+    },
+    "form": {
+      "comment": "رأيك (اختياري)",
+      "placeholder": "أخبرنا عن تجربتك...",
+      "rating": "تقييمك",
+      "submit": "نشر المراجعة",
+      "title": "اترك مراجعة"
+    },
+    "title": "التقييمات والمراجعات",
+    "validation": {
+      "ratingRequired": "يرجى اختيار تقييم"
+    }
+  },
+  "title": "العنوان",
+  "userFields": {
+    "id": "هوية المستخدم",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "isEmailVerified": "البريد موثق",
+    "gender": "الجنس",
+    "age": "العمر",
+    "createdAt": "تاريخ الإنشاء",
+    "updatedAt": "تاريخ التحديث"
+  },
+  "organizerFields": {
+    "id": "هوية المنظم",
+    "name": "الاسم",
+    "contactName": "اسم جهة الاتصال",
+    "contactEmail": "بريد التواصل",
+    "contactPhone": "هاتف التواصل",
+    "type": "النوع",
+    "verificationStatus": "حالة التوثيق",
+    "status": "الحالة",
+    "address": "العنوان",
+    "businessAddress": "عنوان العمل التجاري",
+    "companyAddress": "عنوان الشركة",
+    "commercialRegistration": "السجل التجاري",
+    "registrationNumber": "رقم التسجيل",
+    "taxId": "الرقم الضريبي",
+    "officialEmailDomain": "نطاق البريد الرسمي",
+    "createdAt": "تاريخ الإنشاء",
+    "updatedAt": "تاريخ التحديث"
+  },
+  "errors": {
+    "boundary": {
+      "title": "حدث خطأ ما",
+      "message": "حدث خطأ غير متوقع. يرجى محاولة تحديث الصفحة أو العودة إلى الصفحة الرئيسية.",
+      "secondaryMessage": "واجهنا خطأ غير متوقع. لا تقلق، بياناتك آمنة. يرجى محاولة التحديث أو العودة إلى الصفحة الرئيسية."
+    }
+  },
+  "infoDialog": {
+    "title": "البيانات :"
+  },
+  "admin": {
+    "categories": {
+      "editTitle": "تعديل — {{name}}",
+      "deleteTitle": "حذف — {{name}}",
+      "idLabel": "المعرف: {{id}}",
+      "createdAtLabel": "أنشئ في {{date}}",
+      "updatedSuccess": "تم تحديث التصنيف \"{{name}}\" بنجاح",
+      "deleteWarning": "سيؤدي هذا إلى إزالة <strong>{{name}}</strong> والصورة المرتبطة بها. لا يمكن التراجع عن هذا الإجراء.",
+      "noCategories": "لا توجد تصنيفات بعد. أضف واحداً أعلاه."
+    },
+    "newsletter": {
+      "title": "بث النشرة الإخبارية",
+      "desc": "قم بصياغة وإرسال بريد إلكتروني إلى جميع مشتركي النشرة الإخبارية المؤكدين.",
+      "subjectLabel": "موضوع البريد الإلكتروني",
+      "subjectPlaceholder": "مثال: أبرز فعاليات الأسبوع",
+      "contentLabel": "محتوى البريد الإلكتروني (يدعم HTML)",
+      "contentPlaceholder": "اكتب محتوى نشرتك الإخبارية هنا...",
+      "success": "تم إرسال النشرة الإخبارية بنجاح إلى جميع المشتركين.",
+      "error": "فشل بث النشرة الإخبارية",
+      "validation": "الموضوع والمحتوى مطلوبان",
+      "noteTitle": "ملاحظة هامة:",
+      "noteDesc": "سيؤدي هذا الإجراء إلى إرسال بريد إلكتروني إلى كل مشترك في قاعدة بياناتك. قد تستغرق هذه العملية بعض الوقت حسب عدد المشتركين. تأكد من صحة المحتوى قبل الإرسال."
+    },
+    "finance": {
+      "title": "المدفوعات المالية",
+      "desc": "معالجة وإدارة التحويلات التلقائية لمنظمي الفعاليات.",
+      "generateBatch": "إنشاء دفعة مدفوعات جديدة",
+      "historicalWindow": "النافذة الزمنية التاريخية",
+      "days": "أيام",
+      "batchingNote": "تجميع الطلبات من آخر {{days}} يوم.",
+      "confirmExecution": "تأكيد التنفيذ",
+      "confirmCheckbox": "أؤكد رغبتي في معالجة جميع مدفوعات المنظمين المعلقة لهذه النافذة.",
+      "executeNow": "تنفيذ المدفوعات الآن",
+      "processing": "جاري المعالجة...",
+      "batchSuccess": "تم معالجة الدفعة بنجاح!",
+      "historyTitle": "سجل المعاملات",
+      "showingBatches": "عرض {{count}} دفعة أخيرة",
+      "noHistory": "لم يتم العثور على سجل مدفوعات",
+      "windowFrom": "النافذة من",
+      "windowTo": "النافذة إلى",
+      "processedBy": "تمت المعالجة بواسطة",
+      "individualPayouts": "مدفوعات المنظمين الفردية",
+      "organizer": "المنظم",
+      "grossAmount": "المبلغ الإجمالي",
+      "orders": "الطلبات",
+      "date": "التاريخ",
+      "window": "النافذة",
+      "orgs": "المنظمين",
+      "totalAmount": "المبلغ الكلي"
+    },
+    "coupons": {
+      "deleteWarning": "هل أنت متأكد أنك تريد حذف هذا الكوبون؟ لا يمكن التراجع عن هذا الإجراء وسيؤدي ذلك إلى إلغاء تنشيط الرمز الترويجي على الفور.",
+      "noCoupons": "لم يتم العثور على كوبونات. أنشئ واحداً للبدء!",
+      "codePlaceholder": "مثال: SUMMER2026",
+      "discountPlaceholder": "النسبة المئوية (مثال: 15)"
+    },
+    "newsletterSubscribers": {
+      "desc": "إدارة وعرض جميع المستخدمين الذين اشتركوا في تحديثات النشرة الإخبارية الخاصة بك.",
+      "error": "فشل تحميل مشتركي النشرة الإخبارية"
+    }
   }
 }
-
-  

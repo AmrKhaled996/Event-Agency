@@ -1,5 +1,5 @@
 import { axiosInstance } from "./axiosInstance";
-//?q=I+am+looking+for+event+to+relax&limit=5&page=1&organizerId=&minPrice=&maxPrice=&hasSeatMap=
+
 export async function getSearchEvents({
   q,
   limit,
@@ -9,17 +9,19 @@ export async function getSearchEvents({
   maxPrice,
   categoryId,
   location,
+  date,
 }) {
   return axiosInstance.get('/api/v1/search', {
     params: {
-      ...(q && { q }),
-      ...(limit && { limit }),
-      ...(page && { page }),
-      ...(organizerId && { organizerId }),
-      ...(minPrice !== undefined && { minPrice }),
-      ...(maxPrice !== undefined && { maxPrice }),
-      ...(categoryId && { categoryId }),
-      ...(location && { location }),
+      ...(q !== undefined && q !== null && q !== "" && { q }),
+      ...(limit !== undefined && limit !== null && { limit }),
+      ...(page !== undefined && page !== null && { page }),
+      ...(organizerId !== undefined && organizerId !== null && organizerId !== "" && { organizerId }),
+      ...(minPrice !== undefined && minPrice !== null && { minPrice }),
+      ...(maxPrice !== undefined && maxPrice !== null && { maxPrice }),
+      ...(categoryId !== undefined && categoryId !== null && { categoryId }),
+      ...(location !== undefined && location !== null && location !== "" && { location }),
+      ...(date !== undefined && date !== null && date !== "" && { date }),
     },
   });
 }

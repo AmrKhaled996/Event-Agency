@@ -8,7 +8,48 @@ import {
 } from "../services/cookieTokenService";
 import { handleError } from "../utils/errorHandler";
 
-const baseURL = import.meta.env.VITE_API_URL || "";
+const baseURL = import.meta.env.PROD ? (import.meta.env.VITE_API_URL || "") : "";
+
+const LOCAL_MEDIA_HOSTS = new Set(["localhost", "127.0.0.1"]);
+
+const normalizeMediaUrl = (value) => {
+  if (!import.meta.env.DEV || typeof value !== "string") {
+    return value;
+  }
+
+  try {
+    const parsedUrl = new URL(value);
+
+    if (
+      LOCAL_MEDIA_HOSTS.has(parsedUrl.hostname) &&
+      parsedUrl.pathname.startsWith("/uploads/")
+    ) {
+      return `${parsedUrl.pathname}${parsedUrl.search}${parsedUrl.hash}`;
+    }
+  } catch {
+    return value;
+  }
+
+  return value;
+};
+
+const normalizeMediaUrlsDeep = (value) => {
+  if (typeof value === "string") {
+    return normalizeMediaUrl(value);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(normalizeMediaUrlsDeep);
+  }
+
+  if (value && typeof value === "object") {
+    Object.keys(value).forEach((key) => {
+      value[key] = normalizeMediaUrlsDeep(value[key]);
+    });
+  }
+
+  return value;
+};
 
 // Custom event to signal forced logout to AuthProvider
 const triggerForcedLogout = (isAdmin = false) => {
@@ -37,7 +78,13 @@ axiosInstance.interceptors.request.use(
 );
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response?.data) {
+      normalizeMediaUrlsDeep(response.data);
+    }
+
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
 
@@ -112,7 +159,13 @@ adminAxiosInstance.interceptors.request.use(
 );
 
 adminAxiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response?.data) {
+      normalizeMediaUrlsDeep(response.data);
+    }
+
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
 

@@ -11,22 +11,19 @@ import ErrorDialog from "../../components/Dialogs/ErrorDialog";
 import { useTranslation } from "react-i18next";
 import { mapApiError } from "../../utils/apiErrorMapper";
 import { toast } from "sonner";
+import { removeTokens } from "../../services/cookieTokenService";
+import useAppNavigate from "../../Router/useAppNavigate";
 
 function OTPVerificationPage() {
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [timeLeft, setTimeLeft] = useState(600);
   const inputsRef = useRef([]);
-
-    const [openDialog, setopenDialog] = useState(false);
+  const [openDialog, setopenDialog] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const {t} = useTranslation();
+  const navigate = useAppNavigate();
 
   const {
     submitOTP,
-    // showDialog,
-    // dialogMessage,
-    // closeDialog,
-    // resendOtp,
     loading,
   } = useAuth({
     initialValues: { otp: "" },
@@ -40,17 +37,44 @@ function OTPVerificationPage() {
     setopenDialog,
   });
 
+  const handleSignOut = () => {
+    removeTokens();
+    navigate("/login");
+  };
+
+  // Use absolute timestamp to survive browser tab throttling/inactivity and page refreshes
+  const [expiryTime, setExpiryTime] = useState(() => {
+    const saved = localStorage.getItem("otp_expiry");
+    if (saved) {
+      const ts = parseInt(saved, 10);
+      // If it's still in the future, use it
+      if (ts > Date.now()) return ts;
+    }
+    // Default to 10 minutes from now if nothing valid is saved
+    const newExpiry = Date.now() + 600 * 1000;
+    localStorage.setItem("otp_expiry", newExpiry.toString());
+    return newExpiry;
+  });
+  const [timeLeft, setTimeLeft] = useState(600);
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+    const updateTimer = () => {
+      const remaining = Math.max(0, Math.round((expiryTime - Date.now()) / 1000));
+      setTimeLeft(remaining);
+      if (remaining === 0) {
+        localStorage.removeItem("otp_expiry");
+      }
+    };
+
+    updateTimer(); // Immediately sync on mount
+    const timer = setInterval(updateTimer, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [expiryTime]);
 
   const minutes = Math.floor(timeLeft / 60)
     .toString()
-    .padStart(2, 0);
-  const seconds = (timeLeft % 60).toString().padStart(2, 0);
+    .padStart(2, "0");
+  const seconds = (timeLeft % 60).toString().padStart(2, "0");
 
   const handleChange = (value, index) => {
 
@@ -77,12 +101,17 @@ function OTPVerificationPage() {
     e.preventDefault();
     const otpCode = otp.join("");
 
-    submitOTP(otpCode);
+    submitOTP(otpCode).then(() => {
+      localStorage.removeItem("otp_expiry");
+    });
   };
   const resendHandler = async (e) => {
     e.preventDefault();
     try {
       await resendOtps();
+      const newExpiry = Date.now() + 600 * 1000;
+      setExpiryTime(newExpiry);
+      localStorage.setItem("otp_expiry", newExpiry.toString());
       toast.success(t("auth.otp.resentSuccess") || "OTP has been resent to your email.");
     } catch (error) {
       console.log(error)
@@ -92,8 +121,15 @@ function OTPVerificationPage() {
     }
   };
 
+
   return (
-    <div className=" font-display min-h-screen flex flex-col items-center justify-center  sm:px-8 md:px-20 lg:px-20">
+    <div className=" font-display min-h-screen flex flex-col items-center justify-center  sm:px-8 md:px-20 lg:px-20 relative">
+       <button
+        onClick={handleSignOut}
+        className="absolute top-4 right-4 lg:top-8 lg:right-10 text-gray-500 hover:text-gray-800 font-semibold flex items-center gap-1 cursor-pointer transition-colors"
+      >
+        <span className="text-xl">&times;</span> {t("auth.otp.signOut") || "Sign Out"}
+      </button>
       <Title>{t("auth.otp.title")}</Title>
       <div className="w-full max-w-4xl bg-white/10  backdrop-blur-lg rounded-xl shadow-lg p-8 flex flex-col items-center">
         {/* Title */}

@@ -24,10 +24,14 @@ export async function verifyOrganizer(otp, config = {}) {
   
 export async function resendOtpsOrganizer(config = {}) {
   return axiosInstance.post(
-    `/api/v1/auth/resend-otp`,
+    `/api/v1/user/organizer/contact-email/resend`,
     {},
     config
   );
+}
+
+export async function getOrganizerStatus(config = {}) {
+  return axiosInstance.get(`/api/v1/user/organizer/status`, config);
 }
 
 export async function getUserTickets(config = {}) {
@@ -40,4 +44,12 @@ export async function getInterestedEvents(config = {}) {
 
 export async function getWalletBalance(config = {}) {
   return axiosInstance.get(`/api/v1/user/wallet`, config);
+}
+
+export async function followOrganizer(organizerId, config = {}) {
+  return axiosInstance.post(`/api/v1/user/follow/${organizerId}`, {}, config);
+}
+
+export async function unfollowOrganizer(organizerId, config = {}) {
+  return axiosInstance.delete(`/api/v1/user/follow/${organizerId}`, config);
 }

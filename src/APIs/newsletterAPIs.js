@@ -15,3 +15,7 @@ export async function subscribeToNewsletter(email, language) {
     },
   );
 }
+
+export async function confirmNewsletterSubscription(token) {
+  return axiosInstance.post("/api/v1/newsletter/confirm", { token });
+}

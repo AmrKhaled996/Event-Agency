@@ -5,6 +5,10 @@ const APP_REFRESH_TOKEN_KEY = "app_refresh_token";
 const ADMIN_ACCESS_TOKEN_KEY = "admin_access_token";
 const ADMIN_REFRESH_TOKEN_KEY = "admin_refresh_token";
 
+// In development (http://localhost), secure cookies won't be sent.
+// Only set secure: true when on HTTPS.
+const isSecure = window.location.protocol === "https:";
+
 /**
  * Sets initial tokens after login or signup.
  * @param {Object} data - The response data containing accessToken and refreshToken.
@@ -23,14 +27,14 @@ export function setTokens(data, isAdmin = false) {
 
   Cookies.set(accessTokenKey, accessToken, {
     expires,
-    secure: true,
+    secure: isSecure,
     sameSite: "strict",
   });
 
   if (refreshToken) {
     Cookies.set(refreshTokenKey, refreshToken, {
       expires: 7,
-      secure: true,
+      secure: isSecure,
       sameSite: "strict",
     });
   }
@@ -49,7 +53,7 @@ export const refreshAccessToken = async (data) => {
   if (accessToken) {
     Cookies.set(APP_ACCESS_TOKEN_KEY, accessToken, {
       expires: expiresIn / 86400,
-      secure: true,
+      secure: isSecure,
       sameSite: "strict",
     });
   }
@@ -67,7 +71,7 @@ export const adminRefreshAccessToken = async (data) => {
   if (accessToken) {
     Cookies.set(ADMIN_ACCESS_TOKEN_KEY, accessToken, {
       expires: expiresIn / 86400,
-      secure: true,
+      secure: isSecure,
       sameSite: "strict",
     });
   }

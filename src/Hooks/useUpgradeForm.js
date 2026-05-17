@@ -3,6 +3,7 @@ import { fields } from "../constants/upgradeConfig";
 import { validateFields } from "../utils/UpgradeValidation";
 import { becomeOrganizer } from "../APIs/userAPIs";
 import { refreshToken } from "../APIs/authAPIs";
+import { getCities, getCountries, getStates } from "../APIs/locationAPIs";
 import useAppNavigate from "../Router/useAppNavigate";
 import { refreshAccessToken } from "../services/cookieTokenService";
 import { handleError } from "../utils/errorHandler";
@@ -44,7 +45,26 @@ export function useUpgradeForm() {
   };
 
   const handleFieldChange = (id, value) => {
-    setFormData((prev) => ({ ...prev, [selected]: { ...prev[selected], [id]: value } }));
+    setFormData((prev) => {
+      const categoryData = { ...prev[selected], [id]: value };
+      
+      // Reset dependent fields
+      fields[selected].forEach(field => {
+        if (field.dependsOn === id) {
+          delete categoryData[field.id];
+          
+          // Also reset things that depend on the field we just deleted
+          fields[selected].forEach(f => {
+            if (f.dependsOn === field.id) {
+              delete categoryData[f.id];
+            }
+          });
+        }
+      });
+
+      return { ...prev, [selected]: categoryData };
+    });
+    
     if (errors[id]) setErrors((prev) => { const n = { ...prev }; delete n[id]; return n; });
   };
 
@@ -78,47 +98,46 @@ export function useUpgradeForm() {
   };
 
   const handleSubmit = async() => {
-    const newErrors = validateFields({
+    const { fieldErrors, socialErrors: newSocialErrors } = validateFields({
       selectedCategory: selected,
       fields,
       formData,
       fileData,
       socialData,
     });
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length === 0 && Object.keys(socialErrors).length === 0) {
+    setErrors(fieldErrors);
+    setSocialErrors(newSocialErrors);
+    if (Object.keys(fieldErrors).length === 0 && Object.keys(newSocialErrors).length === 0) {
       try {
-        const fd= new FormData();
-        fd.append('type',selected.toUpperCase())
-        fd.append('cityId',1)
-        fd.append('countryId',1)
-        fd.append('stateId',1)
-        for (const key in formData[selected]) {
-          fd.append(key, formData[selected][key]);
-
-        }
-        for (const key in fileData[selected]) {
-          if(key !== 'photo')
-          fd.append(key, fileData[selected][key]);
-  
-        }
-        // if(fileData?.photo?.file)
-        //   fd.append('photo',fileData?.photo?.file)
-        for (const key in socialData[selected]) {
-          fd.append(key, socialData[selected][key]);
-        }
-
         setLoading(true);
-         await becomeOrganizer(fd);
-        const token = await refreshToken()
-        refreshAccessToken(token.data)
-        navigator("/organizer/otp-verification") 
-        setSubmitted(true);
-        navigator("/organizer/otp-verification");
 
+        const fd = new FormData();
+        const currentFormData = formData[selected] || {};
+        const currentFileData = fileData[selected] || {};
+        const currentSocialData = socialData[selected] || {};
+
+        fd.append("type", selected.toUpperCase());
+
+        for (const key in currentFormData) {
+          fd.append(key, currentFormData[key]);
+        }
+
+        for (const key in currentFileData) {
+          fd.append(key, currentFileData[key]);
+        }
+
+        for (const key in currentSocialData) {
+          fd.append(key, currentSocialData[key]);
+        }
+
+        await becomeOrganizer(fd);
+        const token = await refreshToken();
+        refreshAccessToken(token.data);
+        navigator("/organizer/otp-verification");
       } catch (error) {
         handleError(error, {
           silent: true,
+          customMessage: !error?.response && error?.message ? error.message : null,
           onMapped: (msg) => {
             setDialogMessage(msg);
             setopenDialog(true);
