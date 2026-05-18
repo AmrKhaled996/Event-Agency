@@ -68,9 +68,9 @@ function SignUpFormAttendeeUser({ loadingpage }) {
         >
           <GoogleLogo /> {t("auth.signup.google")}
         </button>
-        <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer text-[#1877F2]">
+        {/* <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer text-[#1877F2]">
           <FacebookLogo /> {t("auth.signup.facebook")}
-        </button>
+        </button> */}
       </div>
 
       {/* Divider */}

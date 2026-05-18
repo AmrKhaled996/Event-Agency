@@ -105,9 +105,9 @@ function LoginPage() {
           >
             <GoogleLogo /> {t("auth.login.google")}
           </button>
-          <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer text-[#1877F2]">
+          {/* <button className="flex-1 border border-gray-300 rounded-md py-2 flex justify-center items-center gap-2 hover:bg-gray-50 transition hover:cursor-pointer text-[#1877F2]">
             <FacebookLogo /> {t("auth.login.facebook")}
-          </button>
+          </button> */}
         </div>
 
         {/* Divider */}

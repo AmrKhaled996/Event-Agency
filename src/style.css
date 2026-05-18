@@ -13,7 +13,7 @@
 }
 
 body {
-    @apply bg-white text-gray-900 transition-colors duration-300;
+    @apply bg-white transition-colors duration-300;
 }
 
 .dark body {
@@ -23,6 +23,9 @@ body {
 /* Update cards for dark mode */
 .dark .bg-white {
     @apply bg-gray-900 border-gray-800;
+}
+.dark .max-h-\[75vh\] {
+    @apply bg-white border-black text-black;
 }
 
 .dark .text-gray-800, .dark .text-gray-900 {

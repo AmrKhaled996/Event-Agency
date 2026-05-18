@@ -32,7 +32,7 @@ function TicketDialog({ open, onClose, tickets }) {
       const pdf = new jsPDF({
         orientation: "landscape",
         unit: "px",
-        format: [535, 528],
+        format: [535, 505],
       });
 
       for (let i = 0; i < inputRefs.current.length; i++) {
@@ -47,9 +47,9 @@ function TicketDialog({ open, onClose, tickets }) {
 
         const imgData = canvas.toDataURL("image/jpeg", 1.0);
 
-        if (i !== 0) pdf.addPage([535, 528], "landscape");
+        if (i !== 0) pdf.addPage([535, 505], "landscape");
 
-        pdf.addImage(imgData, "JPEG", 0, 0, 535, 528);
+        pdf.addImage(imgData, "JPEG", 0, 0, 535, 505);
       }
 
       const fileName = `${ticketsData[0]?.ticketType?.event?.title || "ticket"}.pdf`;
