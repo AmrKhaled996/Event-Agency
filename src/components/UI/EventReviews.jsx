@@ -9,6 +9,7 @@ import { Button } from "../shadcn/button";
 import { extractDateTime } from "../../utils/dateFormater";
 import EmptyState from "./EmptyState";
 import { handleError } from "../../utils/errorHandler";
+import { Link } from "react-router-dom";
 
 export default function EventReviews({ eventId, organizerUserId }) {
   const { t } = useTranslation();
