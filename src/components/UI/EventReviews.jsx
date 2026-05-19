@@ -10,6 +10,7 @@ import { extractDateTime } from "../../utils/dateFormater";
 import EmptyState from "./EmptyState";
 import { handleError } from "../../utils/errorHandler";
 import { Link } from "react-router-dom";
+import LocalLink from "../../Router/LocalLink";
 
 export default function EventReviews({ eventId, organizerUserId }) {
   const { t } = useTranslation();
@@ -171,7 +172,7 @@ export default function EventReviews({ eventId, organizerUserId }) {
           </p>
           <div className="pt-2">
             <Button asChild>
-              <Link to="/login">{t("common.login", "Log In")}</Link>
+              <LocalLink to="/login">{t("common.login", "Log In")}</LocalLink>
             </Button>
           </div>
         </div>
