@@ -29,7 +29,7 @@ function useReveal() {
   return [ref, visible];
 }
 
-function Reveal({ children, delay = 0, className = "" ,style = {}}) {
+function Reveal({ children, delay = 0, className = "", style = {} }) {
   const [ref, vis] = useReveal();
   return (
     <div
@@ -39,7 +39,7 @@ function Reveal({ children, delay = 0, className = "" ,style = {}}) {
         opacity: vis ? 1 : 0,
         transform: vis ? "translateY(0)" : "translateY(32px)",
         transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
-        ...style
+        ...style,
       }}
     >
       {children}
@@ -330,7 +330,7 @@ export default function AboutPage() {
                 desc: "Discovering experiences should be as thrilling as attending them. Our interface is designed for instant inspiration and effortless booking.",
               },
               {
-                icon: <Settings  color="green" />,
+                icon: <Settings color="green" />,
                 title: "For Organizers",
                 desc: "Scale your vision with tools that handle the complexity of management, leaving you free to focus on the magic of the event.",
               },
@@ -409,7 +409,6 @@ export default function AboutPage() {
               <Reveal
                 delay={80}
                 className="rounded-2xl p-6 flex items-center justify-between bg-white"
-                
               >
                 <div>
                   <p
@@ -431,12 +430,10 @@ export default function AboutPage() {
                     Active Organizers
                   </p>
                 </div>
-                
               </Reveal>
               <Reveal
                 delay={120}
                 className="rounded-2xl p-6 flex items-center justify-between bg-white"
-                  
               >
                 <div>
                   <p
@@ -470,7 +467,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <p className="font-bold text-white text-lg mt-6 leading-snug">
-                  Fastest growing booking platform in 2024
+                  Fastest growing booking platform in 2026
                 </p>
               </div>
             </Reveal>
@@ -508,22 +505,22 @@ export default function AboutPage() {
 
             {[
               {
-                year: "2021",
+                year: "2025",
                 side: "left",
-                title: "The Spark",
-                desc: "Fa3liat was founded in a garage with a single massive idea — the Matrix in event discovery.",
+                title: "The Beginning & Idea",
+                desc: "Fa3liat started as a graduation project with one ambitious goal — making event discovery and ticket booking simpler, smarter, and more accessible for everyone.",
               },
               {
-                year: "2022",
+                year: "",
                 side: "right",
-                title: "Going Global",
-                desc: "Expansion to 35 cities across 3 continents. Our infrastructure scaled to meet the bold demands of global organizers.",
+                title: "9 Months of Building",
+                desc: "From October to today, the platform evolved through months of designing, developing, testing, and refining every feature to create a complete event-booking experience.",
               },
               {
-                year: "2024",
+                year: "2026",
                 side: "left",
-                title: "The Evolution",
-                desc: "Introducing VIVAX, our predictive engine that matches users with experiences they didn't even know they wanted.",
+                title: "The Vision Ahead",
+                desc: "Fa3liat is more than a university project. It’s the foundation of a scalable platform built to connect organizers and attendees through a modern, seamless ticketing system.",
               },
             ].map((item, i) => (
               <Reveal
@@ -549,7 +546,7 @@ export default function AboutPage() {
                 </div>
                 {/* dot */}
                 <div
-                  className="flex-shrink-0 z-10 w-12 h-12 rounded-full flex items-center justify-center font-bold text-white text-xs"
+                  className={`flex-shrink-0 z-10 ${i == 1 ? "w-6 h-6" : "w-12 h-12"} rounded-full flex items-center justify-center font-bold text-white text-xs`}
                   style={{ background: GRAD, boxShadow: `0 0 20px ${P}66` }}
                 >
                   {item.year}
@@ -593,7 +590,7 @@ export default function AboutPage() {
               className="text-sm font-semibold flex items-center gap-1 transition-opacity hover:opacity-70"
               style={{ color: P }}
             >
-              View All Positions <span>→</span>
+
             </button>
           </Reveal>
         </div>
@@ -608,12 +605,12 @@ export default function AboutPage() {
             {
               name: "Muhammad Hesham",
               role: "Backend developer ",
-              img: "https://avatars.githubusercontent.com/u/166527591?v=4",
+              img: "/images/MuhammedHesham.png",
             },
             {
               name: "Mohammad Ashraf",
               role: "Backend developer ",
-              img: `https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/712020:91857588-d894-44f9-be42-4d604eb7763f/753761f2-58d4-46ec-ba41-9ee6f40c1936/48`,
+              img: `/images/MohammedAshraf.png`,
             },
             {
               name: "Amr Mahanna",
@@ -644,7 +641,7 @@ export default function AboutPage() {
                     }}
                   />
                 </div>
-                
+
                 <p
                   className="font-semibold text-sm"
                   style={{ color: "#0d0d0d" }}
@@ -659,8 +656,6 @@ export default function AboutPage() {
           ))}
         </div>
       </section>
-
-    
     </div>
   );
 }

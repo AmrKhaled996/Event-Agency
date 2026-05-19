@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Star, MessageCircle, Send, User } from "lucide-react";
+import { Star, MessageCircle, Send, User ,Info} from "lucide-react";
 import { createReview, getEventReviews, getMyEventReview } from "../../APIs/reviewApis";
 import { useUser } from "../../Context/AuthProvider";
 import RatingStars from "./RatingStars";
