@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Title } from "react-head";
 import { getFinanceSummary } from "../../../APIs/adminDashboardApis";
 import Loading from "../../../components/Layout/LoadingLayout";
+import { formatCurrency } from "../../../utils/currencyFormatter";
 
 /* ── Stat card ────────────────────────── */
 function StatCard({ label, value, accent = false }) {
@@ -24,12 +25,7 @@ function StatCard({ label, value, accent = false }) {
 
 /* ── Helpers ───────────────────────────── */
 function fmtCurrency(v) {
-  if (v === null || v === undefined || v === "-" || Number.isNaN(Number(v))) return "—";
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "EGP",
-    maximumFractionDigits: 0,
-  }).format(Number(v));
+  return formatCurrency(v);
 }
 
 export default function FinanceSummaryPanel() {

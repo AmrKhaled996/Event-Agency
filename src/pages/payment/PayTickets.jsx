@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import useAppNavigate from "../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
 import { Title } from "react-head";
+import { formatCurrency } from "../../utils/currencyFormatter";
 
 function PayTicketsPage() {
   const { t } = useTranslation();
@@ -72,7 +73,7 @@ function PayTicketsPage() {
                 </div>
                 <div>
                   <span className="text-md md:text-lg font-bold">
-                    {ticket.price} {t("common.actions.currncy")}
+                    {formatCurrency(ticket.price)}
                   </span>
                 </div>
                 {/* counter of tickets */}
@@ -110,11 +111,12 @@ function PayTicketsPage() {
           <div className="w-full p-5 border-t border-gray-200 flex justify-between items-center">
             <span className="text-lg font-semibold">{t("payment.checkout.total")}</span>
             <span className="text-lg font-bold text-green-600">
-              {Eventtickets.reduce(
-                (total, ticket) => total + ticket.count * ticket.price,
-                0,
-              ).toFixed(2)}{" "}
-              {t("common.actions.currncy")}
+              {formatCurrency(
+                Eventtickets.reduce(
+                  (total, ticket) => total + ticket.count * ticket.price,
+                  0,
+                )
+              )}
             </span>
           </div>
           {/* button to pay */}

@@ -1,6 +1,7 @@
 import { cn } from "./../shadcn/utils";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { formatCurrency } from "../../utils/currencyFormatter";
 
 export function SeatMap({
   seats,
@@ -110,7 +111,7 @@ export function SeatMap({
                     {/* Tooltip on hover */}
                     {tierInfo && (
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
-                        {tierInfo.name} - ${tierInfo.price}
+                        {tierInfo.name} - {formatCurrency(tierInfo.price)}
                       </div>
                     )}
                   </button>

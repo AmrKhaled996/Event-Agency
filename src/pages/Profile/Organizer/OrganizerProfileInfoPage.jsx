@@ -142,14 +142,16 @@ export default function OrganizerProfileInfoPage() {
 
               {/* Action Buttons */}
               <div className="flex gap-2 sm:pt-16">
-                <Button
-                  onClick={handleFollowToggle}
-                  disabled={followLoading}
-                  variant={organizer.isFollowing ? "outline" : "default"}
-                  className="px-8 font-semibold"
-                >
-                  {followLoading ? "..." : (organizer.isFollowing ? t("events.details.unfollow") || "Unfollow" : `+ ${t("events.details.follow") || "Follow"}`)}
-                </Button>
+                {user && (
+                  <Button
+                    onClick={handleFollowToggle}
+                    disabled={followLoading}
+                    variant={organizer.isFollowing ? "outline" : "default"}
+                    className="px-8 font-semibold"
+                  >
+                    {followLoading ? "..." : (organizer.isFollowing ? t("events.details.unfollow") || "Unfollow" : `+ ${t("events.details.follow") || "Follow"}`)}
+                  </Button>
+                )}
               </div>
             </div>
 

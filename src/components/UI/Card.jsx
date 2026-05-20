@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { useUser } from "../../Context/AuthProvider.jsx";
 import { handleError } from "../../utils/errorHandler.js";
 import { toast } from "sonner";
+import { formatCurrency } from "../../utils/currencyFormatter.js";
 
 function Card({
   bannerUrl,
@@ -39,12 +40,12 @@ function Card({
     }
     
     if (numericPrices.length === 1) {
-      return `${numericPrices[0]} ${t("common.actions.currncy")}`;
+      return formatCurrency(numericPrices[0]);
     }
     
     const minprice = Math.min(...numericPrices);
     const maxprice = Math.max(...numericPrices);
-    return `${minprice} - ${maxprice} ${t("common.actions.currncy")}`;
+    return `${formatCurrency(minprice)} - ${formatCurrency(maxprice)}`;
   };
 
   const handleInterested = async (e) => {

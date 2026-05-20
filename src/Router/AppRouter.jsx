@@ -33,6 +33,7 @@ import UnauthorizedPage from "../pages/Unauthorized";
 import OrganizerOverviewPage from "../pages/organizer/dashboard/OrganizerOverview";
 import OrganizerAnalyticsPage from "../pages/organizer/dashboard/OrganizerAnalytics";
 import OrganizerEventsPage from "../pages/organizer/dashboard/OrganizerEvents";
+import OrganizerSettingsPage from "../pages/organizer/dashboard/OrganizerSettings";
 // import OrganizerAttendeeInsightsPage from "../pages/organizer/dashboard/OrganizerAttendeeInsights";
 import UpdateEvent from "../pages/organizer/updateEvent/UpdateEvent";
 import ConfirmNewsletter from "../pages/newsletter/ConfirmationNewsletter";
@@ -207,6 +208,19 @@ function AppRouter({ children }) {
                     <OrganizerAccessGate>
                       <OrganizerDashboard page="analytics" title={t("organizer.dashboard.analytics")}>
                         <OrganizerAnalyticsPage />
+                      </OrganizerDashboard>
+                    </OrganizerAccessGate>
+                  </ProtectedRoutes>
+                }
+              />
+
+              <Route
+                path="organizer/dashboard/settings"
+                element={
+                  <ProtectedRoutes Roles={["organizer"]}>
+                    <OrganizerAccessGate>
+                      <OrganizerDashboard page="settings" title={t("organizer.dashboard.settings") || "Settings"}>
+                        <OrganizerSettingsPage />
                       </OrganizerDashboard>
                     </OrganizerAccessGate>
                   </ProtectedRoutes>

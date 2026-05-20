@@ -5,6 +5,7 @@ import {
   getPayoutHistory,
   processPayouts,
 } from "../../../APIs/adminDashboardApis";
+import { formatCurrency } from "../../../utils/currencyFormatter";
 import Pagination from "../../../components/UI/AdminDashboard/Pagination";
 import Loading from "../../../components/Layout/LoadingLayout";
 import { Wallet, Calendar, ChevronDown, ChevronUp, CheckCircle, AlertCircle, Users, ShoppingBag } from "lucide-react";
@@ -23,12 +24,7 @@ function fmtDate(d) {
 }
 
 function fmtCurrency(v) {
-  if (v == null) return "—";
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "EGP",
-    maximumFractionDigits: 0,
-  }).format(Number(v));
+  return formatCurrency(v);
 }
 
 /* ── Payout row ──────────────────────────── */
@@ -71,6 +67,9 @@ function PayoutRow({ payout }) {
         <td className="px-6 py-4 text-sm font-bold text-gray-900">
           {fmtCurrency(payout?.totals?.grossAmount)}
         </td>
+        <td className="px-6 py-4 text-sm font-bold text-emerald-600">
+          {fmtCurrency(payout?.totals?.netAmount ?? (payout?.totals?.grossAmount ? payout.totals.grossAmount * 0.9 : 0))}
+        </td>
         <td className="px-6 py-4 text-center">
           <div className="p-1.5 hover:bg-gray-200 rounded-full transition-colors inline-block">
             {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -108,6 +107,8 @@ function PayoutRow({ payout }) {
                       <tr>
                         <th className="px-4 py-2.5 text-left">{t("admin.finance.organizer")}</th>
                         <th className="px-4 py-2.5 text-left">{t("admin.finance.grossAmount")}</th>
+                        <th className="px-4 py-2.5 text-left">{t("admin.finance.platformFee", "Platform Fee")}</th>
+                        <th className="px-4 py-2.5 text-left">{t("admin.finance.netAmount", "Net Amount")}</th>
                         <th className="px-4 py-2.5 text-center text-xs">{t("admin.finance.orders")}</th>
                       </tr>
                     </thead>
@@ -115,13 +116,19 @@ function PayoutRow({ payout }) {
                       {payout.payouts.map((p, idx) => (
                         <tr key={idx} className="hover:bg-gray-50/80">
                           <td className="px-4 py-2.5 text-gray-700 font-medium">
-                            {p?.organizerId ?? p?.organizer ?? "—"}
+                            {p?.organizer ?? p?.organizerId ?? "—"}
                           </td>
                           <td className="px-4 py-2.5 text-gray-900 font-bold">
                             {fmtCurrency(p?.amount ?? p?.grossAmount)}
                           </td>
+                          <td className="px-4 py-2.5 text-red-600 font-medium">
+                            -{fmtCurrency(p?.platformFee ?? 0)}
+                          </td>
+                          <td className="px-4 py-2.5 text-emerald-600 font-bold">
+                            {fmtCurrency(p?.netAmount ?? (p?.amount ? p.amount * 0.9 : 0))}
+                          </td>
                           <td className="px-4 py-2.5 text-center text-gray-500">
-                            {p?.orderCount ?? p?.orders ?? "—"}
+                            {p?.ordersCount ?? p?.orderCount ?? p?.orders ?? "—"}
                           </td>
                         </tr>
                       ))}

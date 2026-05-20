@@ -47,9 +47,9 @@ export async function getWalletBalance(config = {}) {
 }
 
 export async function followOrganizer(organizerId, config = {}) {
-  return axiosInstance.post(`/api/v1/user/follow/${organizerId}`, {}, config);
+  return axiosInstance.post(`/api/v1/user/organizers/${organizerId}/follow`, {}, config);
 }
 
 export async function unfollowOrganizer(organizerId, config = {}) {
-  return axiosInstance.delete(`/api/v1/user/follow/${organizerId}`, config);
+  return axiosInstance.post(`/api/v1/user/organizers/${organizerId}/unfollow`, {}, config);
 }

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Title } from "react-head";
 import { useUser } from "../../../Context/AuthProvider";
-import { ChartColumn, Info, LucideBookHeart, Plus, Users2 } from "lucide-react";
+import { ChartColumn, Info, LucideBookHeart, Plus, Users2, Settings } from "lucide-react";
 import UnauthorizedPage from "../../Unauthorized";
 import useAppNavigate from "../../../Router/useAppNavigate";
 import { useTranslation } from "react-i18next";
@@ -49,12 +49,21 @@ function OrganizerDashboard({ children, page, title }) {
             </li>
             <li
               onClick={() => navigate("/organizer/dashboard/analytics")}
-              className={`flex gap-3 hover:cursor-pointer hover:bg-black/10 p-3 py-4 rounded-xl transition-all duration-200 
+              className={`flex gap-3 hover:cursor-pointer hover:bg-black/10 p-3 py-4 rounded-xl border-b border-gray-300/50 transition-all duration-200 
           ${page === "analytics" ? "bg-black/30 hover:bg-black/30" : ""}
           `}
             >
               <ChartColumn className="self-center" />
               {t("organizer.dashboard.analytics")}
+            </li>
+            <li
+              onClick={() => navigate("/organizer/dashboard/settings")}
+              className={`flex gap-3 hover:cursor-pointer hover:bg-black/10 p-3 py-4 rounded-xl transition-all duration-200 
+          ${page === "settings" ? "bg-black/30 hover:bg-black/30" : ""}
+          `}
+            >
+              <Settings className="self-center" />
+              {t("organizer.dashboard.settings") || "Settings"}
             </li>
           </ul>
           <button

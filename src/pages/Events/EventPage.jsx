@@ -48,6 +48,7 @@ import { Title } from "react-head";
 import { handleError } from "../../utils/errorHandler";
 import EventReviews from "../../components/UI/EventReviews";
 import { followOrganizer, unfollowOrganizer } from "../../APIs/userAPIs";
+import { formatCurrency } from "../../utils/currencyFormatter";
 
 const RESERVATION_DURATION = 10 * 60 * 1000;
 const SOCKET_SERVER_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:3000";
@@ -543,7 +544,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
     navigate("/payment/confirmation", {
       state: { tickets, id: event.id },
     });
-    toast.success(`Purchase successful! Total: $${total.toFixed(2)}`);
+    toast.success(`${t("payment.success.message")}! Total: ${formatCurrency(total)}`);
     setSelectedSeats([]);
     setReservationExpiry(null);
     setShowReservationDialog(false);
@@ -770,7 +771,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
                               <div className="flex-1">
                                 <div className="font-medium">{tier.name}</div>
                                 <div className="text-sm text-gray-600">
-                                  ${tier.price}
+                                  {formatCurrency(tier.price)}
                                 </div>
                               </div>
                             </div>
@@ -869,7 +870,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
                                   {seat.number + 1}
                                 </span>
                                 <span className="font-medium">
-                                  ${tier?.price || 0}
+                                  {formatCurrency(tier?.price || 0)}
                                 </span>
                               </div>
                             );
@@ -880,7 +881,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
                             {t("events.details.seatMap.total")}
                           </span>
                           <span className="text-xl font-bold text-green-600">
-                            ${totalToPurchase.toFixed(2)}
+                            {formatCurrency(totalToPurchase)}
                           </span>
                         </div>
                         {user?.id ? (
@@ -924,8 +925,7 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
                         size="lg"
                       >
                         <ShoppingCart className="w-4 h-4 mr-2" />
-                        {t("events.details.seatMap.completePurchase")} $
-                        {totalToPurchase.toFixed(2)}
+                        {t("events.details.seatMap.completePurchase")} {formatCurrency(totalToPurchase)}
                       </Button>
                     )
                   ) : (
@@ -1007,13 +1007,13 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
               {event?.ticketTypes?.length > 0 ? (
                 event.ticketTypes.map((ticket, index) => (
                   <p className="text-lg pl-3 mb-2" key={ticket.id || index}>
-                    {`${ticket.name}: ${ticket.price} ${t("common.actions.currncy")}`}
+                    {`${ticket.name}: ${formatCurrency(ticket.price)}`}
                   </p>
                 ))
               ) : eventinfo?.tickets?.length > 0 ? (
                 eventinfo.tickets.map((ticket, index) => (
                   <p className="text-lg pl-3 mb-2" key={ticket.id || index}>
-                    {`${ticket.name}: ${ticket.price} ${t("common.actions.currncy")}`}
+                    {`${ticket.name}: ${formatCurrency(ticket.price)}`}
                   </p>
                 ))
               ) : (
@@ -1068,27 +1068,58 @@ export default function EventPage({ organizer, eventinfo, review = false }) {
           </h2>
           <div className="flex items-center gap-3">
             <LocalLink to={`/organizer/${event?.organizerId}`}>
-              <img src="/images/Charity.jpg" className="w-12 h-12 rounded-full cursor-pointer hover:opacity-80 transition-opacity" />
+              <img
+                src={
+                  event?.organizer?.logoUrl ||
+                  (event?.organizer?.logoPath
+                    ? `${SOCKET_SERVER_URL}/uploads/${event.organizer.logoPath}`
+                    : null) ||
+                  organizer?.logoUrl ||
+                  "/images/Charity.jpg"
+                }
+                className="w-12 h-12 rounded-full cursor-pointer hover:opacity-80 object-cover transition-opacity"
+              />
             </LocalLink>
             <div>
-              <LocalLink to={`/organizer/${event?.organizerId}`} className="font-semibold hover:text-secandry transition-colors cursor-pointer">
-                {event.organizer?.name || organizer?.name || (typeof organizer === 'string' ? organizer : "") || "Fa3liat Organizer"}
+              <LocalLink
+                to={`/organizer/${event?.organizerId}`}
+                className="font-semibold hover:text-secandry transition-colors cursor-pointer"
+              >
+                {event.organizer?.name ||
+                  organizer?.name ||
+                  (typeof organizer === "string" ? organizer : "") ||
+                  "Fa3liat Organizer"}
               </LocalLink>
               <div className="flex gap-2 mt-1">
-                <button className="border px-2 py-1 rounded cursor-pointer">
-                  {t("events.details.contact")}
-                </button>
-                <button 
-                  onClick={handleFollowToggle}
-                  disabled={followLoading}
-                  className={`border px-3 py-1 rounded cursor-pointer transition-all ${
-                    isFollowing 
-                      ? "bg-white text-gray-900 border-gray-900 hover:bg-gray-100" 
-                      : "bg-gray-900 text-white border-transparent hover:bg-gray-800"
-                  }`}
-                >
-                  {followLoading ? "..." : (isFollowing ? t("events.details.unfollow") || "Unfollow" : `+ ${t("events.details.follow")}`)}
-                </button>
+                {event.organizer?.contactEmail ? (
+                  <a
+                    href={`mailto:${event.organizer.contactEmail}?subject=Inquiry about ${event.title}`}
+                    className="border px-2 py-1 rounded cursor-pointer text-sm hover:bg-gray-50 transition-colors"
+                  >
+                    {t("events.details.contact")}
+                  </a>
+                ) : (
+                  <button className="border px-2 py-1 rounded cursor-pointer text-sm opacity-50 cursor-not-allowed">
+                    {t("events.details.contact")}
+                  </button>
+                )}
+                {user && Object.keys(user).length > 0 && (
+                  <button
+                    onClick={handleFollowToggle}
+                    disabled={followLoading}
+                    className={`border px-3 py-1 rounded cursor-pointer transition-all ${
+                      isFollowing
+                        ? "bg-white text-gray-900 border-gray-900 hover:bg-gray-100"
+                        : "bg-gray-900 text-white border-transparent hover:bg-gray-800"
+                    }`}
+                  >
+                    {followLoading
+                      ? "..."
+                      : isFollowing
+                        ? t("events.details.unfollow") || "Unfollow"
+                        : `+ ${t("events.details.follow")}`}
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import HomeHeader from "../../components/Layout/HomeHeader";
 import Card from "../../components/UI/Card";
 import { useCategories } from "../../Context/CategoriesProvider";
@@ -17,10 +17,10 @@ import { Button } from "../../components/shadcn/button";
 
 function SearchEventsPage() {
   const [cards, setCards] = useState(null);
-  const [priceMax, setPriceMax] = useState(3000);
+  const [priceMax, setPriceMax] = useState(5000);
   const [priceMin, setPriceMin] = useState(0);
-  const [category, setCategory] = useState("");
-  const [date, setDate] = useState("Today");
+  const [category, setCategory] = useState(null);
+  const [date, setDate] = useState("");
   const [activeTags, setActiveTags] = useState({ date: "", category: "" });
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const { categories } = useCategories();
@@ -31,12 +31,9 @@ function SearchEventsPage() {
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  
+
   const { t } = useTranslation();
-  
-  const debounceRef = useRef(null);
-  
-  // Initialize filters from search params on mount or when searchParams change
+
   useEffect(() => {
     if (categories?.length > 0) {
       const catId = searchParams.get("categoryId");
@@ -47,22 +44,22 @@ function SearchEventsPage() {
           setActiveTags(prev => ({ ...prev, category: found.name }));
         }
       } else {
-        setCategory("");
+        setCategory(null);
         setActiveTags(prev => ({ ...prev, category: "" }));
       }
-      
+
       const minP = searchParams.get("minPrice");
       setPriceMin(minP ? Number(minP) : 0);
-      
+
       const maxP = searchParams.get("maxPrice");
-      setPriceMax(maxP ? Number(maxP) : 3000);
-      
+      setPriceMax(maxP ? Number(maxP) : 5000);
+
       const dt = searchParams.get("date");
       if (dt) {
         setDate(dt);
         setActiveTags(prev => ({ ...prev, date: dt }));
       } else {
-        setDate("Today");
+        setDate("");
         setActiveTags(prev => ({ ...prev, date: "" }));
       }
 
@@ -71,17 +68,13 @@ function SearchEventsPage() {
     }
   }, [categories, searchParams]);
 
-  // Sync filters to search params to ensure persistence and shareable URLs
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
-    
-    // We only update searchParams when the user interacts, 
-    // but here we check if they are already in sync to avoid loops
     let changed = false;
     
     const updateParam = (key, value, defaultValue) => {
       const current = params.get(key);
-      if (value && value !== defaultValue) {
+      if (value !== null && value !== undefined && value !== defaultValue) {
         if (current !== String(value)) {
           params.set(key, value);
           changed = true;
@@ -94,16 +87,16 @@ function SearchEventsPage() {
       }
     };
 
-    if (category?.id) updateParam("categoryId", category.id); else updateParam("categoryId", null);
+    updateParam("categoryId", category?.id, null);
     updateParam("minPrice", priceMin, 0);
     updateParam("maxPrice", priceMax, 5000);
-    if (date !== "Today") updateParam("date", date); else updateParam("date", null);
-    if (page > 1) updateParam("page", page); else updateParam("page", null);
+    updateParam("date", date, "");
+    updateParam("page", page, 1);
     
     if (changed) {
       setSearchParams(params, { replace: true });
     }
-  }, [category?.id, priceMin, priceMax, date, page, setSearchParams]);
+  }, [category?.id, priceMin, priceMax, date, page, setSearchParams, searchParams]);
 
   const handleSearch = useCallback(async (currentParams) => {
     const params = currentParams || {
@@ -118,7 +111,6 @@ function SearchEventsPage() {
 
     const { q, page: pg, min, max, catId, loc, dt } = params;
     
-    // Prevent min-length validation errors from backend
     if (q && q.length > 0 && q.length < 2) {
       setCards([]);
       return;
@@ -132,29 +124,27 @@ function SearchEventsPage() {
         q: q,
         limit: 12,
         page: pg,
-        minPrice: min,
-        maxPrice: max,
+        minPrice: min === 0 ? undefined : min,
+        maxPrice: max === 5000 ? undefined : max,
         categoryId: catId,
         location: loc,
-        date: dt,
+        date: dt || undefined,
       });
       
       const newcards = response?.data?.data?.data || [];
       setCards(newcards);
       setPagination(response?.data?.data?.pagination);
     } catch (error) {
-      const message = handleError(error, { 
+      handleError(error, { 
         silent: true,
         onMapped: (msg) => setErrorMessage(msg)
       });
-      console.error(message || error);
       setCards([]);
     } finally {
       setIsFetching(false);
     }
   }, [search, page, priceMin, priceMax, category?.id, location, date]);
 
-  // Debounced execution of handleSearch
   useEffect(() => {
     const params = {
       q: search,
@@ -176,6 +166,7 @@ function SearchEventsPage() {
 
 
   const dateOptions = [
+    { label: t("events.search.dateOptions.allTime", "All Time"), value: "" },
     { label: t("events.search.dateOptions.today"), value: "Today" },
     { label: t("events.search.dateOptions.tomorrow"), value: "Tomorrow" },
     { label: t("events.search.dateOptions.nextWeek"), value: "Next week" },
@@ -183,9 +174,9 @@ function SearchEventsPage() {
   ];
 
   const handleCategoryChange = (val) => {
-    const selectedCat = categories?.find((cat) => cat.name === val);
-    setCategory(selectedCat || "");
-    setActiveTags((prev) => ({ ...prev, category: val }));
+    const selectedCat = categories?.find((cat) => String(cat.id) === String(val));
+    setCategory(selectedCat || null);
+    setActiveTags((prev) => ({ ...prev, category: selectedCat?.name || "" }));
   };
 
   const handleDateChange = (val) => {
@@ -196,10 +187,11 @@ function SearchEventsPage() {
   const removeTag = (type) => {
     setActiveTags((prev) => ({ ...prev, [type]: "" }));
     if (type === "date") setDate("");
-    if (type === "category") setCategory("");
+    if (type === "category") setCategory(null);
   };
 
   const applyFilters = () => {
+    handleSearch();
   };
 
   return (
@@ -207,7 +199,6 @@ function SearchEventsPage() {
       <Title>{t("events.search.title")}</Title>
       <HomeHeader />
       <div className="flex flex-col md:flex-row min-h-screen">
-        {/* Sidebar */}
         {isOpenFilter && (
           <aside className="md:w-64 w-full md:border-r border-gray-200 px-5 py-6 flex flex-col  gap-7 border-b md:border-b-0 ">
             <div className="flex  justify-between">
@@ -226,7 +217,6 @@ function SearchEventsPage() {
               </button>
             </div>
             <div className="flex flex-wrap sm:flex-nowrap md:flex-col gap-7">
-              {/* Price Range */}
               <div className="flex flex-col gap-3 flex-2">
                 <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
                   {t("events.search.priceRange")}
@@ -267,27 +257,24 @@ function SearchEventsPage() {
                 </div>
               </div>
 
-              {/* Category Dropdown */}
               <div className="flex flex-col gap-3 flex-1">
                 <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
                   {t("events.search.category")}
                 </p>
                 <select
-                  value={category}
+                  value={category?.id || ""}
                   onChange={(e) => handleCategoryChange(e.target.value)}
                   className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white text-gray-800 outline-none focus:border-ring-primary focus:ring-1 focus:ring-primary/40 cursor-pointer"
                 >
                   <option value="">{t("events.search.allCategories")}</option>
                   {categories?.map((cat) => (
-                    <option key={cat.id} value={cat.name}>
+                    <option key={cat.id} value={cat.id}>
                       {cat.name}
                     </option>
                   ))}
                 </select>
               </div>
             </div>
-
-            {/* Date Radio Buttons */}
 
             <div className="flex flex-col gap-3">
               <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
@@ -304,7 +291,6 @@ function SearchEventsPage() {
                         : "border-transparent  hover:ring-1 hover:ring-primary/40"
                     }`}
                   >
-                    {/* Custom radio dot */}
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
                         date === opt.value ? "ring-primary" : "border-gray-300"
@@ -320,7 +306,6 @@ function SearchEventsPage() {
               </div>
             </div>
 
-            {/* Apply Button */}
             <div className="flex justify-center">
               <button
                 onClick={applyFilters}
@@ -331,9 +316,7 @@ function SearchEventsPage() {
             </div>
           </aside>
         )}
-        {/* Main Content */}
         <main className="flex-1 px-7 py-4 flex flex-col gap-5 ">
-          {/* Top Bar */}
           <div className="flex items-center flex-wrap">
             {!isOpenFilter && (
               <div className="flex m-3 ml-0  h-fit  gap-2 justify-center items-center">
@@ -358,15 +341,8 @@ function SearchEventsPage() {
               </span>{" "}
               {t("events.search.eventsFound")}
             </p>
-            {/* <select className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg bg-white text-gray-800 outline-none  focus:ring-2 focus:ring-primary/20 cursor-pointer sm:ml-auto ">
-              <option>Relevance</option>
-              <option>Date: soonest</option>
-              <option>Price: low to high</option>
-              <option>Price: high to low</option>
-            </select> */}
           </div>
 
-          {/* Active Filter Tags */}
           {(activeTags.date || activeTags.category) && (
             <div className="flex flex-wrap gap-2">
               {activeTags.date && (
@@ -394,7 +370,6 @@ function SearchEventsPage() {
             </div>
           )}
 
-          {/* Cards Grid */}
           <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] lg:grid-cols-[repeat(3,minmax(240px,1fr))] gap-4">
             {isFetching ? (
               Array.from({ length: 6 }).map((_, i) => (

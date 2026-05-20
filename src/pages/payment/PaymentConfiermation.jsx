@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Title } from "react-head";
 import { handleError } from "../../utils/errorHandler";
 import useAppNavigate from "../../Router/useAppNavigate";
+import { formatCurrency } from "../../utils/currencyFormatter";
 
 function ConfirmTicketsPage() {
   const { t } = useTranslation();
@@ -72,11 +73,11 @@ function ConfirmTicketsPage() {
               <div>
                 <h2 className="font-semibold">{ticket.name}</h2>
                 <p className="text-gray-400">
-                  {ticket.count} x {ticket.price} {t("common.actions.currncy")}
+                  {ticket.count} x {formatCurrency(ticket.price)}
                 </p>
               </div>
               <span className="font-bold">
-                {ticket.count * ticket.price} {t("common.actions.currncy")}
+                {formatCurrency(ticket.count * ticket.price)}
               </span>
             </div>
           ))}
@@ -86,17 +87,17 @@ function ConfirmTicketsPage() {
         <div className="p-5 border-t space-y-2">
           <div className="flex justify-between text-gray-500">
             <span>{t("payment.checkout.subtotal")}</span>
-            <span>{subtotal.toFixed(2)} {t("common.actions.currncy")}</span>
+            <span>{formatCurrency(subtotal)}</span>
           </div>
 
           <div className="flex justify-between text-gray-500">
             <span>{t("payment.checkout.tax")}</span>
-            <span>{tax.toFixed(2)} {t("common.actions.currncy")}</span>
+            <span>{formatCurrency(tax)}</span>
           </div>
 
           <div className="flex justify-between text-lg font-bold text-green-600">
             <span>{t("payment.checkout.total")}</span>
-            <span>{total.toFixed(2)} {t("common.actions.currncy")}</span>
+            <span>{formatCurrency(total)}</span>
           </div>
         </div>
 

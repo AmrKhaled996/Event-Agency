@@ -5,6 +5,7 @@ import { Label } from "./../shadcn/label";
 import { Trash2, Plus } from "lucide-react";
 import { cn } from "./../shadcn/utils";
 import { useTranslation } from "react-i18next";
+import { formatCurrency } from "../../utils/currencyFormatter";
 
 const PRESET_COLORS = [
   "#14b8a6", // teal
@@ -65,7 +66,7 @@ export function PriceTierEditor({
               />
               <div className="flex-1">
                 <div className="font-medium">{tier.name}</div>
-                <div className="text-sm text-gray-600">${tier.price}</div>
+                <div className="text-sm text-gray-600">{formatCurrency(tier.price)}</div>
               </div>
               <Button
                 variant="ghost"

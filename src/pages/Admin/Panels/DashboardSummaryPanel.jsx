@@ -1,9 +1,10 @@
-import { useTranslation } from "react-i18next";
-import {  getDashboardSummary } from "../../../APIs/adminDashboardApis";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Title } from "react-head";
+import { getDashboardSummary } from "../../../APIs/adminDashboardApis";
 import Loading from "../../../components/Layout/LoadingLayout";
 import ErrorDialog from "../../../components/Dialogs/ErrorDialog";
+import { formatCurrency } from "../../../utils/currencyFormatter";
 const MOCK_DATA = {
   users:      { total: "-", deleted: "-",  activeInPeriod: "-" },
   organizers: { total: "-",   pendingReview: "-" },
@@ -34,8 +35,11 @@ function StatCard({ label, value, accent }) {
 
   let display = "—";
   if (value !== undefined && value !== null && value !== "-") {
-    display = Number(value).toLocaleString();
-    if (isRevenue) display = `$${display}`;
+    if (isRevenue) {
+      display = formatCurrency(value);
+    } else {
+      display = Number(value).toLocaleString();
+    }
   }
 
   return (

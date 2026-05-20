@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { formatCurrency } from "../../../utils/currencyFormatter";
 
 import JsonBox from "../../../components/UI/AdminDashboard/JsonBox";
 import FieldInput from "../../../components/UI/AdminDashboard/FieldInput";
@@ -22,7 +23,7 @@ export default function AnalyticsPanel({ type }) {
       setRes(
         type === "tickets"
           ? { event_id: id, tickets_sold: 342, capacity: 500, fill_rate: "68.4%" }
-          : { event_id: id, revenue: "$12,840", top_tier: "VIP ($180)" }
+          : { event_id: id, revenue: formatCurrency(12840), top_tier: `VIP (${formatCurrency(180)})` }
       ), 400);
     return () => clearTimeout(timer);
   }, [id, type]);

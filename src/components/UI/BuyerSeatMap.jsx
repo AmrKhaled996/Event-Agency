@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { cn } from "./../shadcn/utils";
 import { Check } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { formatCurrency } from "../../utils/currencyFormatter";
 
 export function BuyerSeatMap({
   seats,
@@ -87,12 +88,11 @@ export function BuyerSeatMap({
     if (!tierInfo) return "";
 
     if (viewMode === "pricing") {
-      return `${tierInfo.name} - $${tierInfo.price}`;
-    }
+      return `${tierInfo.name} - ${formatCurrency(tierInfo.price)}`;
+      }
 
-    
-    const statusText = t(`ui.seatMap.${seat.status}`);
-    return `${statusText} - ${tierInfo.name} ($${tierInfo.price})`;
+      const statusText = t(`ui.seatMap.${seat.status}`);
+      return `${statusText} - ${tierInfo.name} (${formatCurrency(tierInfo.price)})`;
   };
 
   return (

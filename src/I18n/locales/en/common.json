@@ -67,7 +67,7 @@
       "or": "OR",
       "error": "Error",
       "loading": "Loading...",
-      "currncy": "EGP",
+      "currency": "EGP",
       "select": "Select...",
       "downloading": "Downloading...",
       "goHome": "Go Home",
@@ -410,7 +410,7 @@
     "booking": {
       "reservationTimer": "Reservation Expires In",
       "seatsSelected": "Selected Seats",
-      "completePurchase": "Complete Purchase - $",
+      "completePurchase": "Complete Purchase - EGP ",
       "completeNow": "⚠️ Complete your purchase now or seats will be released!",
       "completeSoon": "Complete your purchase soon to secure your seats.",
       "yourSeats": "Your seats are reserved. Complete your purchase.",
@@ -463,6 +463,7 @@
       "attendees": "Attendees",
       "myEvents": "My Events",
       "createEvent": "Create New Event",
+      "settings": "Settings",
       "sellingTicketsStats": "Selling Tickets Statistics",
       "eventsStats": "Events Statistics",
       "ordersStats": "Orders Statistics",
@@ -481,6 +482,18 @@
       "noEventsFound": "No events found.",
       "noEventsFoundDesc": "You haven't created any events yet. Start by creating your first event!"
     },
+    "settings": {
+      "description": "Manage your organizer profile and payout information.",
+      "basicInfo": "Basic Information",
+      "name": "Organizer Name",
+      "bio": "Description / Bio",
+      "address": "Address",
+      "payoutInfo": "Payout Information",
+      "payoutNote": "Enter your Stripe Account ID to receive revenue from your events. Ensure this is correct to avoid payment delays.",
+      "socialLinks": "Social Media & Web",
+      "success": "Settings updated successfully!"
+    },
+
     "createEvent": {
       "basics": "Create Event - Basics",
       "eventTitle": "Event Title",
@@ -719,7 +732,7 @@
       "title": "Price Tiers",
       "addNew": "Add New Tier",
       "nameLabel": "Tier Name",
-      "priceLabel": "Price ($)",
+      "priceLabel": "Price (EGP)",
       "colorLabel": "Color",
       "addButton": "Add Tier",
       "namePlaceholder": "e.g., VIP, Premium, Standard"
@@ -1257,6 +1270,9 @@
       "individualPayouts": "Individual Organizer Payouts",
       "organizer": "Organizer",
       "grossAmount": "Gross Amount",
+      "platformFee": "Platform Fee",
+      "netAmount": "Net Amount",
+      "netTotal": "Net Total",
       "orders": "Orders",
       "date": "Date",
       "window": "Window",

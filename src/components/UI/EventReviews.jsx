@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { Star, MessageCircle, Send, User } from "lucide-react";
+import { Star, MessageCircle, Send, User, Info } from "lucide-react";
+import { Link } from "react-router-dom";
 import { createReview, getEventReviews, getMyEventReview } from "../../APIs/reviewApis";
 import { useUser } from "../../Context/AuthProvider";
 import RatingStars from "./RatingStars";
@@ -17,6 +18,7 @@ export default function EventReviews({ eventId, organizerUserId }) {
   const [stats, setStats] = useState({ averageRating: 0, total: 0 });
   const [loading, setLoading] = useState(true);
   const [myReview, setMyReview] = useState(null);
+  const [canReview, setCanReview] = useState(false);
   
   // Submission state
   const [submitting, setSubmitting] = useState(false);
@@ -40,12 +42,19 @@ export default function EventReviews({ eventId, organizerUserId }) {
   };
 
   const fetchMyReview = async () => {
-    if (!user || isOrganizer) return;
+    if (!user || isOrganizer) {
+        setCanReview(false);
+        return;
+    }
     try {
       const res = await getMyEventReview(eventId);
+      const data = res.data.data;
+      
+      setCanReview(data.canReview);
+      
       // The API returns { review: 0 } if no review found
-      if (res.data.data.id) {
-        setMyReview(res.data.data);
+      if (data.id) {
+        setMyReview(data);
       }
     } catch (error) {
       console.error("Failed to fetch personal review", error);
@@ -114,8 +123,8 @@ export default function EventReviews({ eventId, organizerUserId }) {
         )}
       </div>
 
-      {/* Submission Form for logged in non-organizer users */}
-      {user && !myReview && !isOrganizer && (
+      {/* Submission Form for logged in users who can review */}
+      {user && !myReview && !isOrganizer && canReview && (
         <form 
           onSubmit={handleSubmit}
           className="bg-white border-2 border-primary/10 rounded-2xl p-6 shadow-sm space-y-4"
@@ -173,6 +182,21 @@ export default function EventReviews({ eventId, organizerUserId }) {
               <Link to="/login">{t("common.login", "Log In")}</Link>
             </Button>
           </div>
+        </div>
+      )}
+
+      {/* Booking Restriction Notice */}
+      {user && !myReview && !isOrganizer && !canReview && !loading && (
+        <div className="bg-amber-50 border border-amber-100 rounded-2xl p-6 text-center space-y-3">
+          <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 mx-auto">
+            <Info size={24} />
+          </div>
+          <h3 className="font-bold text-amber-800">
+            {t("reviews.bookingRestriction.title", "Booking Required")}
+          </h3>
+          <p className="text-amber-700 text-sm max-w-md mx-auto">
+            {t("reviews.bookingRestriction.description", "Only verified attendees who have booked a ticket for this event can leave a review. Book your ticket now to join the conversation!")}
+          </p>
         </div>
       )}
 
